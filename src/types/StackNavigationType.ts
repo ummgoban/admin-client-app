@@ -7,7 +7,10 @@ type StackParamType<T> = {
 
 export interface HomeStackParamList extends ParamListBase {
   Feed: undefined;
+<<<<<<< HEAD
   MarketInfo: undefined;
+=======
+>>>>>>> 2bf2560 (chore: install deps)
   MyPage: undefined;
 }
 
@@ -17,6 +20,10 @@ export interface RegisterStackParamList extends ParamListBase {
 }
 
 export interface DetailStackParamList extends ParamListBase {
+<<<<<<< HEAD
+=======
+  Market: {marketId: number};
+>>>>>>> 2bf2560 (chore: install deps)
   Payment: undefined;
 }
 

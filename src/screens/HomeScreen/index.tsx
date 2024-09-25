@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -17,6 +18,15 @@ const HomeScreen = () => {
         onPress={() => navigation.navigate('Home', {screen: 'MarketInfo'})}>
         가게 관리
       </Button>
+=======
+import React from 'react';
+import {Text, View} from 'react-native';
+
+const HomeScreen = () => {
+  return (
+    <View>
+      <Text>{'HomeScreen'}</Text>
+>>>>>>> 2bf2560 (chore: install deps)
     </View>
   );
 };

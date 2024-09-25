@@ -19,10 +19,13 @@ const tabBarData: TabBarComponentType = {
     label: '마이 페이지',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
+<<<<<<< HEAD
   MarketInfo: {
     label: '가게 관리',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
+=======
+>>>>>>> 2bf2560 (chore: install deps)
 };
 
 // TODO: resolve inline style

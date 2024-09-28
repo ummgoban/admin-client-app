@@ -1,6 +1,7 @@
 import styled from '@emotion/native';
+import {Text} from 'react-native-paper';
 
-const Label = styled.Text`
+const Label = styled(Text)`
   color: #222222;
 
   font-family: Pretendard;
@@ -10,7 +11,7 @@ const Label = styled.Text`
   line-height: 20px;
 `;
 
-const RequiredStar = styled.Text`
+const RequiredStar = styled(Text)`
   color: #ec666c;
 `;
 

@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
+import {Alert, useWindowDimensions} from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import {Text} from 'react-native-paper';
 
 import {BottomButton, Label} from '@/components/common';
 import TextInput from '@/components/common/TextInput';
 import {format} from '@/utils/date';
+import {pickImage} from '@/utils/image-picker';
 
-import S from './MarketInfoScreen.style';
+import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -15,6 +18,8 @@ const timeOptions = {
 } as const;
 
 const MarketInfoScreen = () => {
+  const {width} = useWindowDimensions();
+
   const [pickupStartTime, setPickupStartTime] = useState<Date>();
   const [pickupEndTime, setPickupEndTime] = useState<Date>();
 
@@ -24,6 +29,8 @@ const MarketInfoScreen = () => {
   const [openModal, setOpenModal] = useState<
     keyof typeof timeOptions | undefined
   >(undefined);
+
+  const [imageList, setImageList] = useState<string[]>([]);
 
   return (
     <S.Container>
@@ -64,6 +71,44 @@ const MarketInfoScreen = () => {
         </S.TimeContainer>
         {/* TODO: 대표 사진 선택 */}
         <Label label={'대표 사진 선택'} required />
+        <S.ImageCardGrid>
+          {imageList.map(uri => {
+            const cardWidth =
+              (width - HORIZONTAL_MARGIN * 2 - IMAGE_CARD_GAP) / 2;
+            return (
+              <S.ImageCard key={uri} width={cardWidth}>
+                <S.Image source={{uri}} width={cardWidth} />
+                <S.DeleteButton
+                  onPress={() => {
+                    Alert.alert('삭제하시겠습니까?', '', [
+                      {
+                        text: '취소',
+                        style: 'cancel',
+                      },
+                      {
+                        text: '삭제',
+                        style: 'destructive',
+                        onPress: () => {
+                          setImageList(prev =>
+                            prev.filter(item => item !== uri),
+                          );
+                        },
+                      },
+                    ]);
+                  }}>
+                  <Text>X</Text>
+                </S.DeleteButton>
+              </S.ImageCard>
+            );
+          })}
+        </S.ImageCardGrid>
+        <S.ImageCardPlusButton
+          onPress={async () => {
+            const res = await pickImage();
+            setImageList(prev => [...prev, res]);
+          }}>
+          <Text>+</Text>
+        </S.ImageCardPlusButton>
       </S.ScrollView>
       <DatePicker
         modal
@@ -71,7 +116,6 @@ const MarketInfoScreen = () => {
         mode="time"
         date={new Date('2024-01-01T08:00:00')}
         onConfirm={date => {
-          setOpenModal(undefined);
           switch (openModal) {
             case 'pickup-start':
               setPickupStartTime(date);
@@ -86,12 +130,19 @@ const MarketInfoScreen = () => {
               setMarketCloseTime(date);
               break;
           }
+          setOpenModal(undefined);
         }}
         onCancel={() => {
           setOpenModal(undefined);
         }}
       />
-      <BottomButton>저장</BottomButton>
+      <BottomButton
+        onPress={() => {
+          // TODO: fetch API 호출
+          Alert.alert('저장되었습니다.');
+        }}>
+        저장
+      </BottomButton>
     </S.Container>
   );
 };

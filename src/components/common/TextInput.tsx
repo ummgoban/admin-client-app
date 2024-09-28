@@ -46,7 +46,7 @@ const TextInput = ({
         {...rest}
       />
       <S.GuideContainer>
-        {rest.error && !!errorMessage ? (
+        {rest.error && errorMessage ? (
           <S.ErrorText>{errorMessage}</S.ErrorText>
         ) : success && successMessage ? (
           <S.SuccessText>{successMessage}</S.SuccessText>

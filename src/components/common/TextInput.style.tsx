@@ -26,11 +26,20 @@ const GuideContainer = styled.View`
   justify-content: space-between;
 `;
 
-const GuideText = styled.Text``;
+const GuideText = styled.Text`
+  font-size: 12px;
+  line-height: 16px;
 
-const ErrorText = styled(GuideText)``;
+  color: #b5b5b5;
+`;
 
-const SuccessText = styled(GuideText)``;
+const ErrorText = styled(GuideText)`
+  color: #ff0000;
+`;
+
+const SuccessText = styled(GuideText)`
+  color: #00ff00;
+`;
 
 const CurrentLength = styled(GuideText)``;
 const LimitText = styled(GuideText)``;

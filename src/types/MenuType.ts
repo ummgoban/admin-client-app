@@ -6,4 +6,5 @@ export type MenuType = {
   originalPrice: number;
   discountPrice: number;
   status?: '품절' | '숨김';
+  stock: number;
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import {Text} from 'react-native';
 import {MenuType} from '@/types/MenuType';
 import S from './Menu.style';
+
 const Menu = ({
   name,
   image,
@@ -9,7 +10,8 @@ const Menu = ({
   originalPrice,
   discountPrice,
   status,
-}: MenuType) => {
+  onEdit,
+}: MenuType & {onEdit: () => void}) => {
   return (
     <S.MenuWrapper>
       <S.MenuImage source={{uri: image}} />
@@ -27,7 +29,7 @@ const Menu = ({
         </S.CurrentInfoWrapper>
       </S.MenuInfoWrapper>
 
-      <S.ModifyButtonWrapper>
+      <S.ModifyButtonWrapper onPress={onEdit}>
         <S.ModifyButtonText>수정</S.ModifyButtonText>
       </S.ModifyButtonWrapper>
     </S.MenuWrapper>

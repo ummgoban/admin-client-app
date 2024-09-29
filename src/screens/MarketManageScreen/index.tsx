@@ -1,63 +1,35 @@
-import React from 'react';
-import {View} from 'react-native';
-import S from './MarketManageScreen.style';
-import Menu from '@/components/menu/Menu';
-import {MenuType} from '@/types/MenuType';
-import {ScrollView} from 'react-native-gesture-handler';
-const MenuManageScreen = () => {
-  const dummyMenuData: MenuType[] = [
-    {
-      id: 1,
-      name: '김치',
-      image: 'https://legacy.reactjs.org/logo-og.png',
-      discountRate: 61,
-      originalPrice: 14900,
-      discountPrice: 5900,
-    },
-    {
-      id: 2,
-      name: '간장게장',
-      image: 'https://legacy.reactjs.org/logo-og.png',
-      discountRate: 61,
-      originalPrice: 14900,
-      discountPrice: 5900,
-      status: '숨김',
-    },
-    {
-      id: 3,
-      name: '계란찜',
-      image: 'https://legacy.reactjs.org/logo-og.png',
-      discountRate: 61,
-      originalPrice: 14900,
-      discountPrice: 5900,
-      status: '품절',
-    },
-  ];
-  return (
-    <View>
-      <S.MainText>개별상품</S.MainText>
-      <S.AddProductView>
-        <S.AddProductWrapper>
-          <S.AddText>+ 상품 추가하기 </S.AddText>
-        </S.AddProductWrapper>
-      </S.AddProductView>
+import {Alert, Text} from 'react-native';
 
-      <ScrollView>
-        {dummyMenuData.map(menu => (
-          <Menu
-            key={menu.id}
-            id={menu.id}
-            name={menu.name}
-            image={menu.image}
-            discountRate={menu.discountRate}
-            originalPrice={menu.originalPrice}
-            discountPrice={menu.discountPrice}
-            status={menu.status}
-          />
-        ))}
-      </ScrollView>
-    </View>
-  );
+import {useState, useEffect} from 'react';
+
+import React from 'react';
+import MenuManageDetailScreen from './MarketManageDetailScreen';
+import {MenuType} from '@/types/MenuType';
+import {getMenus} from '@/apis/Menu';
+
+// TODO : getMenus
+
+const MarketDetailScreen = () => {
+  const [menus, setMenus] = useState<MenuType[] | null>([]);
+
+  useEffect(() => {
+    const fetchMenus = async () => {
+      const res = await getMenus();
+      if (!res) {
+        Alert.alert('메뉴 정보를 불러오는데 실패했습니다.');
+        return;
+      }
+      setMenus(res);
+    };
+
+    fetchMenus();
+  }, []);
+
+  if (!menus) {
+    return <Text>메뉴 정보를 불러오는데 실패했습니다.</Text>;
+  }
+
+  return <MenuManageDetailScreen menus={menus} updateMenus={setMenus} />;
 };
 
-export default MenuManageScreen;
+export default MarketDetailScreen;

@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-//import MenuManageScreen from '../MarketManageScreen';
+import {View} from 'react-native';
+import MenuManageScreen from '../MarketManageScreen';
 
 const HomeScreen = () => {
   return (
     <View>
-      <Text>{'HomeScreen'}</Text>
-      {/* <MenuManageScreen /> */}
+      {/* <Text>{'HomeScreen'}</Text> */}
+      <MenuManageScreen />
     </View>
   );
 };

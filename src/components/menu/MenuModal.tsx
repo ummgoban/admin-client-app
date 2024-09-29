@@ -6,7 +6,6 @@ import {
   launchImageLibrary,
   ImagePickerResponse,
 } from 'react-native-image-picker';
-
 // TODO: 안드로이드 글씨체 깨짐 수정
 // TODO : 메뉴의 status 모달에서 변경하기
 // TODO : 새 메뉴 추가시 validation 로직

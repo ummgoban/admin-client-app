@@ -65,7 +65,10 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
             id={menu.id}
             name={menu.name}
             image={menu.image}
-            discountRate={menu.discountRate}
+            discountRate={Math.round(
+              ((menu.originalPrice - menu.discountPrice) * 100) /
+                menu.originalPrice,
+            )}
             originalPrice={menu.originalPrice}
             discountPrice={menu.discountPrice}
             status={menu.status}

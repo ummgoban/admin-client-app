@@ -9,6 +9,7 @@ const dummyMenuData: MenuType[] = [
     originalPrice: 14900,
     discountPrice: 5900,
     stock: 3,
+    status: '판매중',
   },
   {
     id: 2,

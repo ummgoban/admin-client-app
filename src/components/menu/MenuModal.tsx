@@ -2,6 +2,13 @@ import React, {useState, useEffect} from 'react';
 import {Modal} from 'react-native';
 import {MenuType} from '@/types/MenuType';
 import S from './MenuModal.style';
+import {
+  launchImageLibrary,
+  ImagePickerResponse,
+} from 'react-native-image-picker';
+// TODO: 안드로이드 글씨체 깨짐 수정
+// TODO : 메뉴의 status 모달에서 변경하기
+// TODO : 새 메뉴 추가시 validation 로직
 type Props = {
   isVisible: boolean;
   onClose: () => void;
@@ -18,6 +25,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     originalPrice: 0,
     discountPrice: 0,
     stock: 0,
+    status: '숨김',
   });
 
   useEffect(() => {
@@ -33,6 +41,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
         originalPrice: 0,
         discountPrice: 0,
         stock: 0,
+        status: '숨김',
       });
     }
   }, [initialData]);
@@ -43,11 +52,39 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       [field]: value,
     }));
   };
-
+  const handleImagePicker = () => {
+    console.log('imagePicker 실행');
+    launchImageLibrary(
+      {mediaType: 'photo'},
+      (response: ImagePickerResponse) => {
+        console.log('response:', response);
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.assets) {
+          const imageUri = response.assets[0].uri;
+          setMenuData(prev => ({
+            ...prev,
+            image: imageUri || '',
+          }));
+        } else {
+          console.log('No assets available');
+        }
+      },
+    );
+  };
   return (
     <Modal visible={isVisible} transparent={true} animationType="slide">
       <S.ModalOverlay>
         <S.ModalView>
+          <S.ModalImageWrapper onPress={handleImagePicker}>
+            {menuData.image ? (
+              <S.ModalImage source={{uri: menuData.image}} />
+            ) : (
+              <S.ModalButton onPress={handleImagePicker}>
+                <S.ModalButtonText>이미지 선택하기</S.ModalButtonText>
+              </S.ModalButton>
+            )}
+          </S.ModalImageWrapper>
           <S.InputRow>
             <S.InputLabel>메뉴이름</S.InputLabel>
             <S.TextInputContainer
@@ -75,15 +112,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
             />
             <S.InputLabelTail>원</S.InputLabelTail>
           </S.InputRow>
-          <S.InputRow>
-            <S.InputLabel>할인율</S.InputLabel>
-            <S.TextInputContainer
-              placeholder="할인율"
-              value={menuData.discountRate.toString()}
-              onChangeText={text => handleInputChange('discountRate', text)}
-            />
-            <S.InputLabelTail>%</S.InputLabelTail>
-          </S.InputRow>
+
           <S.InputRow>
             <S.InputLabel>재고</S.InputLabel>
             <S.TextInputContainer

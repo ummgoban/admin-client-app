@@ -10,12 +10,20 @@ const ModalOverlay = styled.View`
 
 const ModalView = styled.View`
   width: 80%;
-  height: 60%;
+  height: 80%;
   padding: 20px;
   background-color: lightgray;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
+`;
+
+const ModalImageWrapper = styled.TouchableOpacity``;
+
+const ModalImage = styled.Image`
+  width: 100px;
+  height: 100px;
+  margin: 20px;
 `;
 const InputRow = styled.View`
   width: 100%;
@@ -49,6 +57,7 @@ const ModalButton = styled.TouchableOpacity`
   background-color: #4682b4;
   border-radius: 8px;
   margin-top: 10px;
+  margin-bottom: 30px;
 `;
 const ModalButtonText = styled.Text`
   color: white;
@@ -57,6 +66,8 @@ const ModalButtonText = styled.Text`
 const S = {
   ModalOverlay,
   ModalView,
+  ModalImageWrapper,
+  ModalImage,
   InputRow,
   InputLabel,
   InputLabelTail,

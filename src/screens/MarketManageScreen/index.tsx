@@ -7,8 +7,7 @@ import MenuManageDetailScreen from './MarketManageDetailScreen';
 import {MenuType} from '@/types/MenuType';
 import {getMenus} from '@/apis/Menu';
 
-// TODO : getMenus
-
+// TODO : 홈 화면에서 navigation을 통해 여기로 이동
 const MarketDetailScreen = () => {
   const [menus, setMenus] = useState<MenuType[] | null>([]);
 

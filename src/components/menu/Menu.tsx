@@ -2,7 +2,6 @@ import React from 'react';
 import {Text} from 'react-native';
 import {MenuType} from '@/types/MenuType';
 import S from './Menu.style';
-
 const Menu = ({
   name,
   image,

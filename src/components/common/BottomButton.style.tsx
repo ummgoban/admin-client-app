@@ -4,6 +4,7 @@ import {Button as RNPButton} from 'react-native-paper';
 const FloatingContainer = styled.View`
   position: fixed;
   bottom: 0;
+  margin-top: 16px;
 `;
 
 const Button = styled(RNPButton)`

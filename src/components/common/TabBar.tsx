@@ -19,6 +19,10 @@ const tabBarData: TabBarComponentType = {
     label: '마이 페이지',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
+  MarketInfo: {
+    label: '가게 관리',
+    icon: 'https://legacy.reactjs.org/logo-og.png',
+  },
 };
 
 // TODO: resolve inline style

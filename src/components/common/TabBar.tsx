@@ -19,27 +19,10 @@ const tabBarData: TabBarComponentType = {
     label: '마이 페이지',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d2fbfb4 (feat: 가게 상세 편집 페이지 제작합니다. (#13))
-=======
->>>>>>> 1c02e18 (fix: merge conflict)
   MarketInfo: {
     label: '가게 관리',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 2bf2560 (chore: install deps)
-=======
->>>>>>> d2fbfb4 (feat: 가게 상세 편집 페이지 제작합니다. (#13))
-=======
-=======
->>>>>>> 2bf2560 (chore: install deps)
->>>>>>> 1c02e18 (fix: merge conflict)
 };
 
 // TODO: resolve inline style

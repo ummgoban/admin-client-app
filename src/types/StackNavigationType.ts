@@ -8,9 +8,13 @@ type StackParamType<T> = {
 export interface HomeStackParamList extends ParamListBase {
   Feed: undefined;
 <<<<<<< HEAD
+<<<<<<< HEAD
   MarketInfo: undefined;
 =======
 >>>>>>> 2bf2560 (chore: install deps)
+=======
+  MarketInfo: undefined;
+>>>>>>> d2fbfb4 (feat: 가게 상세 편집 페이지 제작합니다. (#13))
   MyPage: undefined;
 }
 
@@ -21,9 +25,12 @@ export interface RegisterStackParamList extends ParamListBase {
 
 export interface DetailStackParamList extends ParamListBase {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   Market: {marketId: number};
 >>>>>>> 2bf2560 (chore: install deps)
+=======
+>>>>>>> d2fbfb4 (feat: 가게 상세 편집 페이지 제작합니다. (#13))
   Payment: undefined;
 }
 

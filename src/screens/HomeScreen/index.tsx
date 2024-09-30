@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -19,17 +20,21 @@ const HomeScreen = () => {
         가게 관리
       </Button>
 =======
-import React from 'react';
-import {Text, View} from 'react-native';
-<<<<<<< HEAD
-import TagSelector from '@/components/common/TagSelector';
 =======
+import {RootStackParamList} from '@/types/StackNavigationType';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+>>>>>>> d2fbfb4 (feat: 가게 상세 편집 페이지 제작합니다. (#13))
+import React from 'react';
+import {Alert, Text, View} from 'react-native';
+import {Button} from 'react-native-paper';
 
->>>>>>> b070643 (chore: install deps (#12))
 const HomeScreen = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
     <View>
       <Text>{'HomeScreen'}</Text>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 2bf2560 (chore: install deps)
@@ -41,6 +46,15 @@ const HomeScreen = () => {
 =======
 >>>>>>> b070643 (chore: install deps (#12))
 >>>>>>> b5e02ba (chore: install deps (#12))
+=======
+
+      {/* TODO: 메뉴 관리 */}
+      <Button onPress={() => Alert.alert('메뉴 관리')}>메뉴 관리</Button>
+      <Button
+        onPress={() => navigation.navigate('Home', {screen: 'MarketInfo'})}>
+        가게 관리
+      </Button>
+>>>>>>> d2fbfb4 (feat: 가게 상세 편집 페이지 제작합니다. (#13))
     </View>
   );
 };

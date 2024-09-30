@@ -3,5 +3,3 @@ export {default as BottomButton} from './BottomButton';
 
 export {default as TextInput} from './TextInput';
 export {default as Label} from './Label';
-
-

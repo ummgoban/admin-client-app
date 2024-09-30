@@ -7,6 +7,7 @@ import React from 'react';
 import {Alert, Text, View} from 'react-native';
 import {Button} from 'react-native-paper';
 
+import TagSelector from '@/components/common/TagSelector';
 const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
@@ -19,6 +20,7 @@ const HomeScreen = () => {
         onPress={() => navigation.navigate('Home', {screen: 'MarketInfo'})}>
         가게 관리
       </Button>
+<<<<<<< HEAD
 =======
 =======
 import {RootStackParamList} from '@/types/StackNavigationType';
@@ -55,6 +57,9 @@ const HomeScreen = () => {
         가게 관리
       </Button>
 >>>>>>> d2fbfb4 (feat: 가게 상세 편집 페이지 제작합니다. (#13))
+=======
+      <TagSelector />
+>>>>>>> d422b4b (feat: 태그 드랍다운 컴포넌트 구현)
     </View>
   );
 };

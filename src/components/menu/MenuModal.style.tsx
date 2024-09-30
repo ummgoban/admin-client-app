@@ -29,20 +29,22 @@ const InputRow = styled.View`
   width: 100%;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   gap: 16px;
+  justify-content: center;
 `;
 const InputLabel = styled.Text`
   width: 80px;
+  height: 36px;
   text-align: right;
+  font-weight: bold;
 `;
 const TextInputContainer = styled.TextInput`
   width: 180px;
   padding-horizontal: 8px;
   background-color: white;
   margin-bottom: 12px;
-  padding-horizontal: 8px;
-  height: 30px;
+  height: 40px;
 `;
 const StatusButtonContainer = styled.View`
   flex-direction: row;
@@ -51,15 +53,18 @@ const StatusButtonContainer = styled.View`
 
 const StatusButton = styled.TouchableOpacity<{isActive: boolean}>`
   width: 60px;
-  height: 25px;
+  height: 32px;
   border-radius: 5px;
-  margin-right: 5px;
+  margin: 5px;
   padding: 5px;
   text-align: center;
+  justify-content: center;
   align-items: center;
   background-color: ${({isActive}) => (isActive ? '#4CAF50' : '#E0E0E0')};
 `;
-const StatusButtonText = styled.Text``;
+const StatusButtonText = styled.Text`
+  font-weight: bold;
+`;
 const ButtonContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;

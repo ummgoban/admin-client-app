@@ -6,6 +6,7 @@ import {
   launchImageLibrary,
   ImagePickerResponse,
 } from 'react-native-image-picker';
+
 // TODO: 안드로이드 글씨체 깨짐 수정
 // TODO : 메뉴의 status 모달에서 변경하기
 // TODO : 새 메뉴 추가시 validation 로직
@@ -15,6 +16,11 @@ type Props = {
   onSave: (data: MenuType) => void;
   initialData: MenuType | null;
 };
+const STATUS_OPTIONS: {value: '판매중' | '품절' | '숨김'}[] = [
+  {value: '판매중'},
+  {value: '숨김'},
+  {value: '품절'},
+];
 
 const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
   const [menuData, setMenuData] = useState<MenuType>({
@@ -52,6 +58,12 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       [field]: value,
     }));
   };
+  const handleStatusChange = (status: '판매중' | '품절' | '숨김') => {
+    setMenuData(prev => ({
+      ...prev,
+      status,
+    }));
+  };
   const handleImagePicker = () => {
     console.log('imagePicker 실행');
     launchImageLibrary(
@@ -59,7 +71,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       (response: ImagePickerResponse) => {
         console.log('response:', response);
         if (response.didCancel) {
-          console.log('User cancelled image picker');
+          console.log('User cancelled');
         } else if (response.assets) {
           const imageUri = response.assets[0].uri;
           setMenuData(prev => ({
@@ -67,7 +79,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
             image: imageUri || '',
           }));
         } else {
-          console.log('No assets available');
+          console.log('No assets');
         }
       },
     );
@@ -92,7 +104,6 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               value={menuData.name}
               onChangeText={text => handleInputChange('name', text)}
             />
-            <S.InputLabelTail>{` `}</S.InputLabelTail>
           </S.InputRow>
           <S.InputRow>
             <S.InputLabel>원가</S.InputLabel>
@@ -101,7 +112,6 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               value={menuData.originalPrice.toString()}
               onChangeText={text => handleInputChange('originalPrice', text)}
             />
-            <S.InputLabelTail>원</S.InputLabelTail>
           </S.InputRow>
           <S.InputRow>
             <S.InputLabel>할인가</S.InputLabel>
@@ -110,7 +120,6 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               value={menuData.discountPrice.toString()}
               onChangeText={text => handleInputChange('discountPrice', text)}
             />
-            <S.InputLabelTail>원</S.InputLabelTail>
           </S.InputRow>
 
           <S.InputRow>
@@ -120,7 +129,19 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               value={menuData.stock.toString()}
               onChangeText={text => handleInputChange('stock', text)}
             />
-            <S.InputLabelTail>개</S.InputLabelTail>
+          </S.InputRow>
+          <S.InputRow>
+            <S.InputLabel>판매 상태</S.InputLabel>
+            <S.StatusButtonContainer>
+              {STATUS_OPTIONS.map(option => (
+                <S.StatusButton
+                  key={option.value}
+                  onPress={() => handleStatusChange(option.value)}
+                  isActive={menuData.status === option.value}>
+                  <S.StatusButtonText>{option.value}</S.StatusButtonText>
+                </S.StatusButton>
+              ))}
+            </S.StatusButtonContainer>
           </S.InputRow>
 
           <S.ButtonContainer>

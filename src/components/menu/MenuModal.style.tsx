@@ -9,7 +9,7 @@ const ModalOverlay = styled.View`
 `;
 
 const ModalView = styled.View`
-  width: 80%;
+  width: 95%;
   height: 80%;
   padding: 20px;
   background-color: lightgray;
@@ -36,16 +36,30 @@ const InputLabel = styled.Text`
   width: 80px;
   text-align: right;
 `;
-const InputLabelTail = styled.Text``;
 const TextInputContainer = styled.TextInput`
-  flex: 2;
+  width: 180px;
   padding-horizontal: 8px;
   background-color: white;
   margin-bottom: 12px;
   padding-horizontal: 8px;
   height: 30px;
 `;
+const StatusButtonContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
+const StatusButton = styled.TouchableOpacity<{isActive: boolean}>`
+  width: 60px;
+  height: 25px;
+  border-radius: 5px;
+  margin-right: 5px;
+  padding: 5px;
+  text-align: center;
+  align-items: center;
+  background-color: ${({isActive}) => (isActive ? '#4CAF50' : '#E0E0E0')};
+`;
+const StatusButtonText = styled.Text``;
 const ButtonContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -70,9 +84,11 @@ const S = {
   ModalImage,
   InputRow,
   InputLabel,
-  InputLabelTail,
   TextInputContainer,
   ButtonContainer,
+  StatusButtonContainer,
+  StatusButton,
+  StatusButtonText,
   ModalButton,
   ModalButtonText,
 };

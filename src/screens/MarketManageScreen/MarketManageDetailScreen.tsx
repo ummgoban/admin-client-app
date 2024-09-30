@@ -25,8 +25,6 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   };
 
   const handleSaveMenu = (menuData: MenuType) => {
-    console.log('저장된 데이터:', menuData);
-
     const updatedMenus = (prevMenus: MenuType[]) => {
       const existingMenuIndex = prevMenus.findIndex(
         (menu: MenuType) => menu.id === menuData.id,

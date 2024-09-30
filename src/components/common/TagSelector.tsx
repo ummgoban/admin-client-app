@@ -49,6 +49,7 @@ const TagSelector = () => {
     setSelectedTags([...selectedTags, newTag]);
     setNewTagName('');
     setIsDropdownVisible(true);
+    // TODO: alert 이용해 태그 추가 미추가 결정
     // TODO: 추가된 태그 서버 전송 로직
   };
 

@@ -46,6 +46,32 @@ const CurrentInfoWrapper = styled.View`
 const CurrentStatusText = styled.Text`
   color: blue;
 `;
+const MenuCounter = styled.View`
+  display: flex;
+  flex-direction: row;
+  width: 100px;
+  height: 24px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+`;
+const MenuCounterButtonWrapper = styled.TouchableOpacity`
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  background-color: lightblue;
+  height: 24px;
+  text-align: center;
+`;
+
+const MenuCounterButton = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+`;
+
 const ModifyButtonWrapper = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
@@ -71,6 +97,9 @@ const S = {
   CurrentStatusText,
   ModifyButtonWrapper,
   ModifyButtonText,
+  MenuCounter,
+  MenuCounterButton,
+  MenuCounterButtonWrapper,
 };
 
 export default S;

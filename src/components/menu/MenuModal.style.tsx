@@ -10,7 +10,7 @@ const ModalOverlay = styled.View`
 
 const ModalView = styled.View`
   width: 95%;
-  height: 80%;
+  height: 85%;
   padding: 20px;
   background-color: lightgray;
   border-radius: 10px;
@@ -21,8 +21,8 @@ const ModalView = styled.View`
 const ModalImageWrapper = styled.TouchableOpacity``;
 
 const ModalImage = styled.Image`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   margin: 20px;
 `;
 const InputRow = styled.View`
@@ -35,9 +35,14 @@ const InputRow = styled.View`
 `;
 const InputLabel = styled.Text`
   width: 80px;
-  height: 36px;
+  height: 32px;
   text-align: right;
   font-weight: bold;
+`;
+const DiscountRateLabel = styled.Text`
+  color: red;
+  height: 32px;
+  width: 180px;
 `;
 const TextInputContainer = styled.TextInput`
   width: 180px;
@@ -55,8 +60,7 @@ const StatusButton = styled.TouchableOpacity<{isActive: boolean}>`
   width: 60px;
   height: 32px;
   border-radius: 5px;
-  margin: 5px;
-  padding: 5px;
+  margin-right: 5px;
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -75,8 +79,8 @@ const ModalButton = styled.TouchableOpacity`
   padding: 10px;
   background-color: #4682b4;
   border-radius: 8px;
-  margin-top: 10px;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 const ModalButtonText = styled.Text`
   color: white;
@@ -92,6 +96,7 @@ const S = {
   TextInputContainer,
   ButtonContainer,
   StatusButtonContainer,
+  DiscountRateLabel,
   StatusButton,
   StatusButtonText,
   ModalButton,

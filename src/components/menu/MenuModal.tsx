@@ -7,7 +7,8 @@ import {
   ImagePickerResponse,
 } from 'react-native-image-picker';
 
-// TODO : 새 메뉴 추가시 validation 로직 + post data
+// TODO : 태그 컴포넌트 넣기
+// TODO : onSave시 post data
 type Props = {
   isVisible: boolean;
   onClose: () => void;
@@ -33,7 +34,6 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
   });
 
   useEffect(() => {
-    console.log('initial data: ', initialData);
     if (initialData) {
       setMenuData(initialData);
     } else {
@@ -51,10 +51,24 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
   }, [initialData]);
 
   const handleInputChange = (field: keyof MenuType, value: string | number) => {
-    setMenuData(prev => ({
-      ...prev,
-      [field]: value,
-    }));
+    setMenuData(prev => {
+      const updatedData = {
+        ...prev,
+        [field]: value,
+      };
+      if (field === 'originalPrice' || field === 'discountPrice') {
+        const newDiscountRate = calculateDiscountRate(
+          Number(updatedData.originalPrice),
+          Number(updatedData.discountPrice),
+        );
+        return {
+          ...updatedData,
+          discountRate: newDiscountRate,
+        };
+      }
+
+      return updatedData;
+    });
   };
   const handleStatusChange = (status: '판매중' | '품절' | '숨김') => {
     setMenuData(prev => ({
@@ -81,6 +95,17 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       },
     );
   };
+  const calculateDiscountRate = (
+    originalPrice: number,
+    discountPrice: number,
+  ) => {
+    if (originalPrice > 0 && discountPrice >= 0) {
+      return Math.round(
+        ((originalPrice - discountPrice) * 100) / originalPrice,
+      );
+    }
+    return 0;
+  };
   return (
     <Modal visible={isVisible} transparent={true} animationType="slide">
       <S.ModalOverlay>
@@ -102,6 +127,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               onChangeText={text => handleInputChange('name', text)}
             />
           </S.InputRow>
+          <S.InputLabel>..Tags..</S.InputLabel>
           <S.InputRow>
             <S.InputLabel>원가</S.InputLabel>
             <S.TextInputContainer
@@ -117,6 +143,10 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               value={menuData.discountPrice.toString()}
               onChangeText={text => handleInputChange('discountPrice', text)}
             />
+          </S.InputRow>
+          <S.InputRow>
+            <S.InputLabel>적용 할인율</S.InputLabel>
+            <S.DiscountRateLabel>{menuData.discountRate}%</S.DiscountRateLabel>
           </S.InputRow>
 
           <S.InputRow>

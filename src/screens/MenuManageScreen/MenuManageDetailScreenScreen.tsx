@@ -47,6 +47,27 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     setCurrentMenu(null);
     setModalVisible(false);
   };
+
+  const handleIncreaseStock = (menuId: number) => {
+    const updatedMenus = menus.map(menu => {
+      if (menu.id === menuId) {
+        return {...menu, stock: menu.stock + 1};
+      }
+      return menu;
+    });
+    updateMenus(updatedMenus);
+  };
+
+  const handleDecreaseStock = (menuId: number) => {
+    const updatedMenus = menus.map(menu => {
+      if (menu.id === menuId && menu.stock > 0) {
+        return {...menu, stock: menu.stock - 1};
+      }
+      return menu;
+    });
+    updateMenus(updatedMenus);
+  };
+
   return (
     <View>
       <S.MainText>개별상품</S.MainText>
@@ -63,15 +84,14 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
             id={menu.id}
             name={menu.name}
             image={menu.image}
-            discountRate={Math.round(
-              ((menu.originalPrice - menu.discountPrice) * 100) /
-                menu.originalPrice,
-            )}
+            discountRate={menu.discountRate}
             originalPrice={menu.originalPrice}
             discountPrice={menu.discountPrice}
             status={menu.status}
             stock={menu.stock}
             onEdit={() => handleEditProduct(menu)}
+            onIncreaseStock={() => handleIncreaseStock(menu.id)}
+            onDecreaseStock={() => handleDecreaseStock(menu.id)}
           />
         ))}
       </ScrollView>

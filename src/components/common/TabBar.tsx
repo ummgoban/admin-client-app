@@ -23,6 +23,10 @@ const tabBarData: TabBarComponentType = {
     label: '가게 관리',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
+  MarketInfo: {
+    label: '가게 관리',
+    icon: 'https://legacy.reactjs.org/logo-og.png',
+  },
 };
 
 // TODO: resolve inline style

@@ -3,12 +3,11 @@ import {Alert, Text} from 'react-native';
 import {useState, useEffect} from 'react';
 
 import React from 'react';
-import MenuManageDetailScreen from './MarketManageDetailScreen';
+import MenuManageDetailScreen from './MenuManageDetailScreenScreen';
 import {MenuType} from '@/types/MenuType';
 import {getMenus} from '@/apis/Menu';
 
-// TODO : 홈 화면에서 navigation을 통해 여기로 이동
-const MarketDetailScreen = () => {
+const MenuManageScreen = () => {
   const [menus, setMenus] = useState<MenuType[] | null>([]);
 
   useEffect(() => {
@@ -31,4 +30,4 @@ const MarketDetailScreen = () => {
   return <MenuManageDetailScreen menus={menus} updateMenus={setMenus} />;
 };
 
-export default MarketDetailScreen;
+export default MenuManageScreen;

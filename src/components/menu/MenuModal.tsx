@@ -6,9 +6,8 @@ import {
   launchImageLibrary,
   ImagePickerResponse,
 } from 'react-native-image-picker';
-// TODO: 안드로이드 글씨체 깨짐 수정
-// TODO : 메뉴의 status 모달에서 변경하기
-// TODO : 새 메뉴 추가시 validation 로직
+
+// TODO : 새 메뉴 추가시 validation 로직 + post data
 type Props = {
   isVisible: boolean;
   onClose: () => void;
@@ -64,7 +63,6 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     }));
   };
   const handleImagePicker = () => {
-    console.log('imagePicker 실행');
     launchImageLibrary(
       {mediaType: 'photo'},
       (response: ImagePickerResponse) => {

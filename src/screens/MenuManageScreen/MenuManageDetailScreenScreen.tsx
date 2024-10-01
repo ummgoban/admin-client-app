@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import S from './MarketManageScreen.style';
+import S from './MenuManageDetailScreen.style';
 import Menu from '@/components/menu/Menu';
 import {MenuType} from '@/types/MenuType';
 import {ScrollView} from 'react-native-gesture-handler';

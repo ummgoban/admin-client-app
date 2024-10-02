@@ -1,4 +1,4 @@
-# 2024-2 Capstone
+# Owner Client App
 
 ## Preferred Dev Environment
 

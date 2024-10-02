@@ -87,7 +87,7 @@ const TagSelector = () => {
         </S.SelectedTagsContainer>
         <S.TagInput
           ref={inputRef}
-          placeholder="메뉴 태그를 선택해주세요."
+          placeholder="반찬 태그 선택 및 추가"
           value={newTagName}
           onChangeText={handleInputChange}
           onFocus={() => setIsDropdownVisible(true)}
@@ -95,6 +95,9 @@ const TagSelector = () => {
         />
         {isDropdownVisible && (
           <S.Dropdown>
+            <S.DropdownTag>
+              <S.DropdownTagName>태그 옵션 선택 또는 생성</S.DropdownTagName>
+            </S.DropdownTag>
             <FlatList
               data={filteredTag}
               renderItem={renderDropdownTag}

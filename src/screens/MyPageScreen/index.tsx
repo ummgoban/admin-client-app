@@ -1,3 +1,6 @@
+import {RootStackParamList} from '@/types/StackNavigationType';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import {Modal, Portal} from 'react-native-paper';
@@ -7,6 +10,7 @@ import S from './MyPageScreen.style';
 
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   return (
     <View>
@@ -45,7 +49,13 @@ const MyPageScreen = () => {
                   />
                   <S.ModalContentItemText>매장 이름 2</S.ModalContentItemText>
                 </S.ModalContentItem>
-                <S.ModalAddButton>
+                <S.ModalAddButton
+                  onPress={() => {
+                    navigation.navigate('RegisterMarketHome', {
+                      screen: 'RegisterMarket',
+                    });
+                    setOpenModal(false);
+                  }}>
                   <Icon name="plus" size={20} color="#000000" />
                   <S.ModalAddButtonText>매장 추가</S.ModalAddButtonText>
                 </S.ModalAddButton>

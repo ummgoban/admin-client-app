@@ -7,10 +7,11 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import S from './DropDownSelector.style';
+import {TagType} from '@/types/TagType';
 
 type Props = {
-  value: string[];
-  options: string[];
+  value: TagType[];
+  options: TagType[];
   onChange: (val: string) => void;
   placeholder?: string;
 };
@@ -26,21 +27,14 @@ const DropDownSelector = ({value, options, onChange, placeholder}: Props) => {
     setIsDropdownVisible(trimmedInput.length > 0);
   };
 
-  const addNewOption = () => {
-    if (!newOptionName || options.includes(newOptionName)) return;
-    onChange(newOptionName);
-    setNewOptionName('');
-    setIsDropdownVisible(false);
-  };
-
   const filteredOptions = useMemo(
-    () => options.filter(option => option.includes(newOptionName)),
+    () => options.filter(option => option.name.includes(newOptionName)),
     [options, newOptionName],
   );
 
-  const renderDropdownOption = ({item}: {item: string}) => (
-    <S.DropdownOption onPress={() => onChange(item)}>
-      <S.DropdownOptionName>{item}</S.DropdownOptionName>
+  const renderDropdownOption = ({item}: {item: TagType}) => (
+    <S.DropdownOption onPress={() => onChange(item.name)}>
+      <S.DropdownOptionName>{item.name}</S.DropdownOptionName>
     </S.DropdownOption>
   );
 
@@ -49,10 +43,10 @@ const DropDownSelector = ({value, options, onChange, placeholder}: Props) => {
       <S.Container>
         <S.SelectedItemsContainer>
           <ScrollView horizontal>
-            {value.map((option, index) => (
-              <S.SelectedItem key={index}>
-                <S.SelectedItemName>{option}</S.SelectedItemName>
-                <TouchableOpacity onPress={() => onChange(option)}>
+            {value.map(option => (
+              <S.SelectedItem key={option.id}>
+                <S.SelectedItemName>{option.name}</S.SelectedItemName>
+                <TouchableOpacity onPress={() => onChange(option.name)}>
                   <S.RemoveButton>×</S.RemoveButton>
                 </TouchableOpacity>
               </S.SelectedItem>
@@ -75,12 +69,12 @@ const DropDownSelector = ({value, options, onChange, placeholder}: Props) => {
             <FlatList
               data={filteredOptions}
               renderItem={renderDropdownOption}
-              keyExtractor={(_, index) => index.toString()}
+              keyExtractor={item => item.id.toString()}
               showsVerticalScrollIndicator
             />
             {newOptionName &&
-              options.every(option => option !== newOptionName) && (
-                <S.DropdownOption onPress={addNewOption}>
+              options.every(option => option.name !== newOptionName) && (
+                <S.DropdownOption onPress={() => onChange(newOptionName)}>
                   <S.DropdownOptionName>
                     {newOptionName} 추가하기
                   </S.DropdownOptionName>

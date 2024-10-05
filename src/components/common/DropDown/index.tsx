@@ -17,27 +17,32 @@ const DropDownSelectorComponent = () => {
     };
     fetchTags();
   }, []);
-  const handleDrowDownOption = (newOption: string) => {
+
+  const handleDrowDownOption = (newOptionName: string) => {
     const isOptionSelected = selectedOption.some(
-      option => option.name === newOption,
+      option => option.name === newOptionName,
     );
     const isOptionInDropDown = dropDownOption.some(
-      option => option.name === newOption,
+      option => option.name === newOptionName,
     );
 
     if (!isOptionSelected) {
       // TODO: api 호출 이후 setState api response로 변경
       const newId = Math.max(...dropDownOption.map(option => option.id)) + 1;
-      setSelectedOption(prev => [...prev, {id: newId, name: newOption}]);
+      const newOption: TagType = {id: newId, name: newOptionName};
+
+      setSelectedOption(prev => [...prev, newOption]);
+
       if (!isOptionInDropDown) {
-        setDropDownOption(prev => [...prev, {id: newId, name: newOption}]);
+        setDropDownOption(prev => [...prev, newOption]);
       }
     }
   };
+
   return (
     <DropDownSelector
-      value={selectedOption.map(option => option.name)}
-      options={dropDownOption.map(option => option.name)}
+      value={selectedOption}
+      options={dropDownOption}
       onChange={handleDrowDownOption}
       placeholder="반찬 태그 선택 및 추가"
     />

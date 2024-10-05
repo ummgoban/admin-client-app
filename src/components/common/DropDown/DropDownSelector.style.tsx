@@ -1,16 +1,16 @@
 import styled from '@emotion/native';
 
-const TagContainer = styled.View`
+const Container = styled.View`
   padding: 16px;
 `;
 
-const SelectedTagsContainer = styled.View`
+const SelectedItemsContainer = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   margin-bottom: 8px;
 `;
 
-const SelectedTag = styled.View`
+const SelectedItem = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 4px 8px;
@@ -19,15 +19,15 @@ const SelectedTag = styled.View`
   background-color: #ddd;
 `;
 
-const SelectedTagName = styled.Text``;
+const SelectedItemName = styled.Text``;
 
-const TagRemoveButton = styled.Text`
+const RemoveButton = styled.Text`
   color: gray;
   font-weight: 700;
   margin-left: 4px;
 `;
 
-const TagInput = styled.TextInput`
+const Input = styled.TextInput`
   border: 1px solid #ccc;
   padding: 8px;
   border-radius: 8px;
@@ -42,25 +42,35 @@ const Dropdown = styled.View`
   background-color: #fff;
 `;
 
-const DropdownTag = styled.TouchableOpacity`
+const DropdownOption = styled.TouchableOpacity`
   padding: 10px;
-  border-bottom: 1px solid #f0f0f0;
 `;
 
-const DropdownTagName = styled.Text`
+const DropdownOptionName = styled.Text`
   font-size: 14px;
 `;
 
+const OptionCreateView = styled.View`
+  padding: 10px;
+`;
+
+const OptionCreateText = styled.Text`
+  font-size: 14px;
+  color: #ccc;
+`;
+
 const S = {
-  TagContainer,
-  SelectedTagsContainer,
-  SelectedTag,
-  SelectedTagName,
-  TagRemoveButton,
-  TagInput,
+  Container,
+  SelectedItemsContainer,
+  SelectedItem,
+  SelectedItemName,
+  RemoveButton,
+  Input,
   Dropdown,
-  DropdownTag,
-  DropdownTagName,
+  DropdownOption,
+  DropdownOptionName,
+  OptionCreateView,
+  OptionCreateText,
 };
 
 export default S;

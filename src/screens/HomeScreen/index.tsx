@@ -1,4 +1,4 @@
-import TagSelector from '@/components/common/TagSelector';
+import DropDownSelectorComponent from '@/components/common/DropDown';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -18,7 +18,7 @@ const HomeScreen = () => {
         onPress={() => navigation.navigate('Home', {screen: 'MarketInfo'})}>
         가게 관리
       </Button>
-      <TagSelector />
+      <DropDownSelectorComponent />
     </View>
   );
 };

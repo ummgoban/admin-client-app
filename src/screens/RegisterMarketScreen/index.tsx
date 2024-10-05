@@ -11,9 +11,17 @@ const RegisterMarketScreen = () => {
   );
   const [marketId, setMarketId] = useState<string | undefined>(undefined);
 
-  const isError = (value: string | undefined, validLength?: number) =>
-    (!value && value?.length === 0) ||
-    (!!validLength && value?.length !== validLength);
+  const isError = (value: string | undefined, validLength?: number) => {
+    if (!value) {
+      return false;
+    }
+
+    if (value.length === 0) {
+      return true;
+    }
+
+    return !!validLength && value?.length !== validLength;
+  };
 
   return (
     <S.RegisterMarketContainer>

@@ -10,21 +10,30 @@ import S from './DropDownSelector.style';
 import {TagType} from '@/types/TagType';
 
 type Props = {
-  value: TagType[];
+  values: TagType[];
   options: TagType[];
   onChange: (val: string) => void;
   placeholder?: string;
 };
 
-const DropDownSelector = ({value, options, onChange, placeholder}: Props) => {
+const DropDownSelector = ({values, options, onChange, placeholder}: Props) => {
   const [newOptionName, setNewOptionName] = useState<string>('');
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const inputRef = useRef(null);
 
+  const renderDropdownOption = (
+    item: TagType,
+    onChange: (val: string) => void,
+  ) => (
+    <S.DropdownOption onPress={() => onChange(item.name)}>
+      <S.DropdownOptionName>{item.name}</S.DropdownOptionName>
+    </S.DropdownOption>
+  );
+
   const handleInputChange = (input: string) => {
     const trimmedInput = input.trim();
     setNewOptionName(trimmedInput);
-    setIsDropdownVisible(trimmedInput.length > 0);
+    setIsDropdownVisible(Boolean(trimmedInput));
   };
 
   const filteredOptions = useMemo(
@@ -32,18 +41,12 @@ const DropDownSelector = ({value, options, onChange, placeholder}: Props) => {
     [options, newOptionName],
   );
 
-  const renderDropdownOption = ({item}: {item: TagType}) => (
-    <S.DropdownOption onPress={() => onChange(item.name)}>
-      <S.DropdownOptionName>{item.name}</S.DropdownOptionName>
-    </S.DropdownOption>
-  );
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <S.Container>
         <S.SelectedItemsContainer>
           <ScrollView horizontal>
-            {value.map(option => (
+            {values.map((option: TagType) => (
               <S.SelectedItem key={option.id}>
                 <S.SelectedItemName>{option.name}</S.SelectedItemName>
                 <TouchableOpacity onPress={() => onChange(option.name)}>
@@ -68,7 +71,7 @@ const DropDownSelector = ({value, options, onChange, placeholder}: Props) => {
             </S.OptionCreateView>
             <FlatList
               data={filteredOptions}
-              renderItem={renderDropdownOption}
+              renderItem={({item}) => renderDropdownOption(item, onChange)}
               keyExtractor={item => item.id.toString()}
               showsVerticalScrollIndicator
             />

@@ -1,6 +1,5 @@
 import {TagType} from '@/types/TagType';
 
-// 초기 더미 데이터
 const dummyTagsData: TagType[] = [
   {id: 1, name: '추천 메뉴'},
   {id: 2, name: '김치'},

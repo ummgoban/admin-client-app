@@ -22,26 +22,25 @@ const DropDownSelectorComponent = () => {
     const isOptionSelected = selectedOption.some(
       option => option.name === newOptionName,
     );
-    const isOptionInDropDown = dropDownOption.some(
+    const existingOption = dropDownOption.find(
       option => option.name === newOptionName,
     );
-
     if (!isOptionSelected) {
-      // TODO: api 호출 이후 setState api response로 변경
-      const newId = Math.max(...dropDownOption.map(option => option.id)) + 1;
-      const newOption: TagType = {id: newId, name: newOptionName};
-
-      setSelectedOption(prev => [...prev, newOption]);
-
-      if (!isOptionInDropDown) {
+      let newOption: TagType;
+      if (existingOption) {
+        newOption = existingOption;
+      } else {
+        // TODO: api 호출 이후 setState api response로 변경
+        const newId = Math.max(...dropDownOption.map(option => option.id)) + 1;
+        newOption = {id: newId, name: newOptionName};
         setDropDownOption(prev => [...prev, newOption]);
       }
+      setSelectedOption(prev => [...prev, newOption]);
     }
   };
-
   return (
     <DropDownSelector
-      value={selectedOption}
+      values={selectedOption}
       options={dropDownOption}
       onChange={handleDrowDownOption}
       placeholder="반찬 태그 선택 및 추가"

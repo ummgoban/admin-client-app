@@ -22,13 +22,13 @@ const DropDownSelectorComponent = () => {
     const isOptionSelected = selectedOption.some(
       option => option.name === newOptionName,
     );
-    const existingOption = dropDownOption.find(
+    const isOptionDropDown = dropDownOption.find(
       option => option.name === newOptionName,
     );
     if (!isOptionSelected) {
       let newOption: TagType;
-      if (existingOption) {
-        newOption = existingOption;
+      if (isOptionDropDown) {
+        newOption = isOptionDropDown;
       } else {
         // TODO: api 호출 이후 setState api response로 변경
         const newId = Math.max(...dropDownOption.map(option => option.id)) + 1;

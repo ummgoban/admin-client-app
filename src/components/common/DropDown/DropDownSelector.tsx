@@ -16,19 +16,21 @@ type Props = {
   placeholder?: string;
 };
 
+type DropDownOptionProps = {
+  item: TagType;
+  onChange: (val: string) => void;
+};
+
+const DropDownOption = ({item, onChange}: DropDownOptionProps) => (
+  <S.DropdownOption onPress={() => onChange(item.name)}>
+    <S.DropdownOptionName>{item.name}</S.DropdownOptionName>
+  </S.DropdownOption>
+);
+
 const DropDownSelector = ({values, options, onChange, placeholder}: Props) => {
   const [newOptionName, setNewOptionName] = useState<string>('');
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const inputRef = useRef(null);
-
-  const renderDropdownOption = (
-    item: TagType,
-    onChange: (val: string) => void,
-  ) => (
-    <S.DropdownOption onPress={() => onChange(item.name)}>
-      <S.DropdownOptionName>{item.name}</S.DropdownOptionName>
-    </S.DropdownOption>
-  );
 
   const handleInputChange = (input: string) => {
     const trimmedInput = input.trim();
@@ -71,7 +73,9 @@ const DropDownSelector = ({values, options, onChange, placeholder}: Props) => {
             </S.OptionCreateView>
             <FlatList
               data={filteredOptions}
-              renderItem={({item}) => renderDropdownOption(item, onChange)}
+              renderItem={({item}) => (
+                <DropDownOption item={item} onChange={onChange} />
+              )}
               keyExtractor={item => item.id.toString()}
               showsVerticalScrollIndicator
             />

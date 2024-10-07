@@ -13,6 +13,7 @@ type Props = {
   values: TagType[];
   options: TagType[];
   onChange: (val: string) => void;
+  onRemove: (val: string) => void;
   placeholder?: string;
 };
 
@@ -27,7 +28,13 @@ const DropDownOption = ({item, onChange}: DropDownOptionProps) => (
   </S.DropdownOption>
 );
 
-const DropDownSelector = ({values, options, onChange, placeholder}: Props) => {
+const DropDownSelector = ({
+  values,
+  options,
+  onChange,
+  placeholder,
+  onRemove,
+}: Props) => {
   const [newOptionName, setNewOptionName] = useState<string>('');
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const inputRef = useRef(null);
@@ -51,7 +58,7 @@ const DropDownSelector = ({values, options, onChange, placeholder}: Props) => {
             {values.map((option: TagType) => (
               <S.SelectedItem key={option.id}>
                 <S.SelectedItemName>{option.name}</S.SelectedItemName>
-                <TouchableOpacity onPress={() => onChange(option.name)}>
+                <TouchableOpacity onPress={() => onRemove(option.name)}>
                   <S.RemoveButton>×</S.RemoveButton>
                 </TouchableOpacity>
               </S.SelectedItem>

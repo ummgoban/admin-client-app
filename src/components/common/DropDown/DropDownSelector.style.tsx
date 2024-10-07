@@ -34,7 +34,7 @@ const Input = styled.TextInput`
   margin-bottom: 4px;
 `;
 
-const Dropdown = styled.View`
+const DropDown = styled.View`
   max-height: 200px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -42,11 +42,15 @@ const Dropdown = styled.View`
   background-color: #fff;
 `;
 
-const DropdownOption = styled.TouchableOpacity`
+const DropDownOption = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   padding: 10px;
 `;
 
-const DropdownOptionName = styled.Text`
+const DropDownOptionName = styled.Text`
   font-size: 14px;
 `;
 
@@ -59,6 +63,20 @@ const OptionCreateText = styled.Text`
   color: #ccc;
 `;
 
+const ModalContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalContent = styled.View`
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  align-items: center;
+`;
+
 const S = {
   Container,
   SelectedItemsContainer,
@@ -66,11 +84,13 @@ const S = {
   SelectedItemName,
   RemoveButton,
   Input,
-  Dropdown,
-  DropdownOption,
-  DropdownOptionName,
+  DropDown,
+  DropDownOption,
+  DropDownOptionName,
   OptionCreateView,
   OptionCreateText,
+  ModalContainer,
+  ModalContent,
 };
 
 export default S;

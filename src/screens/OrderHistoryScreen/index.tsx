@@ -13,16 +13,19 @@ const OrderHistoryScreen = () => {
 
   return (
     <View>
-      <S.NavbarGroup>
+      <S.NavbarGroup selected={selected}>
         <ToggleButton
+          value={'ordered'}
           onPress={() =>
             setSelected('ordered')
           }>{`예약접수(${3})`}</ToggleButton>
         <ToggleButton
+          value={'accepted'}
           onPress={() =>
             setSelected('accepted')
           }>{`픽업대기(${2})`}</ToggleButton>
         <ToggleButton
+          value="done"
           onPress={() => setSelected('done')}
           last>{`완료/취소(${10})`}</ToggleButton>
       </S.NavbarGroup>

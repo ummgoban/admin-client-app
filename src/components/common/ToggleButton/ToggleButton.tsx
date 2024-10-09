@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {GestureResponderEvent} from 'react-native';
 
 import {ToggleButtonContext} from './ToggleButtonContext';
@@ -6,35 +6,38 @@ import {ToggleButtonContext} from './ToggleButtonContext';
 import {PropsOf} from '@emotion/react';
 import S from './ToggleButton.style';
 
-let id = 0;
-
 type RequiredProps = {
   children: React.ReactNode;
+  value: string;
   onPress: (e: GestureResponderEvent) => void;
 };
 
 type ToggleButtonProps = RequiredProps &
   Omit<PropsOf<typeof S.ToggleButton>, keyof RequiredProps>;
 
-const ToggleButton = ({children, onPress, ...rest}: ToggleButtonProps) => {
+const ToggleButton = ({
+  children,
+  value,
+  onPress,
+  ...rest
+}: ToggleButtonProps) => {
   const context = useContext(ToggleButtonContext);
 
   if (!context) {
     throw new Error('ToggleButton must be used within a ToggleButtonGroup');
   }
 
-  const {selectedId, setSelectedId} = context;
-  const [_id] = useState(() => id++);
+  const {selected, setSelected} = context;
 
   return (
     <S.ToggleButton
       {...rest}
       onPress={e => {
-        setSelectedId(_id);
+        setSelected(value);
         onPress(e);
       }}
-      selected={selectedId === _id}
-      aria-selected={selectedId === _id}
+      selected={selected === value}
+      aria-selected={selected === value}
       role={'tab'}>
       {children}
     </S.ToggleButton>

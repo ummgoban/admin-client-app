@@ -6,11 +6,11 @@ import {ToggleButtonProvider} from './ToggleButtonContext';
 
 import S from './ToggleButtonGroup.style';
 
-type ToggleButtonGroupProps = PropsOf<typeof View>;
+type ToggleButtonGroupProps = {selected: string} & PropsOf<typeof View>;
 
-const ToggleButtonGroup = (props: ToggleButtonGroupProps) => {
+const ToggleButtonGroup = ({selected, ...props}: ToggleButtonGroupProps) => {
   return (
-    <ToggleButtonProvider>
+    <ToggleButtonProvider selectedValue={selected}>
       <S.ToggleButtonGroupContainer {...props} />
     </ToggleButtonProvider>
   );

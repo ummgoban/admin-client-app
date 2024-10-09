@@ -1,22 +1,24 @@
 import React, {createContext, useState} from 'react';
 
 export const ToggleButtonContext = createContext<{
-  selectedId: number;
-  setSelectedId: React.Dispatch<React.SetStateAction<number>>;
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
 }>({
-  selectedId: 0,
-  setSelectedId: () => {},
+  selected: '',
+  setSelected: () => {},
 });
 
 export const ToggleButtonProvider = ({
   children,
+  selectedValue,
 }: {
   children: React.ReactNode;
+  selectedValue: string;
 }) => {
-  const [selectedId, setSelectedId] = useState(0);
+  const [selected, setSelected] = useState(selectedValue);
 
   return (
-    <ToggleButtonContext.Provider value={{selectedId, setSelectedId}}>
+    <ToggleButtonContext.Provider value={{selected, setSelected}}>
       {children}
     </ToggleButtonContext.Provider>
   );

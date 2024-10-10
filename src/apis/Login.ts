@@ -4,7 +4,11 @@ import {NativeModules, Platform} from 'react-native';
 import {NaverLoginInitParams} from '@/types/Login';
 import {NaverLoginResponse} from '@/types/Login';
 import Config from 'react-native-config';
-//TODO: 토큰 스토리지 저장 flow
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '@/types/StackNavigationType';
+import {useNavigation} from '@react-navigation/native';
+
+const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
 // 네이버 로그인 관련 설정
 const {RNNaverLogin} = NativeModules;
@@ -60,6 +64,7 @@ export const signInWithNaver = async () => {
       });
 
       if (response) {
+        navigation.navigate('Home', {screen: 'MarketInfo'});
         console.log('네이버 로그인 성공:', response);
       } else {
         console.log('네이버 로그인 실패');

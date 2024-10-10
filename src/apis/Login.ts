@@ -6,9 +6,6 @@ import {NaverLoginResponse} from '@/types/Login';
 import Config from 'react-native-config';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '@/types/StackNavigationType';
-import {useNavigation} from '@react-navigation/native';
-
-const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
 // 네이버 로그인 관련 설정
 const {RNNaverLogin} = NativeModules;
@@ -47,8 +44,11 @@ const naverLoginParams = {
   serviceUrlSchemeIOS: Config.NAVER_URL_SCHEME,
   disableNaverAppAuthIOS: false,
 };
+
 // 네이버 로그인 함수
-export const signInWithNaver = async () => {
+export const signInWithNaver = async (
+  navigation: StackNavigationProp<RootStackParamList>,
+) => {
   initializeNaver(naverLoginParams);
   try {
     // Oauth 토큰 생성
@@ -78,8 +78,9 @@ export const signInWithNaver = async () => {
 };
 
 // 카카오 로그인 함수
-export const signInWithKakao = async () => {
-  console.log('ddd');
+export const signInWithKakao = async (
+  navigation: StackNavigationProp<RootStackParamList>,
+) => {
   try {
     // Oauth 토큰 생성
     const token = await kakaoLogin();
@@ -92,6 +93,7 @@ export const signInWithKakao = async () => {
     });
 
     if (response) {
+      navigation.navigate('Home', {screen: 'MarketInfo'});
       console.log('카카오 로그인 성공:', response);
     } else {
       console.log('카카오 로그인 실패');

@@ -1,8 +1,21 @@
 import React from 'react';
 import S from './LoginScreen.style';
 import {signInWithKakao, signInWithNaver} from '@/apis/Login';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '@/types/StackNavigationType';
 
 const LoginScreen = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const handleKakaoLogin = async () => {
+    await signInWithKakao(navigation);
+  };
+
+  const handleNaverLogin = async () => {
+    await signInWithNaver(navigation);
+  };
+
   return (
     <S.LoginPageContainer>
       <S.LoginButtonContainer>
@@ -13,12 +26,12 @@ const LoginScreen = () => {
         </S.Description>
         <S.LoginButtonContainer>
           <S.LoginButtonWrapper>
-            <S.KakaoButton onPress={signInWithKakao}>
+            <S.KakaoButton onPress={handleKakaoLogin}>
               <S.KakaoButtonText>카카오 로그인 시작하기</S.KakaoButtonText>
             </S.KakaoButton>
           </S.LoginButtonWrapper>
           <S.LoginButtonWrapper>
-            <S.NaverButton onPress={signInWithNaver}>
+            <S.NaverButton onPress={handleNaverLogin}>
               <S.NaverButtonText>네이버 로그인 시작하기</S.NaverButtonText>
             </S.NaverButton>
           </S.LoginButtonWrapper>

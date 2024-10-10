@@ -44,12 +44,29 @@ const DropDownSelectorComponent = () => {
       setSelectedOption(prev => [...prev, newOption]);
     }
   };
+
+  const handleDeleteOption = (id: number) => {
+    setDropDownOption(prevOptions =>
+      prevOptions.filter(option => option.id !== id),
+    );
+  };
+
+  const handleUpdateOption = (id: number, newName: string) => {
+    setDropDownOption(prevOptions =>
+      prevOptions.map(option =>
+        option.id === id ? {...option, name: newName} : option,
+      ),
+    );
+  };
+
   return (
     <DropDownSelector
       values={selectedOption}
       options={dropDownOption}
       onChange={handleDrowDownOption}
       onRemove={handleRemoveOption}
+      onDeleteOption={handleDeleteOption}
+      onUpdateOption={handleUpdateOption}
       placeholder="반찬 태그 선택 및 추가"
     />
   );

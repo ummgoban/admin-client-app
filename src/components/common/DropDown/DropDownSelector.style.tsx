@@ -32,6 +32,7 @@ const Input = styled.TextInput`
   padding: 8px;
   border-radius: 8px;
   margin-bottom: 4px;
+  width: 100%;
 `;
 
 const DropDown = styled.View`
@@ -64,17 +65,22 @@ const OptionCreateText = styled.Text`
 `;
 
 const ModalContainer = styled.View`
-  flex: 1;
+  width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalContent = styled.View`
+  width: 80%;
+  height: 50%;
+  display: flex;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   align-items: center;
+  gap: 30px;
 `;
 
 const S = {

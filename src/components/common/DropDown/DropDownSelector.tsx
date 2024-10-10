@@ -6,18 +6,21 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Text,
-  View,
+  Alert,
 } from 'react-native';
 import S from './DropDownSelector.style';
 import {TagType} from '@/types/TagType';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Modal} from 'react-native';
+
 type Props = {
   values: TagType[];
   options: TagType[];
   onChange: (val: string) => void;
   onRemove: (val: string) => void;
   placeholder?: string;
+  onDeleteOption: (id: number) => void;
+  onUpdateOption: (id: number, newName: string) => void;
 };
 
 type DropDownOptionProps = {
@@ -43,11 +46,14 @@ const DropDownSelector = ({
   onChange,
   placeholder,
   onRemove,
+  onDeleteOption,
+  onUpdateOption,
 }: Props) => {
   const [newOptionName, setNewOptionName] = useState<string>('');
   const [isDropDownVisible, setIsDropDownVisible] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentTag, setCurrentTag] = useState<TagType | null>(null);
+  const [tagName, setTagName] = useState<string>('');
   const inputRef = useRef(null);
 
   const handleInputChange = (input: string) => {
@@ -63,12 +69,37 @@ const DropDownSelector = ({
 
   const handleOpenModal = (tag: TagType) => {
     setCurrentTag(tag);
+    setTagName(tag.name);
     setModalVisible(true);
   };
 
   const handleCloseModal = () => {
     setModalVisible(false);
     setCurrentTag(null);
+  };
+
+  const handleDeleteOption = () => {
+    if (currentTag) {
+      Alert.alert('옵션 삭제', `${currentTag.name} 옵션을 삭제하시겠습니까?`, [
+        {text: '취소'},
+        {
+          text: '삭제',
+          onPress: () => {
+            onDeleteOption(currentTag.id);
+            handleCloseModal();
+          },
+        },
+      ]);
+    }
+  };
+
+  const handleUpdateOption = () => {
+    if (currentTag && tagName) {
+      onUpdateOption(currentTag.id, tagName);
+      handleCloseModal();
+    } else {
+      Alert.alert('오류', '옵션 이름을 입력하세요.');
+    }
   };
 
   return (
@@ -129,8 +160,13 @@ const DropDownSelector = ({
             onRequestClose={handleCloseModal}>
             <S.ModalContainer>
               <S.ModalContent>
-                <Text>{currentTag.id}</Text>
-                <Text>{currentTag.name}</Text>
+                <S.Input value={tagName} onChangeText={setTagName} />
+                <TouchableOpacity onPress={handleUpdateOption}>
+                  <Text>옵션 이름 변경</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleDeleteOption}>
+                  <Text>옵션 삭제</Text>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={handleCloseModal}>
                   <Text>닫기</Text>
                 </TouchableOpacity>

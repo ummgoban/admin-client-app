@@ -20,7 +20,6 @@ class MainApplication : Application(), ReactApplication {
             PackageList(this).packages.apply {
               // Packages that cannot be autolinked yet can be added manually here, for example:
               // add(MyReactNativePackage())
-              add(RNCConfigPackage()) // 추가된 패키지
             }
 
         override fun getJSMainModuleName(): String = "index"

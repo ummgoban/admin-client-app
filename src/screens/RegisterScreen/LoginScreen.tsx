@@ -8,6 +8,7 @@ import {RootStackParamList} from '@/types/StackNavigationType';
 const LoginScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  // TODO: 로그인 에러 핸들링 추가
   const handleKakaoLogin = async () => {
     await signInWithKakao(navigation);
   };

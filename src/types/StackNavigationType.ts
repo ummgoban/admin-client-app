@@ -8,7 +8,7 @@ type StackParamType<T> = {
 export interface HomeStackParamList extends ParamListBase {
   Feed: undefined;
   MarketInfo: undefined;
-  MenuManage: undefined;
+  MyPage: undefined;
 }
 
 export interface RegisterStackParamList extends ParamListBase {
@@ -20,8 +20,14 @@ export interface DetailStackParamList extends ParamListBase {
   Payment: undefined;
 }
 
+export interface RegisterMarketParmaList extends ParamListBase {
+  RegisterMarket: undefined;
+  RegisterMarketDone: undefined;
+}
+
 export interface RootStackParamList extends ParamListBase {
   Home: StackParamType<HomeStackParamList>;
   Register: StackParamType<RegisterStackParamList>;
   Detail: StackParamType<DetailStackParamList>;
+  RegisterMarket: StackParamType<RegisterMarketParmaList>;
 }

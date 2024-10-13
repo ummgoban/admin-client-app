@@ -3,17 +3,14 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {Button} from 'react-native-paper';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import MenuManageScreen from '../MenuManageScreen';
 
 const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
     <View>
-      <Text>{'HomeScreen'}</Text>
-      <Button
-        onPress={() => navigation.navigate('Home', {screen: 'MenuManage'})}>
-        메뉴 관리
-      </Button>
+      <MenuManageScreen />
       <Button
         onPress={() => navigation.navigate('Home', {screen: 'MarketInfo'})}>
         가게 관리

@@ -15,8 +15,8 @@ const tabBarData: TabBarComponentType = {
     label: '홈',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
-  MenuManage: {
-    label: '메뉴 관리',
+  MyPage: {
+    label: '마이 페이지',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
   MarketInfo: {

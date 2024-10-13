@@ -1,5 +1,4 @@
 import MarketInfoScreen from '@/screens/MarketInfoScreen';
-import MenuManageScreen from '@/screens/MenuManageScreen';
 import {HomeStackParamList} from '@/types/StackNavigationType';
 import {TabBar} from '@components/common';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -13,7 +12,7 @@ const HomeNavigator = () => {
     <Tab.Navigator screenOptions={{headerShown: true}} tabBar={TabBar}>
       <Tab.Screen name="Feed" component={HomeScreen} />
       <Tab.Screen name="MarketInfo" component={MarketInfoScreen} />
-      <Tab.Screen name="MenuManage" component={MenuManageScreen} />
+      {/* <Tab.Screen name="MyPage" component={MyPageScreen} /> */}
       {/* <Tab.Screen name="Favorite" component={FavoriteScreen} /> */}
       {/* Add more screens here */}
     </Tab.Navigator>

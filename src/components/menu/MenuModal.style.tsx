@@ -1,11 +1,9 @@
 import styled from '@emotion/native';
 
 const ModalOverlay = styled.View`
-
   flex: 1;
   justify-content: center;
   align-items: center;
-  rgba(0, 0, 0, 0.5)
 `;
 
 const ModalView = styled.View`

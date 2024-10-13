@@ -51,15 +51,25 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
   }, [initialData]);
 
   const handleInputChange = (field: keyof MenuType, value: string | number) => {
+    let formattedValue = value;
+
+    if (
+      typeof value === 'string' &&
+      (field === 'originalPrice' || field === 'discountPrice')
+    ) {
+      const numberValue = Number(value.replace(/[^0-9]/g, ''));
+      formattedValue = numberValue.toLocaleString();
+    }
+
     setMenuData(prev => {
       const updatedData = {
         ...prev,
-        [field]: value,
+        [field]: formattedValue,
       };
       if (field === 'originalPrice' || field === 'discountPrice') {
         const newDiscountRate = calculateDiscountRate(
-          Number(updatedData.originalPrice),
-          Number(updatedData.discountPrice),
+          Number(updatedData.originalPrice.toString().replace(/,/g, '')),
+          Number(updatedData.discountPrice.toString().replace(/,/g, '')),
         );
         return {
           ...updatedData,

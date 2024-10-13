@@ -4,7 +4,7 @@ import {TabBar} from '@components/common';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
 import React from 'react';
-
+import MyPageScreen from '@/screens/MyPageScreen';
 const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 const HomeNavigator = () => {
@@ -12,7 +12,7 @@ const HomeNavigator = () => {
     <Tab.Navigator screenOptions={{headerShown: true}} tabBar={TabBar}>
       <Tab.Screen name="Feed" component={HomeScreen} />
       <Tab.Screen name="MarketInfo" component={MarketInfoScreen} />
-      {/* <Tab.Screen name="MyPage" component={MyPageScreen} /> */}
+      <Tab.Screen name="MyPage" component={MyPageScreen} />
       {/* <Tab.Screen name="Favorite" component={FavoriteScreen} /> */}
       {/* Add more screens here */}
     </Tab.Navigator>

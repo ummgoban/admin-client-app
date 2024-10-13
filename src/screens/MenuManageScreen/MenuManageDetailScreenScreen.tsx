@@ -81,14 +81,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
         {menus.map(menu => (
           <Menu
             key={menu.id}
-            id={menu.id}
-            name={menu.name}
-            image={menu.image}
-            discountRate={menu.discountRate}
-            originalPrice={menu.originalPrice}
-            discountPrice={menu.discountPrice}
-            status={menu.status}
-            stock={menu.stock}
+            menu={menu}
             onEdit={() => handleEditProduct(menu)}
             onIncreaseStock={() => handleIncreaseStock(menu.id)}
             onDecreaseStock={() => handleDecreaseStock(menu.id)}

@@ -1,7 +1,10 @@
 import React from 'react';
 import {format} from '@/utils/date';
 import S from './OrderCustomerInfo.style';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 374216c (feat: 주문 상세 페이지 구현)
 type Props = {
   id: string;
   orderMemberName: string;
@@ -22,6 +25,7 @@ const OrderCustomerInfo = ({
       <S.InfoText>주문번호: {id}</S.InfoText>
       <S.InfoText>주문자명: {orderMemberName}</S.InfoText>
       <S.InfoText>
+<<<<<<< HEAD
         {`주문 일시: ${format(new Date(createdAt).getTime(), 'YYYY. MM. DD. (ddd) A hh:mm')}`}
       </S.InfoText>
       <S.InfoText>
@@ -29,6 +33,19 @@ const OrderCustomerInfo = ({
       </S.InfoText>
       <S.InfoText>요청사항:</S.InfoText>
       <S.InfoText>{customerRequest}</S.InfoText>
+=======
+        주문 일시:{' '}
+        {format(new Date(createdAt).getTime(), 'YYYY. MM. DD. (ddd) A hh:mm')}
+      </S.InfoText>
+      <S.InfoText>
+        픽업 희망 시간:{' '}
+        {format(
+          new Date(pickupReservedAt).getTime(),
+          'YYYY. MM. DD. (ddd) A hh:mm',
+        )}
+      </S.InfoText>
+      <S.InfoText>요청사항: {customerRequest}</S.InfoText>
+>>>>>>> 374216c (feat: 주문 상세 페이지 구현)
     </S.Container>
   );
 };

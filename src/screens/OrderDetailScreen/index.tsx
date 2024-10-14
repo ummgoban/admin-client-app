@@ -1,7 +1,15 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 import React, {useEffect, useState} from 'react';
+<<<<<<< HEAD
 import {getOrderHistory} from '@/apis/OrderInfo';
+=======
+import {Text} from 'react-native';
+import {getOrderHistory} from '@/apis/OrderInfo';
+import OrderCustomerInfo from '@/components/orderDetail/OrderCustomerInfo';
+import {OrderResponseType, OrderInfoType} from '@/types/OrderDetailType';
+import OrderProductsInfo from '@/components/orderDetail/OrderProductsInfo';
+>>>>>>> c8880cc (style: 테스트 코드 변경 및 포맷팅)
 import S from './OrderDetailScreen.style';
 import {OrderResponseType, OrderInfoType} from '@/types/OrderDetailType';
 import {Text} from 'react-native';

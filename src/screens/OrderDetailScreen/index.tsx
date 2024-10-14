@@ -10,13 +10,17 @@ import {Text} from 'react-native';
 >>>>>>> ab51f00 (style: CI error)
 import {getOrderHistory} from '@/apis/OrderInfo';
 import S from './OrderDetailScreen.style';
-import OrderCustomerInfo from '@/components/orderDetail/OrderCustomerInfo';
+import OrderCustomerInfo from '../../components/orderDetail/OrderCustomerInfo';
 import {OrderResponseType, OrderInfoType} from '@/types/OrderDetailType';
+<<<<<<< HEAD
 import OrderProductsInfo from '@/components/orderDetail/OrderProductsInfo';
 <<<<<<< HEAD
 >>>>>>> c8880cc (style: 테스트 코드 변경 및 포맷팅)
 import S from './OrderDetailScreen.style';
 import {OrderResponseType, OrderInfoType} from '@/types/OrderDetailType';
+=======
+import OrderProductsInfo from '../../components/orderDetail/OrderProductsInfo';
+>>>>>>> e76a454 (style: CI ERROR)
 import {Text} from 'react-native';
 import OrderCustomerInfo from '@/components/OrderDetail/OrderCustomerInfo';
 import OrderProductsInfo from '@/components/OrderDetail/OrderProductsInfo';

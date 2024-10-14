@@ -1,11 +1,11 @@
-import {OrderInfoType} from '@/types/OrderInfoType';
+import {OrderResponseType} from '@/types/OrderDetailType';
 
-const dummyOrderInfo: OrderInfoType = {
+const dummyOrderInfo: OrderResponseType = {
   code: 200,
   message: '성공',
   data: [
     {
-      id: 1,
+      id: '1',
       customerRequset: '고객 요청 사항입니다.',
       createdAt: '2024-10-14T12:21:31.121Z',
       pickupReservedAt: '2024-10-14T13:00:00.000Z',
@@ -36,7 +36,7 @@ const dummyOrderInfo: OrderInfoType = {
   ],
 };
 
-export const getTagHistory = async (): Promise<OrderInfoType | null> => {
+export const getOrderHistory = async (): Promise<OrderResponseType | null> => {
   try {
     return new Promise(resolve => {
       setTimeout(() => {

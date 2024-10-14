@@ -1,6 +1,7 @@
 import React from 'react';
 import {Product} from '../../types/OrderDetailType';
 import S from './OrderProductsInfo.style';
+
 type Props = {
   products: Product[];
   totalPrice: number;

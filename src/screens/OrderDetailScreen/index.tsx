@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Text} from 'react-native';
-import {getOrderHistory} from '@/apis/OrderInfo'; // API 호출
+import {getOrderHistory} from '@/apis/OrderInfo';
 import OrderCustomerInfo from '@/components/orderDetail/OrderCustomerInfo';
 import {OrderResponseType, OrderInfoType} from '@/types/OrderDetailType';
 import OrderProductsInfo from '@/components/orderDetail/OrderProductsInfo';

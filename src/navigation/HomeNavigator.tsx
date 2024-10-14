@@ -1,5 +1,8 @@
 import MarketInfoScreen from '@/screens/MarketInfoScreen';
+<<<<<<< HEAD
 import OrderHistoryScreen from '@/screens/OrderHistoryScreen';
+=======
+>>>>>>> b6cdbb1 (feat: 네비게이션 및 타입 작성)
 import OrderDetailScreen from '@/screens/OrderDetailScreen';
 import {HomeStackParamList} from '@/types/StackNavigationType';
 import {TabBar} from '@components/common';
@@ -18,6 +21,7 @@ const HomeNavigator = () => {
       <Tab.Screen name="OrderDetail" component={OrderDetailScreen} />
       <Tab.Screen name="Feed" component={HomeScreen} />
       <Tab.Screen name="MyPage" component={MyPageScreen} />
+      <Tab.Screen name="OrderDetail" component={OrderDetailScreen} />
       {/* <Tab.Screen name="Favorite" component={FavoriteScreen} /> */}
       {/* Add more screens here */}
     </Tab.Navigator>

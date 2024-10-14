@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, {useEffect, useState} from 'react';
 import {getOrderHistory} from '@/apis/OrderInfo';
 import S from './OrderDetailScreen.style';
@@ -39,6 +40,12 @@ const OrderDetailScreen = () => {
       />
     </S.Container>
   );
+=======
+import React from 'react';
+import {Text} from 'react-native';
+const OrderDetailScreen = () => {
+  return <Text>ss</Text>;
+>>>>>>> b6cdbb1 (feat: 네비게이션 및 타입 작성)
 };
 
 export default OrderDetailScreen;

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getOrderHistory} from '@/apis/OrderInfo';
 import S from './OrderDetailScreen.style';
-import OrderCustomerInfo from '../../components/orderDetail/OrderCustomerInfo';
+import OrderCustomerInfo from '@/components/orderDetail/OrderCustomerInfo';
 import {
   OrderDetailResponseType,
   OrderDetailInfoType,

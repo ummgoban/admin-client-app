@@ -27,6 +27,11 @@ const tabBarData: TabBarComponentType = {
     label: '가게 관리',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
+  OrderDetail: {
+    label: '주문 상세',
+    icon: 'https://legacy.reactjs.org/logo-og.png',
+  },
+};
 } as const;
 
 // TODO: resolve inline style

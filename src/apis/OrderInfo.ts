@@ -1,6 +1,6 @@
-import {OrderResponseType} from '@/types/OrderDetailType';
+import {OrderDetailResponseType} from '@/types/OrderDetailType';
 
-const dummyOrderInfo: OrderResponseType = {
+const dummyOrderInfo: OrderDetailResponseType = {
   code: 200,
   message: '성공',
   data: {
@@ -61,16 +61,17 @@ const dummyOrderInfo: OrderResponseType = {
   },
 };
 
-export const getOrderHistory = async (): Promise<OrderResponseType | null> => {
-  try {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(dummyOrderInfo);
-        console.log('fetch tags data');
-      }, 500);
-    });
-  } catch (error) {
-    console.error('Error fetching tag data:', error);
-    return null;
-  }
-};
+export const getOrderHistory =
+  async (): Promise<OrderDetailResponseType | null> => {
+    try {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(dummyOrderInfo);
+          console.log('fetch tags data');
+        }, 500);
+      });
+    } catch (error) {
+      console.error('Error fetching tag data:', error);
+      return null;
+    }
+  };

@@ -4,6 +4,7 @@ import {Button} from 'react-native-paper';
 // TODO: last prop를 Context API로 처리하기
 const ToggleButton = styled(Button)<{selected?: boolean; last?: boolean}>`
   flex: 1;
+  height: 36px;
   border-radius: 0;
 
   border: 1px solid black;

@@ -6,6 +6,7 @@ import {
   launchImageLibrary,
   ImagePickerResponse,
 } from 'react-native-image-picker';
+import DropDownSelectorComponent from '../common/DropDown';
 
 // TODO : 태그 컴포넌트 넣기
 // TODO : onSave시 post data
@@ -137,7 +138,10 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               onChangeText={text => handleInputChange('name', text)}
             />
           </S.InputRow>
-          <S.InputLabel>..Tags..</S.InputLabel>
+          <S.InputRow>
+            <S.InputLabel>반찬 태그</S.InputLabel>
+            <DropDownSelectorComponent />
+          </S.InputRow>
           <S.InputRow>
             <S.InputLabel>원가</S.InputLabel>
             <S.TextInputContainer

@@ -9,10 +9,7 @@ export interface HomeStackParamList extends ParamListBase {
   Feed: undefined;
   MarketInfo: undefined;
   MyPage: undefined;
-<<<<<<< HEAD
   OrderHistory: undefined;
-=======
->>>>>>> b6cdbb1 (feat: 네비게이션 및 타입 작성)
   OrderDetail: undefined;
 }
 

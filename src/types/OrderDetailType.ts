@@ -22,5 +22,5 @@ export type OrderInfoType = {
 export type OrderResponseType = {
   code: number;
   message: string;
-  data: OrderInfoType[];
+  data: OrderInfoType;
 };

@@ -13,7 +13,7 @@ const OrderDetailScreen = () => {
     const fetchData = async () => {
       const data: OrderResponseType | null = await getOrderHistory();
       // TODO: suspense 로직
-      setOrderData(data?.data[0]);
+      setOrderData(data?.data);
     };
 
     fetchData();

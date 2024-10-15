@@ -10,8 +10,8 @@ import {Text} from 'react-native';
 >>>>>>> ab51f00 (style: CI error)
 import {getOrderHistory} from '@/apis/OrderInfo';
 import S from './OrderDetailScreen.style';
-import OrderCustomerInfo from '../../components/orderDetail/OrderCustomerInfo';
 import {OrderResponseType, OrderInfoType} from '@/types/OrderDetailType';
+<<<<<<< HEAD
 <<<<<<< HEAD
 import OrderProductsInfo from '@/components/orderDetail/OrderProductsInfo';
 <<<<<<< HEAD
@@ -21,13 +21,18 @@ import {OrderResponseType, OrderInfoType} from '@/types/OrderDetailType';
 =======
 import OrderProductsInfo from '../../components/orderDetail/OrderProductsInfo';
 >>>>>>> e76a454 (style: CI ERROR)
+=======
+>>>>>>> 1bb422b (chore: resolve type check github action (#23))
 import {Text} from 'react-native';
 import OrderCustomerInfo from '@/components/OrderDetail/OrderCustomerInfo';
 import OrderProductsInfo from '@/components/OrderDetail/OrderProductsInfo';
 
+<<<<<<< HEAD
 =======
 import {Text} from 'react-native';
 >>>>>>> ab51f00 (style: CI error)
+=======
+>>>>>>> 1bb422b (chore: resolve type check github action (#23))
 const OrderDetailScreen = () => {
   const [orderData, setOrderData] = useState<OrderInfoType | null>();
 

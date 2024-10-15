@@ -31,7 +31,6 @@ const tabBarData: TabBarComponentType = {
     label: '주문 상세',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
-};
 } as const;
 
 // TODO: resolve inline style

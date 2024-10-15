@@ -18,7 +18,6 @@ const HomeNavigator = () => {
       <Tab.Screen name="OrderHistory" component={OrderHistoryScreen} />
       <Tab.Screen name="OrderDetail" component={OrderDetailScreen} />
       <Tab.Screen name="MyPage" component={MyPageScreen} />
-      <Tab.Screen name="OrderDetail" component={OrderDetailScreen} />
       {/* <Tab.Screen name="Favorite" component={FavoriteScreen} /> */}
       {/* Add more screens here */}
     </Tab.Navigator>

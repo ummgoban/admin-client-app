@@ -47,7 +47,7 @@ const TextInputContainer = styled.TextInput`
   padding-horizontal: 8px;
   background-color: white;
   margin-bottom: 12px;
-  height: 40px;
+  height: 48px;
 `;
 const StatusButtonContainer = styled.View`
   flex-direction: row;

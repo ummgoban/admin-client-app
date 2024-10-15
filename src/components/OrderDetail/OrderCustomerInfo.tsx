@@ -22,15 +22,10 @@ const OrderCustomerInfo = ({
       <S.InfoText>주문번호: {id}</S.InfoText>
       <S.InfoText>주문자명: {orderMemberName}</S.InfoText>
       <S.InfoText>
-        주문 일시:{' '}
-        {format(new Date(createdAt).getTime(), 'YYYY. MM. DD. (ddd) A hh:mm')}
+        {`주문 일시: ${format(new Date(createdAt).getTime(), 'YYYY. MM. DD. (ddd) A hh:mm')}`}
       </S.InfoText>
       <S.InfoText>
-        픽업 예정 시간:{' '}
-        {format(
-          new Date(pickupReservedAt).getTime(),
-          'YYYY. MM. DD. (ddd) A hh:mm',
-        )}
+        {`픽업 예정 시간: ${format(new Date(pickupReservedAt).getTime(), 'YYYY. MM. DD. (ddd) A hh:mm')}`}
       </S.InfoText>
       <S.InfoText>요청사항:</S.InfoText>
       <S.InfoText>{customerRequest}</S.InfoText>

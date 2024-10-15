@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {getOrderHistory} from '@/apis/OrderInfo';
 import S from './OrderDetailScreen.style';
-import OrderCustomerInfo from '../../components/orderDetail/OrderCustomerInfo';
 import {OrderResponseType, OrderInfoType} from '@/types/OrderDetailType';
-import OrderProductsInfo from '../../components/orderDetail/OrderProductsInfo';
 import {Text} from 'react-native';
+import OrderCustomerInfo from '@/components/OrderDetail/OrderCustomerInfo';
+import OrderProductsInfo from '@/components/OrderDetail/OrderProductsInfo';
+
 const OrderDetailScreen = () => {
   const [orderData, setOrderData] = useState<OrderInfoType | null>();
 

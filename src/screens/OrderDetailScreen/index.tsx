@@ -1,19 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {getOrderHistory} from '@/apis/OrderInfo';
 import S from './OrderDetailScreen.style';
-import {OrderResponseType, OrderInfoType} from '@/types/OrderDetailType';
+import OrderCustomerInfo from '@/components/orderDetail/OrderCustomerInfo';
+import {
+  OrderDetailResponseType,
+  OrderDetailInfoType,
+} from '@/types/OrderDetailType';
 import {Text} from 'react-native';
-import OrderCustomerInfo from '@/components/OrderDetail/OrderCustomerInfo';
-import OrderProductsInfo from '@/components/OrderDetail/OrderProductsInfo';
+import OrderProductsInfo from '@/components/orderDetail/OrderProductsInfo';
 
 const OrderDetailScreen = () => {
-  const [orderData, setOrderData] = useState<OrderInfoType | null>();
+  const [orderData, setOrderData] = useState<OrderDetailInfoType | null>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const data: OrderResponseType | null = await getOrderHistory();
+      const data: OrderDetailResponseType | null = await getOrderHistory();
       // TODO: suspense 로직
-      setOrderData(data?.data[0]);
+      setOrderData(data?.data);
     };
 
     fetchData();

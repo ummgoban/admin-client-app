@@ -3,9 +3,12 @@ import {Modal} from 'react-native';
 import {MenuType} from '@/types/MenuType';
 import S from './MenuModal.style';
 import {pickImage} from '@/utils/image-picker';
-
+import CustomLabel from '../common/CustomLabel';
+import CustomTextInput from '@/components/common/CustomTextInput';
+import {TextInput} from '../common';
 // TODO : 태그 컴포넌트 넣기
 // TODO : onSave시 post data
+// TODO : 메뉴 추가시 id 처리(백엔드) -> 현재 Date.now()로 임시처리
 type Props = {
   isVisible: boolean;
   onClose: () => void;
@@ -130,42 +133,39 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               </S.ModalButton>
             )}
           </S.ModalImageWrapper>
-          <S.InputRow>
-            <S.InputLabel>메뉴이름</S.InputLabel>
-            <S.TextInputContainer
-              placeholder="메뉴 이름"
-              value={menuData.name}
-              onChangeText={text => handleInputChange('name', text)}
-            />
-          </S.InputRow>
+          <CustomLabel label={'메뉴 이름'} required />
+          <TextInput
+            value={menuData.name}
+            onChangeText={text => handleInputChange('name', text)}
+          />
           <S.InputRow>
             <S.InputLabel>...Tag....</S.InputLabel>
           </S.InputRow>
           <S.InputRow>
-            <S.InputLabel>원가</S.InputLabel>
-            <S.TextInputContainer
-              placeholder="원가"
+            <CustomLabel label={'원가'} required />
+            <CustomTextInput
               value={menuData.originalPrice.toString()}
               onChangeText={text => handleInputChange('originalPrice', text)}
             />
           </S.InputRow>
           <S.InputRow>
-            <S.InputLabel>할인가</S.InputLabel>
-            <S.TextInputContainer
-              placeholder="할인 가격"
+            <CustomLabel label={'할인가'} required />
+            <CustomTextInput
               value={menuData.discountPrice.toString()}
               onChangeText={text => handleInputChange('discountPrice', text)}
             />
           </S.InputRow>
-          <S.InputRow>
-            <S.InputLabel>적용 할인율</S.InputLabel>
-            <S.DiscountRateLabel>{menuData.discountRate}%</S.DiscountRateLabel>
-          </S.InputRow>
 
           <S.InputRow>
-            <S.InputLabel>재고</S.InputLabel>
-            <S.TextInputContainer
-              placeholder="재고"
+            <S.InputLabel>적용 할인율</S.InputLabel>
+            <CustomTextInput
+              value={menuData.discountRate.toString() + '%'}
+              disabled
+            />
+          </S.InputRow>
+          <S.InputRow>
+            <CustomLabel label={'재고'} required />
+            <CustomTextInput
               value={menuData.stock.toString()}
               onChangeText={text => handleInputChange('stock', text)}
             />

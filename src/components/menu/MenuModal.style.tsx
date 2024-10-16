@@ -7,8 +7,8 @@ const ModalOverlay = styled.View`
 `;
 
 const ModalView = styled.View`
-  width: 95%;
-  height: 85%;
+  width: 88%;
+  height: 92%;
   padding: 20px;
   background-color: lightgray;
   border-radius: 10px;
@@ -21,7 +21,7 @@ const ModalImageWrapper = styled.TouchableOpacity``;
 const ModalImage = styled.Image`
   width: 80px;
   height: 80px;
-  margin: 20px;
+  margin: 8px;
 `;
 const InputRow = styled.View`
   width: 100%;
@@ -29,13 +29,17 @@ const InputRow = styled.View`
   align-items: center;
   margin-bottom: 8px;
   gap: 16px;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 const InputLabel = styled.Text`
-  width: 80px;
-  height: 32px;
-  text-align: right;
-  font-weight: bold;
+  color: #222222;
+
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  width: 88px;
 `;
 const DiscountRateLabel = styled.Text`
   color: red;

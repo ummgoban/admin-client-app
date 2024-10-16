@@ -1,4 +1,4 @@
-import DropDownSelectorComponent from '@/components/common/DropDown';
+import DropDownSelectorComponent from '@/components/DropDown';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';

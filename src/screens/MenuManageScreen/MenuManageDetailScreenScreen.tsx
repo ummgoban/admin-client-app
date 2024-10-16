@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
 import S from './MenuManageDetailScreen.style';
 import Menu from '@/components/menu/Menu';
 import {MenuType} from '@/types/MenuType';
@@ -23,26 +22,21 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     setCurrentMenu(menu);
     setModalVisible(true);
   };
-
   const handleSaveMenu = (menuData: MenuType) => {
-    const updatedMenus = (prevMenus: MenuType[]) => {
-      const existingMenuIndex = prevMenus.findIndex(
-        (menu: MenuType) => menu.id === menuData.id,
-      );
-      if (existingMenuIndex !== -1) {
-        const newMenus = [...prevMenus];
-        newMenus[existingMenuIndex] = menuData;
-        return newMenus;
-      } else {
-        return [...prevMenus, menuData];
+    const updatedMenus = menus.map(menu => {
+      if (menu.id === menuData.id) {
+        return menuData;
       }
-    };
-    updateMenus(updatedMenus(menus));
+      return menu;
+    });
 
+    if (!menus.find(menu => menu.id === menuData.id)) {
+      updatedMenus.push(menuData);
+    }
+    updateMenus(updatedMenus);
     setCurrentMenu(null);
     setModalVisible(false);
   };
-
   const handleModalClose = () => {
     setCurrentMenu(null);
     setModalVisible(false);
@@ -69,7 +63,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   };
 
   return (
-    <View>
+    <ScrollView>
       <S.MainText>개별상품</S.MainText>
       <S.AddProductView>
         <S.AddProductWrapper onPress={handleAddProduct}>
@@ -77,24 +71,23 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
         </S.AddProductWrapper>
       </S.AddProductView>
 
-      <ScrollView>
-        {menus.map(menu => (
-          <Menu
-            key={menu.id}
-            menu={menu}
-            onEdit={() => handleEditProduct(menu)}
-            onIncreaseStock={() => handleIncreaseStock(menu.id)}
-            onDecreaseStock={() => handleDecreaseStock(menu.id)}
-          />
-        ))}
-      </ScrollView>
+      {menus.map(menu => (
+        <Menu
+          key={menu.id}
+          menu={menu}
+          onEdit={() => handleEditProduct(menu)}
+          onIncreaseStock={() => handleIncreaseStock(menu.id)}
+          onDecreaseStock={() => handleDecreaseStock(menu.id)}
+        />
+      ))}
+
       <MenuModal
         isVisible={modalVisible}
         onClose={handleModalClose}
         onSave={handleSaveMenu}
         initialData={currentMenu}
       />
-    </View>
+    </ScrollView>
   );
 };
 

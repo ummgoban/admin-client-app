@@ -7,7 +7,7 @@ import {
   OrderDetailInfoType,
 } from '@/types/OrderDetailType';
 import {Text} from 'react-native';
-import OrderProductsInfo from '@/components/orderDetail/OrderProductsInfo';
+import OrderProductsInfo from '@/components/orderDetail/orderProductsInfo';
 
 const OrderDetailScreen = () => {
   const [orderData, setOrderData] = useState<OrderDetailInfoType | null>();

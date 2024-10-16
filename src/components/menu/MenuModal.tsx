@@ -38,7 +38,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       setMenuData(initialData);
     } else {
       setMenuData({
-        id: -1,
+        id: Date.now(),
         name: '',
         image: '',
         discountRate: 0,
@@ -48,7 +48,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
         status: '숨김',
       });
     }
-  }, [initialData]);
+  }, [initialData, isVisible]);
 
   const handleInputChange = (field: keyof MenuType, value: string | number) => {
     let formattedValue = value;
@@ -89,11 +89,9 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     }));
   };
   const handleSave = () => {
-    const menuWithId = {
-      ...menuData,
-      id: menuData.id === -1 ? Date.now() : menuData.id,
-    };
-    onSave(menuWithId);
+    if (menuData) {
+      onSave(menuData);
+    }
   };
   const calculateDiscountRate = (
     originalPrice: number,

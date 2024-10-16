@@ -2,11 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Modal} from 'react-native';
 import {MenuType} from '@/types/MenuType';
 import S from './MenuModal.style';
-import {
-  launchImageLibrary,
-  ImagePickerResponse,
-} from 'react-native-image-picker';
-import DropDownSelectorComponent from '../common/DropDown';
+import {pickImage} from '@/utils/image-picker';
 
 // TODO : 태그 컴포넌트 넣기
 // TODO : onSave시 post data
@@ -56,7 +52,9 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
 
     if (
       typeof value === 'string' &&
-      (field === 'originalPrice' || field === 'discountPrice')
+      (field === 'originalPrice' ||
+        field === 'discountPrice' ||
+        field === 'stock')
     ) {
       const numberValue = Number(value.replace(/[^0-9]/g, ''));
       formattedValue = numberValue.toLocaleString();
@@ -65,7 +63,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     setMenuData(prev => {
       const updatedData = {
         ...prev,
-        [field]: formattedValue,
+        [field]: field === 'stock' ? Number(value) : formattedValue,
       };
       if (field === 'originalPrice' || field === 'discountPrice') {
         const newDiscountRate = calculateDiscountRate(
@@ -87,24 +85,12 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       status,
     }));
   };
-  const handleImagePicker = () => {
-    launchImageLibrary(
-      {mediaType: 'photo'},
-      (response: ImagePickerResponse) => {
-        console.log('response:', response);
-        if (response.didCancel) {
-          console.log('User cancelled');
-        } else if (response.assets) {
-          const imageUri = response.assets[0].uri;
-          setMenuData(prev => ({
-            ...prev,
-            image: imageUri || '',
-          }));
-        } else {
-          console.log('No assets');
-        }
-      },
-    );
+  const handleSave = () => {
+    const menuWithId = {
+      ...menuData,
+      id: menuData.id === -1 ? Date.now() : menuData.id,
+    };
+    onSave(menuWithId);
   };
   const calculateDiscountRate = (
     originalPrice: number,
@@ -121,11 +107,25 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     <Modal visible={isVisible} transparent={true} animationType="slide">
       <S.ModalOverlay>
         <S.ModalView>
-          <S.ModalImageWrapper onPress={handleImagePicker}>
+          <S.ModalImageWrapper
+            onPress={async () => {
+              const res = await pickImage();
+              setMenuData(prev => ({
+                ...prev,
+                image: res || '',
+              }));
+            }}>
             {menuData.image ? (
               <S.ModalImage source={{uri: menuData.image}} />
             ) : (
-              <S.ModalButton onPress={handleImagePicker}>
+              <S.ModalButton
+                onPress={async () => {
+                  const res = await pickImage();
+                  setMenuData(prev => ({
+                    ...prev,
+                    image: res || '',
+                  }));
+                }}>
                 <S.ModalButtonText>이미지 선택하기</S.ModalButtonText>
               </S.ModalButton>
             )}
@@ -139,8 +139,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
             />
           </S.InputRow>
           <S.InputRow>
-            <S.InputLabel>반찬 태그</S.InputLabel>
-            <DropDownSelectorComponent />
+            <S.InputLabel>...Tag....</S.InputLabel>
           </S.InputRow>
           <S.InputRow>
             <S.InputLabel>원가</S.InputLabel>
@@ -186,7 +185,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
           </S.InputRow>
 
           <S.ButtonContainer>
-            <S.ModalButton onPress={() => onSave(menuData)}>
+            <S.ModalButton onPress={handleSave}>
               <S.ModalButtonText>저장</S.ModalButtonText>
             </S.ModalButton>
             <S.ModalButton onPress={onClose}>

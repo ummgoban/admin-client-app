@@ -3356,6 +3356,7 @@ __metadata:
     react-native: 0.75.2
     react-native-config: ^1.5.3
     react-native-date-picker: ^5.0.7
+    react-native-encrypted-storage: ^4.0.3
     react-native-gesture-handler: ^2.18.1
     react-native-image-picker: ^7.1.2
     react-native-paper: ^5.12.5
@@ -8699,6 +8700,16 @@ __metadata:
     react: ">= 17.0.1"
     react-native: ">= 0.64.3"
   checksum: 94191bf3ce6e88a3acc4ca5e5514eaa6fc15c61666393d85ca258dba3a3efd9145c8fd31ed0f18676d7f083e17f08c760de8193ad24367a65761330084bcdc6b
+  languageName: node
+  linkType: hard
+
+"react-native-encrypted-storage@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "react-native-encrypted-storage@npm:4.0.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 9d2999c58559f1e4f66d1baf2c3edeff96cf42027900850d94c6bbea24ac9715047ce69bf6e8a73b68aff4508cf35dd88ac494ad5905933286ef3b75cd123e30
   languageName: node
   linkType: hard
 

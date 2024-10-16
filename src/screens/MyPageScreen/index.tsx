@@ -1,10 +1,11 @@
-import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
+
+import {RootStackParamList} from '@/types/StackNavigationType';
 
 import S from './MyPageScreen.style';
 

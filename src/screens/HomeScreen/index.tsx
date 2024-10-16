@@ -1,20 +1,18 @@
-// import {RootStackParamList} from '@/types/StackNavigationType';
-// import {useNavigation} from '@react-navigation/native';
-// import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '@/types/StackNavigationType';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {Button} from 'react-native-paper';
 import React from 'react';
-// import {Button} from 'react-native-paper';
-import MenuManageScreen from '../MenuManageScreen';
 import {View} from 'react-native';
 
 const HomeScreen = () => {
-  // const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return (
     <View>
-      <MenuManageScreen />
-      {/* <Button
+      <Button
         onPress={() => navigation.navigate('Home', {screen: 'MarketInfo'})}>
         가게 관리
-      </Button> */}
+      </Button>
     </View>
   );
 };

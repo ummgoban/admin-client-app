@@ -1,22 +1,10 @@
 import React from 'react';
+
+import {login} from '@/apis/Login';
+
 import S from './LoginScreen.style';
-import {signInWithKakao, signInWithNaver} from '@/apis/Login';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '@/types/StackNavigationType';
 
 const LoginScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
-  // TODO: 로그인 에러 핸들링 추가
-  const handleKakaoLogin = async () => {
-    await signInWithKakao(navigation);
-  };
-
-  const handleNaverLogin = async () => {
-    await signInWithNaver(navigation);
-  };
-
   return (
     <S.LoginPageContainer>
       <S.LoginButtonContainer>
@@ -27,12 +15,13 @@ const LoginScreen = () => {
         </S.Description>
         <S.LoginButtonContainer>
           <S.LoginButtonWrapper>
-            <S.KakaoButton onPress={handleKakaoLogin}>
+            {/* TODO: 애플 로그인 적용 시 props로 분기 필요 */}
+            <S.KakaoButton onPress={() => login('KAKAO')}>
               <S.KakaoButtonText>카카오 로그인 시작하기</S.KakaoButtonText>
             </S.KakaoButton>
           </S.LoginButtonWrapper>
           <S.LoginButtonWrapper>
-            <S.NaverButton onPress={handleNaverLogin}>
+            <S.NaverButton onPress={() => login('NAVER')}>
               <S.NaverButtonText>네이버 로그인 시작하기</S.NaverButtonText>
             </S.NaverButton>
           </S.LoginButtonWrapper>

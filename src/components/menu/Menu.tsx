@@ -8,6 +8,11 @@ type Props = {
   onIncreaseStock: () => void;
   onDecreaseStock: () => void;
 };
+const statusMap: Record<MenuType['status'], string> = {
+  IN_STOCK: '판매중',
+  OUT_OF_STOCK: '품절',
+  HIDDEN: '숨김',
+};
 const Menu = ({menu, onEdit, onIncreaseStock, onDecreaseStock}: Props) => {
   return (
     <S.MenuWrapper>
@@ -22,7 +27,7 @@ const Menu = ({menu, onEdit, onIncreaseStock, onDecreaseStock}: Props) => {
         </S.DicountInfoWrapper>
         <S.CurrentInfoWrapper>
           <Text>{menu.discountPrice.toLocaleString()}원</Text>
-          <S.CurrentStatusText>{menu.status}</S.CurrentStatusText>
+          <S.CurrentStatusText>{statusMap[menu.status]}</S.CurrentStatusText>
         </S.CurrentInfoWrapper>
         <S.CurrentInfoWrapper>
           <S.MenuCounter>

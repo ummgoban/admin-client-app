@@ -9,7 +9,7 @@ const dummyMenuData: MenuType[] = [
     originalPrice: 14900,
     discountPrice: 5900,
     stock: 3,
-    status: '판매중',
+    status: 'IN_STOCK',
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ const dummyMenuData: MenuType[] = [
     discountRate: 61,
     originalPrice: 14900,
     discountPrice: 5900,
-    status: '숨김',
+    status: 'HIDDEN',
     stock: 3,
   },
   {
@@ -28,7 +28,7 @@ const dummyMenuData: MenuType[] = [
     discountRate: 61,
     originalPrice: 14900,
     discountPrice: 5900,
-    status: '품절',
+    status: 'OUT_OF_STOCK',
     stock: 3,
   },
 ];

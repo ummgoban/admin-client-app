@@ -15,11 +15,21 @@ type Props = {
   onSave: (data: MenuType) => void;
   initialData: MenuType | null;
 };
-const STATUS_OPTIONS: {value: '판매중' | '품절' | '숨김'}[] = [
-  {value: '판매중'},
-  {value: '숨김'},
-  {value: '품절'},
-];
+const STATUS_OPTIONS: Record<MenuType['status'], string> = {
+  IN_STOCK: '판매중',
+  OUT_OF_STOCK: '품절',
+  HIDDEN: '숨김',
+};
+
+const calculateDiscountRate = (
+  originalPrice: number,
+  discountPrice: number,
+) => {
+  if (originalPrice > 0 && discountPrice >= 0) {
+    return Math.round(((originalPrice - discountPrice) * 100) / originalPrice);
+  }
+  return 0;
+};
 
 const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
   const [menuData, setMenuData] = useState<MenuType>({
@@ -30,7 +40,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     originalPrice: 0,
     discountPrice: 0,
     stock: 0,
-    status: '숨김',
+    status: 'HIDDEN',
   });
 
   useEffect(() => {
@@ -45,7 +55,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
         originalPrice: 0,
         discountPrice: 0,
         stock: 0,
-        status: '숨김',
+        status: 'HIDDEN',
       });
     }
   }, [initialData, isVisible]);
@@ -82,7 +92,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       return updatedData;
     });
   };
-  const handleStatusChange = (status: '판매중' | '품절' | '숨김') => {
+  const handleStatusChange = (status: MenuType['status']) => {
     setMenuData(prev => ({
       ...prev,
       status,
@@ -93,17 +103,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       onSave(menuData);
     }
   };
-  const calculateDiscountRate = (
-    originalPrice: number,
-    discountPrice: number,
-  ) => {
-    if (originalPrice > 0 && discountPrice >= 0) {
-      return Math.round(
-        ((originalPrice - discountPrice) * 100) / originalPrice,
-      );
-    }
-    return 0;
-  };
+
   return (
     <Modal visible={isVisible} transparent={true} animationType="slide">
       <S.ModalOverlay>
@@ -131,7 +131,6 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               </S.ModalButton>
             )}
           </S.ModalImageWrapper>
-          <CustomLabel label={'메뉴 이름'} required />
           <TextInput
             value={menuData.name}
             onChangeText={text => handleInputChange('name', text)}
@@ -171,12 +170,14 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
           <S.InputRow>
             <S.InputLabel>판매 상태</S.InputLabel>
             <S.StatusButtonContainer>
-              {STATUS_OPTIONS.map(option => (
+              {Object.entries(STATUS_OPTIONS).map(([status, label]) => (
                 <S.StatusButton
-                  key={option.value}
-                  onPress={() => handleStatusChange(option.value)}
-                  isActive={menuData.status === option.value}>
-                  <S.StatusButtonText>{option.value}</S.StatusButtonText>
+                  key={status}
+                  onPress={() =>
+                    handleStatusChange(status as MenuType['status'])
+                  }
+                  isActive={menuData.status === status}>
+                  <S.StatusButtonText>{label}</S.StatusButtonText>
                 </S.StatusButton>
               ))}
             </S.StatusButtonContainer>

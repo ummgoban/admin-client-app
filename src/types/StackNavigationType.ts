@@ -6,10 +6,10 @@ type StackParamType<T> = {
 };
 
 export interface HomeStackParamList extends ParamListBase {
-  Feed: undefined;
   MarketInfo: undefined;
   MyPage: undefined;
   OrderHistory: undefined;
+  MenuManage: undefined;
   OrderDetail: undefined;
 }
 

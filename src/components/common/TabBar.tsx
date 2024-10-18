@@ -11,8 +11,8 @@ type TabBarComponentType = {
 };
 
 const tabBarData: TabBarComponentType = {
-  Feed: {
-    label: '홈',
+  MenuManage: {
+    label: '메뉴 관리',
     icon: 'https://legacy.reactjs.org/logo-og.png',
   },
   MyPage: {

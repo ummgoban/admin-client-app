@@ -24,3 +24,9 @@ export type OrderDetailResponseType = {
   message: string;
   data: OrderDetailInfoType;
 };
+
+export type PendingOrdersType = {
+  code: number;
+  message: string;
+  data: OrderDetailInfoType[];
+};

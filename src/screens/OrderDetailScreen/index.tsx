@@ -17,6 +17,7 @@ const OrderDetailScreen = () => {
       const data: OrderDetailResponseType | null = await getOrderHistory();
       // TODO: suspense 로직
       setOrderData(data?.data);
+      console.log(data);
     };
 
     fetchData();

@@ -6,7 +6,7 @@ const PendingMenuContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: stretch;
   margin: 12px 4px;
-  height: 180px;
+  height: 240px;
 `;
 const TimeInfoContainer = styled.View`
   display: flex;
@@ -55,6 +55,12 @@ const PriceText = styled.Text`
   font-weight: bold;
 `;
 
+const ButtonContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 const S = {
   PendingMenuContainer,
   TimeInfoContainer,
@@ -64,5 +70,6 @@ const S = {
   TextStyled,
   RequestText,
   PriceText,
+  ButtonContainer,
 };
 export default S;

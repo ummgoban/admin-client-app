@@ -2,8 +2,10 @@ import {OrderDetailInfoType} from '@/types/OrderDetailType';
 import S from './PendingOrder.style';
 import {Text} from 'react-native';
 import React from 'react';
+import {Button} from 'react-native';
 type Props = {
   order: OrderDetailInfoType;
+  onStatusChange: (orderId: string, newStatus: string) => void;
 };
 
 const formatDate = (dateString: string) => {
@@ -16,8 +18,41 @@ const formatDate = (dateString: string) => {
   return `${period} ${formattedHours}시 ${minutes}분`;
 };
 
-const PendingOrder = ({order}: Props) => {
-  console.log('현재주문:', order);
+const PendingOrder = ({order, onStatusChange}: Props) => {
+  const handleAccept = () => {
+    onStatusChange(order.id, 'ACCEPTED');
+  };
+
+  const handleReject = () => {
+    onStatusChange(order.id, 'CANCELED');
+  };
+
+  const handlePickup = () => {
+    onStatusChange(order.id, 'DONE');
+  };
+  const handleNoShow = () => {
+    onStatusChange(order.id, 'NO_SHOW');
+  };
+  const renderButtons = () => {
+    switch (order.orderStatus) {
+      case 'ORDERED':
+        return (
+          <S.ButtonContainer>
+            <Button title="수락" onPress={handleAccept} />
+            <Button title="거절" onPress={handleReject} />
+          </S.ButtonContainer>
+        );
+      case 'ACCEPTED':
+        return (
+          <S.ButtonContainer>
+            <Button title="픽업" onPress={handlePickup} />
+            <Button title="노쇼" onPress={handleNoShow} />
+          </S.ButtonContainer>
+        );
+      default:
+        return <Text>{order.orderStatus}</Text>;
+    }
+  };
   return (
     <S.PendingMenuContainer>
       <S.TimeInfoContainer>
@@ -43,6 +78,7 @@ const PendingOrder = ({order}: Props) => {
             .join(', ')}{' '}
         </S.TextStyled>
         <S.PriceText>{order.ordersPrice}원</S.PriceText>
+        {renderButtons()}
       </S.DetailContainer>
     </S.PendingMenuContainer>
   );

@@ -8,8 +8,8 @@ import {PendingOrdersType, OrderDetailInfoType} from '@/types/OrderDetailType';
 import {getPendingOrderLists} from '@/apis/PendingOrderInfo';
 
 const OrderHistoryScreen = () => {
-  const [selected, setSelected] = useState<'ordered' | 'accepted' | 'done'>(
-    'ordered',
+  const [selected, setSelected] = useState<'ORDERED' | 'ACCEPTED' | 'DONE'>(
+    'ORDERED',
   );
   const [orderedOrders, setOrderedOrders] = useState<OrderDetailInfoType[]>([]);
   const [acceptedOrders, setAcceptedOrders] = useState<OrderDetailInfoType[]>(
@@ -41,6 +41,7 @@ const OrderHistoryScreen = () => {
 
     fetchData();
   }, []);
+
   const handleStatusChange = (orderId: string, newStatus: string) => {
     const allOrders = [...orderedOrders, ...acceptedOrders];
     const updatedOrder = allOrders.find(order => order.id === orderId);
@@ -65,22 +66,23 @@ const OrderHistoryScreen = () => {
       }
     }
   };
+
   return (
     <View>
       <S.NavbarGroup selected={selected}>
-        <ToggleButton value={'ordered'} onPress={() => setSelected('ordered')}>
+        <ToggleButton value={'ORDERED'} onPress={() => setSelected('ORDERED')}>
           <Text>{`예약접수(${orderedOrders.length})`}</Text>
         </ToggleButton>
         <ToggleButton
-          value={'accepted'}
-          onPress={() => setSelected('accepted')}>
+          value={'ACCEPTED'}
+          onPress={() => setSelected('ACCEPTED')}>
           <Text>{`픽업대기(${acceptedOrders.length})`}</Text>
         </ToggleButton>
-        <ToggleButton value="done" onPress={() => setSelected('done')} last>
+        <ToggleButton value="done" onPress={() => setSelected('DONE')} last>
           <Text>{`완료/취소(${completedOrders.length})`}</Text>
         </ToggleButton>
       </S.NavbarGroup>
-      {selected === 'ordered' && (
+      {selected === 'ORDERED' && (
         <ScrollView>
           {orderedOrders.map(order => (
             <PendingOrder
@@ -91,7 +93,7 @@ const OrderHistoryScreen = () => {
           ))}
         </ScrollView>
       )}
-      {selected === 'accepted' && (
+      {selected === 'ACCEPTED' && (
         <ScrollView>
           {acceptedOrders.map(order => (
             <PendingOrder
@@ -102,7 +104,7 @@ const OrderHistoryScreen = () => {
           ))}
         </ScrollView>
       )}
-      {selected === 'done' && (
+      {selected === 'DONE' && (
         <ScrollView>
           {completedOrders.map(order => (
             <PendingOrder

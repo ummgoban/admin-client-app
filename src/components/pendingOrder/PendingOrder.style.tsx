@@ -31,6 +31,8 @@ const TimeInfo = styled.View`
 `;
 const DetailContainer = styled.View`
   flex: 1;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   padding: 8px;
 `;

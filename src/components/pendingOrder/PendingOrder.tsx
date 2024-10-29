@@ -3,6 +3,10 @@ import S from './PendingOrder.style';
 import {Text} from 'react-native';
 import React from 'react';
 import {Button} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '@/types/StackNavigationType';
+
 type Props = {
   order: OrderDetailInfoType;
   onStatusChange: (orderId: string, newStatus: string) => void;
@@ -53,8 +57,17 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
         return <Text>{order.orderStatus}</Text>;
     }
   };
+
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigatePage = () => {
+    navigation.navigate('Home', {
+      screen: 'OrderDetail',
+      params: {order},
+    });
+  };
+
   return (
-    <S.PendingMenuContainer>
+    <S.PendingMenuContainer onPress={navigatePage}>
       <S.TimeInfoContainer>
         <S.TimeInfo>
           <Text>주문시간</Text>

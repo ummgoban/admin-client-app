@@ -32,11 +32,9 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
   };
 
   const handlePickup = () => {
-    onStatusChange(order.id, 'DONE');
+    onStatusChange(order.id, 'PICKED_UP');
   };
-  const handleNoShow = () => {
-    onStatusChange(order.id, 'NO_SHOW');
-  };
+
   const renderButtons = () => {
     switch (order.orderStatus) {
       case 'ORDERED':
@@ -50,7 +48,6 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
         return (
           <S.ButtonContainer>
             <Button title="픽업" onPress={handlePickup} />
-            <Button title="노쇼" onPress={handleNoShow} />
           </S.ButtonContainer>
         );
       default:

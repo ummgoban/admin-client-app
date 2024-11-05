@@ -1,4 +1,4 @@
-export type Product = {
+export type ProductType = {
   id: number;
   image: string;
   name: string;
@@ -16,7 +16,7 @@ export type OrderDetailInfoType = {
   ordersPrice: number;
   orderMemberName: string;
   orderStatus: string;
-  products: Product[];
+  products: ProductType[];
 };
 
 export type OrderDetailResponseType = {

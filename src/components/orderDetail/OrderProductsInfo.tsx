@@ -1,9 +1,9 @@
 import React from 'react';
-import {Product} from '../../types/OrderDetailType';
+import {ProductType} from '../../types/OrderDetailType';
 import S from './OrderProductsInfo.style';
 
 type Props = {
-  products: Product[];
+  products: ProductType[];
   totalPrice: number;
 };
 

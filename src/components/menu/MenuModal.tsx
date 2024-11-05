@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Modal} from 'react-native';
+import {Alert, Modal} from 'react-native';
 import {MenuType} from '@/types/MenuType';
 import S from './MenuModal.style';
 import {pickImage} from '@/utils/image-picker';
 import CustomLabel from '../common/CustomLabel';
 import CustomTextInput from '@/components/common/CustomTextInput';
 import {TextInput} from '../common';
+import {uploadProductImage} from '@/apis/Product';
 // TODO : 태그 컴포넌트 넣기
 // TODO : onSave시 post data
 // TODO : 메뉴 추가시 id 처리(백엔드) -> 현재 Date.now()로 임시처리
@@ -111,9 +112,27 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
           <S.ModalImageWrapper
             onPress={async () => {
               const res = await pickImage();
+
+              if (!res) {
+                console.error('pickImage Error: no image');
+                Alert.alert('이미지를 불러오지 못했습니다.');
+                return;
+              }
+
+              const s3Url = await uploadProductImage({
+                uri: res,
+                name: 'menu',
+              });
+
+              if (!s3Url) {
+                console.error('uploadProductImage Error: no s3Url');
+                Alert.alert('이미지를 업로드하지 못했습니다.');
+                return;
+              }
+
               setMenuData(prev => ({
                 ...prev,
-                image: res || '',
+                image: s3Url,
               }));
             }}>
             {menuData.image ? (
@@ -121,6 +140,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
             ) : (
               <S.ModalButton
                 onPress={async () => {
+                  // TODO: 이미지 선택 로직
                   const res = await pickImage();
                   setMenuData(prev => ({
                     ...prev,

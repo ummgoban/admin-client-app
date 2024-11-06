@@ -1,12 +1,14 @@
-import {createProduct} from '@/apis/Product';
-import Menu from '@/components/menu/Menu';
-import MenuModal from '@/components/menu/MenuModal';
-import {MenuType} from '@/types/MenuType';
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+
+import {createProduct} from '@/apis/Product';
+import Menu from '@/components/menu/Menu';
+import MenuModal from '@/components/menu/MenuModal';
+import useMarket from '@/hooks/useMarket';
+import {MenuType} from '@/types/MenuType';
+
 import S from './MenuManageDetailScreen.style';
-import {getMarket} from '@/apis/Marekt';
 
 type Props = {
   menus: MenuType[];
@@ -15,6 +17,8 @@ type Props = {
 const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<MenuType | null>(null);
+
+  const marketList = useMarket();
 
   const handleAddProduct = () => {
     setCurrentMenu(null);
@@ -37,17 +41,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
       updatedMenus.push(menuData);
     }
 
-    // TODO: 마켓 아이디 정보 저장 로직 옮기기
-    const marketRes = await getMarket();
-
-    if (!marketRes) {
-      console.error('마켓 정보를 불러오는데 실패했습니다.');
-      Alert.alert('마켓 정보를 불러오는데 실패했습니다.');
-      return;
-    }
-    // TODO: 마켓 아이디 정보 저장 로직 옮기기
-
-    const res = await createProduct(marketRes[0].marketId, {
+    const res = await createProduct(marketList[0].id, {
       image: menuData.image,
       name: menuData.name,
       // TODO: 타입 일치시키기

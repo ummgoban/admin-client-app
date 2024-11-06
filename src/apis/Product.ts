@@ -27,7 +27,7 @@ import apiClient from './ApiClient';
  */
 export const createProduct = async (
   marketId: number,
-  product: Omit<ProductType, 'id'>,
+  product: Omit<ProductType, 'id' | 'tags'>,
 ): Promise<Boolean> => {
   try {
     const body = {

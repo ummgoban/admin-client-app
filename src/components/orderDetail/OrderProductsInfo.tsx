@@ -1,5 +1,5 @@
 import React from 'react';
-import {ProductType} from '../../types/OrderDetailType';
+import {ProductType} from '@/types/ProductType';
 import S from './OrderProductsInfo.style';
 
 type Props = {

@@ -10,11 +10,13 @@ import useProfile from '@/hooks/useProfile';
 import {logout} from '@/apis/Login';
 
 import S from './MyPageScreen.style';
+import useMarket from '@/hooks/useMarket';
 
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const profile = useProfile();
+  const marketList = useMarket();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -67,18 +69,14 @@ const MyPageScreen = () => {
               </S.ModalHeader>
               <S.ModalContent>
                 {/* TODO: render market list */}
-                <S.ModalContentItem selected>
-                  <S.ModalContentItemIcon
-                    source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
-                  />
-                  <S.ModalContentItemText>매장 이름 1</S.ModalContentItemText>
-                </S.ModalContentItem>
-                <S.ModalContentItem>
-                  <S.ModalContentItemIcon
-                    source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
-                  />
-                  <S.ModalContentItemText>매장 이름 2</S.ModalContentItemText>
-                </S.ModalContentItem>
+                {marketList.map(({id, name}) => (
+                  <S.ModalContentItem key={id} selected>
+                    <S.ModalContentItemIcon
+                      source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
+                    />
+                    <S.ModalContentItemText>{name}</S.ModalContentItemText>
+                  </S.ModalContentItem>
+                ))}
                 <S.ModalAddButton
                   onPress={() => {
                     navigation.navigate('RegisterMarketHome', {

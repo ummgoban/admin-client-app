@@ -1,4 +1,4 @@
-import {ProductType} from '@/types/OrderDetailType';
+import {ProductType} from '@/types/ProductType';
 import apiClient from './ApiClient';
 
 // TODO: 타입 일치시키기

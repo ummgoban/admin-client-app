@@ -1,12 +1,4 @@
-export type ProductType = {
-  id: number;
-  image: string;
-  name: string;
-  originPrice: number;
-  discountPrice: number;
-  discountRate: number;
-  count: number;
-};
+import {ProductType} from './ProductType';
 
 export type OrderDetailInfoType = {
   id: string;

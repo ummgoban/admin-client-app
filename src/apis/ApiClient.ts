@@ -32,7 +32,7 @@ class ApiClient {
         if (this._JWTToken) {
           config.headers.Authorization = `Bearer ${this._JWTToken}`;
         }
-
+        console.debug('Request:', config);
         return config;
       },
       error => Promise.reject(error),

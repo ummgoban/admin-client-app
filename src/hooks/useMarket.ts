@@ -1,4 +1,4 @@
-import {getMarket} from '@/apis/Marekt';
+import {getMemberMarket} from '@/apis/Member';
 import {MarketType} from '@/types/Market';
 import {useEffect, useState} from 'react';
 
@@ -9,7 +9,7 @@ const useMarket = () => {
 
   useEffect(() => {
     const fetchMarket = async () => {
-      const marketRes = await getMarket();
+      const marketRes = await getMemberMarket();
 
       console.log(marketRes);
       if (!marketRes) {

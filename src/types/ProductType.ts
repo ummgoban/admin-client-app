@@ -6,5 +6,10 @@ export type ProductType = {
   discountPrice: number;
   discountRate: number;
   count: number;
-  tags: string[];
+  tags: TagType[];
+};
+
+export type TagType = {
+  id: number;
+  tagName: string;
 };

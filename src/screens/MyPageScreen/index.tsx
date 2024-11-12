@@ -31,7 +31,7 @@ const MyPageScreen = () => {
               height={100}
             />
             <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
-              <S.ProfileName>{`userId: ${profile.id}`}</S.ProfileName>
+              <S.ProfileName>{`${profile.name} 님의 ${marketList[0].name}`}</S.ProfileName>
               <Icon name="down" size={20} color="#000000" />
             </S.ProfileNameContainer>
           </S.ProfileContainer>
@@ -68,9 +68,11 @@ const MyPageScreen = () => {
                 </S.ModalCloseButton>
               </S.ModalHeader>
               <S.ModalContent>
-                {/* TODO: render market list */}
                 {marketList.map(({id, name}) => (
-                  <S.ModalContentItem key={id} selected>
+                  <S.ModalContentItem
+                    key={id}
+                    selected={marketList[0].id === id}
+                    disabled={marketList[0].id === id}>
                     <S.ModalContentItemIcon
                       source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
                     />

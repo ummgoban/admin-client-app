@@ -20,6 +20,12 @@ const dummyOrderInfo: OrderDetailResponseType = {
         discountPrice: 35000,
         discountRate: 12,
         count: 1,
+        tags: [
+          {
+            id: 1,
+            tagName: '추천메뉴',
+          },
+        ],
       },
       {
         id: 102,
@@ -29,6 +35,12 @@ const dummyOrderInfo: OrderDetailResponseType = {
         discountPrice: 4500,
         discountRate: 10,
         count: 2,
+        tags: [
+          {
+            id: 1,
+            tagName: '추천메뉴',
+          },
+        ],
       },
       {
         id: 105,
@@ -38,6 +50,12 @@ const dummyOrderInfo: OrderDetailResponseType = {
         discountPrice: 4500,
         discountRate: 10,
         count: 2,
+        tags: [
+          {
+            id: 1,
+            tagName: '추천메뉴',
+          },
+        ],
       },
       {
         id: 103,
@@ -47,6 +65,12 @@ const dummyOrderInfo: OrderDetailResponseType = {
         discountPrice: 4500,
         discountRate: 10,
         count: 2,
+        tags: [
+          {
+            id: 1,
+            tagName: '추천메뉴',
+          },
+        ],
       },
       {
         id: 104,
@@ -56,6 +80,12 @@ const dummyOrderInfo: OrderDetailResponseType = {
         discountPrice: 4500,
         discountRate: 10,
         count: 2,
+        tags: [
+          {
+            id: 1,
+            tagName: '추천메뉴',
+          },
+        ],
       },
     ],
   },

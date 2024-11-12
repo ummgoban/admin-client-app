@@ -58,24 +58,24 @@ export const createProduct = async (
  * @param updateImage - 업데이트할 이미지 정보
  * @returns
  */
-export const uploadProductImage = async (updateImage: {
-  uri: string;
-  name: string;
-}): Promise<string | null> => {
+export const uploadProductImage = async (
+  updateImage: FormData,
+): Promise<string | null> => {
   try {
-    const res = await apiClient.post<string>(
-      '/product/images',
+    const res = await apiClient.post<{imageUrl: string}>(
+      '/products/images',
+      updateImage,
       {
-        updateImage: {
-          uri: updateImage.uri,
-          name: updateImage.name,
-          type: 'multipart/form-data',
+        headers: {
+          'Content-Type': 'multipart/form-data; boundary="boundary"',
         },
+        transformRequest: data => data,
       },
-      {headers: {'Content-Type': 'multipart/form-data'}},
     );
 
-    return res;
+    console.debug(res);
+
+    return res?.imageUrl ?? null;
   } catch (error) {
     console.error(error);
     return null;

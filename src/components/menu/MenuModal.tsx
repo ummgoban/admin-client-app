@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {Alert, Modal} from 'react-native';
-import {MenuType} from '@/types/MenuType';
-import S from './MenuModal.style';
-import {pickImage} from '@/utils/image-picker';
-import CustomLabel from '../common/CustomLabel';
-import CustomTextInput from '@/components/common/CustomTextInput';
-import {TextInput} from '../common';
 import {uploadProductImage} from '@/apis/Product';
+import CustomTextInput from '@/components/common/CustomTextInput';
+import {MenuType} from '@/types/MenuType';
+import {pickImage} from '@/utils/image-picker';
+import React, {useEffect, useState} from 'react';
+import {Alert, Modal} from 'react-native';
+import {TextInput} from '../common';
+import CustomLabel from '../common/CustomLabel';
+import S from './MenuModal.style';
 // TODO : 태그 컴포넌트 넣기
 // TODO : onSave시 post data
 // TODO : 메뉴 추가시 id 처리(백엔드) -> 현재 Date.now()로 임시처리
@@ -93,60 +93,60 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       return updatedData;
     });
   };
+
   const handleStatusChange = (status: MenuType['status']) => {
     setMenuData(prev => ({
       ...prev,
       status,
     }));
   };
+
   const handleSave = () => {
     if (menuData) {
       onSave(menuData);
     }
   };
 
+  const handleImageUpload = async () => {
+    const res = await pickImage();
+
+    if (!res) {
+      console.error('pickImage Error: no image');
+      Alert.alert('이미지를 불러오지 못했습니다.');
+      return;
+    }
+
+    const formdata = new FormData();
+
+    formdata.append('updateImage', {
+      name: res.split('/').pop(),
+      type: `image/jpeg`,
+      uri: res,
+    });
+
+    const s3Url = await uploadProductImage(formdata);
+
+    if (!s3Url) {
+      console.error('uploadProductImage Error: no s3Url');
+      Alert.alert('이미지를 업로드하지 못했습니다.');
+      return;
+    }
+
+    setMenuData(prev => ({
+      ...prev,
+      image: s3Url,
+    }));
+  };
+
   return (
     <Modal visible={isVisible} transparent={true} animationType="slide">
       <S.ModalOverlay>
         <S.ModalView>
-          <S.ModalImageWrapper
-            onPress={async () => {
-              const res = await pickImage();
-
-              if (!res) {
-                console.error('pickImage Error: no image');
-                Alert.alert('이미지를 불러오지 못했습니다.');
-                return;
-              }
-
-              const s3Url = await uploadProductImage({
-                uri: res,
-                name: 'menu',
-              });
-
-              if (!s3Url) {
-                console.error('uploadProductImage Error: no s3Url');
-                Alert.alert('이미지를 업로드하지 못했습니다.');
-                return;
-              }
-
-              setMenuData(prev => ({
-                ...prev,
-                image: s3Url,
-              }));
-            }}>
+          <S.ModalImageWrapper onPress={handleImageUpload}>
             {menuData.image ? (
               <S.ModalImage source={{uri: menuData.image}} />
             ) : (
-              <S.ModalButton
-                onPress={async () => {
-                  // TODO: 이미지 선택 로직
-                  const res = await pickImage();
-                  setMenuData(prev => ({
-                    ...prev,
-                    image: res || '',
-                  }));
-                }}>
+              <S.ModalButton onPress={handleImageUpload}>
                 <S.ModalButtonText>이미지 선택하기</S.ModalButtonText>
               </S.ModalButton>
             )}

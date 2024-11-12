@@ -8,7 +8,6 @@ import Config from 'react-native-config';
 
 import {SessionType} from '@/types/Session';
 import {getStorage} from '@/utils/storage';
-import {DefaultResponseType} from '@/types/Api';
 
 class ApiClient {
   private static instance: ApiClient;
@@ -94,7 +93,7 @@ class ApiClient {
 
       console.debug('POST', url, res.data);
 
-      return res.data;
+      return res.data.data;
     } catch (error) {
       console.debug('POST', url, error);
       console.error(error);

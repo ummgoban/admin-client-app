@@ -3,7 +3,7 @@ import {
   launchImageLibrary,
 } from 'react-native-image-picker';
 
-async function pickImage(
+export async function pickImage(
   options: ImageLibraryOptions = {mediaType: 'photo'},
 ): Promise<string> {
   const imagePickerResUri = await launchImageLibrary(options, res => {
@@ -25,5 +25,3 @@ async function pickImage(
 
   return imagePickerResUri.assets[0].uri ?? '';
 }
-
-export {pickImage};

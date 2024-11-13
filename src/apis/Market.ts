@@ -5,7 +5,10 @@ export const createMarket = async (
   market: RegistMarketType,
 ): Promise<{marketId: number} | null> => {
   try {
-    const res = await apiClient.post<{marketId: number}>('/markets', market);
+    const res = await apiClient.post<{marketId: number}, RegistMarketType>(
+      '/markets',
+      market,
+    );
 
     return res;
   } catch (error) {

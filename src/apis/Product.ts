@@ -17,6 +17,7 @@ export const getProducts = async (
     return res;
   } catch (error) {
     console.error(error);
+
     return null;
   }
 };
@@ -55,6 +56,7 @@ export const createProduct = async (
     return !!res && res.code === 200;
   } catch (error) {
     console.error(error);
+
     return false;
   }
 };

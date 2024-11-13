@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import {Button, Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -15,10 +15,18 @@ import useMarket from '@/hooks/useMarket';
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
 
-  const {profile} = useProfile();
-  const {market} = useMarket();
+  const {profile, fetch: fetchProfile} = useProfile();
+  const {market, fetch: fetchMarket} = useMarket();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  useEffect(() => {
+    fetchMarket();
+  }, [fetchMarket]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
 
   return (
     <View>
@@ -31,7 +39,7 @@ const MyPageScreen = () => {
               height={100}
             />
             <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
-              <S.ProfileName>{`${profile.name} 님의 ${market[0].name}`}</S.ProfileName>
+              <S.ProfileName>{`${profile.name}님 ${market && market.length ? `의${market[0].name}` : ''}`}</S.ProfileName>
               <Icon name="down" size={20} color="#000000" />
             </S.ProfileNameContainer>
           </S.ProfileContainer>

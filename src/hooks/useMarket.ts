@@ -1,6 +1,6 @@
 import {getMemberMarket} from '@/apis/Member';
 import {MarketType} from '@/types/Market';
-import {useCallback, useEffect} from 'react';
+import {useCallback} from 'react';
 import {create} from 'zustand';
 
 type MarketStore = {
@@ -27,11 +27,7 @@ const useMarket = () => {
     await getMarketMember();
   }, [getMarketMember]);
 
-  useEffect(() => {
-    getMarketMember();
-  }, [getMarketMember]);
-
-  return {market, refresh};
+  return {market, refresh, fetch: getMarketMember};
 };
 
 export default useMarket;

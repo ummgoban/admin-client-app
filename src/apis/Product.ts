@@ -131,3 +131,20 @@ export const uploadProductImage = async (
     return null;
   }
 };
+
+export const deleteProductImage = async (
+  imageUrl: string,
+): Promise<boolean> => {
+  try {
+    const res = await apiClient.del<{
+      code: number;
+    }>('/products/images', {
+      params: {imageUrl},
+    });
+
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};

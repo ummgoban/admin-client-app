@@ -7,6 +7,7 @@ import {BottomButton, Label} from '@/components/common';
 import TextInput from '@/components/common/TextInput';
 import {format} from '@/utils/date';
 import {pickImage} from '@/utils/image-picker';
+import {uploadMarketImage, deleteMarketImage} from '@/apis/Market';
 
 import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
 
@@ -88,7 +89,14 @@ const MarketInfoScreen = () => {
                       {
                         text: '삭제',
                         style: 'destructive',
-                        onPress: () => {
+                        onPress: async () => {
+                          const res = await deleteMarketImage(uri);
+                          if (!res) {
+                            console.error('deleteMarketImage Error: no res');
+                            Alert.alert('이미지를 삭제하지 못했습니다.');
+                            return;
+                          }
+
                           setImageList(prev =>
                             prev.filter(item => item !== uri),
                           );
@@ -105,7 +113,30 @@ const MarketInfoScreen = () => {
         <S.ImageCardPlusButton
           onPress={async () => {
             const res = await pickImage();
-            setImageList(prev => [...prev, res]);
+
+            if (!res) {
+              console.error('pickImage Error: no image');
+              Alert.alert('이미지를 불러오지 못했습니다.');
+              return;
+            }
+
+            const formdata = new FormData();
+
+            formdata.append('updateImage', {
+              name: res.split('/').pop(),
+              type: `image/jpeg`,
+              uri: res,
+            });
+
+            const s3Url = await uploadMarketImage(formdata);
+
+            if (!s3Url) {
+              console.error('uploadMarketImage Error: no s3Url');
+              Alert.alert('이미지를 업로드하지 못했습니다.');
+              return;
+            }
+
+            setImageList(prev => [...prev, s3Url]);
           }}>
           <Text>+</Text>
         </S.ImageCardPlusButton>

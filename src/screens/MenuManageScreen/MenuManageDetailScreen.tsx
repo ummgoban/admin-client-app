@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
-import {createProduct} from '@/apis/Product';
+import {createProduct, updateProduct} from '@/apis/Product';
 import Menu from '@/components/menu/Menu';
 import MenuModal from '@/components/menu/MenuModal';
 import useMarket from '@/hooks/useMarket';
-import {MenuType} from '@/types/MenuType';
 
 import S from './MenuManageDetailScreen.style';
+import {MenuType} from '@/types/ProductType';
 
 type Props = {
   menus: MenuType[];
@@ -29,7 +29,13 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     setCurrentMenu(menu);
     setModalVisible(true);
   };
+
   const handleSaveMenu = async (menuData: MenuType) => {
+    if (!marketList || !marketList.length) {
+      console.debug('MemuManageDetailScreen', '마켓 정보가 없습니다.');
+      return;
+    }
+
     const updatedMenus = menus.map(menu => {
       if (menu.id === menuData.id) {
         return menuData;
@@ -41,17 +47,21 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
       updatedMenus.push(menuData);
     }
 
-    const res = await createProduct(marketList[0].id, {
+    const body = {
       image: menuData.image,
       name: menuData.name,
-      // TODO: 타입 일치시키기
-      originPrice: Number(menuData.originalPrice.toString().replace(/,/g, '')),
+      originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
       discountPrice: Number(
         menuData.discountPrice.toString().replace(/,/g, ''),
       ),
       discountRate: menuData.discountRate,
-      count: menuData.stock,
-    });
+      stock: menuData.stock,
+      status: menuData.status,
+    };
+
+    const res = currentMenu
+      ? await updateProduct(currentMenu.id, body)
+      : await createProduct(marketList[0].id, body);
 
     if (!res) {
       console.error('상품 추가 실패');

@@ -1,18 +1,24 @@
 import {Alert, Text} from 'react-native';
 
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 
 import React from 'react';
-import MenuManageDetailScreen from './MenuManageDetailScreenScreen';
-import {MenuType} from '@/types/MenuType';
-import {getMenus} from '@/apis/Menu';
+import MenuManageDetailScreen from './MenuManageDetailScreen';
+
+import {getProducts} from '@/apis/Product';
+import useMarket from '@/hooks/useMarket';
+import {MenuType} from '@/types/ProductType';
 
 const MenuManageScreen = () => {
   const [menus, setMenus] = useState<MenuType[] | null>([]);
+  const market = useMarket();
 
   useEffect(() => {
     const fetchMenus = async () => {
-      const res = await getMenus();
+      if (!market || !market.length) {
+        return;
+      }
+      const res = await getProducts(market[0].id);
       if (!res) {
         Alert.alert('메뉴 정보를 불러오는데 실패했습니다.');
         return;
@@ -21,7 +27,7 @@ const MenuManageScreen = () => {
     };
 
     fetchMenus();
-  }, []);
+  }, [market]);
 
   if (!menus) {
     return <Text>메뉴 정보를 불러오는데 실패했습니다.</Text>;

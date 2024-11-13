@@ -19,7 +19,7 @@ const dummyOrderInfo: OrderDetailResponseType = {
         originPrice: 40000,
         discountPrice: 35000,
         discountRate: 12,
-        count: 1,
+        stock: 1,
         tags: [
           {
             id: 1,
@@ -34,7 +34,7 @@ const dummyOrderInfo: OrderDetailResponseType = {
         originPrice: 5000,
         discountPrice: 4500,
         discountRate: 10,
-        count: 2,
+        stock: 2,
         tags: [
           {
             id: 1,
@@ -49,7 +49,7 @@ const dummyOrderInfo: OrderDetailResponseType = {
         originPrice: 5000,
         discountPrice: 4500,
         discountRate: 10,
-        count: 2,
+        stock: 2,
         tags: [
           {
             id: 1,
@@ -64,7 +64,7 @@ const dummyOrderInfo: OrderDetailResponseType = {
         originPrice: 5000,
         discountPrice: 4500,
         discountRate: 10,
-        count: 2,
+        stock: 2,
         tags: [
           {
             id: 1,
@@ -79,7 +79,7 @@ const dummyOrderInfo: OrderDetailResponseType = {
         originPrice: 5000,
         discountPrice: 4500,
         discountRate: 10,
-        count: 2,
+        stock: 2,
         tags: [
           {
             id: 1,

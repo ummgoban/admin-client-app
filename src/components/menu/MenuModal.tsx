@@ -1,12 +1,14 @@
-import {uploadProductImage} from '@/apis/Product';
+import {deleteProduct, uploadProductImage} from '@/apis/Product';
 import CustomTextInput from '@/components/common/CustomTextInput';
-import {MenuType} from '@/types/MenuType';
+import {MenuType} from '@/types/ProductType';
 import {pickImage} from '@/utils/image-picker';
 import React, {useEffect, useState} from 'react';
 import {Alert, Modal} from 'react-native';
 import {TextInput} from '../common';
 import CustomLabel from '../common/CustomLabel';
+
 import S from './MenuModal.style';
+
 // TODO : 태그 컴포넌트 넣기
 // TODO : onSave시 post data
 // TODO : 메뉴 추가시 id 처리(백엔드) -> 현재 Date.now()로 임시처리
@@ -22,12 +24,9 @@ const STATUS_OPTIONS: Record<MenuType['status'], string> = {
   HIDDEN: '숨김',
 };
 
-const calculateDiscountRate = (
-  originalPrice: number,
-  discountPrice: number,
-) => {
-  if (originalPrice > 0 && discountPrice >= 0) {
-    return Math.round(((originalPrice - discountPrice) * 100) / originalPrice);
+const calculateDiscountRate = (originPrice: number, discountPrice: number) => {
+  if (originPrice > 0 && discountPrice >= 0) {
+    return Math.round(((originPrice - discountPrice) * 100) / originPrice);
   }
   return 0;
 };
@@ -38,7 +37,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     name: '',
     image: '',
     discountRate: 0,
-    originalPrice: 0,
+    originPrice: 0,
     discountPrice: 0,
     stock: 0,
     status: 'HIDDEN',
@@ -53,7 +52,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
         name: '',
         image: '',
         discountRate: 0,
-        originalPrice: 0,
+        originPrice: 0,
         discountPrice: 0,
         stock: 0,
         status: 'HIDDEN',
@@ -66,7 +65,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
 
     if (
       typeof value === 'string' &&
-      (field === 'originalPrice' ||
+      (field === 'originPrice' ||
         field === 'discountPrice' ||
         field === 'stock')
     ) {
@@ -79,9 +78,9 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
         ...prev,
         [field]: field === 'stock' ? Number(value) : formattedValue,
       };
-      if (field === 'originalPrice' || field === 'discountPrice') {
+      if (field === 'originPrice' || field === 'discountPrice') {
         const newDiscountRate = calculateDiscountRate(
-          Number(updatedData.originalPrice.toString().replace(/,/g, '')),
+          Number(updatedData.originPrice.toString().replace(/,/g, '')),
           Number(updatedData.discountPrice.toString().replace(/,/g, '')),
         );
         return {
@@ -132,10 +131,37 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
       return;
     }
 
+    console.debug('MenuModal', 's3Url', s3Url);
+
     setMenuData(prev => ({
       ...prev,
       image: s3Url,
     }));
+  };
+
+  const handleDelete = async () => {
+    Alert.alert('삭제하시겠습니까?', '', [
+      {
+        text: '취소',
+        style: 'cancel',
+      },
+      {
+        text: '삭제',
+        onPress: () => {
+          const res = deleteProduct(menuData.id);
+
+          if (!res) {
+            console.error('deleteProduct Error: delete failed');
+            Alert.alert('삭제하지 못했습니다.');
+          } else {
+            console.debug('deleteProduct', 'delete success');
+            Alert.alert('삭제되었습니다.');
+          }
+
+          onClose();
+        },
+      },
+    ]);
   };
 
   return (
@@ -161,8 +187,8 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
           <S.InputRow>
             <CustomLabel label={'원가'} required />
             <CustomTextInput
-              value={menuData.originalPrice.toString()}
-              onChangeText={text => handleInputChange('originalPrice', text)}
+              value={menuData.originPrice.toString()}
+              onChangeText={text => handleInputChange('originPrice', text)}
             />
           </S.InputRow>
           <S.InputRow>
@@ -209,6 +235,9 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
             </S.ModalButton>
             <S.ModalButton onPress={onClose}>
               <S.ModalButtonText>취소</S.ModalButtonText>
+            </S.ModalButton>
+            <S.ModalButton onPress={handleDelete}>
+              <S.ModalButtonText>삭제</S.ModalButtonText>
             </S.ModalButton>
           </S.ButtonContainer>
         </S.ModalView>

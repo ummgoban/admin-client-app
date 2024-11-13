@@ -1,50 +1,98 @@
-import {ProductType} from '@/types/ProductType';
+import {MenuType} from '@/types/ProductType';
 import apiClient from './ApiClient';
 
-// TODO: 타입 일치시키기
-// type ProductType = {
-//     id: number;
-//     image: string;
-//     name: string;
-//     originPrice: number;
-//     discountPrice: number;
-//     discountRate: number;
-//     count: number;
-//   };
-// {
-//     "productImage": "https://.../ab123...456.png",
-//     "name": "상품명",
-//     "originPrice": 10000,
-//     "discountPrice": 8000,
-//     "discountRate": 20,
-//     "stock": 2
-//   }
+/**
+ * GET /products
+ */
+export const getProducts = async (
+  marketId: number,
+): Promise<MenuType[] | null> => {
+  try {
+    const res = await apiClient.get<MenuType[]>(`/products`, {
+      params: {
+        marketId,
+      },
+    });
+
+    return res;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
 
 /**
- *
+ * POST /products
  * @param product - 상품 정보
  * @returns 생성된 상품 정보
  */
 export const createProduct = async (
   marketId: number,
-  product: Omit<ProductType, 'id' | 'tags'>,
-): Promise<Boolean> => {
+  product: Omit<MenuType, 'id' | 'tags'>,
+): Promise<boolean> => {
   try {
-    const body = {
-      productImage: product.image,
-      name: product.name,
-      originPrice: product.originPrice,
-      discountPrice: product.discountPrice,
-      discountRate: product.discountRate,
-      stock: product.count,
-    };
-
-    console.log(body);
-
-    const res = await apiClient.post<string>(
-      `/product?marketId=${marketId}`,
-      body,
+    const res = await apiClient.post<{
+      code: number;
+      message: string;
+    }>(
+      '/products',
+      {
+        productImage: product.image,
+        name: product.name,
+        productStatus: product.status,
+        originPrice: product.originPrice,
+        discountPrice: product.discountPrice,
+        discountRate: product.discountRate,
+        stock: product.stock,
+      },
+      {
+        params: {
+          marketId,
+        },
+      },
     );
+
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+/**
+ * PATCH /products/:productId
+ */
+export const updateProduct = async (
+  productId: number,
+  product: Omit<MenuType, 'id' | 'tags'>,
+): Promise<boolean> => {
+  try {
+    const res = await apiClient.patch<{code: number}>(
+      `/products/${productId}`,
+      {
+        productImage: product.image,
+        name: product.name,
+        productStatus: product.status,
+        originPrice: product.originPrice,
+        discountPrice: product.discountPrice,
+        discountRate: product.discountRate,
+        stock: product.stock,
+      },
+    );
+
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+/**
+ * DELETE /products/:productId
+ */
+export const deleteProduct = async (productId: number): Promise<boolean> => {
+  try {
+    const res = await apiClient.del<string>(`/products/${productId}`);
 
     return res === 'SUCCESS';
   } catch (error) {
@@ -73,9 +121,11 @@ export const uploadProductImage = async (
       },
     );
 
-    console.debug(res);
+    if (res) {
+      return res.imageUrl;
+    }
 
-    return res?.imageUrl ?? null;
+    return null;
   } catch (error) {
     console.error(error);
     return null;

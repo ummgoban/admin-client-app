@@ -113,8 +113,12 @@ class ApiClient {
         body,
         config,
       );
+
+      console.debug('PATCH', url, res.data);
+
       return res.data;
     } catch (error) {
+      console.debug('PATCH', url, error);
       console.error(error);
       return null;
     }
@@ -131,8 +135,12 @@ class ApiClient {
         body,
         config,
       );
+
+      console.debug('PUT', url, res.data);
+
       return res.data;
     } catch (error) {
+      console.debug('PUT', url, error);
       console.error(error);
       return null;
     }

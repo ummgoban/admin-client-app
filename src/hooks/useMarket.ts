@@ -1,27 +1,37 @@
 import {getMemberMarket} from '@/apis/Member';
 import {MarketType} from '@/types/Market';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect} from 'react';
+import {create} from 'zustand';
+
+type MarketStore = {
+  market: Pick<MarketType, 'id' | 'name'>[];
+
+  getMarketMember: () => Promise<void>;
+};
+
+const useMarketStore = create<MarketStore>(set => ({
+  market: [],
+  getMarketMember: async () => {
+    const marketRes = await getMemberMarket();
+    if (!marketRes) {
+      return;
+    }
+    set({market: marketRes.map(({marketId: id, name}) => ({id, name}))});
+  },
+}));
 
 const useMarket = () => {
-  const [marketList, setMarketList] = useState<
-    Pick<MarketType, 'id' | 'name'>[]
-  >([]);
+  const {market, getMarketMember} = useMarketStore();
+
+  const refresh = useCallback(async () => {
+    await getMarketMember();
+  }, [getMarketMember]);
 
   useEffect(() => {
-    const fetchMarket = async () => {
-      const marketRes = await getMemberMarket();
+    getMarketMember();
+  }, [getMarketMember]);
 
-      console.log(marketRes);
-      if (!marketRes) {
-        return;
-      }
-      setMarketList(marketRes.map(({marketId: id, name}) => ({id, name})));
-    };
-
-    fetchMarket();
-  }, []);
-
-  return marketList;
+  return {market, refresh};
 };
 
 export default useMarket;

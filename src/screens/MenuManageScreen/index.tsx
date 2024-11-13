@@ -11,7 +11,7 @@ import {MenuType} from '@/types/ProductType';
 
 const MenuManageScreen = () => {
   const [menus, setMenus] = useState<MenuType[] | null>([]);
-  const market = useMarket();
+  const {market} = useMarket();
 
   useEffect(() => {
     const fetchMenus = async () => {

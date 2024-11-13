@@ -9,3 +9,11 @@ export type MarketType = {
   products: ProductType[];
   images: string[];
 };
+
+export type RegistMarketType = {
+  name: string;
+  businessNumber: string;
+  address: string;
+  specificAddress: string;
+  contactNumber: string;
+};

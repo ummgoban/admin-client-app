@@ -1,20 +1,33 @@
-import {getProfile} from '@/apis/Login';
+import {getProfile as getProfileApi} from '@/apis/Login';
 import {UserType} from '@/types/UserType';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect} from 'react';
+
+import {create} from 'zustand';
+
+type MarketStore = {
+  profile: UserType | null;
+  getProfile: () => Promise<void>;
+};
+
+const useProfileStore = create<MarketStore>(set => ({
+  profile: null,
+  getProfile: async () => {
+    const profileRes = await getProfileApi();
+    set({profile: profileRes});
+  },
+}));
 
 const useProfile = () => {
-  const [profile, setProfile] = useState<UserType | null>(null);
+  const {profile, getProfile} = useProfileStore();
+  const refresh = useCallback(async () => {
+    await getProfile();
+  }, [getProfile]);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const profileRes = await getProfile();
-      setProfile(profileRes);
-    };
+    getProfile();
+  }, [getProfile]);
 
-    fetchProfile();
-  }, []);
-
-  return profile;
+  return {profile, refresh};
 };
 
 export default useProfile;

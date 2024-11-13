@@ -1,6 +1,9 @@
 import {RegistMarketType} from '@/types/Market';
 import apiClient from './ApiClient';
 
+/**
+ * POST /markets
+ */
 export const createMarket = async (
   market: RegistMarketType,
 ): Promise<{marketId: number} | null> => {
@@ -17,6 +20,9 @@ export const createMarket = async (
   }
 };
 
+/**
+ * PUT /markets/images
+ */
 export const uploadMarketImage = async (
   updateImage: FormData,
 ): Promise<string | null> => {
@@ -43,6 +49,9 @@ export const uploadMarketImage = async (
   }
 };
 
+/**
+ * DELETE /markets/images?imageUrl={imageUrl}
+ */
 export const deleteMarketImage = async (imageUrl: string): Promise<boolean> => {
   try {
     const res = await apiClient.del<{

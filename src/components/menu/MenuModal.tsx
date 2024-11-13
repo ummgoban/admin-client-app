@@ -181,9 +181,10 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
             value={menuData.name}
             onChangeText={text => handleInputChange('name', text)}
           />
-          <S.InputRow>
-            <S.InputLabel>...Tag....</S.InputLabel>
-          </S.InputRow>
+          {/* TODO: 메뉴태그 선택 */}
+          {/* <S.InputRow>
+            <DropDownSelectorComponent />
+          </S.InputRow> */}
           <S.InputRow>
             <CustomLabel label={'원가'} required />
             <CustomTextInput

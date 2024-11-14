@@ -96,9 +96,12 @@ export const updateProduct = async (
  */
 export const deleteProduct = async (productId: number): Promise<boolean> => {
   try {
-    const res = await apiClient.del<string>(`/products/${productId}`);
+    const res = await apiClient.del<{
+      code: number;
+      message: string;
+    }>(`/products/${productId}`);
 
-    return res === 'SUCCESS';
+    return res?.code === 200;
   } catch (error) {
     console.error(error);
     return false;

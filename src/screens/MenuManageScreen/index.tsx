@@ -1,39 +1,37 @@
-import {Alert, Text} from 'react-native';
+import {Text} from 'react-native';
 
 import {useEffect, useState} from 'react';
 
 import React from 'react';
 import MenuManageDetailScreen from './MenuManageDetailScreen';
 
-import {getProducts} from '@/apis/Product';
 import useMarket from '@/hooks/useMarket';
+import useProduct from '@/hooks/useProduct';
 import {MenuType} from '@/types/ProductType';
 
 const MenuManageScreen = () => {
-  const [menus, setMenus] = useState<MenuType[] | null>([]);
-  const {market, fetch} = useMarket();
+  const {market, fetch: fetchMarket} = useMarket();
+  const {products, fetch: fetchProduct} = useProduct();
+
+  const [menus, setMenus] = useState<MenuType[]>([]);
 
   useEffect(() => {
-    fetch();
-  }, [fetch]);
+    fetchMarket();
+  }, [fetchMarket]);
 
   useEffect(() => {
-    const fetchMenus = async () => {
-      if (!market || !market.length) {
-        return;
-      }
-      const res = await getProducts(market[0].id);
-      if (!res) {
-        Alert.alert('메뉴 정보를 불러오는데 실패했습니다.');
-        return;
-      }
-      setMenus(res);
-    };
+    if (market && market.length) {
+      fetchProduct(market[0].id);
+    }
+  }, [fetchProduct, market]);
 
-    fetchMenus();
-  }, [market]);
+  useEffect(() => {
+    if (products) {
+      setMenus(products);
+    }
+  }, [products]);
 
-  if (!menus) {
+  if (!products) {
     return <Text>메뉴 정보를 불러오는데 실패했습니다.</Text>;
   }
 

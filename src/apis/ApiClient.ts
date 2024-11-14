@@ -120,7 +120,7 @@ class ApiClient {
         D
       >(url, body, config);
 
-      console.debug('POST', url, res.data.data);
+      console.debug('POST', url, res.data);
 
       return res.data.data;
     } catch (error) {

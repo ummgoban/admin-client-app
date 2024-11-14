@@ -27,7 +27,7 @@ export const uploadMarketImage = async (
   updateImage: FormData,
 ): Promise<string | null> => {
   try {
-    const res = await apiClient.post<{imageUrl: string}>(
+    const res = await apiClient.post<{data: {imageUrl: string}}>(
       '/markets/images',
       updateImage,
       {
@@ -39,7 +39,7 @@ export const uploadMarketImage = async (
     );
 
     if (res) {
-      return res.imageUrl;
+      return res.data.imageUrl;
     }
 
     return null;

@@ -33,8 +33,10 @@ export const createProduct = async (
 ): Promise<boolean> => {
   try {
     const res = await apiClient.post<{
-      code: number;
-      message: string;
+      data: {
+        code: number;
+        message: string;
+      };
     }>(
       '/products',
       {
@@ -53,7 +55,7 @@ export const createProduct = async (
       },
     );
 
-    return !!res && res.code === 200;
+    return !!res && res.data.code === 200;
   } catch (error) {
     console.error(error);
 
@@ -112,7 +114,7 @@ export const uploadProductImage = async (
   updateImage: FormData,
 ): Promise<string | null> => {
   try {
-    const res = await apiClient.post<{imageUrl: string}>(
+    const res = await apiClient.post<{data: {imageUrl: string}}>(
       '/products/images',
       updateImage,
       {
@@ -124,7 +126,7 @@ export const uploadProductImage = async (
     );
 
     if (res) {
-      return res.imageUrl;
+      return res.data.imageUrl;
     }
 
     return null;

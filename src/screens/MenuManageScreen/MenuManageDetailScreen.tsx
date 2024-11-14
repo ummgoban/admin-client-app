@@ -66,10 +66,9 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     if (!res) {
       console.error('상품 추가 실패');
       Alert.alert('상품 추가 실패');
-      return;
+    } else {
+      await refresh();
     }
-
-    await refresh();
 
     setCurrentMenu(null);
     setModalVisible(false);

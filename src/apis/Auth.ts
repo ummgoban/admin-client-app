@@ -9,17 +9,17 @@ export const loginAuth = async (
 } | null> => {
   try {
     const response = await apiClient.post<{
-      accessToken: string;
-      refreshToken: string;
+      data: {
+        accessToken: string;
+        refreshToken: string;
+      };
     }>('/auth/login', {
       provider,
       roles: 'ROLE_STORE_OWNER',
       accessToken,
     });
 
-    console.debug(response);
-
-    return response;
+    return response?.data ?? null;
   } catch (error) {
     console.error('로그인 에러:', error);
     return null;

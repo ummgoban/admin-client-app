@@ -33,10 +33,8 @@ export const createProduct = async (
 ): Promise<boolean> => {
   try {
     const res = await apiClient.post<{
-      data: {
-        code: number;
-        message: string;
-      };
+      code: number;
+      message: string;
     }>(
       '/products',
       {
@@ -55,7 +53,7 @@ export const createProduct = async (
       },
     );
 
-    return !!res && res.data.code === 200;
+    return !!res && res.code === 200;
   } catch (error) {
     console.error(error);
 

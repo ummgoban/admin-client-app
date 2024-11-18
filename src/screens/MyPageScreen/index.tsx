@@ -89,7 +89,7 @@ const MyPageScreen = () => {
                 ))}
                 <S.ModalAddButton
                   onPress={() => {
-                    navigation.navigate('RegisterMarketHome', {
+                    navigation.navigate('RegisterMarketRoot', {
                       screen: 'RegisterMarket',
                     });
                     setOpenModal(false);

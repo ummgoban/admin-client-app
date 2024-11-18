@@ -13,9 +13,9 @@ const PendingOrdersScreen = ({orderStatus}: PendingOrdersScreenProps) => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const data = await getPendingOrderLists(1, orderStatus);
-      if (data && data.data) {
-        setOrders(data.data);
+      const data = await getPendingOrderLists(6, orderStatus);
+      if (data) {
+        setOrders(data);
       }
     };
     fetchOrders();
@@ -24,9 +24,9 @@ const PendingOrdersScreen = ({orderStatus}: PendingOrdersScreenProps) => {
   const handleStatusChange = (orderId: string, newStatus: string) => {
     setOrders(prevOrders => {
       const updatedOrders = prevOrders.map(order =>
-        order.id === orderId ? {...order, orderStatus: newStatus} : order,
+        order.id === orderId ? {...order, ordersStatus: newStatus} : order,
       );
-      return updatedOrders.filter(order => order.orderStatus === orderStatus);
+      return updatedOrders.filter(order => order.ordersStatus === orderStatus);
     });
   };
 

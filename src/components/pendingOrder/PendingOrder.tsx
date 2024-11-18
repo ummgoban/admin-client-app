@@ -36,7 +36,7 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
   };
 
   const renderButtons = () => {
-    switch (order.orderStatus) {
+    switch (order.ordersStatus) {
       case 'ORDERED':
         return (
           <S.ButtonContainer>
@@ -51,7 +51,7 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
           </S.ButtonContainer>
         );
       default:
-        return <Text>{order.orderStatus}</Text>;
+        return <Text>{order.ordersStatus}</Text>;
     }
   };
 

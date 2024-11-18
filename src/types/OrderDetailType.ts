@@ -15,7 +15,7 @@ export type OrderDetailInfoType = {
   pickupReservedAt: string;
   ordersPrice: number;
   orderMemberName: string;
-  orderStatus: string;
+  ordersStatus: string;
   products: Product[];
 };
 
@@ -23,10 +23,4 @@ export type OrderDetailResponseType = {
   code: number;
   message: string;
   data: OrderDetailInfoType;
-};
-
-export type PendingOrdersType = {
-  code: number;
-  message: string;
-  data: OrderDetailInfoType[];
 };

@@ -10,7 +10,7 @@ const dummyOrderInfo: OrderDetailResponseType = {
     pickupReservedAt: '2024-10-14T13:00:00.000Z',
     ordersPrice: 35000,
     orderMemberName: '홍길동',
-    orderStatus: '예약완료',
+    ordersStatus: '예약완료',
     products: [
       {
         id: 101,

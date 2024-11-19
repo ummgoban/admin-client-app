@@ -11,6 +11,15 @@ export type MarketType = {
   summary: string;
 };
 
+export type UpdateMarketInfoType = {
+  summary: string;
+  openAt: string;
+  closeAt: string;
+  pickupStartAt: string;
+  pickupEndAt: string;
+  imageUrls: string[];
+};
+
 export type RegistMarketType = {
   name: string;
   businessNumber: string;

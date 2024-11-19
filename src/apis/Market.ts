@@ -1,4 +1,8 @@
-import {MarketType, RegistMarketType} from '@/types/Market';
+import {
+  MarketType,
+  RegistMarketType,
+  UpdateMarketInfoType,
+} from '@/types/Market';
 import apiClient from './ApiClient';
 
 /**
@@ -31,6 +35,23 @@ export const getMarket = async (
   } catch (error) {
     console.error(`Error fetching market: ${marketId}`, error);
     return null;
+  }
+};
+
+export const updateMarketInfo = async (
+  marketId: number,
+  marketInfo: UpdateMarketInfoType,
+): Promise<boolean> => {
+  try {
+    const res = await apiClient.patch<{code: number}>(
+      `/markets/${marketId}`,
+      marketInfo,
+    );
+
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 };
 

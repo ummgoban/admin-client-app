@@ -50,7 +50,7 @@ const CurrentInfoWrapper = styled.View`
   margin: 2px 0px;
 `;
 const CurrentStatusText = styled.Text`
-  color: blue;
+  color: ${props => props.theme.colors.primary};
 `;
 const MenuCounter = styled.View`
   display: flex;
@@ -67,7 +67,7 @@ const MenuCounterButtonWrapper = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   width: 20px;
-  background-color: lightblue;
+  background-color: ${props => props.theme.colors.secondary};
   height: 24px;
   text-align: center;
 `;
@@ -82,7 +82,7 @@ const ModifyButtonWrapper = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  background-color: lightblue;
+  background-color: ${props => props.theme.colors.secondary};
   text-align: center;
   width: 60px;
   height: 40px;

@@ -39,7 +39,7 @@ const MyPageScreen = () => {
               height={100}
             />
             <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
-              <S.ProfileName>{`${profile.name}님 ${market && market.length ? `의${market[0].name}` : ''}`}</S.ProfileName>
+              <S.ProfileName>{`${profile.name}님 ${market && profile.marketId ? `의${market.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
               <Icon name="down" size={20} color="#000000" />
             </S.ProfileNameContainer>
           </S.ProfileContainer>

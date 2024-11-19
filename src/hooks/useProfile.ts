@@ -1,8 +1,10 @@
-import {getProfile as getProfileApi} from '@/apis/Login';
-import {UserType} from '@/types/UserType';
 import {useCallback} from 'react';
-
 import {create} from 'zustand';
+
+import {getProfile as getProfileApi} from '@/apis/Login';
+import {getMemberMarkets} from '@/apis/Member';
+
+import {UserType} from '@/types/UserType';
 
 type AdminUserType = UserType & {
   marketId: number | null;
@@ -40,7 +42,13 @@ const useProfile = () => {
     if (!profile) {
       await getProfile();
     }
-  }, [getProfile, profile]);
+    if (!profile?.marketId) {
+      const res = await getMemberMarkets();
+      if (res && res.length) {
+        setCurrentMarketId(res[0].marketId);
+      }
+    }
+  }, [getProfile, profile, setCurrentMarketId]);
 
   const refresh = useCallback(async () => {
     await getProfile();

@@ -1,11 +1,10 @@
 import {OrderDetailInfoType} from '@/types/OrderDetailType';
-import S from './PendingOrder.style';
-import {Text} from 'react-native';
-import React from 'react';
-import {Button} from 'react-native';
+import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '@/types/StackNavigationType';
+import React from 'react';
+import {Button, Text} from 'react-native';
+import S from './PendingOrder.style';
 
 type Props = {
   order: OrderDetailInfoType;
@@ -64,10 +63,11 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
   };
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   const navigatePage = () => {
     navigation.navigate('Order', {
       screen: 'OrderDetail',
-      params: {orderId: order.id},
+      params: {order},
     });
   };
 

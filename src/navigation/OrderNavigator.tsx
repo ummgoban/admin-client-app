@@ -8,7 +8,7 @@ const Stack = createStackNavigator<OrderStackParamList>();
 
 const OrderNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Order">
+    <Stack.Navigator>
       <Stack.Screen
         name="OrderHistory"
         component={OrderHistoryScreen}

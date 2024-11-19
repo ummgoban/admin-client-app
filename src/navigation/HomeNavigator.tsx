@@ -11,8 +11,12 @@ const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 const HomeNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{headerShown: true}} tabBar={TabBar}>
-      <Tab.Screen name="Order" component={OrderNavigator} />
+    <Tab.Navigator tabBar={TabBar}>
+      <Tab.Screen
+        name="Order"
+        component={OrderNavigator}
+        options={{headerShown: false}}
+      />
       <Tab.Screen name="MarketInfo" component={MarketInfoScreen} />
       <Tab.Screen name="MenuManage" component={MenuManageScreen} />
       <Tab.Screen name="MyPage" component={MyPageScreen} />

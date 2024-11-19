@@ -1,5 +1,7 @@
 import {ParamListBase} from '@react-navigation/native';
 
+import {OrderDetailInfoType} from './OrderDetailType';
+
 type StackParamType<T> = {
   screen?: keyof T;
   params?: T[keyof T];
@@ -24,7 +26,7 @@ export interface DetailStackParamList extends ParamListBase {
 export interface OrderStackParamList extends ParamListBase {
   OrderHistory: undefined;
   OrderDetail: {
-    orderId: number;
+    order: OrderDetailInfoType;
   };
 }
 

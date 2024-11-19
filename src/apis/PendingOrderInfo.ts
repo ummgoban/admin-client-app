@@ -246,7 +246,7 @@ import apiClient from './ApiClient';
 
 export const getPendingOrderLists = async (
   marketId: number,
-  orderStatus: 'ORDERED' | 'ACCEPTED' | 'PICKUP_OR_CANCEL',
+  orderStatus: 'ORDERED' | 'ACCEPTED' | 'PICKEDUP_OR_CANCELED',
 ): Promise<OrderDetailInfoType[] | null> => {
   try {
     const res = await apiClient.get<OrderDetailInfoType[]>(

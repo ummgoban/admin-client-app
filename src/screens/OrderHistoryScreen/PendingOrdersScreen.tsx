@@ -5,7 +5,7 @@ import {OrderDetailInfoType} from '@/types/OrderDetailType';
 import {getPendingOrderLists} from '@/apis/PendingOrderInfo';
 
 type PendingOrdersScreenProps = {
-  orderStatus: 'ORDERED' | 'ACCEPTED' | 'PICKUP_OR_CANCEL';
+  orderStatus: 'ORDERED' | 'ACCEPTED' | 'PICKEDUP_OR_CANCELED';
 };
 
 const PendingOrdersScreen = ({orderStatus}: PendingOrdersScreenProps) => {

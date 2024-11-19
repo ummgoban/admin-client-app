@@ -8,7 +8,7 @@ import S from './OrderHistoryScreen.style';
 
 const OrderHistoryScreen = () => {
   const [selected, setSelected] = useState<
-    'ORDERED' | 'ACCEPTED' | 'PICKUP_OR_CANCEL'
+    'ORDERED' | 'ACCEPTED' | 'PICKEDUP_OR_CANCELED'
   >('ORDERED');
 
   return (
@@ -21,8 +21,8 @@ const OrderHistoryScreen = () => {
           <Text>{`픽업대기`}</Text>
         </ToggleButton>
         <ToggleButton
-          value="PICKUP_OR_CANCEL"
-          onPress={() => setSelected('PICKUP_OR_CANCEL')}
+          value="PICKEDUP_OR_CANCELED"
+          onPress={() => setSelected('PICKEDUP_OR_CANCELED')}
           last>
           <Text>{`완료/취소`}</Text>
         </ToggleButton>

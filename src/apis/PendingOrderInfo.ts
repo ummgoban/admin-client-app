@@ -11,9 +11,12 @@ export const getPendingOrderLists = async (
     | 'CANCELED',
 ): Promise<OrderDetailInfoType[] | null> => {
   try {
-    const res = await apiClient.get<OrderDetailInfoType[]>(
-      `markets/orders?ordersStatus=${orderStatus}&marketId=${marketId}`,
-    );
+    const res = await apiClient.get<OrderDetailInfoType[]>('markets/orders', {
+      params: {
+        ordersStatus: orderStatus,
+        marketId,
+      },
+    });
 
     if (res) {
       return res;
@@ -38,8 +41,14 @@ export const updateOrderStatus = async (
 ): Promise<boolean> => {
   try {
     const res = await apiClient.patch<{code: number}>(
-      `/orders?ordersStatus=${orderStatus}&ordersId=${orderId}`,
+      '/orders',
       {},
+      {
+        params: {
+          ordersId: orderId,
+          ordersStatus: orderStatus,
+        },
+      },
     );
     return !!res && res.code === 200;
   } catch (error) {

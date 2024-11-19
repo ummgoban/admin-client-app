@@ -65,9 +65,9 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const navigatePage = () => {
-    navigation.navigate('Home', {
+    navigation.navigate('Order', {
       screen: 'OrderDetail',
-      params: {order},
+      params: {orderId: order.id},
     });
   };
 

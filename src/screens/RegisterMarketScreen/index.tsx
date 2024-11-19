@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
-import {Button, Modal} from 'react-native-paper';
+import {Modal} from 'react-native-paper';
 
 import {createMarket} from '@/apis/Market';
 import {BottomButton, TextInput} from '@/components/common';
 
-import S from './RegisterMarketScreen.style';
-import {Alert} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import useProfile from '@/hooks/useProfile';
 import useMarket from '@/hooks/useMarket';
+import useProfile from '@/hooks/useProfile';
+import {useNavigation} from '@react-navigation/native';
+import {Alert} from 'react-native';
+
+import S from './RegisterMarketScreen.style';
 
 const isError = (value: string | undefined, validLength?: number) => {
   if (value === undefined) {
@@ -63,19 +64,21 @@ const RegisterMarketScreen = () => {
     <>
       <S.RegisterMarketContainer>
         <S.RegisterMarketInputContainer>
-          <Button onPress={() => setPostcodeVisible(true)}>
-            {'주소 검색하기'}
-          </Button>
-          <TextInput
-            label={'주소'}
-            placeholder="주소를 입력해주세요"
-            errorMessage="주소를 입력해주세요"
-            error={isError(address)}
-            value={address}
-            onChange={e => setAddress(e.nativeEvent.text)}
-            disabled
-            required
-          />
+          <S.AddressLayout>
+            <TextInput
+              label={'주소'}
+              placeholder="주소를 입력해주세요"
+              errorMessage="주소를 입력해주세요"
+              error={isError(address)}
+              value={address}
+              onChange={e => setAddress(e.nativeEvent.text)}
+              disabled
+              required
+            />
+            <S.PostcodeButton onPress={() => setPostcodeVisible(true)}>
+              <S.PostcodeButtonText>{'주소 검색하기'}</S.PostcodeButtonText>
+            </S.PostcodeButton>
+          </S.AddressLayout>
           <TextInput
             label={'상세주소'}
             placeholder="동과 호수를 입력해주세요"

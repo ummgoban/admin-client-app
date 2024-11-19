@@ -15,16 +15,17 @@ const RegisterMarketInputContainer = styled.ScrollView`
 const ModalContainer = styled.View`
   width: 100%;
   height: 100%;
+
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalWrapper = styled.View`
-  width: 70%;
-  height: 70%;
+  width: 100%;
+  height: 100%;
+
   background-color: white;
-  border-radius: 10px;
+
   overflow: hidden;
 `;
 const StyledPostcode = styled(Postcode)`

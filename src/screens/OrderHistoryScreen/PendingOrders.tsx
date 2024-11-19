@@ -4,8 +4,9 @@ import PendingOrder from '@/components/pendingOrder/PendingOrder';
 import {OrderDetailInfoType} from '@/types/OrderDetailType';
 import {getPendingOrderLists} from '@/apis/PendingOrderInfo';
 import {updateOrderStatus} from '@/apis/PendingOrderInfo';
+import useProfile from '@/hooks/useProfile';
 
-type PendingOrdersScreenProps = {
+type PendingOrdersProps = {
   orderStatus:
     | 'ORDERED'
     | 'ACCEPTED'
@@ -14,19 +15,25 @@ type PendingOrdersScreenProps = {
     | 'CANCELED';
 };
 
-const PendingOrdersScreen = ({orderStatus}: PendingOrdersScreenProps) => {
+const PendingOrders = ({orderStatus}: PendingOrdersProps) => {
   const [orders, setOrders] = useState<OrderDetailInfoType[]>([]);
+
+  const {profile} = useProfile();
 
   useEffect(() => {
     const fetchOrders = async () => {
-      //TODO: marketId 받아와서 API call
-      const data = await getPendingOrderLists(6, orderStatus);
+      if (!profile?.marketId) {
+        return;
+      }
+
+      const data = await getPendingOrderLists(profile.marketId, orderStatus);
       if (data) {
         setOrders(data);
       }
     };
+
     fetchOrders();
-  }, [orderStatus]);
+  }, [orderStatus, profile?.marketId]);
 
   const handleStatusChange = (
     orderId: number,
@@ -59,4 +66,4 @@ const PendingOrdersScreen = ({orderStatus}: PendingOrdersScreenProps) => {
   );
 };
 
-export default PendingOrdersScreen;
+export default PendingOrders;

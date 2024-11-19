@@ -15,7 +15,7 @@ const TimeInfoContainer = styled.View`
   justify-content: space-between;
   padding: 0px 4px;
   margin-right: 4px;
-  background-color: lightblue;
+  background-color: ${props => props.theme.colors.secondary};
 `;
 const Divider = styled.View`
   height: 1px;

@@ -10,6 +10,10 @@ const NavbarGroup = styled(ToggleButtonGroup)`
   margin: 10px;
 `;
 
-const S = {NavbarGroup};
+const ToggleText = styled.Text`
+  color: ${props => props.theme.colors.tertiary};
+`;
+
+const S = {NavbarGroup, ToggleText};
 
 export default S;

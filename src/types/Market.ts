@@ -8,6 +8,16 @@ export type MarketType = {
   address: string;
   products: ProductType[];
   images: string[];
+  summary: string;
+};
+
+export type UpdateMarketInfoType = {
+  summary: string;
+  openAt: string;
+  closeAt: string;
+  pickupStartAt: string;
+  pickupEndAt: string;
+  imageUrls: string[];
 };
 
 export type RegistMarketType = {

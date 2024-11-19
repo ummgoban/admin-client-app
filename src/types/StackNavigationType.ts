@@ -1,5 +1,7 @@
 import {ParamListBase} from '@react-navigation/native';
 
+import {OrderDetailInfoType} from './OrderDetailType';
+
 type StackParamType<T> = {
   screen?: keyof T;
   params?: T[keyof T];
@@ -8,9 +10,8 @@ type StackParamType<T> = {
 export interface HomeStackParamList extends ParamListBase {
   MarketInfo: undefined;
   MyPage: undefined;
-  OrderHistory: undefined;
   MenuManage: undefined;
-  OrderDetail: undefined;
+  Order: undefined;
 }
 
 export interface RegisterStackParamList extends ParamListBase {
@@ -20,6 +21,13 @@ export interface RegisterStackParamList extends ParamListBase {
 
 export interface DetailStackParamList extends ParamListBase {
   Payment: undefined;
+}
+
+export interface OrderStackParamList extends ParamListBase {
+  OrderHistory: undefined;
+  OrderDetail: {
+    order: OrderDetailInfoType;
+  };
 }
 
 export interface RegisterMarketParmaList extends ParamListBase {
@@ -32,4 +40,5 @@ export interface RootStackParamList extends ParamListBase {
   Register: StackParamType<RegisterStackParamList>;
   Detail: StackParamType<DetailStackParamList>;
   RegisterMarketRoot: StackParamType<RegisterMarketParmaList>;
+  Order: StackParamType<OrderStackParamList>;
 }

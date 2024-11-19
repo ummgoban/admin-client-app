@@ -14,7 +14,10 @@ const ToggleButton = styled(Button)<{selected?: boolean; last?: boolean}>`
 
   border-right-width: ${props => (props.last ? '0' : '1px')};
 
-  background-color: ${props => (props.selected ? 'blue' : 'white')};
+  background-color: ${props =>
+    props.selected ? props.theme.colors.primary : 'white'};
+
+  ${props => props.theme.fonts.default}
 `;
 
 const S = {

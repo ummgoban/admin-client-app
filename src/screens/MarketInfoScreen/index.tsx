@@ -55,10 +55,19 @@ const MarketInfoScreen = () => {
   useEffect(() => {
     if (marketInfo) {
       setSummary(marketInfo.summary);
-      setPickupStartTime(new Date(`2024-01-01T${marketInfo.pickupStartAt}`));
-      setPickupEndTime(new Date(`2024-01-01T${marketInfo.pickupEndAt}`));
-      setMarketOpenTime(new Date(`2024-01-01T${marketInfo.openAt}`));
-      setMarketCloseTime(new Date(`2024-01-01T${marketInfo.closeAt}`));
+
+      if (marketInfo.pickupStartAt) {
+        setPickupStartTime(new Date(`2024-01-01T${marketInfo.pickupStartAt}`));
+      }
+      if (marketInfo.pickupEndAt) {
+        setPickupEndTime(new Date(`2024-01-01T${marketInfo.pickupEndAt}`));
+      }
+      if (marketInfo.openAt) {
+        setMarketOpenTime(new Date(`2024-01-01T${marketInfo.openAt}`));
+      }
+      if (marketInfo.closeAt) {
+        setMarketCloseTime(new Date(`2024-01-01T${marketInfo.closeAt}`));
+      }
       setImageList(marketInfo.imageUrls);
     }
   }, [marketInfo]);

@@ -79,10 +79,12 @@ const MyPageScreen = () => {
                 {market.map(({id, name}) => (
                   <S.ModalContentItem
                     key={id}
-                    selected={market[0].id === id}
-                    disabled={market[0].id === id}
+                    selected={profile?.marketId === id}
                     onPress={() => {
-                      selectMarket(id);
+                      if (profile?.marketId !== id) {
+                        selectMarket(id);
+                      }
+
                       setOpenModal(false);
                     }}>
                     <S.ModalContentItemIcon

@@ -52,6 +52,26 @@ const MarketInfoScreen = () => {
     fetchProfile();
   }, [fetchProfile]);
 
+  useEffect(() => {
+    if (marketInfo) {
+      setSummary(marketInfo.summary);
+
+      if (marketInfo.pickupStartAt) {
+        setPickupStartTime(new Date(`2024-01-01T${marketInfo.pickupStartAt}`));
+      }
+      if (marketInfo.pickupEndAt) {
+        setPickupEndTime(new Date(`2024-01-01T${marketInfo.pickupEndAt}`));
+      }
+      if (marketInfo.openAt) {
+        setMarketOpenTime(new Date(`2024-01-01T${marketInfo.openAt}`));
+      }
+      if (marketInfo.closeAt) {
+        setMarketCloseTime(new Date(`2024-01-01T${marketInfo.closeAt}`));
+      }
+      setImageList(marketInfo.imageUrls);
+    }
+  }, [marketInfo]);
+
   if (!marketInfo) {
     return (
       <View>
@@ -80,6 +100,7 @@ const MarketInfoScreen = () => {
               ? format(marketOpenTime.getTime(), 'HH:mm')
               : timeOptions['market-open']}
           </S.TimePickerButton>
+          <Text>~</Text>
           <S.TimePickerButton onPress={() => setOpenModal('market-close')}>
             {marketCloseTime
               ? format(marketCloseTime.getTime(), 'HH:mm')
@@ -93,6 +114,7 @@ const MarketInfoScreen = () => {
               ? format(pickupStartTime.getTime(), 'HH:mm')
               : timeOptions['pickup-start']}
           </S.TimePickerButton>
+          <Text>~</Text>
           <S.TimePickerButton onPress={() => setOpenModal('pickup-end')}>
             {pickupEndTime
               ? format(pickupEndTime.getTime(), 'HH:mm')

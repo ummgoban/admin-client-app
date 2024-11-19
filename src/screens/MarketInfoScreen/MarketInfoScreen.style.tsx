@@ -27,6 +27,8 @@ const ImageCardGrid = styled.View`
   flex-wrap: wrap;
 
   gap: 8px;
+
+  margin: 16px 0;
 `;
 
 const ImageCardPlusButton = styled(Button)`

@@ -6,7 +6,9 @@ const Container = styled.View`
   flex-direction: column;
   gap: 8px;
 
+  flex: 1;
   width: 100%;
+
   padding: 8px 0;
 `;
 

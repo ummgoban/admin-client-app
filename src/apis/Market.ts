@@ -13,12 +13,15 @@ export const createMarket = async (
   market: RegistMarketType,
 ): Promise<{marketId: number} | null> => {
   try {
-    const res = await apiClient.post<{marketId: number}, RegistMarketType>(
-      '/markets',
-      market,
-    );
+    const res = await apiClient.post<
+      {code: number; data: {marketId: number}},
+      RegistMarketType
+    >('/markets', market);
 
-    return res;
+    if (res && res.code === 200) {
+      return res.data;
+    }
+    return null;
   } catch (error) {
     console.error(error);
     return null;

@@ -6,6 +6,7 @@ type DefaultProductType = {
   discountPrice: number;
   discountRate: number;
   stock: number;
+  count?: number;
 };
 
 export type ProductType = DefaultProductType & {

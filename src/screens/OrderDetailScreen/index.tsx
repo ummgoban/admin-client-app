@@ -17,6 +17,7 @@ const OrderDetailScreen = () => {
       const data: OrderDetailResponseType | null = await getOrderHistory();
       // TODO: suspense 로직
       setOrderData(data?.data);
+      console.log(data);
     };
 
     fetchData();
@@ -33,7 +34,7 @@ const OrderDetailScreen = () => {
         orderMemberName={orderData.orderMemberName}
         createdAt={orderData.createdAt}
         pickupReservedAt={orderData.pickupReservedAt}
-        customerRequest={orderData.customerRequset}
+        customerRequest={orderData.customerRequest}
       />
       <S.HorizonDivider />
       <OrderProductsInfo

@@ -1,17 +1,17 @@
 import {Text} from 'react-native';
 
-import {useEffect, useState} from 'react';
-
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import MenuManageDetailScreen from './MenuManageDetailScreen';
 
 import useMarket from '@/hooks/useMarket';
 import useProduct from '@/hooks/useProduct';
 import {MenuType} from '@/types/ProductType';
+import useProfile from '@/hooks/useProfile';
 
 const MenuManageScreen = () => {
-  const {market, fetch: fetchMarket} = useMarket();
+  const {fetch: fetchMarket} = useMarket();
   const {products, fetch: fetchProduct} = useProduct();
+  const {fetch: fetchProfile} = useProfile();
 
   const [menus, setMenus] = useState<MenuType[]>([]);
 
@@ -20,10 +20,12 @@ const MenuManageScreen = () => {
   }, [fetchMarket]);
 
   useEffect(() => {
-    if (market && market.length) {
-      fetchProduct(market[0].id);
-    }
-  }, [fetchProduct, market]);
+    fetchProduct();
+  }, [fetchProduct]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
 
   useEffect(() => {
     if (products) {

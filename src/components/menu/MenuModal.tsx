@@ -43,6 +43,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     discountPrice: 0,
     stock: 0,
     productStatus: 'HIDDEN',
+    tags: [],
   });
 
   const {refresh} = useProduct();
@@ -60,6 +61,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
         discountPrice: 0,
         stock: 0,
         productStatus: 'HIDDEN',
+        tags: [],
       });
     }
   }, [initialData]);

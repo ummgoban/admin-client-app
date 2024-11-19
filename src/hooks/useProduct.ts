@@ -24,6 +24,14 @@ const useProduct = () => {
   const {products, getProducts} = useProductStore();
   const {profile} = useProfile();
 
+  const fetchProducts = useCallback(async () => {
+    if (!profile || !profile.marketId) {
+      return;
+    }
+
+    await getProducts(profile.marketId);
+  }, [getProducts, profile]);
+
   const refresh = useCallback(async () => {
     if (!profile || !profile.marketId) {
       return;
@@ -38,7 +46,7 @@ const useProduct = () => {
     [products],
   );
 
-  return {products, refresh, fetch: getProducts, getProduct};
+  return {products, refresh, fetch: fetchProducts, getProduct};
 };
 
 export default useProduct;

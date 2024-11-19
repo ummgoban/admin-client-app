@@ -53,7 +53,10 @@ const useMarket = () => {
     await getMemberMarkets();
   }, [getMemberMarkets]);
 
-  const getMarket = useCallback(async () => {
+  const fetchMarket = useCallback(async () => {
+    if (!market || !market.length) {
+      await fetchMemberMarkets();
+    }
     if (!profile || !profile?.marketId) {
       return;
     }
@@ -63,9 +66,9 @@ const useMarket = () => {
       return;
     }
     setMarketInfo(res);
-  }, [profile, setMarketInfo]);
+  }, [fetchMemberMarkets, market, profile, setMarketInfo]);
 
-  return {market, marketInfo, refresh, fetch: fetchMemberMarkets, getMarket};
+  return {market, marketInfo, refresh, fetch: fetchMemberMarkets, fetchMarket};
 };
 
 export default useMarket;

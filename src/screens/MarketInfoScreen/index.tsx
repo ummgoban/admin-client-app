@@ -9,6 +9,7 @@ import TextInput from '@/components/common/TextInput';
 import {format} from '@/utils/date';
 import {pickImage} from '@/utils/image-picker';
 import useMarket from '@/hooks/useMarket';
+import useProfile from '@/hooks/useProfile';
 
 import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
 
@@ -20,7 +21,8 @@ const timeOptions = {
 } as const;
 
 const MarketInfoScreen = () => {
-  const {marketInfo, getMarket} = useMarket();
+  const {marketInfo, fetchMarket} = useMarket();
+  const {fetch: fetchProfile} = useProfile();
 
   const {width} = useWindowDimensions();
 
@@ -37,8 +39,12 @@ const MarketInfoScreen = () => {
   const [imageList, setImageList] = useState<string[]>([]);
 
   useEffect(() => {
-    getMarket();
-  }, [getMarket]);
+    fetchMarket();
+  }, [fetchMarket]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
 
   if (!marketInfo) {
     return (

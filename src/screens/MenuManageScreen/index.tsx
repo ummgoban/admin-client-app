@@ -37,9 +37,7 @@ const MenuManageScreen = () => {
     return <Text>메뉴 정보를 불러오는데 실패했습니다.</Text>;
   }
 
-  return (
-    <MenuManageDetailScreen menus={menus} tags={tags} updateMenus={setMenus} />
-  );
+  return <MenuManageDetailScreen menus={menus} updateMenus={setMenus} />;
 };
 
 export default MenuManageScreen;

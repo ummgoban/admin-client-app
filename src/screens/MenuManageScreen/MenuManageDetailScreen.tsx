@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
 import {createProduct, updateProduct} from '@/apis/Product';
 import Menu from '@/components/menu/Menu';
 import MenuModal from '@/components/menu/MenuModal';
-import {TagType} from '@/types/TagType';
+import {TagType} from '@/types/ProductType';
 import useMarket from '@/hooks/useMarket';
 
 import S from './MenuManageDetailScreen.style';
@@ -15,10 +15,9 @@ import useProfile from '@/hooks/useProfile';
 
 type Props = {
   menus: MenuType[];
-  tags: TagType[];
   updateMenus: (Menus: MenuType[]) => void;
 };
-const MenuManageDetailScreen = ({menus, updateMenus, tags}: Props) => {
+const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<MenuType | null>(null);
 
@@ -104,6 +103,15 @@ const MenuManageDetailScreen = ({menus, updateMenus, tags}: Props) => {
     updateMenus(updatedMenus);
   };
 
+  const getPresetTags = (menus: MenuType[]): TagType[] => {
+    const presetTags = Array.from(
+      new Map(
+        menus.flatMap(menu => menu.tags).map(tag => [tag.id, tag]),
+      ).values(),
+    );
+    return presetTags;
+  };
+
   return (
     <ScrollView>
       {menus.map(menu => (
@@ -126,7 +134,7 @@ const MenuManageDetailScreen = ({menus, updateMenus, tags}: Props) => {
         onClose={handleModalClose}
         onSave={handleSaveMenu}
         initialData={currentMenu}
-        presetTags={tags}
+        presetTags={getPresetTags(menus)}
       />
     </ScrollView>
   );

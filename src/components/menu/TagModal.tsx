@@ -32,7 +32,7 @@ const TagModal = ({
   ];
 
   const handleAddTag = () => {
-    const newTagObject = {id: Date.now(), name: newTag};
+    const newTagObject = {id: Date.now(), tagName: newTag};
     setSelectedTags(prev => [...prev, newTagObject]);
     setNewTag('');
   };
@@ -73,7 +73,7 @@ const TagModal = ({
                   selectedTag => selectedTag.id === tag.id,
                 )}
                 onPress={() => handleTagToggle(tag)}>
-                <S.TagText>{tag.name}</S.TagText>
+                <S.TagText>{tag.tagName}</S.TagText>
               </S.TagButton>
             ))}
           </S.TagList>

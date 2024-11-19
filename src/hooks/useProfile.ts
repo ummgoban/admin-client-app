@@ -36,6 +36,12 @@ const useProfileStore = create<ProfileStore>(set => ({
 const useProfile = () => {
   const {profile, getProfile, setCurrentMarketId} = useProfileStore();
 
+  const fetchProfile = useCallback(async () => {
+    if (!profile) {
+      await getProfile();
+    }
+  }, [getProfile, profile]);
+
   const refresh = useCallback(async () => {
     await getProfile();
   }, [getProfile]);
@@ -47,7 +53,7 @@ const useProfile = () => {
     [setCurrentMarketId],
   );
 
-  return {profile, refresh, fetch: getProfile, selectMarket};
+  return {profile, refresh, fetch: fetchProfile, selectMarket};
 };
 
 export default useProfile;

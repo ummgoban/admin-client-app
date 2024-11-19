@@ -93,7 +93,7 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
         <S.TextStyled numberOfLines={3} ellipsizeMode="tail">
           {order.products
             .map(product => `${product.name} ${product.count}개`)
-            .join(', ')}{' '}
+            .join(', ')}
         </S.TextStyled>
         <S.PriceText>{order.ordersPrice}원</S.PriceText>
         {renderButtons()}

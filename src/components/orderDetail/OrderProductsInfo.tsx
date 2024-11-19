@@ -1,9 +1,9 @@
 import React from 'react';
-import {Product} from '../../types/OrderDetailType';
+import {ProductType} from '@/types/ProductType';
 import S from './OrderProductsInfo.style';
 
 type Props = {
-  products: Product[];
+  products: ProductType[];
   totalPrice: number;
 };
 
@@ -13,7 +13,7 @@ const OrderProductsInfo = ({products, totalPrice}: Props) => {
       {products.map(product => (
         <S.InfoTextRowWrapper key={product.id}>
           <S.InfoText>
-            {product.name} {product.count}개
+            {product.name} {product.stock}개
           </S.InfoText>
           <S.InfoText>{product.discountPrice.toLocaleString()}원</S.InfoText>
         </S.InfoTextRowWrapper>

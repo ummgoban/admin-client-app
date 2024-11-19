@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Modal} from 'react-native';
 import S from './TagModal.style';
-import {TagType} from '@/types/TagType';
+import {TagType} from '@/types/ProductType';
 import CustomTextInput from '../common/CustomTextInput';
 
 type TagModalProps = {

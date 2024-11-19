@@ -7,10 +7,17 @@ const FloatingContainer = styled.View`
   margin-top: 16px;
 `;
 
-const Button = styled(RNPButton)`
+const Button = styled(RNPButton)<{disabled?: boolean}>`
   width: 100%;
   border-radius: 8px;
   margin-bottom: 16px;
+
+  background-color: ${props => {
+    if (props.disabled) {
+      return props.theme.colors.primaryDisabled;
+    }
+    return props.theme.colors.primary;
+  }};
 `;
 
 const S = {

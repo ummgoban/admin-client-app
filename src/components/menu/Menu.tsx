@@ -1,6 +1,7 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {MenuType} from '@/types/MenuType';
+
+import {MenuType} from '@/types/ProductType';
+
 import S from './Menu.style';
 type Props = {
   menu: MenuType;
@@ -8,7 +9,7 @@ type Props = {
   onIncreaseStock: () => void;
   onDecreaseStock: () => void;
 };
-const statusMap: Record<MenuType['status'], string> = {
+const statusMap: Record<MenuType['productStatus'], string> = {
   IN_STOCK: '판매중',
   OUT_OF_STOCK: '품절',
   HIDDEN: '숨김',
@@ -21,13 +22,17 @@ const Menu = ({menu, onEdit, onIncreaseStock, onDecreaseStock}: Props) => {
         <S.MenuNameText>{menu.name}</S.MenuNameText>
         <S.DicountInfoWrapper>
           <S.DiscountRateText>{menu.discountRate} %</S.DiscountRateText>
-          <S.DiscountPriceText>
-            {menu.originalPrice.toLocaleString()}원
-          </S.DiscountPriceText>
+          <S.OriginPriceText>
+            {menu.originPrice.toLocaleString()}원
+          </S.OriginPriceText>
         </S.DicountInfoWrapper>
         <S.CurrentInfoWrapper>
-          <Text>{menu.discountPrice.toLocaleString()}원</Text>
-          <S.CurrentStatusText>{statusMap[menu.status]}</S.CurrentStatusText>
+          <S.DiscountPriceText>
+            {menu.discountPrice.toLocaleString()}원
+          </S.DiscountPriceText>
+          <S.CurrentStatusText>
+            {statusMap[menu.productStatus]}
+          </S.CurrentStatusText>
         </S.CurrentInfoWrapper>
         <S.CurrentInfoWrapper>
           <S.MenuCounter>

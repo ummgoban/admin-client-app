@@ -3,6 +3,7 @@ import apiClient from './ApiClient';
 
 /**
  * POST /markets
+ * body: RegistMarketType
  */
 export const createMarket = async (
   market: RegistMarketType,

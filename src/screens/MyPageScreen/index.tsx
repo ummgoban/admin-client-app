@@ -15,7 +15,7 @@ import useMarket from '@/hooks/useMarket';
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
 
-  const {profile, fetch: fetchProfile} = useProfile();
+  const {profile, fetch: fetchProfile, selectMarket} = useProfile();
   const {market, fetch: fetchMarket} = useMarket();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -80,7 +80,11 @@ const MyPageScreen = () => {
                   <S.ModalContentItem
                     key={id}
                     selected={market[0].id === id}
-                    disabled={market[0].id === id}>
+                    disabled={market[0].id === id}
+                    onPress={() => {
+                      selectMarket(id);
+                      setOpenModal(false);
+                    }}>
                     <S.ModalContentItemIcon
                       source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
                     />

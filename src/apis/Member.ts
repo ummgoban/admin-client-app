@@ -5,7 +5,7 @@ type MarketResponseType = {
   name: string;
 };
 
-export const getMemberMarket = async (): Promise<
+export const getMemberMarkets = async (): Promise<
   MarketResponseType[] | null
 > => {
   try {

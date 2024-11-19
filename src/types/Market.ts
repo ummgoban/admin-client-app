@@ -8,6 +8,7 @@ export type MarketType = {
   address: string;
   products: ProductType[];
   images: string[];
+  summary: string;
 };
 
 export type RegistMarketType = {

@@ -4,27 +4,50 @@ import {useCallback} from 'react';
 
 import {create} from 'zustand';
 
+type AdminUserType = UserType & {
+  marketId: number | null;
+};
+
 type ProfileStore = {
-  profile: UserType | null;
+  profile: AdminUserType | null;
   getProfile: () => Promise<void>;
+  setCurrentMarketId: (marketId: number) => void;
 };
 
 const useProfileStore = create<ProfileStore>(set => ({
   profile: null,
   getProfile: async () => {
     const profileRes = await getProfileApi();
-    set({profile: profileRes});
+    if (!profileRes) {
+      return;
+    }
+    set({profile: {...profileRes, marketId: null}});
+  },
+  setCurrentMarketId: marketId => {
+    set(state => {
+      if (!state.profile) {
+        return state;
+      }
+      return {profile: {...state.profile, marketId}};
+    });
   },
 }));
 
 const useProfile = () => {
-  const {profile, getProfile} = useProfileStore();
+  const {profile, getProfile, setCurrentMarketId} = useProfileStore();
 
   const refresh = useCallback(async () => {
     await getProfile();
   }, [getProfile]);
 
-  return {profile, refresh, fetch: getProfile};
+  const selectMarket = useCallback(
+    (marketId: number) => {
+      setCurrentMarketId(marketId);
+    },
+    [setCurrentMarketId],
+  );
+
+  return {profile, refresh, fetch: getProfile, selectMarket};
 };
 
 export default useProfile;

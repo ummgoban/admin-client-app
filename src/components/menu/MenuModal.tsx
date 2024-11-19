@@ -7,7 +7,6 @@ import {Alert, Modal} from 'react-native';
 import {TextInput} from '../common';
 import CustomLabel from '../common/CustomLabel';
 
-import useMarket from '@/hooks/useMarket';
 import useProduct from '@/hooks/useProduct';
 
 import S from './MenuModal.style';
@@ -47,7 +46,6 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
   });
 
   const {refresh} = useProduct();
-  const {market} = useMarket();
 
   useEffect(() => {
     if (initialData) {
@@ -163,7 +161,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
             console.debug('deleteProduct', 'delete success');
             Alert.alert('삭제되었습니다.');
 
-            refresh(market[0].id);
+            refresh();
           }
 
           onClose();

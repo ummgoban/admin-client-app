@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
-import {Alert, useWindowDimensions} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, useWindowDimensions, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {Text} from 'react-native-paper';
 
+import {deleteMarketImage, uploadMarketImage} from '@/apis/Market';
 import {BottomButton, Label} from '@/components/common';
 import TextInput from '@/components/common/TextInput';
 import {format} from '@/utils/date';
 import {pickImage} from '@/utils/image-picker';
-import {uploadMarketImage, deleteMarketImage} from '@/apis/Market';
+import useMarket from '@/hooks/useMarket';
 
 import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
 
@@ -19,6 +20,8 @@ const timeOptions = {
 } as const;
 
 const MarketInfoScreen = () => {
+  const {marketInfo, getMarket} = useMarket();
+
   const {width} = useWindowDimensions();
 
   const [pickupStartTime, setPickupStartTime] = useState<Date>();
@@ -33,10 +36,22 @@ const MarketInfoScreen = () => {
 
   const [imageList, setImageList] = useState<string[]>([]);
 
+  useEffect(() => {
+    getMarket();
+  }, [getMarket]);
+
+  if (!marketInfo) {
+    return (
+      <View>
+        <Text>{'마켓 정보를 불러오는 중입니다.'}</Text>
+      </View>
+    );
+  }
+
   return (
     <S.Container>
       <S.ScrollView>
-        <TextInput label={'상호명'} disabled placeholder="수미네반찬" />
+        <TextInput label={'상호명'} disabled placeholder={marketInfo?.name} />
         <TextInput
           label={'한 줄 소개'}
           required

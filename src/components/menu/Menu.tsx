@@ -1,5 +1,4 @@
 import React from 'react';
-import {Text} from 'react-native';
 
 import {MenuType} from '@/types/ProductType';
 
@@ -23,12 +22,14 @@ const Menu = ({menu, onEdit, onIncreaseStock, onDecreaseStock}: Props) => {
         <S.MenuNameText>{menu.name}</S.MenuNameText>
         <S.DicountInfoWrapper>
           <S.DiscountRateText>{menu.discountRate} %</S.DiscountRateText>
-          <S.DiscountPriceText>
+          <S.OriginPriceText>
             {menu.originPrice.toLocaleString()}원
-          </S.DiscountPriceText>
+          </S.OriginPriceText>
         </S.DicountInfoWrapper>
         <S.CurrentInfoWrapper>
-          <Text>{menu.discountPrice.toLocaleString()}원</Text>
+          <S.DiscountPriceText>
+            {menu.discountPrice.toLocaleString()}원
+          </S.DiscountPriceText>
           <S.CurrentStatusText>
             {statusMap[menu.productStatus]}
           </S.CurrentStatusText>

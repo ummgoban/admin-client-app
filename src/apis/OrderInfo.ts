@@ -4,13 +4,13 @@ const dummyOrderInfo: OrderDetailResponseType = {
   code: 200,
   message: '성공',
   data: {
-    id: '1',
-    customerRequset: '일부러 아래로 내렸습니다 디자인 논의 필요 붙일까요',
+    id: 1,
+    customerRequest: '일부러 아래로 내렸습니다 디자인 논의 필요 붙일까요',
     createdAt: '2024-10-14T12:21:31.121Z',
     pickupReservedAt: '2024-10-14T13:00:00.000Z',
     ordersPrice: 35000,
     orderMemberName: '홍길동',
-    ordersStatus: '예약완료',
+    ordersStatus: 'ACCEPTED',
     products: [
       {
         id: 101,

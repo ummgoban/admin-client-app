@@ -34,7 +34,7 @@ const OrderDetailScreen = () => {
         orderMemberName={orderData.orderMemberName}
         createdAt={orderData.createdAt}
         pickupReservedAt={orderData.pickupReservedAt}
-        customerRequest={orderData.customerRequset}
+        customerRequest={orderData.customerRequest}
       />
       <S.HorizonDivider />
       <OrderProductsInfo

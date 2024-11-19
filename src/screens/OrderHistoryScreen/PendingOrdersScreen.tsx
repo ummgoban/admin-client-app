@@ -3,9 +3,15 @@ import {ScrollView} from 'react-native';
 import PendingOrder from '@/components/pendingOrder/PendingOrder';
 import {OrderDetailInfoType} from '@/types/OrderDetailType';
 import {getPendingOrderLists} from '@/apis/PendingOrderInfo';
+import {updateOrderStatus} from '@/apis/PendingOrderInfo';
 
 type PendingOrdersScreenProps = {
-  orderStatus: 'ORDERED' | 'ACCEPTED' | 'PICKEDUP_OR_CANCELED';
+  orderStatus:
+    | 'ORDERED'
+    | 'ACCEPTED'
+    | 'PICKEDUP_OR_CANCELED'
+    | 'PICKEDUP'
+    | 'CANCELED';
 };
 
 const PendingOrdersScreen = ({orderStatus}: PendingOrdersScreenProps) => {
@@ -13,6 +19,7 @@ const PendingOrdersScreen = ({orderStatus}: PendingOrdersScreenProps) => {
 
   useEffect(() => {
     const fetchOrders = async () => {
+      //TODO: marketId 받아와서 API call
       const data = await getPendingOrderLists(6, orderStatus);
       if (data) {
         setOrders(data);
@@ -21,7 +28,16 @@ const PendingOrdersScreen = ({orderStatus}: PendingOrdersScreenProps) => {
     fetchOrders();
   }, [orderStatus]);
 
-  const handleStatusChange = (orderId: string, newStatus: string) => {
+  const handleStatusChange = (
+    orderId: number,
+    newStatus:
+      | 'ORDERED'
+      | 'ACCEPTED'
+      | 'PICKEDUP_OR_CANCELED'
+      | 'PICKEDUP'
+      | 'CANCELED',
+  ) => {
+    updateOrderStatus(orderId, newStatus);
     setOrders(prevOrders => {
       const updatedOrders = prevOrders.map(order =>
         order.id === orderId ? {...order, ordersStatus: newStatus} : order,

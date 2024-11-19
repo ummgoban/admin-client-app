@@ -9,7 +9,15 @@ import {RootStackParamList} from '@/types/StackNavigationType';
 
 type Props = {
   order: OrderDetailInfoType;
-  onStatusChange: (orderId: string, newStatus: string) => void;
+  onStatusChange: (
+    orderId: number,
+    newStatus:
+      | 'ORDERED'
+      | 'ACCEPTED'
+      | 'PICKEDUP_OR_CANCELED'
+      | 'PICKEDUP'
+      | 'CANCELED',
+  ) => void;
 };
 
 const formatDate = (dateString: string) => {
@@ -32,7 +40,7 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
   };
 
   const handlePickup = () => {
-    onStatusChange(order.id, 'PICKED_UP');
+    onStatusChange(order.id, 'PICKEDUP');
   };
 
   const renderButtons = () => {
@@ -80,11 +88,11 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
         <S.TextStyled>주문자명: {order.orderMemberName}</S.TextStyled>
         <S.RequestText>요청사항</S.RequestText>
         <S.RequestText numberOfLines={3} ellipsizeMode="tail">
-          {order.customerRequset}
+          {order.customerRequest}
         </S.RequestText>
         <S.TextStyled numberOfLines={3} ellipsizeMode="tail">
           {order.products
-            .map(product => `${product.name} ${product.count}개`)
+            .map(product => `${product.name} ${product.stock}개`)
             .join(', ')}{' '}
         </S.TextStyled>
         <S.PriceText>{order.ordersPrice}원</S.PriceText>

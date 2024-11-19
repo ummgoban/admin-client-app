@@ -22,7 +22,7 @@ type Props = {
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
-  const hours = date.getUTCHours();
+  const hours = date.getUTCHours() + 9;
   const minutes = date.getUTCMinutes();
   const period = hours >= 12 ? '오후' : '오전';
   const formattedHours = hours % 12 || 12;
@@ -80,7 +80,7 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
         </S.TimeInfo>
         <S.Divider />
         <S.TimeInfo>
-          <Text>픽업시간</Text>
+          <Text>픽업예약</Text>
           <Text>{formatDate(order.pickupReservedAt)}</Text>
         </S.TimeInfo>
       </S.TimeInfoContainer>
@@ -92,7 +92,7 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
         </S.RequestText>
         <S.TextStyled numberOfLines={3} ellipsizeMode="tail">
           {order.products
-            .map(product => `${product.name} ${product.stock}개`)
+            .map(product => `${product.name} ${product.count}개`)
             .join(', ')}{' '}
         </S.TextStyled>
         <S.PriceText>{order.ordersPrice}원</S.PriceText>

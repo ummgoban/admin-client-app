@@ -35,19 +35,23 @@ const useMarket = () => {
   const {market, getMemberMarkets, marketInfo, setMarketInfo} =
     useMarketStore();
 
-  const {profile, selectMarket} = useProfile();
+  const {profile, selectMarket, fetch: fetchProfile} = useProfile();
 
   const fetchMemberMarkets = useCallback(async () => {
+    if (!profile) {
+      await fetchProfile();
+    }
+
     const res = await getMemberMarkets();
 
     if (!res || !res.length) {
       return;
     }
 
-    if (!profile?.marketId) {
+    if (profile && !profile.marketId) {
       selectMarket(res[0].id);
     }
-  }, [getMemberMarkets, profile, selectMarket]);
+  }, [fetchProfile, getMemberMarkets, profile, selectMarket]);
 
   const refresh = useCallback(async () => {
     await getMemberMarkets();
@@ -57,9 +61,11 @@ const useMarket = () => {
     if (!market || !market.length) {
       await fetchMemberMarkets();
     }
+
     if (!profile || !profile?.marketId) {
       return;
     }
+
     const res = await getMarketAPI(profile.marketId);
 
     if (!res) {

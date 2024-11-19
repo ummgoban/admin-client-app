@@ -1,5 +1,11 @@
 import styled from '@emotion/native';
 
+const EmptyText = styled.Text`
+  ${({theme}) => theme.fonts.body1}
+  margin: 0 auto;
+  padding: 16px;
+`;
+
 const ProfileContainer = styled.View`
   display: flex;
   flex-direction: column;
@@ -145,6 +151,7 @@ const ModalAddButtonText = styled.Text`
 `;
 
 const S = {
+  EmptyText,
   ProfileContainer,
   ProfileImage,
   ProfileNameContainer,

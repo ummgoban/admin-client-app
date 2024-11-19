@@ -1,16 +1,16 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, TouchableOpacity, View} from 'react-native';
 import {Button, Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {RootStackParamList} from '@/types/StackNavigationType';
-import useProfile from '@/hooks/useProfile';
 import {logout} from '@/apis/Login';
+import useProfile from '@/hooks/useProfile';
+import {RootStackParamList} from '@/types/StackNavigationType';
 
-import S from './MyPageScreen.style';
 import useMarket from '@/hooks/useMarket';
+import S from './MyPageScreen.style';
 
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -61,7 +61,7 @@ const MyPageScreen = () => {
         <View>
           <TouchableOpacity
             onPress={() => navigation.navigate('Register', {screen: 'Login'})}>
-            <Text>로그인하기</Text>
+            <S.EmptyText>로그인하기</S.EmptyText>
           </TouchableOpacity>
         </View>
       )}

@@ -66,7 +66,8 @@ const StatusButton = styled.TouchableOpacity<{isActive: boolean}>`
   text-align: center;
   justify-content: center;
   align-items: center;
-  background-color: ${({isActive}) => (isActive ? '#4CAF50' : '#E0E0E0')};
+  background-color: ${props =>
+    props.isActive ? props.theme.colors.primary : '#E0E0E0'};
 `;
 const StatusButtonText = styled.Text`
   font-weight: bold;

@@ -40,7 +40,7 @@ export const createProduct = async (
       {
         productImage: product.image,
         name: product.name,
-        productStatus: product.status,
+        productStatus: product.productStatus,
         originPrice: product.originPrice,
         discountPrice: product.discountPrice,
         discountRate: product.discountRate,
@@ -74,7 +74,7 @@ export const updateProduct = async (
       {
         productImage: product.image,
         name: product.name,
-        productStatus: product.status,
+        productStatus: product.productStatus,
         originPrice: product.originPrice,
         discountPrice: product.discountPrice,
         discountRate: product.discountRate,

@@ -56,7 +56,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
       ),
       discountRate: menuData.discountRate,
       stock: menuData.stock,
-      status: menuData.status,
+      productStatus: menuData.productStatus,
     };
 
     const res = currentMenu

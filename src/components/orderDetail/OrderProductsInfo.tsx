@@ -13,7 +13,7 @@ const OrderProductsInfo = ({products, totalPrice}: Props) => {
       {products.map(product => (
         <S.InfoTextRowWrapper key={product.id}>
           <S.InfoText>
-            {product.name} {product.stock}개
+            {product.name} {product.count}개
           </S.InfoText>
           <S.InfoText>{product.discountPrice.toLocaleString()}원</S.InfoText>
         </S.InfoTextRowWrapper>

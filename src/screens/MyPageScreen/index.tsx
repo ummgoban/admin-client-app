@@ -1,31 +1,70 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import {Modal, Portal} from 'react-native-paper';
+import React, {useEffect, useState} from 'react';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import {RootStackParamList} from '@/types/StackNavigationType';
+import useProfile from '@/hooks/useProfile';
+import {logout} from '@/apis/Login';
 
 import S from './MyPageScreen.style';
+import useMarket from '@/hooks/useMarket';
 
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
+
+  const {profile, fetch: fetchProfile} = useProfile();
+  const {market, fetch: fetchMarket} = useMarket();
+
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  useEffect(() => {
+    fetchMarket();
+  }, [fetchMarket]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
 
   return (
     <View>
-      <S.ProfileContainer>
-        <S.ProfileImage
-          source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
-          width={100}
-          height={100}
-        />
-        <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
-          <S.ProfileName>{'매장 이름 1'}</S.ProfileName>
-          <Icon name="down" size={20} color="#000000" />
-        </S.ProfileNameContainer>
-      </S.ProfileContainer>
+      {profile ? (
+        <View>
+          <S.ProfileContainer>
+            <S.ProfileImage
+              source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
+              width={100}
+              height={100}
+            />
+            <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
+              <S.ProfileName>{`${profile.name}님 ${market && market.length ? `의${market[0].name}` : ''}`}</S.ProfileName>
+              <Icon name="down" size={20} color="#000000" />
+            </S.ProfileNameContainer>
+          </S.ProfileContainer>
+          <Button
+            onPress={async () => {
+              const res = await logout();
+
+              if (res) {
+                navigation.navigate('Register', {screen: 'Login'});
+              } else {
+                console.error('로그아웃 실패');
+                Alert.alert('로그아웃 실패');
+              }
+            }}>
+            로그아웃
+          </Button>
+        </View>
+      ) : (
+        <View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Register', {screen: 'Login'})}>
+            <Text>로그인하기</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       {openModal && (
         <Portal>
           <Modal visible={openModal} onDismiss={() => setOpenModal(false)}>
@@ -37,22 +76,20 @@ const MyPageScreen = () => {
                 </S.ModalCloseButton>
               </S.ModalHeader>
               <S.ModalContent>
-                {/* TODO: render market list */}
-                <S.ModalContentItem selected>
-                  <S.ModalContentItemIcon
-                    source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
-                  />
-                  <S.ModalContentItemText>매장 이름 1</S.ModalContentItemText>
-                </S.ModalContentItem>
-                <S.ModalContentItem>
-                  <S.ModalContentItemIcon
-                    source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
-                  />
-                  <S.ModalContentItemText>매장 이름 2</S.ModalContentItemText>
-                </S.ModalContentItem>
+                {market.map(({id, name}) => (
+                  <S.ModalContentItem
+                    key={id}
+                    selected={market[0].id === id}
+                    disabled={market[0].id === id}>
+                    <S.ModalContentItemIcon
+                      source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
+                    />
+                    <S.ModalContentItemText>{name}</S.ModalContentItemText>
+                  </S.ModalContentItem>
+                ))}
                 <S.ModalAddButton
                   onPress={() => {
-                    navigation.navigate('RegisterMarketHome', {
+                    navigation.navigate('RegisterMarketRoot', {
                       screen: 'RegisterMarket',
                     });
                     setOpenModal(false);
@@ -65,12 +102,6 @@ const MyPageScreen = () => {
           </Modal>
         </Portal>
       )}
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Register', {screen: 'Login'})}>
-          <Text>로그인하기</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

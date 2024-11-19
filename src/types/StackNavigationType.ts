@@ -31,5 +31,5 @@ export interface RootStackParamList extends ParamListBase {
   Home: StackParamType<HomeStackParamList>;
   Register: StackParamType<RegisterStackParamList>;
   Detail: StackParamType<DetailStackParamList>;
-  RegisterMarket: StackParamType<RegisterMarketParmaList>;
+  RegisterMarketRoot: StackParamType<RegisterMarketParmaList>;
 }

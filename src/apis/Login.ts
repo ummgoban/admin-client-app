@@ -65,7 +65,7 @@ const signInWithNaver = async (): Promise<SessionType | null> => {
     if (loginResult.isSuccess && loginResult.successResponse) {
       const {accessToken, refreshToken, expiresAtUnixSecondString} =
         loginResult.successResponse;
-      console.log('Naver Access Token:', accessToken);
+      console.debug('Naver Access Token:', accessToken);
       // JWT 토큰
       const response = await apiClient.post<{
         data: {
@@ -79,7 +79,7 @@ const signInWithNaver = async (): Promise<SessionType | null> => {
       });
 
       if (response) {
-        console.log('네이버 로그인 성공:', response);
+        console.debug('네이버 로그인 성공:', response);
         const accessTokenExpiresAt = Number(expiresAtUnixSecondString) * 1000;
 
         return {
@@ -193,9 +193,10 @@ export const logout = async (): Promise<boolean> => {
   }
 };
 
-export const getProfile = async () => {
+export const getProfile = async (): Promise<UserType | null> => {
   try {
     const storageRes: SessionType | null = await getStorage('session');
+
     if (!storageRes) {
       return null;
     }

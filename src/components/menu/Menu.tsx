@@ -1,6 +1,8 @@
 import React from 'react';
 import {Text} from 'react-native';
-import {MenuType} from '@/types/MenuType';
+
+import {MenuType} from '@/types/ProductType';
+
 import S from './Menu.style';
 type Props = {
   menu: MenuType;
@@ -22,7 +24,7 @@ const Menu = ({menu, onEdit, onIncreaseStock, onDecreaseStock}: Props) => {
         <S.DicountInfoWrapper>
           <S.DiscountRateText>{menu.discountRate} %</S.DiscountRateText>
           <S.DiscountPriceText>
-            {menu.originalPrice.toLocaleString()}원
+            {menu.originPrice.toLocaleString()}원
           </S.DiscountPriceText>
         </S.DicountInfoWrapper>
         <S.CurrentInfoWrapper>

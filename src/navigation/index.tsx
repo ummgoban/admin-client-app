@@ -15,7 +15,7 @@ const AppNavigator = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={HomeNavigator} />
       <Stack.Screen
-        name="RegisterMarket"
+        name="RegisterMarketRoot"
         component={ResgitrationMarketNavigator}
       />
       <Stack.Screen name="Register" component={RegistrationNavigaitor} />

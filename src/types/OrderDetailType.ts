@@ -1,12 +1,4 @@
-export type Product = {
-  id: number;
-  image: string;
-  name: string;
-  originPrice: number;
-  discountPrice: number;
-  discountRate: number;
-  count: number;
-};
+import {ProductType} from './ProductType';
 
 export type OrderDetailInfoType = {
   id: string;
@@ -15,8 +7,8 @@ export type OrderDetailInfoType = {
   pickupReservedAt: string;
   ordersPrice: number;
   orderMemberName: string;
-  ordersStatus: string;
-  products: Product[];
+  orderStatus: string;
+  products: ProductType[];
 };
 
 export type OrderDetailResponseType = {

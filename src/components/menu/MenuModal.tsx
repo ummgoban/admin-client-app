@@ -9,7 +9,6 @@ import TagModal from './TagModal';
 import {TagType} from '@/types/TagType';
 import CustomLabel from '../common/CustomLabel';
 
-import useMarket from '@/hooks/useMarket';
 import useProduct from '@/hooks/useProduct';
 
 import S from './MenuModal.style';
@@ -53,6 +52,7 @@ const MenuModal = ({
     stock: 0,
     tags: [],
     productStatus: 'HIDDEN',
+    tags: [],
   });
   const [tagModalVisible, setTagModalVisible] = useState(false);
   const handleTagsUpdate = (updatedTags: MenuType['tags']) => {
@@ -60,7 +60,6 @@ const MenuModal = ({
   };
 
   const {refresh} = useProduct();
-  const {market} = useMarket();
 
   useEffect(() => {
     if (initialData) {
@@ -76,6 +75,7 @@ const MenuModal = ({
         stock: 0,
         tags: [],
         productStatus: 'HIDDEN',
+        tags: [],
       });
     }
   }, [initialData]);
@@ -177,7 +177,7 @@ const MenuModal = ({
             console.debug('deleteProduct', 'delete success');
             Alert.alert('삭제되었습니다.');
 
-            refresh(market[0].id);
+            refresh();
           }
 
           onClose();

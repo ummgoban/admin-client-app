@@ -6,13 +6,14 @@ type DefaultProductType = {
   discountPrice: number;
   discountRate: number;
   stock: number;
+  count?: number;
 };
 
 export type ProductType = DefaultProductType & {
   tags: TagType[];
 };
 
-export type MenuType = DefaultProductType & {
+export type MenuType = ProductType & {
   productStatus: 'IN_STOCK' | 'OUT_OF_STOCK' | 'HIDDEN';
   tags: TagType[];
 };

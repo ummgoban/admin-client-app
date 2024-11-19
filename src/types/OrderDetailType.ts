@@ -1,13 +1,18 @@
 import {ProductType} from './ProductType';
 
 export type OrderDetailInfoType = {
-  id: string;
-  customerRequset: string;
+  id: number;
+  customerRequest: string;
   createdAt: string;
   pickupReservedAt: string;
   ordersPrice: number;
   orderMemberName: string;
-  orderStatus: string;
+  ordersStatus:
+    | 'ORDERED'
+    | 'ACCEPTED'
+    | 'PICKEDUP_OR_CANCELED'
+    | 'PICKEDUP'
+    | 'CANCELED';
   products: ProductType[];
 };
 

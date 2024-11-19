@@ -2,6 +2,7 @@ import {getProducts as getProductsApi} from '@/apis/Product';
 import {MenuType} from '@/types/ProductType';
 import {useCallback} from 'react';
 import {create} from 'zustand';
+import useProfile from './useProfile';
 
 type ProductStore = {
   products: MenuType[];
@@ -21,13 +22,22 @@ const useProductStore = create<ProductStore>(set => ({
 
 const useProduct = () => {
   const {products, getProducts} = useProductStore();
+  const {profile} = useProfile();
 
-  const refresh = useCallback(
-    async (marketId: number) => {
-      await getProducts(marketId);
-    },
-    [getProducts],
-  );
+  const fetchProducts = useCallback(async () => {
+    if (!profile || !profile.marketId) {
+      return;
+    }
+
+    await getProducts(profile.marketId);
+  }, [getProducts, profile]);
+
+  const refresh = useCallback(async () => {
+    if (!profile || !profile.marketId) {
+      return;
+    }
+    await getProducts(profile.marketId);
+  }, [getProducts, profile]);
 
   const getProduct = useCallback(
     (productId: number) => {
@@ -36,7 +46,7 @@ const useProduct = () => {
     [products],
   );
 
-  return {products, refresh, fetch: getProducts, getProduct};
+  return {products, refresh, fetch: fetchProducts, getProduct};
 };
 
 export default useProduct;

@@ -15,7 +15,7 @@ import useMarket from '@/hooks/useMarket';
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
 
-  const {profile, fetch: fetchProfile} = useProfile();
+  const {profile, fetch: fetchProfile, selectMarket} = useProfile();
   const {market, fetch: fetchMarket} = useMarket();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -39,7 +39,7 @@ const MyPageScreen = () => {
               height={100}
             />
             <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
-              <S.ProfileName>{`${profile.name}님 ${market && market.length ? `의${market[0].name}` : ''}`}</S.ProfileName>
+              <S.ProfileName>{`${profile.name}님 ${market && profile.marketId ? `의${market.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
               <Icon name="down" size={20} color="#000000" />
             </S.ProfileNameContainer>
           </S.ProfileContainer>
@@ -80,7 +80,11 @@ const MyPageScreen = () => {
                   <S.ModalContentItem
                     key={id}
                     selected={market[0].id === id}
-                    disabled={market[0].id === id}>
+                    disabled={market[0].id === id}
+                    onPress={() => {
+                      selectMarket(id);
+                      setOpenModal(false);
+                    }}>
                     <S.ModalContentItemIcon
                       source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
                     />

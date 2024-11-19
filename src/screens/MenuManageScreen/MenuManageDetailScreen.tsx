@@ -10,6 +10,8 @@ import useMarket from '@/hooks/useMarket';
 
 import S from './MenuManageDetailScreen.style';
 import {MenuType} from '@/types/ProductType';
+import useProduct from '@/hooks/useProduct';
+import useProfile from '@/hooks/useProfile';
 
 type Props = {
   menus: MenuType[];
@@ -20,7 +22,9 @@ const MenuManageDetailScreen = ({menus, updateMenus, tags}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<MenuType | null>(null);
 
-  const {market, refresh} = useMarket();
+  const {market} = useMarket();
+  const {profile} = useProfile();
+  const {refresh} = useProduct();
 
   const handleAddProduct = () => {
     setCurrentMenu(null);
@@ -33,7 +37,7 @@ const MenuManageDetailScreen = ({menus, updateMenus, tags}: Props) => {
   };
 
   const handleSaveMenu = async (menuData: MenuType) => {
-    if (!market || !market.length) {
+    if (!market || !market.length || !profile?.marketId) {
       console.debug('MemuManageDetailScreen', '마켓 정보가 없습니다.');
       return;
     }
@@ -63,7 +67,7 @@ const MenuManageDetailScreen = ({menus, updateMenus, tags}: Props) => {
 
     const res = currentMenu
       ? await updateProduct(currentMenu.id, body)
-      : await createProduct(market[0].id, body);
+      : await createProduct(profile?.marketId, body);
 
     if (!res) {
       console.error('상품 추가 실패');
@@ -102,13 +106,6 @@ const MenuManageDetailScreen = ({menus, updateMenus, tags}: Props) => {
 
   return (
     <ScrollView>
-      <S.MainText>개별상품</S.MainText>
-      <S.AddProductView>
-        <S.AddProductWrapper onPress={handleAddProduct}>
-          <S.AddText>+ 상품 추가하기 </S.AddText>
-        </S.AddProductWrapper>
-      </S.AddProductView>
-
       {menus.map(menu => (
         <Menu
           key={menu.id}
@@ -118,6 +115,11 @@ const MenuManageDetailScreen = ({menus, updateMenus, tags}: Props) => {
           onDecreaseStock={() => handleDecreaseStock(menu.id)}
         />
       ))}
+      <S.AddProductView>
+        <S.AddProductWrapper onPress={handleAddProduct}>
+          <S.AddText>+ 상품 추가하기 </S.AddText>
+        </S.AddProductWrapper>
+      </S.AddProductView>
 
       <MenuModal
         isVisible={modalVisible}

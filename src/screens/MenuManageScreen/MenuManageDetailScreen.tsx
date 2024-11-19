@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
-import S from './MenuManageDetailScreen.style';
-import Menu from '@/components/menu/Menu';
-import {MenuType} from '@/types/MenuType';
+import {Alert} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+
+import {createProduct, updateProduct} from '@/apis/Product';
+import Menu from '@/components/menu/Menu';
 import MenuModal from '@/components/menu/MenuModal';
+import useMarket from '@/hooks/useMarket';
+
+import S from './MenuManageDetailScreen.style';
+import {MenuType} from '@/types/ProductType';
 
 type Props = {
   menus: MenuType[];
@@ -12,6 +17,8 @@ type Props = {
 const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<MenuType | null>(null);
+
+  const {market, refresh} = useMarket();
 
   const handleAddProduct = () => {
     setCurrentMenu(null);
@@ -22,7 +29,13 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     setCurrentMenu(menu);
     setModalVisible(true);
   };
-  const handleSaveMenu = (menuData: MenuType) => {
+
+  const handleSaveMenu = async (menuData: MenuType) => {
+    if (!market || !market.length) {
+      console.debug('MemuManageDetailScreen', '마켓 정보가 없습니다.');
+      return;
+    }
+
     const updatedMenus = menus.map(menu => {
       if (menu.id === menuData.id) {
         return menuData;
@@ -33,7 +46,30 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     if (!menus.find(menu => menu.id === menuData.id)) {
       updatedMenus.push(menuData);
     }
-    updateMenus(updatedMenus);
+
+    const body = {
+      image: menuData.image,
+      name: menuData.name,
+      originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
+      discountPrice: Number(
+        menuData.discountPrice.toString().replace(/,/g, ''),
+      ),
+      discountRate: menuData.discountRate,
+      stock: menuData.stock,
+      status: menuData.status,
+    };
+
+    const res = currentMenu
+      ? await updateProduct(currentMenu.id, body)
+      : await createProduct(market[0].id, body);
+
+    if (!res) {
+      console.error('상품 추가 실패');
+      Alert.alert('상품 추가 실패');
+    } else {
+      await refresh();
+    }
+
     setCurrentMenu(null);
     setModalVisible(false);
   };

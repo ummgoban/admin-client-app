@@ -104,13 +104,6 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
 
   return (
     <ScrollView>
-      <S.MainText>개별상품</S.MainText>
-      <S.AddProductView>
-        <S.AddProductWrapper onPress={handleAddProduct}>
-          <S.AddText>+ 상품 추가하기 </S.AddText>
-        </S.AddProductWrapper>
-      </S.AddProductView>
-
       {menus.map(menu => (
         <Menu
           key={menu.id}
@@ -120,6 +113,11 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
           onDecreaseStock={() => handleDecreaseStock(menu.id)}
         />
       ))}
+      <S.AddProductView>
+        <S.AddProductWrapper onPress={handleAddProduct}>
+          <S.AddText>+ 상품 추가하기 </S.AddText>
+        </S.AddProductWrapper>
+      </S.AddProductView>
 
       <MenuModal
         isVisible={modalVisible}

@@ -17,9 +17,27 @@ const HomeNavigator = () => {
         component={OrderNavigator}
         options={{headerShown: false}}
       />
-      <Tab.Screen name="MarketInfo" component={MarketInfoScreen} />
-      <Tab.Screen name="MenuManage" component={MenuManageScreen} />
-      <Tab.Screen name="MyPage" component={MyPageScreen} />
+      <Tab.Screen
+        name="MarketInfo"
+        component={MarketInfoScreen}
+        options={{
+          title: '매장정보',
+        }}
+      />
+      <Tab.Screen
+        name="MenuManage"
+        component={MenuManageScreen}
+        options={{
+          title: '메뉴관리',
+        }}
+      />
+      <Tab.Screen
+        name="MyPage"
+        component={MyPageScreen}
+        options={{
+          title: '마이페이지',
+        }}
+      />
       {/* Add more screens here */}
     </Tab.Navigator>
   );

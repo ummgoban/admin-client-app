@@ -33,10 +33,16 @@ const DicountInfoWrapper = styled.View`
 const DiscountRateText = styled.Text`
   color: red;
 `;
-const DiscountPriceText = styled.Text`
+const OriginPriceText = styled.Text`
   color: #b5b5b5;
   text-decoration-line: line-through;
 `;
+
+const DiscountPriceText = styled.Text`
+  ${props => props.theme.fonts.body1};
+  font-weight: bold;
+`;
+
 const CurrentInfoWrapper = styled.View`
   display: flex;
   flex-direction: row;
@@ -93,6 +99,7 @@ const S = {
   DicountInfoWrapper,
   DiscountRateText,
   DiscountPriceText,
+  OriginPriceText,
   CurrentInfoWrapper,
   CurrentStatusText,
   ModifyButtonWrapper,

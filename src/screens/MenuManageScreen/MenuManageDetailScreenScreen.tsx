@@ -4,15 +4,16 @@ import Menu from '@/components/menu/Menu';
 import {MenuType} from '@/types/MenuType';
 import {ScrollView} from 'react-native-gesture-handler';
 import MenuModal from '@/components/menu/MenuModal';
+import {TagType} from '@/types/TagType';
 
 type Props = {
   menus: MenuType[];
+  tags: TagType[];
   updateMenus: (Menus: MenuType[]) => void;
 };
-const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
+const MenuManageDetailScreen = ({menus, updateMenus, tags}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<MenuType | null>(null);
-
   const handleAddProduct = () => {
     setCurrentMenu(null);
     setModalVisible(true);
@@ -86,6 +87,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
         onClose={handleModalClose}
         onSave={handleSaveMenu}
         initialData={currentMenu}
+        presetTags={tags}
       />
     </ScrollView>
   );

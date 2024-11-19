@@ -1,3 +1,5 @@
+import {TagType} from './TagType';
+
 export type MenuType = {
   id: number;
   name: string;
@@ -7,4 +9,5 @@ export type MenuType = {
   discountPrice: number;
   status: 'IN_STOCK' | 'OUT_OF_STOCK' | 'HIDDEN';
   stock: number;
+  tags: TagType[];
 };

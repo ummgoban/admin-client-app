@@ -6,6 +6,8 @@ import {pickImage} from '@/utils/image-picker';
 import CustomLabel from '../common/CustomLabel';
 import CustomTextInput from '@/components/common/CustomTextInput';
 import {TextInput} from '../common';
+import TagModal from './TagModal';
+import {TagType} from '@/types/TagType';
 // TODO : 태그 컴포넌트 넣기
 // TODO : onSave시 post data
 // TODO : 메뉴 추가시 id 처리(백엔드) -> 현재 Date.now()로 임시처리
@@ -14,6 +16,7 @@ type Props = {
   onClose: () => void;
   onSave: (data: MenuType) => void;
   initialData: MenuType | null;
+  presetTags: TagType[];
 };
 const STATUS_OPTIONS: Record<MenuType['status'], string> = {
   IN_STOCK: '판매중',
@@ -30,8 +33,13 @@ const calculateDiscountRate = (
   }
   return 0;
 };
-
-const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
+const MenuModal = ({
+  isVisible,
+  onClose,
+  onSave,
+  initialData,
+  presetTags,
+}: Props) => {
   const [menuData, setMenuData] = useState<MenuType>({
     id: -1,
     name: '',
@@ -41,7 +49,12 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     discountPrice: 0,
     stock: 0,
     status: 'HIDDEN',
+    tags: [],
   });
+  const [tagModalVisible, setTagModalVisible] = useState(false);
+  const handleTagsUpdate = (updatedTags: MenuType['tags']) => {
+    setMenuData(prev => ({...prev, tags: updatedTags}));
+  };
 
   useEffect(() => {
     if (initialData) {
@@ -56,6 +69,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
         discountPrice: 0,
         stock: 0,
         status: 'HIDDEN',
+        tags: [],
       });
     }
   }, [initialData, isVisible]);
@@ -136,8 +150,17 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
             onChangeText={text => handleInputChange('name', text)}
           />
           <S.InputRow>
-            <S.InputLabel>...Tag....</S.InputLabel>
+            <S.ModalButton onPress={() => setTagModalVisible(true)}>
+              <S.ModalButtonText>태그 추가하기</S.ModalButtonText>
+            </S.ModalButton>
           </S.InputRow>
+          <S.TagsFlexWrap>
+            {menuData.tags.map(tag => (
+              <S.TagButtonWrapper key={tag.id}>
+                <S.ModalButtonText>{tag.name}</S.ModalButtonText>
+              </S.TagButtonWrapper>
+            ))}
+          </S.TagsFlexWrap>
           <S.InputRow>
             <CustomLabel label={'원가'} required />
             <CustomTextInput
@@ -191,6 +214,13 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
               <S.ModalButtonText>취소</S.ModalButtonText>
             </S.ModalButton>
           </S.ButtonContainer>
+          <TagModal
+            isVisible={tagModalVisible}
+            onClose={() => setTagModalVisible(false)}
+            onSave={handleTagsUpdate}
+            initialTags={initialData?.tags}
+            presetTags={presetTags}
+          />
         </S.ModalView>
       </S.ModalOverlay>
     </Modal>

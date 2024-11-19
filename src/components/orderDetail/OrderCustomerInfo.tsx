@@ -2,7 +2,7 @@ import React from 'react';
 import {format} from '@/utils/date';
 import S from './OrderCustomerInfo.style';
 type Props = {
-  id: string;
+  id: number;
   orderMemberName: string;
   createdAt: string;
   pickupReservedAt: string;

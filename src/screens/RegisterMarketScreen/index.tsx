@@ -1,6 +1,6 @@
 import {BottomButton, TextInput} from '@/components/common';
 import React, {useState} from 'react';
-
+import {Button, Modal} from 'react-native';
 import {createMarket} from '@/apis/Market';
 import S from './RegisterMarketScreen.style';
 
@@ -23,7 +23,11 @@ const isLocalNumber = (value: string) => {
 const isPhoneNumber = (value: string) => {
   return /^(01[0|1|6|7|8|9])(\d{3,4})(\d{4})$/g.test(value);
 };
-
+interface AddressData {
+  roadAddress: string;
+  jibunAddress: string;
+  [key: string]: any;
+}
 const RegisterMarketScreen = () => {
   const [marketName, setMarketName] = useState<string | undefined>(undefined);
 
@@ -31,7 +35,7 @@ const RegisterMarketScreen = () => {
     undefined,
   );
 
-  // TODO: 주소 검색 API 연동
+  const [isPostcodeVisible, setPostcodeVisible] = useState(false);
   const [address, setAddress] = useState<string | undefined>(undefined);
   const [specificAddress, setSpecificAddress] = useState<string | undefined>(
     undefined,
@@ -39,10 +43,55 @@ const RegisterMarketScreen = () => {
   const [contactNumber, setContactNumber] = useState<string | undefined>(
     undefined,
   );
+  const handleAddressSelect = (data: AddressData) => {
+    let selectedAddress = data.roadAddress || data.jibunAddress;
+    setAddress(selectedAddress);
+    setPostcodeVisible(false);
+  };
 
   return (
     <S.RegisterMarketContainer>
       <S.RegisterMarketInputContainer>
+        <Modal
+          visible={isPostcodeVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setPostcodeVisible(false)}>
+          <S.ModalContainer>
+            <S.ModalWrapper>
+              <S.StyledPostcode
+                jsOptions={{animation: true}}
+                onSelected={handleAddressSelect}
+                onError={error => {
+                  console.error(error);
+                  setPostcodeVisible(false);
+                }}
+              />
+            </S.ModalWrapper>
+          </S.ModalContainer>
+        </Modal>
+        <Button
+          title="주소 검색하기"
+          onPress={() => setPostcodeVisible(true)}
+        />
+        <TextInput
+          label={'주소'}
+          placeholder="주소를 입력해주세요"
+          errorMessage="주소를 입력해주세요"
+          error={isError(address)}
+          value={address}
+          onChange={e => setAddress(e.nativeEvent.text)}
+          required
+        />
+        <TextInput
+          label={'상세주소'}
+          placeholder="동과 호수를 입력해주세요"
+          errorMessage="상세주소를 입력해주세요"
+          error={isError(specificAddress)}
+          value={specificAddress}
+          onChange={e => setSpecificAddress(e.nativeEvent.text)}
+          required
+        />
         <TextInput
           label={'가게명'}
           placeholder="가게명을 입력해주세요"
@@ -78,24 +127,6 @@ const RegisterMarketScreen = () => {
           error={isError(businessNumber, 10)}
           value={businessNumber}
           onChange={e => setBusinessNumber(e.nativeEvent.text)}
-          required
-        />
-        <TextInput
-          label={'주소'}
-          placeholder="주소를 입력해주세요"
-          errorMessage="주소를 입력해주세요"
-          error={isError(address)}
-          value={address}
-          onChange={e => setAddress(e.nativeEvent.text)}
-          required
-        />
-        <TextInput
-          label={'상세주소'}
-          placeholder="상세주소를 입력해주세요"
-          errorMessage="상세주소를 입력해주세요"
-          error={isError(specificAddress)}
-          value={specificAddress}
-          onChange={e => setSpecificAddress(e.nativeEvent.text)}
           required
         />
       </S.RegisterMarketInputContainer>

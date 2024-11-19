@@ -13,7 +13,7 @@ export type ProductType = DefaultProductType & {
 };
 
 export type MenuType = DefaultProductType & {
-  status: 'IN_STOCK' | 'OUT_OF_STOCK' | 'HIDDEN';
+  productStatus: 'IN_STOCK' | 'OUT_OF_STOCK' | 'HIDDEN';
 };
 
 export type TagType = {

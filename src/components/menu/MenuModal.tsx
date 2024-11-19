@@ -21,7 +21,7 @@ type Props = {
   onSave: (data: MenuType) => void;
   initialData: MenuType | null;
 };
-const STATUS_OPTIONS: Record<MenuType['status'], string> = {
+const STATUS_OPTIONS: Record<MenuType['productStatus'], string> = {
   IN_STOCK: '판매중',
   OUT_OF_STOCK: '품절',
   HIDDEN: '숨김',
@@ -43,7 +43,7 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     originPrice: 0,
     discountPrice: 0,
     stock: 0,
-    status: 'HIDDEN',
+    productStatus: 'HIDDEN',
   });
 
   const {refresh} = useProduct();
@@ -61,10 +61,10 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
         originPrice: 0,
         discountPrice: 0,
         stock: 0,
-        status: 'HIDDEN',
+        productStatus: 'HIDDEN',
       });
     }
-  }, [initialData, isVisible]);
+  }, [initialData]);
 
   const handleInputChange = (field: keyof MenuType, value: string | number) => {
     let formattedValue = value;
@@ -99,10 +99,10 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     });
   };
 
-  const handleStatusChange = (status: MenuType['status']) => {
+  const handleStatusChange = (productStatus: MenuType['productStatus']) => {
     setMenuData(prev => ({
       ...prev,
-      status,
+      productStatus,
     }));
   };
 
@@ -229,9 +229,9 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
                 <S.StatusButton
                   key={status}
                   onPress={() =>
-                    handleStatusChange(status as MenuType['status'])
+                    handleStatusChange(status as MenuType['productStatus'])
                   }
-                  isActive={menuData.status === status}>
+                  isActive={menuData.productStatus === status}>
                   <S.StatusButtonText>{label}</S.StatusButtonText>
                 </S.StatusButton>
               ))}

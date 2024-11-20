@@ -16,13 +16,13 @@ const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const {profile, fetch: fetchProfile, selectMarket} = useProfile();
-  const {market, fetch: fetchMarket} = useMarket();
+  const {market, fetch: fetchMemberMarkets} = useMarket();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
-    fetchMarket();
-  }, [fetchMarket]);
+    fetchMemberMarkets();
+  }, [fetchMemberMarkets]);
 
   useEffect(() => {
     fetchProfile();
@@ -33,11 +33,11 @@ const MyPageScreen = () => {
       {profile ? (
         <View>
           <S.ProfileContainer>
-            <S.ProfileImage
+            {/* <S.ProfileImage
               source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
               width={100}
               height={100}
-            />
+            /> */}
             <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
               <S.ProfileName>{`${profile.name}님 ${market && profile.marketId ? `의${market.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
               <Icon name="down" size={20} color="#000000" />
@@ -87,9 +87,9 @@ const MyPageScreen = () => {
 
                       setOpenModal(false);
                     }}>
-                    <S.ModalContentItemIcon
+                    {/* <S.ModalContentItemIcon
                       source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
-                    />
+                    /> */}
                     <S.ModalContentItemText>{name}</S.ModalContentItemText>
                   </S.ModalContentItem>
                 ))}

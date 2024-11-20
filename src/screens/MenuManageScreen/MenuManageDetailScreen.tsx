@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
@@ -62,8 +62,8 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
       discountRate: menuData.discountRate,
       stock: menuData.stock,
       productStatus: menuData.productStatus,
+      tags: menuData.tags,
     };
-
     const res = currentMenu
       ? await updateProduct(currentMenu.id, body)
       : await createProduct(profile?.marketId, body);
@@ -102,11 +102,10 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     });
     updateMenus(updatedMenus);
   };
-
-  const getPresetTags = (menus: MenuType[]): TagType[] => {
+  const getPresetTags = (marketMenus: MenuType[]): TagType[] => {
     const presetTags = Array.from(
       new Map(
-        menus.flatMap(menu => menu.tags).map(tag => [tag.id, tag]),
+        marketMenus.flatMap(menu => menu.tags).map(tag => [tag.id, tag]),
       ).values(),
     );
     return presetTags;

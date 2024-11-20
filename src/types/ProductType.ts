@@ -22,3 +22,8 @@ export type TagType = {
   id: number;
   tagName: string;
 };
+
+export type temporaryMenuType = ProductType & {
+  productStatus: 'IN_STOCK' | 'OUT_OF_STOCK' | 'HIDDEN';
+  productTags: string[];
+};

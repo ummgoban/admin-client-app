@@ -29,7 +29,7 @@ export const getProducts = async (
  */
 export const createProduct = async (
   marketId: number,
-  product: Omit<MenuType, 'id' | 'tags'>,
+  product: Omit<MenuType, 'id'>,
 ): Promise<boolean> => {
   try {
     const res = await apiClient.post<{
@@ -45,6 +45,7 @@ export const createProduct = async (
         discountPrice: product.discountPrice,
         discountRate: product.discountRate,
         stock: product.stock,
+        productTag: product.tags.map(({tagName}) => tagName),
       },
       {
         params: {
@@ -66,7 +67,7 @@ export const createProduct = async (
  */
 export const updateProduct = async (
   productId: number,
-  product: Omit<MenuType, 'id' | 'tags'>,
+  product: Omit<MenuType, 'id'>,
 ): Promise<boolean> => {
   try {
     const res = await apiClient.patch<{code: number}>(
@@ -79,6 +80,7 @@ export const updateProduct = async (
         discountPrice: product.discountPrice,
         discountRate: product.discountRate,
         stock: product.stock,
+        productTag: product.tags.map(({tagName}) => tagName),
       },
     );
 

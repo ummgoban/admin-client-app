@@ -102,13 +102,18 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     });
     updateMenus(updatedMenus);
   };
+
   const getPresetTags = (marketMenus: MenuType[]): TagType[] => {
-    const presetTags = Array.from(
-      new Map(
-        marketMenus.flatMap(menu => menu.tags).map(tag => [tag.id, tag]),
-      ).values(),
-    );
-    return presetTags;
+    const uniqueTags = new Map<number, TagType>();
+
+    marketMenus.forEach(menu => {
+      menu.tags.forEach(tag => {
+        if (!uniqueTags.has(tag.id)) {
+          uniqueTags.set(tag.id, tag);
+        }
+      });
+    });
+    return Array.from(uniqueTags.values());
   };
 
   return (

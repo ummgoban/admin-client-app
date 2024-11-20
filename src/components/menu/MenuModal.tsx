@@ -196,20 +196,22 @@ const MenuModal = ({
               </S.ModalButton>
             )}
           </S.ModalImageWrapper>
-          <TextInput
-            value={menuData.name}
-            onChangeText={text => handleInputChange('name', text)}
-          />
-
           <S.InputRow>
+            <TextInput
+              value={menuData.name}
+              onChangeText={text => handleInputChange('name', text)}
+            />
+          </S.InputRow>
+
+          <S.TagAddButtonWrapper>
             <S.ModalButton onPress={() => setTagModalVisible(true)}>
               <S.ModalButtonText>태그 추가하기</S.ModalButtonText>
             </S.ModalButton>
-          </S.InputRow>
+          </S.TagAddButtonWrapper>
           <S.TagsFlexWrap>
             {menuData.tags.map(tag => (
               <S.TagButtonWrapper key={tag.id}>
-                <S.ModalButtonText>{tag.tagName}</S.ModalButtonText>
+                <S.StatusButtonText>{tag.tagName}</S.StatusButtonText>
               </S.TagButtonWrapper>
             ))}
           </S.TagsFlexWrap>

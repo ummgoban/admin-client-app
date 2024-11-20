@@ -96,16 +96,18 @@ const TagAddButtonWrapper = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: 16px;
 `;
 const TagsFlexWrap = styled.View`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
 `;
 const TagButtonWrapper = styled.View`
-  background-color: #4682b4;
+  background-color: white;
   display: flex;
   flex-direction: row;
   gap: 4px;

@@ -80,7 +80,7 @@ export const updateProduct = async (
         discountPrice: product.discountPrice,
         discountRate: product.discountRate,
         stock: product.stock,
-        productTag: product.tags.map(({tagName}) => tagName),
+        productTags: product.tags.map(({tagName}) => tagName),
       },
     );
 

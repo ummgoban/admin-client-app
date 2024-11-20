@@ -3,11 +3,13 @@ import {ProductType} from './ProductType';
 export type MarketType = {
   id: number;
   name: string;
-  pickupStartAt: number;
-  pickupEndAt: number;
+  pickupStartAt: string;
+  pickupEndAt: string;
+  openAt: string;
+  closeAt: string;
   address: string;
   products: ProductType[];
-  images: string[];
+  imageUrls: string[];
   summary: string;
 };
 

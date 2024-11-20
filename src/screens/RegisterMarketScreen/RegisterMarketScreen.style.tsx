@@ -1,5 +1,6 @@
 import styled from '@emotion/native';
 import Postcode from '@actbase/react-daum-postcode';
+import {Button, Text} from 'react-native-paper';
 
 const RegisterMarketContainer = styled.View`
   flex: 1;
@@ -12,19 +13,40 @@ const RegisterMarketInputContainer = styled.ScrollView`
 
   gap: 20px;
 `;
+
+const AddressLayout = styled.View`
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+
+  gap: 16px;
+`;
+
+const PostcodeButton = styled(Button)`
+  background-color: ${props => props.theme.colors.primary};
+  border-radius: 8px;
+`;
+
+const PostcodeButtonText = styled(Text)`
+  color: #000000;
+  ${props => props.theme.fonts.default};
+`;
+
 const ModalContainer = styled.View`
   width: 100%;
   height: 100%;
+
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalWrapper = styled.View`
-  width: 70%;
-  height: 70%;
+  width: 100%;
+  height: 100%;
+
   background-color: white;
-  border-radius: 10px;
+
   overflow: hidden;
 `;
 const StyledPostcode = styled(Postcode)`
@@ -35,6 +57,9 @@ const StyledPostcode = styled(Postcode)`
 const S = {
   RegisterMarketContainer,
   RegisterMarketInputContainer,
+  AddressLayout,
+  PostcodeButton,
+  PostcodeButtonText,
   ModalContainer,
   ModalWrapper,
   StyledPostcode,

@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 import PendingOrder from '@/components/pendingOrder/PendingOrder';
 import {OrderDetailInfoType} from '@/types/OrderDetailType';
-import {getPendingOrderLists} from '@/apis/PendingOrderInfo';
-import {updateOrderStatus} from '@/apis/PendingOrderInfo';
+import {getPendingOrderLists, updateOrderStatus} from '@/apis/Orders';
 import useProfile from '@/hooks/useProfile';
 
 type PendingOrdersProps = {

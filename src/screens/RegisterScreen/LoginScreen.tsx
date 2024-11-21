@@ -4,7 +4,7 @@ import {login} from '@/apis/Login';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-
+import AppleLogin from '@/components/login/AppleLogin';
 import S from './LoginScreen.style';
 
 const LoginScreen = () => {
@@ -43,6 +43,7 @@ const LoginScreen = () => {
             </S.NaverButton>
           </S.LoginButtonWrapper>
         </S.LoginButtonContainer>
+        <AppleLogin />
       </S.LoginButtonContainer>
     </S.LoginPageContainer>
   );

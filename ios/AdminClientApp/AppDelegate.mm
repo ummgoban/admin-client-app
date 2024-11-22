@@ -4,6 +4,7 @@
 #import <RNKakaoLogins.h>
 #import <NaverThirdPartyLogin/NaverThirdPartyLogin.h> // Naver SDK 헤더 추가
 #import "RNCConfig.h" // RNCConfig 헤더 추가
+#import <Firebase.h>
 
 @implementation AppDelegate
 
@@ -27,6 +28,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [FIRApp configure]; // Firebase 초기화 추가
+
   self.moduleName = @"AdminClientApp";
   // 초기 props 설정
   self.initialProps = @{};

@@ -1,6 +1,7 @@
 import styled from '@emotion/native';
 
 const ModalOverlay = styled.View`
+  display: flex;
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -24,6 +25,7 @@ const ModalImage = styled.Image`
   margin: 8px;
 `;
 const InputRow = styled.View`
+  display: flex;
   width: 100%;
   flex-direction: row;
   align-items: center;
@@ -89,7 +91,39 @@ const ModalButtonText = styled.Text`
   color: white;
 `;
 
+const TagAddButtonWrapper = styled.View`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+const TagsFlexWrap = styled.View`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+`;
+const TagButtonWrapper = styled.View`
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  padding: 2px;
+`;
+
+const TagRemoveButton = styled.TouchableOpacity``;
+
 const S = {
+  TagButtonWrapper,
+  TagRemoveButton,
+  TagAddButtonWrapper,
+  TagsFlexWrap,
   ModalOverlay,
   ModalView,
   ModalImageWrapper,

@@ -5,6 +5,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {createProduct, updateProduct} from '@/apis/Product';
 import Menu from '@/components/menu/Menu';
 import MenuModal from '@/components/menu/MenuModal';
+import {TagType} from '@/types/ProductType';
 import useMarket from '@/hooks/useMarket';
 
 import S from './MenuManageDetailScreen.style';
@@ -61,8 +62,8 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
       discountRate: menuData.discountRate,
       stock: menuData.stock,
       productStatus: menuData.productStatus,
+      tags: menuData.tags,
     };
-
     const res = currentMenu
       ? await updateProduct(currentMenu.id, body)
       : await createProduct(profile?.marketId, body);
@@ -102,6 +103,19 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     updateMenus(updatedMenus);
   };
 
+  const getPresetTags = (marketMenus: MenuType[]): TagType[] => {
+    const uniqueTags = new Map<number, TagType>();
+
+    marketMenus.forEach(menu => {
+      menu.tags.forEach(tag => {
+        if (!uniqueTags.has(tag.id)) {
+          uniqueTags.set(tag.id, tag);
+        }
+      });
+    });
+    return Array.from(uniqueTags.values());
+  };
+
   return (
     <ScrollView>
       {menus.map(menu => (
@@ -124,6 +138,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
         onClose={handleModalClose}
         onSave={handleSaveMenu}
         initialData={currentMenu}
+        presetTags={getPresetTags(menus)}
       />
     </ScrollView>
   );

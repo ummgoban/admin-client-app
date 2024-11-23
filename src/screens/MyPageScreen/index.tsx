@@ -12,6 +12,12 @@ import {RootStackParamList} from '@/types/StackNavigationType';
 import useMarket from '@/hooks/useMarket';
 import S from './MyPageScreen.style';
 
+import {
+  requestNotificationPermission,
+  requestUserPermission,
+  setBackgroundMessageHandler,
+} from '@/utils/notification';
+import messaging from '@react-native-firebase/messaging';
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -28,6 +34,16 @@ const MyPageScreen = () => {
     fetchProfile();
   }, [fetchProfile]);
 
+  //TODO: fcm 관련 권한 및 토큰 등록 협의후 이동
+  useEffect(() => {
+    requestNotificationPermission();
+    requestUserPermission();
+    setBackgroundMessageHandler();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('Foreground Message:', remoteMessage);
+    });
+    return unsubscribe;
+  }, []);
   return (
     <View>
       {profile ? (

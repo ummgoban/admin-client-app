@@ -13,11 +13,11 @@ import useMarket from '@/hooks/useMarket';
 import S from './MyPageScreen.style';
 
 import {
+  onForegroundMessageHandler,
   requestNotificationPermission,
   requestUserPermission,
   setBackgroundMessageHandler,
 } from '@/utils/notification';
-import messaging from '@react-native-firebase/messaging';
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -39,10 +39,7 @@ const MyPageScreen = () => {
     requestNotificationPermission();
     requestUserPermission();
     setBackgroundMessageHandler();
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('Foreground Message:', remoteMessage);
-    });
-    return unsubscribe;
+    onForegroundMessageHandler();
   }, []);
   return (
     <View>

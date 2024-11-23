@@ -1,6 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance} from '@notifee/react-native';
-import {Alert, PermissionsAndroid, Platform} from 'react-native';
+import {PermissionsAndroid, Platform} from 'react-native';
 
 // 포어그라운드에서 푸시 알림 처리 함수
 export const onForegroundMessageHandler = () => {
@@ -21,6 +21,7 @@ export const setBackgroundMessageHandler = () => {
 // 알림 표시 함수
 export const displayNotification = async (remoteMessage: any) => {
   const {title, body} = remoteMessage.notification ?? {};
+  console.log('notification body:', title, body);
   if (Platform.OS === 'android') {
     await notifee.displayNotification({
       title,
@@ -34,6 +35,10 @@ export const displayNotification = async (remoteMessage: any) => {
       },
     });
   } else {
+    const settings = await notifee.requestPermission();
+    if (settings.authorizationStatus) {
+      console.log('iOS firebase notification permission');
+    }
     await notifee.displayNotification({
       title,
       body,

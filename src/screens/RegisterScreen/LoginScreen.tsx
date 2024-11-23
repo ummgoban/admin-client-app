@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {login} from '@/apis/Login';
 import {RootStackParamList} from '@/types/StackNavigationType';

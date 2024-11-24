@@ -1,6 +1,7 @@
 import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance} from '@notifee/react-native';
 import {PermissionsAndroid, Platform} from 'react-native';
+import {registerFCMToken} from '@/apis/fcm';
 
 // 포어그라운드에서 푸시 알림 처리 함수
 export const onForegroundMessageHandler = () => {
@@ -16,12 +17,16 @@ export const setBackgroundMessageHandler = () => {
     console.log('Background Message:', remoteMessage);
     await displayNotification(remoteMessage);
   });
+  notifee.onBackgroundEvent(async ({type, detail}) => {
+    console.log('Notifee Background Event:', type, detail);
+  });
 };
 
 // 알림 표시 함수
 export const displayNotification = async (remoteMessage: any) => {
   const {title, body} = remoteMessage.notification ?? {};
   console.log('notification body:', title, body);
+
   if (Platform.OS === 'android') {
     await notifee.displayNotification({
       title,
@@ -29,6 +34,7 @@ export const displayNotification = async (remoteMessage: any) => {
       android: {
         channelId: await createAndroidChannel(),
         importance: AndroidImportance.HIGH,
+        sound: 'default',
         pressAction: {
           id: 'default',
         },
@@ -42,6 +48,9 @@ export const displayNotification = async (remoteMessage: any) => {
     await notifee.displayNotification({
       title,
       body,
+      ios: {
+        sound: 'default',
+      },
     });
   }
 };
@@ -52,6 +61,7 @@ export const createAndroidChannel = async (): Promise<string> => {
     id: 'default',
     name: 'Default Channel',
     importance: AndroidImportance.HIGH,
+    sound: 'default', // 채널 기본 사운드 추가
   });
   return channelId;
 };
@@ -65,6 +75,9 @@ export const requestUserPermission = async () => {
 
   if (enabled) {
     console.log('Notification permission granted');
+    const token = await messaging().getToken();
+    await registerFCMToken(token);
+    console.log('FCM Token:', token);
   } else {
     console.log('Notification permission denied');
   }

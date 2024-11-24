@@ -84,4 +84,4 @@ GoogleService-Info.plist
 google-services.json
 
 # iOS entitlements
-ClientApp.entitlements
+AdminClientApp.entitlements

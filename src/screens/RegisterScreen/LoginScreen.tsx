@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 
-import {login} from '@/apis/Login';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -11,7 +10,7 @@ import S from './LoginScreen.style';
 const LoginScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const {profile} = useProfile();
+  const {profile, login} = useProfile();
 
   useEffect(() => {
     if (profile) {

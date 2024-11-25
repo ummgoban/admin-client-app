@@ -1,10 +1,15 @@
 import {useCallback} from 'react';
 import {create} from 'zustand';
 
-import {getProfile as getProfileApi, logout as logoutApi} from '@/apis/Login';
+import {
+  getProfile as getProfileApi,
+  logout as logoutApi,
+  login as loginApi,
+} from '@/apis/Login';
 import {getMemberMarkets} from '@/apis/Member';
 
 import {UserType} from '@/types/UserType';
+import {SessionType} from '@/types/Session';
 
 type AdminUserType = UserType & {
   marketId: number | null;
@@ -77,7 +82,28 @@ const useProfile = () => {
     return false;
   }, [refresh]);
 
-  return {profile, refresh, fetch: fetchProfile, selectMarket, loading, logout};
+  const login = useCallback(
+    async (oAuthProvider: SessionType['OAuthProvider']) => {
+      const res = await loginApi(oAuthProvider);
+      if (res) {
+        await refresh();
+        return true;
+      }
+
+      return false;
+    },
+    [refresh],
+  );
+
+  return {
+    profile,
+    refresh,
+    fetch: fetchProfile,
+    selectMarket,
+    loading,
+    logout,
+    login,
+  };
 };
 
 export default useProfile;

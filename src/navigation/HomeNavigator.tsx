@@ -1,6 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {useEffect} from 'react';
 
+import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
 import MarketInfoScreen from '@/screens/MarketInfoScreen';
 import MenuManageScreen from '@/screens/MenuManageScreen';
@@ -13,10 +14,19 @@ const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 const HomeNavigator = () => {
   const {fetch: fetchProfile} = useProfile();
+  const {fetch: fetchMarketList, fetchMarket} = useMarket();
 
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
+
+  useEffect(() => {
+    fetchMarketList();
+  }, [fetchMarketList]);
+
+  useEffect(() => {
+    fetchMarket();
+  }, [fetchMarket]);
 
   return (
     <Tab.Navigator tabBar={TabBar}>

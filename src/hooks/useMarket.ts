@@ -1,8 +1,10 @@
+import {useCallback} from 'react';
+import {create} from 'zustand';
+
 import {getMarket as getMarketAPI} from '@/apis/Market';
 import {getMemberMarkets as getMemberMarketsAPI} from '@/apis/Member';
 import {MarketType} from '@/types/Market';
-import {useCallback} from 'react';
-import {create} from 'zustand';
+
 import useProfile from './useProfile';
 
 type MarketStore = {
@@ -53,7 +55,7 @@ const useMarket = () => {
       return;
     }
 
-    if (profile && !profile.marketId) {
+    if (!profile.marketId) {
       selectMarket(res[0].id);
     }
   }, [getMemberMarkets, profile, selectMarket]);

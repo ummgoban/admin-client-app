@@ -33,14 +33,6 @@ const MyPageScreen = () => {
     await fetchMemberMarkets();
   });
 
-  useEffect(() => {
-    fetchMemberMarkets();
-  }, [fetchMemberMarkets]);
-
-  useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
-
   //TODO: fcm 관련 권한 및 토큰 등록 협의후 이동
   useEffect(() => {
     requestNotificationPermission();

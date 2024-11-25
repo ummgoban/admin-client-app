@@ -1,9 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
 import {Alert, useWindowDimensions, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import {RefreshControl} from 'react-native-gesture-handler';
 import {Button, Text} from 'react-native-paper';
-import {StackNavigationProp} from '@react-navigation/stack';
 
 import {
   deleteMarketImage,
@@ -13,6 +14,7 @@ import {
 import {BottomButton, Label} from '@/components/common';
 import TextInput from '@/components/common/TextInput';
 import useMarket from '@/hooks/useMarket';
+import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {format} from '@/utils/date';
 import {pickImage} from '@/utils/image-picker';
@@ -28,6 +30,7 @@ const timeOptions = {
 
 const MarketInfoScreen = () => {
   const {marketInfo, fetchMarket} = useMarket();
+  const {refreshing, onRefresh} = usePullDownRefresh(fetchMarket);
 
   const {width} = useWindowDimensions();
 
@@ -86,7 +89,10 @@ const MarketInfoScreen = () => {
 
   return (
     <S.Container>
-      <S.ScrollView>
+      <S.ScrollView
+        refreshControl={
+          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+        }>
         <TextInput label={'상호명'} disabled placeholder={marketInfo?.name} />
         <TextInput
           label={'한 줄 소개'}

@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 
 import {createProduct, updateProduct} from '@/apis/Product';
 import Menu from '@/components/menu/Menu';
 import MenuModal from '@/components/menu/MenuModal';
-import {TagType} from '@/types/ProductType';
 import useMarket from '@/hooks/useMarket';
-
-import S from './MenuManageDetailScreen.style';
-import {MenuType} from '@/types/ProductType';
 import useProduct from '@/hooks/useProduct';
 import useProfile from '@/hooks/useProfile';
+import usePullDownRefresh from '@/hooks/usePullDownRefresh';
+import {MenuType, TagType} from '@/types/ProductType';
+
+import S from './MenuManageDetailScreen.style';
 
 type Props = {
   menus: MenuType[];
@@ -24,6 +24,8 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const {market} = useMarket();
   const {profile} = useProfile();
   const {refresh} = useProduct();
+
+  const {refreshing, onRefresh} = usePullDownRefresh(refresh);
 
   const handleAddProduct = () => {
     setCurrentMenu(null);
@@ -117,7 +119,10 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+      }>
       {menus.map(menu => (
         <Menu
           key={menu.id}

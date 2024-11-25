@@ -4,12 +4,14 @@ import React, {useEffect, useState} from 'react';
 import {Alert, TouchableOpacity, View} from 'react-native';
 import {Button, Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 
 import {logout} from '@/apis/Login';
 import useProfile from '@/hooks/useProfile';
 import {RootStackParamList} from '@/types/StackNavigationType';
-
 import useMarket from '@/hooks/useMarket';
+import usePullDownRefresh from '@/hooks/usePullDownRefresh';
+
 import S from './MyPageScreen.style';
 
 const MyPageScreen = () => {
@@ -20,6 +22,11 @@ const MyPageScreen = () => {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  const {onRefresh, refreshing} = usePullDownRefresh(async () => {
+    await fetchProfile();
+    await fetchMemberMarkets();
+  });
+
   useEffect(() => {
     fetchMemberMarkets();
   }, [fetchMemberMarkets]);
@@ -29,7 +36,10 @@ const MyPageScreen = () => {
   }, [fetchProfile]);
 
   return (
-    <View>
+    <ScrollView
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+      }>
       {profile ? (
         <View>
           <S.ProfileContainer>
@@ -115,7 +125,7 @@ const MyPageScreen = () => {
           </Modal>
         </Portal>
       )}
-    </View>
+    </ScrollView>
   );
 };
 

@@ -1,10 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {Alert, useWindowDimensions, View} from 'react-native';
+import {Alert, useWindowDimensions} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {RefreshControl} from 'react-native-gesture-handler';
-import {Button, Text} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 
 import {
   deleteMarketImage,
@@ -19,6 +19,7 @@ import {RootStackParamList} from '@/types/StackNavigationType';
 import {format} from '@/utils/date';
 import {pickImage} from '@/utils/image-picker';
 
+import EmptyMarket from '@/components/common/EmptyMarket';
 import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
 
 const timeOptions = {
@@ -72,19 +73,7 @@ const MarketInfoScreen = () => {
   }, [marketInfo]);
 
   if (!marketInfo) {
-    return (
-      <View>
-        <Text>{'마켓 정보가 없습니다.'}</Text>
-        <Button
-          onPress={() => {
-            navigation.navigate('RegisterMarketRoot', {
-              screen: 'RegisterMarket',
-            });
-          }}>
-          {'마켓 정보를 생성하러 가기'}
-        </Button>
-      </View>
-    );
+    return <EmptyMarket />;
   }
 
   return (

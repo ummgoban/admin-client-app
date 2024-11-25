@@ -13,6 +13,7 @@ import useMarket from '@/hooks/useMarket';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 
 import S from './MyPageScreen.style';
+import EmptyMarket from '@/components/common/EmptyMarket';
 
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -73,6 +74,7 @@ const MyPageScreen = () => {
             }}>
             로그아웃
           </Button>
+          {market.length === 0 && <EmptyMarket />}
         </View>
       ) : (
         <View>

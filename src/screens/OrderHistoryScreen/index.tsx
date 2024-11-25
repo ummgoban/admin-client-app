@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 
 import {ToggleButton} from '@/components/common';
+import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
 import PendingOrdersScreen from './PendingOrders';
 
+import EmptyMarket from '@/components/common/EmptyMarket';
 import S from './OrderHistoryScreen.style';
 
 const OrderHistoryScreen = () => {
@@ -13,10 +15,15 @@ const OrderHistoryScreen = () => {
   >('ORDERED');
 
   const {fetch: fetchProfile} = useProfile();
+  const {marketInfo} = useMarket();
 
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
+
+  if (!marketInfo) {
+    return <EmptyMarket />;
+  }
 
   return (
     <View>

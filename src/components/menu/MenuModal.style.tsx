@@ -1,4 +1,5 @@
 import styled from '@emotion/native';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const ModalOverlay = styled.View`
   display: flex;
@@ -10,11 +11,21 @@ const ModalOverlay = styled.View`
 const ModalView = styled.View`
   width: 88%;
   height: 92%;
-  padding: 20px;
+
   background-color: lightgray;
   border-radius: 10px;
+`;
+
+const ModalScrollView = styled(ScrollView)`
+  width: 100%;
+`;
+
+const ModalViewInner = styled.View`
+  display: flex;
   justify-content: center;
   align-items: center;
+
+  padding: 20px;
 `;
 
 const ModalImageWrapper = styled.TouchableOpacity``;
@@ -126,6 +137,8 @@ const S = {
   TagsFlexWrap,
   ModalOverlay,
   ModalView,
+  ModalScrollView,
+  ModalViewInner,
   ModalImageWrapper,
   ModalImage,
   InputRow,

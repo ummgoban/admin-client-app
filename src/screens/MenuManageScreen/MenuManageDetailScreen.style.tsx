@@ -1,4 +1,5 @@
 import styled from '@emotion/native';
+import {Button, Text} from 'react-native-paper';
 
 const MainText = styled.Text`
   font-size: 20px;
@@ -11,22 +12,28 @@ const AddProductView = styled.View`
   align-items: center;
 `;
 
-const AddProductWrapper = styled.TouchableOpacity`
-  background-color: #4682b4;
-  border-radius: 8px;
-  width: 180px;
-  padding: 4px 24px;
-  margin: 12px;
+const AddButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  border-radius: 8px;
+
+  background-color: ${({theme}) => theme.colors.primary};
+
+  padding: 4px 24px;
+  margin: 12px;
 `;
 
-const AddText = styled.Text`
-  padding: 4px;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
+const AddButtonText = styled(Text)`
+  color: rgba(255, 255, 255, 1);
+  padding: 4px 12px;
+
+  margin-left: 8px;
+
+  ${({theme}) => theme.fonts.default}
 `;
-const S = {AddProductWrapper, AddProductView, MainText, AddText};
+
+const S = {AddButton, AddButtonText, AddProductView, MainText};
+
 export default S;

@@ -3,13 +3,12 @@ import {create} from 'zustand';
 
 import {
   getProfile as getProfileApi,
-  logout as logoutApi,
   login as loginApi,
+  logout as logoutApi,
 } from '@/apis/Login';
-import {getMemberMarkets} from '@/apis/Member';
 
-import {UserType} from '@/types/UserType';
 import {SessionType} from '@/types/Session';
+import {UserType} from '@/types/UserType';
 
 type AdminUserType = UserType & {
   marketId: number | null;
@@ -52,13 +51,7 @@ const useProfile = () => {
     if (!profile) {
       await getProfile();
     }
-    if (!profile?.marketId) {
-      const res = await getMemberMarkets();
-      if (res && res.length) {
-        setCurrentMarketId(res[0].marketId);
-      }
-    }
-  }, [getProfile, profile, setCurrentMarketId]);
+  }, [getProfile, profile]);
 
   const refresh = useCallback(async () => {
     await getProfile();

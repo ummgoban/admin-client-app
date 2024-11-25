@@ -53,7 +53,7 @@ const useMarket = () => {
       return;
     }
 
-    if (profile && !profile.marketId) {
+    if (!profile.marketId) {
       selectMarket(res[0].id);
     }
   }, [getMemberMarkets, profile, selectMarket]);

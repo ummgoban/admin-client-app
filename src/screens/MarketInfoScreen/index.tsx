@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {Alert, useWindowDimensions} from 'react-native';
+import {Alert} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';

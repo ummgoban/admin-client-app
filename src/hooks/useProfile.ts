@@ -18,17 +18,17 @@ type ProfileStore = {
 };
 
 const useProfileStore = create<ProfileStore>(set => ({
-  loading: false,
+  loading: true,
   profile: null,
   getProfile: async () => {
     set({loading: true});
     const profileRes = await getProfileApi();
-    set({loading: false});
 
     if (!profileRes) {
+      set({loading: false});
       return;
     }
-    set({profile: {...profileRes, marketId: null}});
+    set({profile: {...profileRes, marketId: null}, loading: false});
   },
   setCurrentMarketId: marketId => {
     set(state => {

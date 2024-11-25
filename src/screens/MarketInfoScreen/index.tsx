@@ -1,7 +1,9 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {Alert, useWindowDimensions, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {Text} from 'react-native-paper';
+import {Button, Text} from 'react-native-paper';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import {
   deleteMarketImage,
@@ -10,13 +12,12 @@ import {
 } from '@/apis/Market';
 import {BottomButton, Label} from '@/components/common';
 import TextInput from '@/components/common/TextInput';
+import useMarket from '@/hooks/useMarket';
+import {RootStackParamList} from '@/types/StackNavigationType';
 import {format} from '@/utils/date';
 import {pickImage} from '@/utils/image-picker';
-import useMarket from '@/hooks/useMarket';
-import useProfile from '@/hooks/useProfile';
 
 import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
-import {useNavigation} from '@react-navigation/native';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -27,11 +28,10 @@ const timeOptions = {
 
 const MarketInfoScreen = () => {
   const {marketInfo, fetchMarket} = useMarket();
-  const {fetch: fetchProfile} = useProfile();
 
   const {width} = useWindowDimensions();
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const [summary, setSummary] = useState<string>();
   const [pickupStartTime, setPickupStartTime] = useState<Date>();
@@ -47,10 +47,6 @@ const MarketInfoScreen = () => {
   useEffect(() => {
     fetchMarket();
   }, [fetchMarket]);
-
-  useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
 
   useEffect(() => {
     if (marketInfo) {
@@ -75,7 +71,15 @@ const MarketInfoScreen = () => {
   if (!marketInfo) {
     return (
       <View>
-        <Text>{'마켓 정보를 불러오는 중입니다.'}</Text>
+        <Text>{'마켓 정보가 없습니다.'}</Text>
+        <Button
+          onPress={() => {
+            navigation.navigate('RegisterMarketRoot', {
+              screen: 'RegisterMarket',
+            });
+          }}>
+          {'마켓 정보를 생성하러 가기'}
+        </Button>
       </View>
     );
   }

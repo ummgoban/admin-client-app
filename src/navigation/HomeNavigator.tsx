@@ -19,17 +19,17 @@ const Tab = createBottomTabNavigator<HomeStackParamList>();
 const HomeNavigator = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const {profile, fetch: fetchProfile} = useProfile();
+  const {profile, fetch: fetchProfile, loading} = useProfile();
 
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
 
   useEffect(() => {
-    if (!profile) {
+    if (!profile && !loading) {
       navigation.replace('Register', {screen: 'Login'});
     }
-  }, [navigation, profile]);
+  }, [loading, navigation, profile]);
 
   return (
     <Tab.Navigator tabBar={TabBar}>
@@ -42,7 +42,7 @@ const HomeNavigator = () => {
         name="MarketInfo"
         component={MarketInfoScreen}
         options={{
-          title: '매장정보',
+          title: '가게관리',
         }}
       />
       <Tab.Screen

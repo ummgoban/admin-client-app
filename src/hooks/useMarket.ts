@@ -14,7 +14,7 @@ type MarketStore = {
 };
 
 const useMarketStore = create<MarketStore>(set => ({
-  loading: false,
+  loading: true,
   market: [],
   marketInfo: null,
   getMemberMarkets: async () => {
@@ -22,13 +22,12 @@ const useMarketStore = create<MarketStore>(set => ({
 
     const marketRes = await getMemberMarketsAPI();
 
-    set({loading: false});
-
     if (!marketRes) {
+      set({loading: false});
       return null;
     }
     const ret = marketRes.map(({marketId: id, name}) => ({id, name}));
-    set({market: ret});
+    set({market: ret, loading: false});
 
     return ret;
   },
@@ -64,10 +63,6 @@ const useMarket = () => {
   }, [getMemberMarkets]);
 
   const fetchMarket = useCallback(async () => {
-    if (!market || !market.length) {
-      return;
-    }
-
     if (!profile || !profile?.marketId) {
       return;
     }
@@ -79,7 +74,7 @@ const useMarket = () => {
     }
 
     setMarketInfo(res);
-  }, [market, profile, setMarketInfo]);
+  }, [profile, setMarketInfo]);
 
   return {
     market,

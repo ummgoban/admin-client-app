@@ -51,7 +51,6 @@ const tabBarData: TabBarComponentType = {
   },
 };
 
-// TODO: resolve inline style
 const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
   return (
     <S.TabBarContainer>

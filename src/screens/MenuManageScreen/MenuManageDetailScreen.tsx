@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 
+import Icon from 'react-native-vector-icons/AntDesign';
+
 import {createProduct, updateProduct} from '@/apis/Product';
 import Menu from '@/components/menu/Menu';
 import MenuModal from '@/components/menu/MenuModal';
@@ -133,9 +135,10 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
         />
       ))}
       <S.AddProductView>
-        <S.AddProductWrapper onPress={handleAddProduct}>
-          <S.AddText>+ 상품 추가하기 </S.AddText>
-        </S.AddProductWrapper>
+        <S.AddButton onPress={handleAddProduct}>
+          <Icon name="plus" size={16} color="rgba(255, 255, 255, 1)" />
+          <S.AddButtonText>상품 추가하기</S.AddButtonText>
+        </S.AddButton>
       </S.AddProductView>
 
       <MenuModal

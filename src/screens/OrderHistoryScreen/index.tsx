@@ -8,18 +8,23 @@ import PendingOrdersScreen from './PendingOrders';
 
 import EmptyMarket from '@/components/common/EmptyMarket';
 import S from './OrderHistoryScreen.style';
+import NonRegister from '@/components/common/NonRegister';
 
 const OrderHistoryScreen = () => {
   const [selected, setSelected] = useState<
     'ORDERED' | 'ACCEPTED' | 'PICKEDUP_OR_CANCELED'
   >('ORDERED');
 
-  const {fetch: fetchProfile} = useProfile();
+  const {fetch: fetchProfile, profile} = useProfile();
   const {marketInfo} = useMarket();
 
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
+
+  if (!profile) {
+    return <NonRegister />;
+  }
 
   if (!marketInfo) {
     return <EmptyMarket />;

@@ -1,7 +1,7 @@
 import {useCallback} from 'react';
 import {create} from 'zustand';
 
-import {getProfile as getProfileApi} from '@/apis/Login';
+import {getProfile as getProfileApi, logout as logoutApi} from '@/apis/Login';
 import {getMemberMarkets} from '@/apis/Member';
 
 import {UserType} from '@/types/UserType';
@@ -25,7 +25,7 @@ const useProfileStore = create<ProfileStore>(set => ({
     const profileRes = await getProfileApi();
 
     if (!profileRes) {
-      set({loading: false});
+      set({profile: null, loading: false});
       return;
     }
     set({profile: {...profileRes, marketId: null}, loading: false});
@@ -66,7 +66,18 @@ const useProfile = () => {
     [setCurrentMarketId],
   );
 
-  return {profile, refresh, fetch: fetchProfile, selectMarket, loading};
+  const logout = useCallback(async () => {
+    const res = await logoutApi();
+
+    if (res) {
+      await refresh();
+      return true;
+    }
+
+    return false;
+  }, [refresh]);
+
+  return {profile, refresh, fetch: fetchProfile, selectMarket, loading, logout};
 };
 
 export default useProfile;

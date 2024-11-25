@@ -2,23 +2,22 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
 import {Alert, TouchableOpacity, View} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 import {Button, Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 
-import {logout} from '@/apis/Login';
-import useProfile from '@/hooks/useProfile';
-import {RootStackParamList} from '@/types/StackNavigationType';
+import EmptyMarket from '@/components/common/EmptyMarket';
 import useMarket from '@/hooks/useMarket';
+import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
+import {RootStackParamList} from '@/types/StackNavigationType';
 
 import S from './MyPageScreen.style';
-import EmptyMarket from '@/components/common/EmptyMarket';
 
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
 
-  const {profile, fetch: fetchProfile, selectMarket} = useProfile();
+  const {profile, fetch: fetchProfile, selectMarket, logout} = useProfile();
   const {market, fetch: fetchMemberMarkets} = useMarket();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -62,9 +61,6 @@ const MyPageScreen = () => {
                 Alert.alert('로그아웃 되었습니다.', '', [
                   {
                     text: '확인',
-                    onPress: () => {
-                      navigation.navigate('Register', {screen: 'Login'});
-                    },
                   },
                 ]);
               } else {

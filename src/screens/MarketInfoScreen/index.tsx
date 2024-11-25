@@ -12,14 +12,16 @@ import {
   uploadMarketImage,
 } from '@/apis/Market';
 import {BottomButton, Label} from '@/components/common';
+import EmptyMarket from '@/components/common/EmptyMarket';
+import NonRegister from '@/components/common/NonRegister';
 import TextInput from '@/components/common/TextInput';
 import useMarket from '@/hooks/useMarket';
+import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {format} from '@/utils/date';
 import {pickImage} from '@/utils/image-picker';
 
-import EmptyMarket from '@/components/common/EmptyMarket';
 import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
 
 const timeOptions = {
@@ -30,6 +32,7 @@ const timeOptions = {
 } as const;
 
 const MarketInfoScreen = () => {
+  const {profile} = useProfile();
   const {marketInfo, fetchMarket} = useMarket();
   const {refreshing, onRefresh} = usePullDownRefresh(fetchMarket);
 
@@ -71,6 +74,10 @@ const MarketInfoScreen = () => {
       setImageList(marketInfo.imageUrls);
     }
   }, [marketInfo]);
+
+  if (!profile) {
+    return <NonRegister />;
+  }
 
   if (!marketInfo) {
     return <EmptyMarket />;

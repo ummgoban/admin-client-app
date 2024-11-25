@@ -1,35 +1,22 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
 
 import useProfile from '@/hooks/useProfile';
 import MarketInfoScreen from '@/screens/MarketInfoScreen';
 import MenuManageScreen from '@/screens/MenuManageScreen';
 import MyPageScreen from '@/screens/MyPageScreen';
-import {
-  HomeStackParamList,
-  RootStackParamList,
-} from '@/types/StackNavigationType';
+import {HomeStackParamList} from '@/types/StackNavigationType';
 import {TabBar} from '@components/common';
 import OrderNavigator from './OrderNavigator';
 
 const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 const HomeNavigator = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
-  const {profile, fetch: fetchProfile, loading} = useProfile();
+  const {fetch: fetchProfile} = useProfile();
 
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
-
-  useEffect(() => {
-    if (!profile && !loading) {
-      navigation.replace('Register', {screen: 'Login'});
-    }
-  }, [loading, navigation, profile]);
 
   return (
     <Tab.Navigator tabBar={TabBar}>

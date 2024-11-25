@@ -170,7 +170,6 @@ export const login = async (
   return false;
 };
 
-// TODO: 로그아웃 후 리프레쉬
 export const logout = async (): Promise<boolean> => {
   try {
     const storageRes: SessionType | null = await getStorage('session');

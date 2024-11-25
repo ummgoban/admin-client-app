@@ -267,11 +267,11 @@ const MenuModal = ({
                 <S.ModalButton onPress={handleSave}>
                   <S.ModalButtonText>저장</S.ModalButtonText>
                 </S.ModalButton>
-                <S.ModalButton onPress={onClose}>
+                <S.ModalButton onPress={onClose} status="warning">
                   <S.ModalButtonText>취소</S.ModalButtonText>
                 </S.ModalButton>
                 {initialData && (
-                  <S.ModalButton onPress={handleDelete}>
+                  <S.ModalButton onPress={handleDelete} status="error">
                     <S.ModalButtonText>삭제</S.ModalButtonText>
                   </S.ModalButton>
                 )}

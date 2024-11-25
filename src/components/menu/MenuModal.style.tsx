@@ -9,15 +9,14 @@ const ModalOverlay = styled.View`
 `;
 
 const ModalView = styled.View`
-  width: 88%;
-  height: 92%;
+  width: 100%;
 
-  background-color: lightgray;
-  border-radius: 10px;
+  background-color: white;
 `;
 
 const ModalScrollView = styled(ScrollView)`
   width: 100%;
+  height: 100%;
 `;
 
 const ModalViewInner = styled.View`
@@ -91,12 +90,15 @@ const ButtonContainer = styled.View`
   gap: 8px;
 `;
 
-const ModalButton = styled.TouchableOpacity`
+const ModalButton = styled.TouchableOpacity<{
+  status?: 'error' | 'warning' | 'primary';
+}>`
   padding: 10px;
-  background-color: #4682b4;
   border-radius: 8px;
   margin-top: 20px;
   margin-bottom: 20px;
+
+  background-color: ${props => props.theme.colors[props.status || 'primary']};
 `;
 const ModalButtonText = styled.Text`
   color: white;

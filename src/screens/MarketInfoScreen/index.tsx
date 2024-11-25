@@ -1,6 +1,9 @@
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {Alert, useWindowDimensions, View} from 'react-native';
+import {Alert, useWindowDimensions} from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';
 
 import {
@@ -9,14 +12,17 @@ import {
   uploadMarketImage,
 } from '@/apis/Market';
 import {BottomButton, Label} from '@/components/common';
+import EmptyMarket from '@/components/common/EmptyMarket';
+import NonRegister from '@/components/common/NonRegister';
 import TextInput from '@/components/common/TextInput';
-import {format} from '@/utils/date';
-import {pickImage} from '@/utils/image-picker';
 import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
+import usePullDownRefresh from '@/hooks/usePullDownRefresh';
+import {RootStackParamList} from '@/types/StackNavigationType';
+import {format} from '@/utils/date';
+import {pickImage} from '@/utils/image-picker';
 
 import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
-import {useNavigation} from '@react-navigation/native';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -26,12 +32,13 @@ const timeOptions = {
 } as const;
 
 const MarketInfoScreen = () => {
+  const {profile} = useProfile();
   const {marketInfo, fetchMarket} = useMarket();
-  const {fetch: fetchProfile} = useProfile();
+  const {refreshing, onRefresh} = usePullDownRefresh(fetchMarket);
 
   const {width} = useWindowDimensions();
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const [summary, setSummary] = useState<string>();
   const [pickupStartTime, setPickupStartTime] = useState<Date>();
@@ -47,10 +54,6 @@ const MarketInfoScreen = () => {
   useEffect(() => {
     fetchMarket();
   }, [fetchMarket]);
-
-  useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
 
   useEffect(() => {
     if (marketInfo) {
@@ -72,17 +75,20 @@ const MarketInfoScreen = () => {
     }
   }, [marketInfo]);
 
+  if (!profile) {
+    return <NonRegister />;
+  }
+
   if (!marketInfo) {
-    return (
-      <View>
-        <Text>{'마켓 정보를 불러오는 중입니다.'}</Text>
-      </View>
-    );
+    return <EmptyMarket />;
   }
 
   return (
     <S.Container>
-      <S.ScrollView>
+      <S.ScrollView
+        refreshControl={
+          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+        }>
         <TextInput label={'상호명'} disabled placeholder={marketInfo?.name} />
         <TextInput
           label={'한 줄 소개'}

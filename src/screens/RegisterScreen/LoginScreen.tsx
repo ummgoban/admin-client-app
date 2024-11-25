@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
-import {login} from '@/apis/Login';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import useProfile from '@/hooks/useProfile';
 
 import S from './LoginScreen.style';
 
 const LoginScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const {profile, login} = useProfile();
+
+  useEffect(() => {
+    if (profile) {
+      navigation.navigate('Home', {screen: 'Home'});
+    }
+  }, [profile, navigation]);
 
   return (
     <S.LoginPageContainer>

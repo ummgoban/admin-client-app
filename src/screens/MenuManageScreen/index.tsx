@@ -1,31 +1,25 @@
+import React, {useEffect, useState} from 'react';
 import {Text} from 'react-native';
 
-import React, {useEffect, useState} from 'react';
 import MenuManageDetailScreen from './MenuManageDetailScreen';
 
+import EmptyMarket from '@/components/common/EmptyMarket';
+import NonRegister from '@/components/common/NonRegister';
 import useMarket from '@/hooks/useMarket';
 import useProduct from '@/hooks/useProduct';
-import {MenuType} from '@/types/ProductType';
 import useProfile from '@/hooks/useProfile';
+import {MenuType} from '@/types/ProductType';
 
 const MenuManageScreen = () => {
-  const {fetch: fetchMarket} = useMarket();
+  const {profile} = useProfile();
   const {products, fetch: fetchProduct} = useProduct();
-  const {fetch: fetchProfile} = useProfile();
+  const {marketInfo} = useMarket();
 
   const [menus, setMenus] = useState<MenuType[]>([]);
 
   useEffect(() => {
-    fetchMarket();
-  }, [fetchMarket]);
-
-  useEffect(() => {
     fetchProduct();
   }, [fetchProduct]);
-
-  useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
 
   useEffect(() => {
     if (products) {
@@ -35,6 +29,14 @@ const MenuManageScreen = () => {
 
   if (!products) {
     return <Text>메뉴 정보를 불러오는데 실패했습니다.</Text>;
+  }
+
+  if (!profile) {
+    return <NonRegister />;
+  }
+
+  if (!marketInfo) {
+    return <EmptyMarket />;
   }
 
   return <MenuManageDetailScreen menus={menus} updateMenus={setMenus} />;

@@ -18,7 +18,7 @@ const NonRegister = () => {
             screen: 'Login',
           });
         }}>
-        {'회원가입 및 로그인 하러   가기'}
+        {'회원가입 및 로그인 하러가기'}
       </Button>
     </S.Container>
   );

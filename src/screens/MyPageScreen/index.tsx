@@ -12,6 +12,12 @@ import {RootStackParamList} from '@/types/StackNavigationType';
 import useMarket from '@/hooks/useMarket';
 import S from './MyPageScreen.style';
 
+import {
+  onForegroundMessageHandler,
+  requestNotificationPermission,
+  requestUserPermission,
+  setBackgroundMessageHandler,
+} from '@/utils/notification';
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -28,6 +34,13 @@ const MyPageScreen = () => {
     fetchProfile();
   }, [fetchProfile]);
 
+  //TODO: fcm 관련 권한 및 토큰 등록 협의후 이동
+  useEffect(() => {
+    requestNotificationPermission();
+    requestUserPermission();
+    setBackgroundMessageHandler();
+    onForegroundMessageHandler();
+  }, []);
   return (
     <View>
       {profile ? (

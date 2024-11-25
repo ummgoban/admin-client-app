@@ -44,7 +44,6 @@ const naverLogin = (): Promise<NaverLoginResponse> => {
   return RNNaverLogin.login();
 };
 
-// TODO: 이 객체 입니다
 const naverLoginParams = {
   appName: Config.NAVER_APP_NAME,
   consumerKey: Config.NAVER_CONSUMER_KEY,

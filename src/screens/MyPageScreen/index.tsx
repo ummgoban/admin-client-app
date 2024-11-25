@@ -48,7 +48,14 @@ const MyPageScreen = () => {
               const res = await logout();
 
               if (res) {
-                navigation.navigate('Register', {screen: 'Login'});
+                Alert.alert('로그아웃 되었습니다.', '', [
+                  {
+                    text: '확인',
+                    onPress: () => {
+                      navigation.navigate('Register', {screen: 'Login'});
+                    },
+                  },
+                ]);
               } else {
                 console.error('로그아웃 실패');
                 Alert.alert('로그아웃 실패');

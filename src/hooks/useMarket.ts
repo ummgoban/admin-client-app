@@ -6,6 +6,7 @@ import {create} from 'zustand';
 import useProfile from './useProfile';
 
 type MarketStore = {
+  loading: boolean;
   market: Pick<MarketType, 'id' | 'name'>[];
   getMemberMarkets: () => Promise<Pick<MarketType, 'id' | 'name'>[] | null>;
   marketInfo: MarketType | null;
@@ -13,10 +14,15 @@ type MarketStore = {
 };
 
 const useMarketStore = create<MarketStore>(set => ({
+  loading: false,
   market: [],
   marketInfo: null,
   getMemberMarkets: async () => {
+    set({loading: true});
+
     const marketRes = await getMemberMarketsAPI();
+
+    set({loading: false});
 
     if (!marketRes) {
       return null;
@@ -32,7 +38,7 @@ const useMarketStore = create<MarketStore>(set => ({
 }));
 
 const useMarket = () => {
-  const {market, getMemberMarkets, marketInfo, setMarketInfo} =
+  const {market, getMemberMarkets, marketInfo, setMarketInfo, loading} =
     useMarketStore();
 
   const {profile, selectMarket, fetch: fetchProfile} = useProfile();
@@ -74,7 +80,14 @@ const useMarket = () => {
     setMarketInfo(res);
   }, [fetchMemberMarkets, market, profile, setMarketInfo]);
 
-  return {market, marketInfo, refresh, fetch: fetchMemberMarkets, fetchMarket};
+  return {
+    market,
+    marketInfo,
+    refresh,
+    fetch: fetchMemberMarkets,
+    fetchMarket,
+    loading,
+  };
 };
 
 export default useMarket;

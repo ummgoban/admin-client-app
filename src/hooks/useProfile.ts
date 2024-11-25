@@ -11,15 +11,20 @@ type AdminUserType = UserType & {
 };
 
 type ProfileStore = {
+  loading: boolean;
   profile: AdminUserType | null;
   getProfile: () => Promise<void>;
   setCurrentMarketId: (marketId: number) => void;
 };
 
 const useProfileStore = create<ProfileStore>(set => ({
+  loading: false,
   profile: null,
   getProfile: async () => {
+    set({loading: true});
     const profileRes = await getProfileApi();
+    set({loading: false});
+
     if (!profileRes) {
       return;
     }
@@ -36,7 +41,7 @@ const useProfileStore = create<ProfileStore>(set => ({
 }));
 
 const useProfile = () => {
-  const {profile, getProfile, setCurrentMarketId} = useProfileStore();
+  const {profile, getProfile, setCurrentMarketId, loading} = useProfileStore();
 
   const fetchProfile = useCallback(async () => {
     if (!profile) {
@@ -61,7 +66,7 @@ const useProfile = () => {
     [setCurrentMarketId],
   );
 
-  return {profile, refresh, fetch: fetchProfile, selectMarket};
+  return {profile, refresh, fetch: fetchProfile, selectMarket, loading};
 };
 
 export default useProfile;

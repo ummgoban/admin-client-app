@@ -5,16 +5,12 @@ import HomeNavigator from './HomeNavigator';
 import ResgitrationMarketNavigator from './RegisterMarketNavigator';
 import RegistrationNavigaitor from './RegisterNavigator';
 
-type AppNavigatorProps = {
-  initialRouteName?: keyof RootStackParamList;
-};
-
 const Stack = createStackNavigator<RootStackParamList>();
 
-const AppNavigator = ({initialRouteName}: AppNavigatorProps) => {
+const AppNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName={initialRouteName as string | undefined}
+      initialRouteName={'Home'}
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={HomeNavigator} />
       <Stack.Screen

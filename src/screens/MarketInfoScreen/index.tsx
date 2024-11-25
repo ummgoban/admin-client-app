@@ -6,11 +6,7 @@ import DatePicker from 'react-native-date-picker';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';
 
-import {
-  deleteMarketImage,
-  updateMarketInfo,
-  uploadMarketImage,
-} from '@/apis/Market';
+import {updateMarketInfo} from '@/apis/Market';
 import {BottomButton, Label} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
@@ -20,9 +16,8 @@ import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {format} from '@/utils/date';
-import {pickImage} from '@/utils/image-picker';
 
-import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
+import S from './MarketInfoScreen.style';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -36,7 +31,7 @@ const MarketInfoScreen = () => {
   const {marketInfo, fetchMarket} = useMarket();
   const {refreshing, onRefresh} = usePullDownRefresh(fetchMarket);
 
-  const {width} = useWindowDimensions();
+  // const {width} = useWindowDimensions();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -128,7 +123,7 @@ const MarketInfoScreen = () => {
           </S.TimePickerButton>
         </S.TimeContainer>
         {/* TODO: 대표 사진 선택 */}
-        <Label label={'대표 사진 선택'} required />
+        {/* <Label label={'대표 사진 선택'} required />
         <S.ImageCardGrid>
           {imageList.map(uri => {
             const cardWidth =
@@ -196,7 +191,7 @@ const MarketInfoScreen = () => {
             setImageList(prev => [...prev, s3Url]);
           }}>
           <Text>+</Text>
-        </S.ImageCardPlusButton>
+        </S.ImageCardPlusButton> */}
       </S.ScrollView>
       <DatePicker
         modal

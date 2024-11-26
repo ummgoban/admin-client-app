@@ -67,22 +67,20 @@ export const createProduct = async (
  */
 export const updateProduct = async (
   productId: number,
-  product: Omit<MenuType, 'id'>,
+  product: MenuType,
 ): Promise<boolean> => {
   try {
-    const res = await apiClient.patch<{code: number}>(
-      `/products/${productId}`,
-      {
-        productImage: product.image,
-        name: product.name,
-        productStatus: product.productStatus,
-        originPrice: product.originPrice,
-        discountPrice: product.discountPrice,
-        discountRate: product.discountRate,
-        stock: product.stock,
-        productTags: product.tags.map(({tagName}) => tagName),
-      },
-    );
+    const res = await apiClient.put<{code: number}>(`/products`, {
+      productId,
+      productImage: product.image,
+      name: product.name,
+      productStatus: product.productStatus,
+      originPrice: product.originPrice,
+      discountPrice: product.discountPrice,
+      discountRate: product.discountRate,
+      stock: product.stock,
+      productTags: product.tags.map(({tagName}) => tagName),
+    });
 
     return !!res && res.code === 200;
   } catch (error) {

@@ -57,6 +57,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     }
 
     const body = {
+      id: menuData.id,
       image: menuData.image,
       name: menuData.name,
       originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),

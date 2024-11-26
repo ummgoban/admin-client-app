@@ -4,7 +4,12 @@ import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {createProduct, updateProduct} from '@/apis/Product';
+import {
+  createProduct,
+  updateProduct,
+  addProductStock,
+  minusProductStock,
+} from '@/apis/Product';
 import Menu from '@/components/menu/Menu';
 import MenuModal from '@/components/menu/MenuModal';
 import useMarket from '@/hooks/useMarket';
@@ -17,7 +22,7 @@ import S from './MenuManageDetailScreen.style';
 
 type Props = {
   menus: MenuType[];
-  updateMenus: (Menus: MenuType[]) => void;
+  updateMenus: (updateFn: (prevMenus: MenuType[]) => MenuType[]) => void;
 };
 const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -88,24 +93,48 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     setModalVisible(false);
   };
 
-  const handleIncreaseStock = (menuId: number) => {
-    const updatedMenus = menus.map(menu => {
-      if (menu.id === menuId) {
-        return {...menu, stock: menu.stock + 1};
-      }
-      return menu;
-    });
-    updateMenus(updatedMenus);
+  const handleIncreaseStock = async (menuId: number) => {
+    const targetMenu = menus.find(menu => menu.id === menuId);
+    if (!targetMenu) return;
+
+    const count = targetMenu.stock + 1;
+
+    const success = await addProductStock(menuId);
+    if (!success) {
+      console.error('재고 증가 실패');
+      Alert.alert('재고 증가 실패');
+      return;
+    } else {
+      updateMenus((prevMenus: MenuType[]) =>
+        prevMenus.map(menu =>
+          menu.id === menuId ? {...menu, stock: count} : menu,
+        ),
+      );
+    }
   };
 
-  const handleDecreaseStock = (menuId: number) => {
-    const updatedMenus = menus.map(menu => {
-      if (menu.id === menuId && menu.stock > 0) {
-        return {...menu, stock: menu.stock - 1};
+  const handleDecreaseStock = async (menuId: number) => {
+    const targetMenu = menus.find(menu => menu.id === menuId);
+    if (!targetMenu) return;
+
+    const count = targetMenu.stock - 1;
+    if (count < 0) {
+      Alert.alert('더 이상 재고를 차감할 수 없습니다.');
+      return;
+    } else {
+      const success = await minusProductStock(menuId);
+      if (!success) {
+        console.error('재고 차감 실패');
+        Alert.alert('재고 차감 실패');
+        return;
+      } else {
+        updateMenus((prevMenus: MenuType[]) =>
+          prevMenus.map(menu =>
+            menu.id === menuId ? {...menu, stock: count} : menu,
+          ),
+        );
       }
-      return menu;
-    });
-    updateMenus(updatedMenus);
+    }
   };
 
   const getPresetTags = (marketMenus: MenuType[]): TagType[] => {

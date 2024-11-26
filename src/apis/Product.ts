@@ -91,14 +91,26 @@ export const updateProduct = async (
 /**
  *  PATCH /products
  */
-export const updateProductStock = async (
+export const addProductStock = async (productId: number): Promise<boolean> => {
+  try {
+    const res = await apiClient.patch<{code: number}>(`/products`, {
+      productId,
+      count: 1,
+    });
+
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+export const minusProductStock = async (
   productId: number,
-  count: number,
 ): Promise<boolean> => {
   try {
     const res = await apiClient.patch<{code: number}>(`/products`, {
       productId,
-      count,
+      count: -1,
     });
 
     return !!res && res.code === 200;

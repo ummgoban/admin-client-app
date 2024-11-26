@@ -63,7 +63,7 @@ export const createProduct = async (
 };
 
 /**
- * PATCH /products/:productId
+ *  PUT /products
  */
 export const updateProduct = async (
   productId: number,
@@ -80,6 +80,25 @@ export const updateProduct = async (
       discountRate: product.discountRate,
       stock: product.stock,
       productTags: product.tags.map(({tagName}) => tagName),
+    });
+
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+/**
+ *  PATCH /products
+ */
+export const updateProductStock = async (
+  productId: number,
+  count: number,
+): Promise<boolean> => {
+  try {
+    const res = await apiClient.patch<{code: number}>(`/products`, {
+      productId,
+      count,
     });
 
     return !!res && res.code === 200;

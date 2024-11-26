@@ -93,36 +93,81 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     setModalVisible(false);
   };
 
-  const handleIncreaseStock = async (menuId: number) => {
-    const targetMenu = menus.find(menu => menu.id === menuId);
+  const handleIncreaseStock = async (menuData: MenuType) => {
+    const targetMenu = menus.find(menu => menu.id === menuData.id);
     if (!targetMenu) return;
+    if (targetMenu.stock === 0) {
+      const body: MenuType = {
+        id: menuData.id,
+        image: menuData.image,
+        name: menuData.name,
+        originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
+        discountPrice: Number(
+          menuData.discountPrice.toString().replace(/,/g, ''),
+        ),
+        discountRate: menuData.discountRate,
+        stock: 1,
+        productStatus: 'IN_STOCK',
+        tags: menuData.tags,
+      };
+      const res = await updateProduct(menuData.id, body);
 
-    const count = targetMenu.stock + 1;
-
-    const success = await addProductStock(menuId);
-    if (!success) {
-      console.error('재고 증가 실패');
-      Alert.alert('재고 증가 실패');
+      if (!res) {
+        console.error('상품 수정 실패');
+        Alert.alert('상품 수정 실패');
+      } else {
+        await refresh();
+      }
       return;
     } else {
-      updateMenus((prevMenus: MenuType[]) =>
-        prevMenus.map(menu =>
-          menu.id === menuId ? {...menu, stock: count} : menu,
-        ),
-      );
+      const count = targetMenu.stock + 1;
+      const success = await addProductStock(menuData.id);
+      if (!success) {
+        console.error('재고 증가 실패');
+        Alert.alert('재고 증가 실패');
+        return;
+      } else {
+        updateMenus((prevMenus: MenuType[]) =>
+          prevMenus.map(menu =>
+            menu.id === menuData.id ? {...menu, stock: count} : menu,
+          ),
+        );
+      }
     }
   };
 
-  const handleDecreaseStock = async (menuId: number) => {
-    const targetMenu = menus.find(menu => menu.id === menuId);
+  const handleDecreaseStock = async (menuData: MenuType) => {
+    const targetMenu = menus.find(menu => menu.id === menuData.id);
     if (!targetMenu) return;
 
     const count = targetMenu.stock - 1;
     if (count < 0) {
       Alert.alert('더 이상 재고를 차감할 수 없습니다.');
+    } else if (count === 0) {
+      const body: MenuType = {
+        id: menuData.id,
+        image: menuData.image,
+        name: menuData.name,
+        originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
+        discountPrice: Number(
+          menuData.discountPrice.toString().replace(/,/g, ''),
+        ),
+        discountRate: menuData.discountRate,
+        stock: 0,
+        productStatus: 'OUT_OF_STOCK',
+        tags: menuData.tags,
+      };
+      const res = await updateProduct(menuData.id, body);
+
+      if (!res) {
+        console.error('상품 수정 실패');
+        Alert.alert('상품 수정 실패');
+      } else {
+        await refresh();
+      }
       return;
     } else {
-      const success = await minusProductStock(menuId);
+      const success = await minusProductStock(menuData.id);
       if (!success) {
         console.error('재고 차감 실패');
         Alert.alert('재고 차감 실패');
@@ -130,7 +175,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
       } else {
         updateMenus((prevMenus: MenuType[]) =>
           prevMenus.map(menu =>
-            menu.id === menuId ? {...menu, stock: count} : menu,
+            menu.id === menuData.id ? {...menu, stock: count} : menu,
           ),
         );
       }
@@ -160,8 +205,8 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
           key={menu.id}
           menu={menu}
           onEdit={() => handleEditProduct(menu)}
-          onIncreaseStock={() => handleIncreaseStock(menu.id)}
-          onDecreaseStock={() => handleDecreaseStock(menu.id)}
+          onIncreaseStock={() => handleIncreaseStock(menu)}
+          onDecreaseStock={() => handleDecreaseStock(menu)}
         />
       ))}
       <S.AddProductView>

@@ -33,6 +33,9 @@ const MarketInfoScreen = () => {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  // TODO: 임시 휴무 스위치 버튼
+  // const [isTempClosing, setIsTempClosing] = useState(false);
+
   const [summary, setSummary] = useState<string>();
   const [pickupStartTime, setPickupStartTime] = useState<Date>();
   const [pickupEndTime, setPickupEndTime] = useState<Date>();
@@ -92,6 +95,8 @@ const MarketInfoScreen = () => {
           onChange={e => setSummary(e.nativeEvent.text)}
           placeholder="가게소개를 입력해주세요"
         />
+        {/* <Label label={'임시 휴무'} /> */}
+        {/* TODO: 스위치 버튼으로 임시 휴무 */}
         <Label label={'영업 시간'} required />
         <S.TimeContainer>
           <S.TimePickerButton onPress={() => setOpenModal('market-open')}>

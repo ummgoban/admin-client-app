@@ -31,8 +31,6 @@ const MarketInfoScreen = () => {
   const {marketInfo, fetchMarket} = useMarket();
   const {refreshing, onRefresh} = usePullDownRefresh(fetchMarket);
 
-  // const {width} = useWindowDimensions();
-
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const [summary, setSummary] = useState<string>();
@@ -101,7 +99,7 @@ const MarketInfoScreen = () => {
               ? format(marketOpenTime.getTime(), 'HH:mm')
               : timeOptions['market-open']}
           </S.TimePickerButton>
-          <Text>~</Text>
+          <Text>{'~'}</Text>
           <S.TimePickerButton onPress={() => setOpenModal('market-close')}>
             {marketCloseTime
               ? format(marketCloseTime.getTime(), 'HH:mm')
@@ -115,7 +113,7 @@ const MarketInfoScreen = () => {
               ? format(pickupStartTime.getTime(), 'HH:mm')
               : timeOptions['pickup-start']}
           </S.TimePickerButton>
-          <Text>~</Text>
+          <Text>{'~'}</Text>
           <S.TimePickerButton onPress={() => setOpenModal('pickup-end')}>
             {pickupEndTime
               ? format(pickupEndTime.getTime(), 'HH:mm')
@@ -218,6 +216,10 @@ const MarketInfoScreen = () => {
         onCancel={() => {
           setOpenModal(undefined);
         }}
+        minuteInterval={30}
+        cancelText="취소"
+        confirmText="확인"
+        title={openModal ? timeOptions[openModal] : undefined}
       />
       <BottomButton
         onPress={async () => {

@@ -7,6 +7,7 @@ import {Button, Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import EmptyMarket from '@/components/common/EmptyMarket';
+import SwitchContainer from '@/components/common/SwitchContainer';
 import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
@@ -20,7 +21,7 @@ import {
   requestUserPermission,
   setBackgroundMessageHandler,
 } from '@/utils/notification';
-import SwitchContainer from '@/components/common/SwitchContainer';
+
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
@@ -42,6 +43,7 @@ const MyPageScreen = () => {
     setBackgroundMessageHandler();
     onForegroundMessageHandler();
   }, []);
+
   return (
     <ScrollView
       refreshControl={

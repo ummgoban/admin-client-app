@@ -41,7 +41,8 @@ const MarketInfoScreen = () => {
   const [pickupEndTime, setPickupEndTime] = useState<Date>();
   const [marketOpenTime, setMarketOpenTime] = useState<Date>();
   const [marketCloseTime, setMarketCloseTime] = useState<Date>();
-  const [imageList, setImageList] = useState<string[]>([]);
+
+  // const [imageList, setImageList] = useState<string[]>([]);
 
   const [openModal, setOpenModal] = useState<
     keyof typeof timeOptions | undefined
@@ -67,7 +68,7 @@ const MarketInfoScreen = () => {
       if (marketInfo.closeAt) {
         setMarketCloseTime(new Date(`2024-01-01T${marketInfo.closeAt}`));
       }
-      setImageList(marketInfo.imageUrls);
+      // setImageList(marketInfo.imageUrls);
     }
   }, [marketInfo]);
 
@@ -233,7 +234,7 @@ const MarketInfoScreen = () => {
             !pickupEndTime ||
             !marketOpenTime ||
             !marketCloseTime ||
-            !imageList.length ||
+            // !imageList.length ||
             !summary
           ) {
             Alert.alert('필수 입력사항을 모두 입력해주세요.');
@@ -245,7 +246,7 @@ const MarketInfoScreen = () => {
             pickupEndAt: format(pickupEndTime.getTime(), 'HH:mm'),
             openAt: format(marketOpenTime.getTime(), 'HH:mm'),
             closeAt: format(marketCloseTime.getTime(), 'HH:mm'),
-            imageUrls: imageList,
+            // imageUrls: imageList,
             summary,
           });
 

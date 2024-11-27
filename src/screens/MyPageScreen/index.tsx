@@ -20,8 +20,10 @@ import {
   requestUserPermission,
   setBackgroundMessageHandler,
 } from '@/utils/notification';
+import SwitchContainer from '@/components/common/SwitchContainer';
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
 
   const {profile, fetch: fetchProfile, selectMarket, logout} = useProfile();
   const {market, fetch: fetchMemberMarkets} = useMarket();
@@ -76,6 +78,15 @@ const MyPageScreen = () => {
             로그아웃
           </Button>
           {market.length === 0 && <EmptyMarket />}
+          <SwitchContainer
+            title="알림 수신 동의"
+            description="주문이 접수되면 알림을 보내드려요"
+            value={isNotification}
+            onChange={async () => {
+              // TODO: 알림 수신 동의 API 연동
+              setIsNotification(prev => !prev);
+            }}
+          />
         </View>
       ) : (
         <View>

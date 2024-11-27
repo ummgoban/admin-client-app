@@ -5,6 +5,7 @@
 #import <NaverThirdPartyLogin/NaverThirdPartyLogin.h> // Naver SDK 헤더 추가
 #import "RNCConfig.h" // RNCConfig 헤더 추가
 #import <Firebase.h>
+#import "RNSplashScreen.h"
 
 @implementation AppDelegate
 

@@ -19,7 +19,7 @@ export type UpdateMarketInfoType = {
   closeAt: string;
   pickupStartAt: string;
   pickupEndAt: string;
-  imageUrls: string[];
+  // imageUrls: string[];
 };
 
 export type RegistMarketType = {

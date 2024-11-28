@@ -31,16 +31,18 @@ const MarketInfoScreen = () => {
   const {marketInfo, fetchMarket} = useMarket();
   const {refreshing, onRefresh} = usePullDownRefresh(fetchMarket);
 
-  // const {width} = useWindowDimensions();
-
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  // TODO: 임시 휴무 스위치 버튼
+  // const [isTempClosing, setIsTempClosing] = useState(false);
 
   const [summary, setSummary] = useState<string>();
   const [pickupStartTime, setPickupStartTime] = useState<Date>();
   const [pickupEndTime, setPickupEndTime] = useState<Date>();
   const [marketOpenTime, setMarketOpenTime] = useState<Date>();
   const [marketCloseTime, setMarketCloseTime] = useState<Date>();
-  const [imageList, setImageList] = useState<string[]>([]);
+
+  // const [imageList, setImageList] = useState<string[]>([]);
 
   const [openModal, setOpenModal] = useState<
     keyof typeof timeOptions | undefined
@@ -66,7 +68,7 @@ const MarketInfoScreen = () => {
       if (marketInfo.closeAt) {
         setMarketCloseTime(new Date(`2024-01-01T${marketInfo.closeAt}`));
       }
-      setImageList(marketInfo.imageUrls);
+      // setImageList(marketInfo.imageUrls);
     }
   }, [marketInfo]);
 
@@ -94,6 +96,8 @@ const MarketInfoScreen = () => {
           onChange={e => setSummary(e.nativeEvent.text)}
           placeholder="가게소개를 입력해주세요"
         />
+        {/* <Label label={'임시 휴무'} /> */}
+        {/* TODO: 스위치 버튼으로 임시 휴무 */}
         <Label label={'영업 시간'} required />
         <S.TimeContainer>
           <S.TimePickerButton onPress={() => setOpenModal('market-open')}>
@@ -101,7 +105,7 @@ const MarketInfoScreen = () => {
               ? format(marketOpenTime.getTime(), 'HH:mm')
               : timeOptions['market-open']}
           </S.TimePickerButton>
-          <Text>~</Text>
+          <Text>{'~'}</Text>
           <S.TimePickerButton onPress={() => setOpenModal('market-close')}>
             {marketCloseTime
               ? format(marketCloseTime.getTime(), 'HH:mm')
@@ -115,7 +119,7 @@ const MarketInfoScreen = () => {
               ? format(pickupStartTime.getTime(), 'HH:mm')
               : timeOptions['pickup-start']}
           </S.TimePickerButton>
-          <Text>~</Text>
+          <Text>{'~'}</Text>
           <S.TimePickerButton onPress={() => setOpenModal('pickup-end')}>
             {pickupEndTime
               ? format(pickupEndTime.getTime(), 'HH:mm')
@@ -218,6 +222,10 @@ const MarketInfoScreen = () => {
         onCancel={() => {
           setOpenModal(undefined);
         }}
+        minuteInterval={30}
+        cancelText="취소"
+        confirmText="확인"
+        title={openModal ? timeOptions[openModal] : undefined}
       />
       <BottomButton
         onPress={async () => {
@@ -226,7 +234,7 @@ const MarketInfoScreen = () => {
             !pickupEndTime ||
             !marketOpenTime ||
             !marketCloseTime ||
-            !imageList.length ||
+            // !imageList.length ||
             !summary
           ) {
             Alert.alert('필수 입력사항을 모두 입력해주세요.');
@@ -238,7 +246,7 @@ const MarketInfoScreen = () => {
             pickupEndAt: format(pickupEndTime.getTime(), 'HH:mm'),
             openAt: format(marketOpenTime.getTime(), 'HH:mm'),
             closeAt: format(marketCloseTime.getTime(), 'HH:mm'),
-            imageUrls: imageList,
+            // imageUrls: imageList,
             summary,
           });
 

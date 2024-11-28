@@ -7,6 +7,7 @@ import {Button, Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import EmptyMarket from '@/components/common/EmptyMarket';
+import SwitchContainer from '@/components/common/SwitchContainer';
 import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
@@ -20,8 +21,10 @@ import {
   requestUserPermission,
   setBackgroundMessageHandler,
 } from '@/utils/notification';
+
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
 
   const {profile, fetch: fetchProfile, selectMarket, logout} = useProfile();
   const {market, fetch: fetchMemberMarkets} = useMarket();
@@ -40,6 +43,7 @@ const MyPageScreen = () => {
     setBackgroundMessageHandler();
     onForegroundMessageHandler();
   }, []);
+
   return (
     <ScrollView
       refreshControl={
@@ -76,6 +80,15 @@ const MyPageScreen = () => {
             로그아웃
           </Button>
           {market.length === 0 && <EmptyMarket />}
+          <SwitchContainer
+            title="알림 수신 동의"
+            description="주문이 접수되면 알림을 보내드려요"
+            value={isNotification}
+            onChange={async () => {
+              // TODO: 알림 수신 동의 API 연동
+              setIsNotification(prev => !prev);
+            }}
+          />
         </View>
       ) : (
         <View>

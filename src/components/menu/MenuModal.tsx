@@ -203,6 +203,7 @@ const MenuModal = ({
               <S.InputRow>
                 <TextInput
                   value={menuData.name}
+                  placeholder="메뉴 이름 입력"
                   onChangeText={text => handleInputChange('name', text)}
                 />
               </S.InputRow>

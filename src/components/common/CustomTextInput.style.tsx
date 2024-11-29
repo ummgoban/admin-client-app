@@ -9,7 +9,6 @@ const Container = styled.View`
 `;
 const InputContainer = styled.View`
   display: flex;
-  width: 100%;
   flex-direction: row;
 `;
 
@@ -17,8 +16,7 @@ const TextInput = styled(PaperTextInput)`
   ${props => !props.disabled && 'background-color: #ffffff'};
   display: flex;
   height: 40px;
-  width: 120px;
-  flex: 1
+  width: 200px;
   box-sizing: border-box;
   border-radius: 4px;
   border: 1px solid #b5b5b5;

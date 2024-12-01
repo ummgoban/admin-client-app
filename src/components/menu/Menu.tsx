@@ -15,6 +15,7 @@ const statusMap: Record<MenuType['productStatus'], string> = {
   HIDDEN: '숨김',
 };
 const Menu = ({menu, onEdit, onIncreaseStock, onDecreaseStock}: Props) => {
+  const isOutOfStock = menu.stock === 0;
   return (
     <S.MenuWrapper>
       <S.MenuImage source={{uri: menu.image}} />
@@ -31,12 +32,14 @@ const Menu = ({menu, onEdit, onIncreaseStock, onDecreaseStock}: Props) => {
             {menu.discountPrice.toLocaleString()}원
           </S.DiscountPriceText>
           <S.CurrentStatusText>
-            {statusMap[menu.productStatus]}
+            {isOutOfStock ? '품절' : statusMap[menu.productStatus]}
           </S.CurrentStatusText>
         </S.CurrentInfoWrapper>
         <S.CurrentInfoWrapper>
           <S.MenuCounter>
-            <S.MenuCounterButtonWrapper onPress={onDecreaseStock}>
+            <S.MenuCounterButtonWrapper
+              onPress={onDecreaseStock}
+              disabled={isOutOfStock}>
               <S.MenuCounterButton>-</S.MenuCounterButton>
             </S.MenuCounterButtonWrapper>
             <S.MenuCounterButton>{menu.stock} 개</S.MenuCounterButton>

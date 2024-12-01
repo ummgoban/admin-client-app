@@ -4,7 +4,12 @@ import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {createProduct, updateProduct} from '@/apis/Product';
+import {
+  createProduct,
+  updateProduct,
+  addProductStock,
+  minusProductStock,
+} from '@/apis/Product';
 import Menu from '@/components/menu/Menu';
 import MenuModal from '@/components/menu/MenuModal';
 import useMarket from '@/hooks/useMarket';
@@ -17,7 +22,7 @@ import S from './MenuManageDetailScreen.style';
 
 type Props = {
   menus: MenuType[];
-  updateMenus: (Menus: MenuType[]) => void;
+  updateMenus: (updateFn: (prevMenus: MenuType[]) => MenuType[]) => void;
 };
 const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -57,6 +62,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     }
 
     const body = {
+      id: menuData.id,
       image: menuData.image,
       name: menuData.name,
       originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
@@ -87,24 +93,93 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     setModalVisible(false);
   };
 
-  const handleIncreaseStock = (menuId: number) => {
-    const updatedMenus = menus.map(menu => {
-      if (menu.id === menuId) {
-        return {...menu, stock: menu.stock + 1};
+  const handleIncreaseStock = async (menuData: MenuType) => {
+    const targetMenu = menus.find(menu => menu.id === menuData.id);
+    if (!targetMenu) return;
+    if (targetMenu.stock === 0) {
+      const body: MenuType = {
+        id: menuData.id,
+        image: menuData.image,
+        name: menuData.name,
+        originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
+        discountPrice: Number(
+          menuData.discountPrice.toString().replace(/,/g, ''),
+        ),
+        discountRate: menuData.discountRate,
+        stock: 1,
+        productStatus: 'IN_STOCK',
+        tags: menuData.tags,
+      };
+      const res = await updateProduct(menuData.id, body);
+
+      if (!res) {
+        console.error('상품 수정 실패');
+        Alert.alert('상품 수정 실패');
+      } else {
+        await refresh();
       }
-      return menu;
-    });
-    updateMenus(updatedMenus);
+      return;
+    } else {
+      const count = targetMenu.stock + 1;
+      const success = await addProductStock(menuData.id);
+      if (!success) {
+        console.error('재고 증가 실패');
+        Alert.alert('재고 증가 실패');
+        return;
+      } else {
+        updateMenus((prevMenus: MenuType[]) =>
+          prevMenus.map(menu =>
+            menu.id === menuData.id ? {...menu, stock: count} : menu,
+          ),
+        );
+      }
+    }
   };
 
-  const handleDecreaseStock = (menuId: number) => {
-    const updatedMenus = menus.map(menu => {
-      if (menu.id === menuId && menu.stock > 0) {
-        return {...menu, stock: menu.stock - 1};
+  const handleDecreaseStock = async (menuData: MenuType) => {
+    const targetMenu = menus.find(menu => menu.id === menuData.id);
+    if (!targetMenu) return;
+
+    const count = targetMenu.stock - 1;
+    if (count < 0) {
+      Alert.alert('더 이상 재고를 차감할 수 없습니다.');
+    } else if (count === 0) {
+      const body: MenuType = {
+        id: menuData.id,
+        image: menuData.image,
+        name: menuData.name,
+        originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
+        discountPrice: Number(
+          menuData.discountPrice.toString().replace(/,/g, ''),
+        ),
+        discountRate: menuData.discountRate,
+        stock: 0,
+        productStatus: 'OUT_OF_STOCK',
+        tags: menuData.tags,
+      };
+      const res = await updateProduct(menuData.id, body);
+
+      if (!res) {
+        console.error('상품 수정 실패');
+        Alert.alert('상품 수정 실패');
+      } else {
+        await refresh();
       }
-      return menu;
-    });
-    updateMenus(updatedMenus);
+      return;
+    } else {
+      const success = await minusProductStock(menuData.id);
+      if (!success) {
+        console.error('재고 차감 실패');
+        Alert.alert('재고 차감 실패');
+        return;
+      } else {
+        updateMenus((prevMenus: MenuType[]) =>
+          prevMenus.map(menu =>
+            menu.id === menuData.id ? {...menu, stock: count} : menu,
+          ),
+        );
+      }
+    }
   };
 
   const getPresetTags = (marketMenus: MenuType[]): TagType[] => {
@@ -130,8 +205,8 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
           key={menu.id}
           menu={menu}
           onEdit={() => handleEditProduct(menu)}
-          onIncreaseStock={() => handleIncreaseStock(menu.id)}
-          onDecreaseStock={() => handleDecreaseStock(menu.id)}
+          onIncreaseStock={() => handleIncreaseStock(menu)}
+          onDecreaseStock={() => handleDecreaseStock(menu)}
         />
       ))}
       <S.AddProductView>

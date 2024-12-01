@@ -60,22 +60,24 @@ const MenuModal = ({
     setMenuData(prev => ({...prev, tags: updatedTags}));
   };
   useEffect(() => {
-    if (initialData) {
-      setMenuData(initialData);
-    } else {
-      setMenuData({
-        id: Date.now(),
-        name: '',
-        image: '',
-        discountRate: 0,
-        originPrice: 0,
-        discountPrice: 0,
-        stock: 0,
-        productStatus: 'HIDDEN',
-        tags: [],
-      });
+    if (isVisible) {
+      if (initialData) {
+        setMenuData(initialData);
+      } else {
+        setMenuData({
+          id: Date.now(),
+          name: '',
+          image: '',
+          discountRate: 0,
+          originPrice: 0,
+          discountPrice: 0,
+          stock: 0,
+          productStatus: 'HIDDEN',
+          tags: [],
+        });
+      }
     }
-  }, [initialData]);
+  }, [initialData, isVisible]);
 
   const handleInputChange = (field: keyof MenuType, value: string | number) => {
     let formattedValue = value;
@@ -201,6 +203,7 @@ const MenuModal = ({
               <S.InputRow>
                 <TextInput
                   value={menuData.name}
+                  placeholder="메뉴 이름 입력"
                   onChangeText={text => handleInputChange('name', text)}
                 />
               </S.InputRow>

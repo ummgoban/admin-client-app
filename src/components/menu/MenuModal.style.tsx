@@ -30,8 +30,8 @@ const ModalViewInner = styled.View`
 const ModalImageWrapper = styled.TouchableOpacity``;
 
 const ModalImage = styled.Image`
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   margin: 8px;
 `;
 const InputRow = styled.View`
@@ -88,6 +88,7 @@ const ButtonContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   gap: 8px;
+  padding-top: 12px;
 `;
 
 const ModalButton = styled.TouchableOpacity<{

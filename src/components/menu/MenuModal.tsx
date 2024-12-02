@@ -1,17 +1,18 @@
 import {deleteProduct, uploadProductImage} from '@/apis/Product';
 import CustomTextInput from '@/components/common/CustomTextInput';
-import {MenuType} from '@/types/ProductType';
+import {MenuType, TagType} from '@/types/ProductType';
 import {pickImage} from '@/utils/image-picker';
 import React, {useEffect, useState} from 'react';
 import {Alert, Modal} from 'react-native';
 import {TextInput} from '../common';
 import CustomLabel from '../common/CustomLabel';
+import TagModal from './TagModal';
 
 import useProduct from '@/hooks/useProduct';
 
 import S from './MenuModal.style';
 
-// TODO : 태그 컴포넌트 넣기
+// TODO : 태그 컴포넌트 디자인
 // TODO : onSave시 post data
 // TODO : 메뉴 추가시 id 처리(백엔드) -> 현재 Date.now()로 임시처리
 type Props = {
@@ -19,6 +20,7 @@ type Props = {
   onClose: () => void;
   onSave: (data: MenuType) => void;
   initialData: MenuType | null;
+  presetTags: TagType[];
 };
 const STATUS_OPTIONS: Record<MenuType['productStatus'], string> = {
   IN_STOCK: '판매중',
@@ -33,7 +35,13 @@ const calculateDiscountRate = (originPrice: number, discountPrice: number) => {
   return 0;
 };
 
-const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
+const MenuModal = ({
+  isVisible,
+  onClose,
+  onSave,
+  initialData,
+  presetTags,
+}: Props) => {
   const [menuData, setMenuData] = useState<MenuType>({
     id: -1,
     name: '',
@@ -47,24 +55,29 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
   });
 
   const {refresh} = useProduct();
-
+  const [tagModalVisible, setTagModalVisible] = useState(false);
+  const handleTagsUpdate = (updatedTags: MenuType['tags']) => {
+    setMenuData(prev => ({...prev, tags: updatedTags}));
+  };
   useEffect(() => {
-    if (initialData) {
-      setMenuData(initialData);
-    } else {
-      setMenuData({
-        id: Date.now(),
-        name: '',
-        image: '',
-        discountRate: 0,
-        originPrice: 0,
-        discountPrice: 0,
-        stock: 0,
-        productStatus: 'HIDDEN',
-        tags: [],
-      });
+    if (isVisible) {
+      if (initialData) {
+        setMenuData(initialData);
+      } else {
+        setMenuData({
+          id: Date.now(),
+          name: '',
+          image: '',
+          discountRate: 0,
+          originPrice: 0,
+          discountPrice: 0,
+          stock: 0,
+          productStatus: 'HIDDEN',
+          tags: [],
+        });
+      }
     }
-  }, [initialData]);
+  }, [initialData, isVisible]);
 
   const handleInputChange = (field: keyof MenuType, value: string | number) => {
     let formattedValue = value;
@@ -176,79 +189,105 @@ const MenuModal = ({isVisible, onClose, onSave, initialData}: Props) => {
     <Modal visible={isVisible} transparent={true} animationType="slide">
       <S.ModalOverlay>
         <S.ModalView>
-          <S.ModalImageWrapper onPress={handleImageUpload}>
-            {menuData.image ? (
-              <S.ModalImage source={{uri: menuData.image}} />
-            ) : (
-              <S.ModalButton onPress={handleImageUpload}>
-                <S.ModalButtonText>이미지 선택하기</S.ModalButtonText>
-              </S.ModalButton>
-            )}
-          </S.ModalImageWrapper>
-          <TextInput
-            value={menuData.name}
-            onChangeText={text => handleInputChange('name', text)}
-          />
-          {/* TODO: 메뉴태그 선택 */}
-          {/* <S.InputRow>
-            <DropDownSelectorComponent />
-          </S.InputRow> */}
-          <S.InputRow>
-            <CustomLabel label={'원가'} required />
-            <CustomTextInput
-              value={menuData.originPrice.toString()}
-              onChangeText={text => handleInputChange('originPrice', text)}
-            />
-          </S.InputRow>
-          <S.InputRow>
-            <CustomLabel label={'할인가'} required />
-            <CustomTextInput
-              value={menuData.discountPrice.toString()}
-              onChangeText={text => handleInputChange('discountPrice', text)}
-            />
-          </S.InputRow>
-
-          <S.InputRow>
-            <S.InputLabel>적용 할인율</S.InputLabel>
-            <CustomTextInput
-              value={menuData.discountRate.toString() + '%'}
-              disabled
-            />
-          </S.InputRow>
-          <S.InputRow>
-            <CustomLabel label={'재고'} required />
-            <CustomTextInput
-              value={menuData.stock.toString()}
-              onChangeText={text => handleInputChange('stock', text)}
-            />
-          </S.InputRow>
-          <S.InputRow>
-            <S.InputLabel>판매 상태</S.InputLabel>
-            <S.StatusButtonContainer>
-              {Object.entries(STATUS_OPTIONS).map(([status, label]) => (
-                <S.StatusButton
-                  key={status}
-                  onPress={() =>
-                    handleStatusChange(status as MenuType['productStatus'])
+          <S.ModalScrollView>
+            <S.ModalViewInner>
+              <S.ModalImageWrapper onPress={handleImageUpload}>
+                {menuData.image ? (
+                  <S.ModalImage source={{uri: menuData.image}} />
+                ) : (
+                  <S.ModalButton onPress={handleImageUpload}>
+                    <S.ModalButtonText>이미지 선택하기</S.ModalButtonText>
+                  </S.ModalButton>
+                )}
+              </S.ModalImageWrapper>
+              <S.InputRow>
+                <TextInput
+                  value={menuData.name}
+                  placeholder="메뉴 이름 입력"
+                  onChangeText={text => handleInputChange('name', text)}
+                />
+              </S.InputRow>
+              <S.TagAddButtonWrapper>
+                <S.ModalButton onPress={() => setTagModalVisible(true)}>
+                  <S.ModalButtonText>태그 추가하기</S.ModalButtonText>
+                </S.ModalButton>
+              </S.TagAddButtonWrapper>
+              <S.TagsFlexWrap>
+                {menuData.tags.map(tag => (
+                  <S.TagButtonWrapper key={tag.id}>
+                    <S.StatusButtonText>{tag.tagName}</S.StatusButtonText>
+                  </S.TagButtonWrapper>
+                ))}
+              </S.TagsFlexWrap>
+              <S.InputRow>
+                <CustomLabel label={'원가'} required />
+                <CustomTextInput
+                  value={menuData.originPrice.toString()}
+                  onChangeText={text => handleInputChange('originPrice', text)}
+                />
+              </S.InputRow>
+              <S.InputRow>
+                <CustomLabel label={'할인가'} required />
+                <CustomTextInput
+                  value={menuData.discountPrice.toString()}
+                  onChangeText={text =>
+                    handleInputChange('discountPrice', text)
                   }
-                  isActive={menuData.productStatus === status}>
-                  <S.StatusButtonText>{label}</S.StatusButtonText>
-                </S.StatusButton>
-              ))}
-            </S.StatusButtonContainer>
-          </S.InputRow>
+                />
+              </S.InputRow>
 
-          <S.ButtonContainer>
-            <S.ModalButton onPress={handleSave}>
-              <S.ModalButtonText>저장</S.ModalButtonText>
-            </S.ModalButton>
-            <S.ModalButton onPress={onClose}>
-              <S.ModalButtonText>취소</S.ModalButtonText>
-            </S.ModalButton>
-            <S.ModalButton onPress={handleDelete}>
-              <S.ModalButtonText>삭제</S.ModalButtonText>
-            </S.ModalButton>
-          </S.ButtonContainer>
+              <S.InputRow>
+                <S.InputLabel>적용 할인율</S.InputLabel>
+                <CustomTextInput
+                  value={menuData.discountRate.toString() + '%'}
+                  disabled
+                />
+              </S.InputRow>
+              <S.InputRow>
+                <CustomLabel label={'재고'} required />
+                <CustomTextInput
+                  value={menuData.stock.toString()}
+                  onChangeText={text => handleInputChange('stock', text)}
+                />
+              </S.InputRow>
+              <S.InputRow>
+                <S.InputLabel>판매 상태</S.InputLabel>
+                <S.StatusButtonContainer>
+                  {Object.entries(STATUS_OPTIONS).map(([status, label]) => (
+                    <S.StatusButton
+                      key={status}
+                      onPress={() =>
+                        handleStatusChange(status as MenuType['productStatus'])
+                      }
+                      isActive={menuData.productStatus === status}>
+                      <S.StatusButtonText>{label}</S.StatusButtonText>
+                    </S.StatusButton>
+                  ))}
+                </S.StatusButtonContainer>
+              </S.InputRow>
+
+              <S.ButtonContainer>
+                <S.ModalButton onPress={handleSave}>
+                  <S.ModalButtonText>저장</S.ModalButtonText>
+                </S.ModalButton>
+                <S.ModalButton onPress={onClose} status="warning">
+                  <S.ModalButtonText>취소</S.ModalButtonText>
+                </S.ModalButton>
+                {initialData && (
+                  <S.ModalButton onPress={handleDelete} status="error">
+                    <S.ModalButtonText>삭제</S.ModalButtonText>
+                  </S.ModalButton>
+                )}
+              </S.ButtonContainer>
+              <TagModal
+                isVisible={tagModalVisible}
+                onClose={() => setTagModalVisible(false)}
+                onSave={handleTagsUpdate}
+                initialTags={initialData?.tags}
+                presetTags={presetTags}
+              />
+            </S.ModalViewInner>
+          </S.ModalScrollView>
         </S.ModalView>
       </S.ModalOverlay>
     </Modal>

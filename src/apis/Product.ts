@@ -29,7 +29,7 @@ export const getProducts = async (
  */
 export const createProduct = async (
   marketId: number,
-  product: Omit<MenuType, 'id' | 'tags'>,
+  product: Omit<MenuType, 'id'>,
 ): Promise<boolean> => {
   try {
     const res = await apiClient.post<{
@@ -45,6 +45,7 @@ export const createProduct = async (
         discountPrice: product.discountPrice,
         discountRate: product.discountRate,
         stock: product.stock,
+        productTags: product.tags.map(({tagName}) => tagName),
       },
       {
         params: {
@@ -62,25 +63,55 @@ export const createProduct = async (
 };
 
 /**
- * PATCH /products/:productId
+ *  PUT /products
  */
 export const updateProduct = async (
   productId: number,
-  product: Omit<MenuType, 'id' | 'tags'>,
+  product: MenuType,
 ): Promise<boolean> => {
   try {
-    const res = await apiClient.patch<{code: number}>(
-      `/products/${productId}`,
-      {
-        productImage: product.image,
-        name: product.name,
-        productStatus: product.productStatus,
-        originPrice: product.originPrice,
-        discountPrice: product.discountPrice,
-        discountRate: product.discountRate,
-        stock: product.stock,
-      },
-    );
+    const res = await apiClient.put<{code: number}>(`/products`, {
+      productId,
+      productImage: product.image,
+      name: product.name,
+      productStatus: product.productStatus,
+      originPrice: product.originPrice,
+      discountPrice: product.discountPrice,
+      discountRate: product.discountRate,
+      stock: product.stock,
+      productTags: product.tags.map(({tagName}) => tagName),
+    });
+
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+/**
+ *  PATCH /products
+ */
+export const addProductStock = async (productId: number): Promise<boolean> => {
+  try {
+    const res = await apiClient.patch<{code: number}>(`/products`, {
+      productId,
+      count: 1,
+    });
+
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+export const minusProductStock = async (
+  productId: number,
+): Promise<boolean> => {
+  try {
+    const res = await apiClient.patch<{code: number}>(`/products`, {
+      productId,
+      count: -1,
+    });
 
     return !!res && res.code === 200;
   } catch (error) {

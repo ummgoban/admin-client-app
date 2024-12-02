@@ -1,20 +1,28 @@
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 
-import {createProduct, updateProduct} from '@/apis/Product';
+import Icon from 'react-native-vector-icons/AntDesign';
+
+import {
+  createProduct,
+  updateProduct,
+  addProductStock,
+  minusProductStock,
+} from '@/apis/Product';
 import Menu from '@/components/menu/Menu';
 import MenuModal from '@/components/menu/MenuModal';
 import useMarket from '@/hooks/useMarket';
-
-import S from './MenuManageDetailScreen.style';
-import {MenuType} from '@/types/ProductType';
 import useProduct from '@/hooks/useProduct';
 import useProfile from '@/hooks/useProfile';
+import usePullDownRefresh from '@/hooks/usePullDownRefresh';
+import {MenuType, TagType} from '@/types/ProductType';
+
+import S from './MenuManageDetailScreen.style';
 
 type Props = {
   menus: MenuType[];
-  updateMenus: (Menus: MenuType[]) => void;
+  updateMenus: (updateFn: (prevMenus: MenuType[]) => MenuType[]) => void;
 };
 const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,6 +31,8 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const {market} = useMarket();
   const {profile} = useProfile();
   const {refresh} = useProduct();
+
+  const {refreshing, onRefresh} = usePullDownRefresh(refresh);
 
   const handleAddProduct = () => {
     setCurrentMenu(null);
@@ -52,6 +62,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     }
 
     const body = {
+      id: menuData.id,
       image: menuData.image,
       name: menuData.name,
       originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
@@ -61,8 +72,8 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
       discountRate: menuData.discountRate,
       stock: menuData.stock,
       productStatus: menuData.productStatus,
+      tags: menuData.tags,
     };
-
     const res = currentMenu
       ? await updateProduct(currentMenu.id, body)
       : await createProduct(profile?.marketId, body);
@@ -82,41 +93,127 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     setModalVisible(false);
   };
 
-  const handleIncreaseStock = (menuId: number) => {
-    const updatedMenus = menus.map(menu => {
-      if (menu.id === menuId) {
-        return {...menu, stock: menu.stock + 1};
+  const handleIncreaseStock = async (menuData: MenuType) => {
+    const targetMenu = menus.find(menu => menu.id === menuData.id);
+    if (!targetMenu) return;
+    if (targetMenu.stock === 0) {
+      const body: MenuType = {
+        id: menuData.id,
+        image: menuData.image,
+        name: menuData.name,
+        originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
+        discountPrice: Number(
+          menuData.discountPrice.toString().replace(/,/g, ''),
+        ),
+        discountRate: menuData.discountRate,
+        stock: 1,
+        productStatus: 'IN_STOCK',
+        tags: menuData.tags,
+      };
+      const res = await updateProduct(menuData.id, body);
+
+      if (!res) {
+        console.error('상품 수정 실패');
+        Alert.alert('상품 수정 실패');
+      } else {
+        await refresh();
       }
-      return menu;
-    });
-    updateMenus(updatedMenus);
+      return;
+    } else {
+      const count = targetMenu.stock + 1;
+      const success = await addProductStock(menuData.id);
+      if (!success) {
+        console.error('재고 증가 실패');
+        Alert.alert('재고 증가 실패');
+        return;
+      } else {
+        updateMenus((prevMenus: MenuType[]) =>
+          prevMenus.map(menu =>
+            menu.id === menuData.id ? {...menu, stock: count} : menu,
+          ),
+        );
+      }
+    }
   };
 
-  const handleDecreaseStock = (menuId: number) => {
-    const updatedMenus = menus.map(menu => {
-      if (menu.id === menuId && menu.stock > 0) {
-        return {...menu, stock: menu.stock - 1};
+  const handleDecreaseStock = async (menuData: MenuType) => {
+    const targetMenu = menus.find(menu => menu.id === menuData.id);
+    if (!targetMenu) return;
+
+    const count = targetMenu.stock - 1;
+    if (count < 0) {
+      Alert.alert('더 이상 재고를 차감할 수 없습니다.');
+    } else if (count === 0) {
+      const body: MenuType = {
+        id: menuData.id,
+        image: menuData.image,
+        name: menuData.name,
+        originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
+        discountPrice: Number(
+          menuData.discountPrice.toString().replace(/,/g, ''),
+        ),
+        discountRate: menuData.discountRate,
+        stock: 0,
+        productStatus: 'OUT_OF_STOCK',
+        tags: menuData.tags,
+      };
+      const res = await updateProduct(menuData.id, body);
+
+      if (!res) {
+        console.error('상품 수정 실패');
+        Alert.alert('상품 수정 실패');
+      } else {
+        await refresh();
       }
-      return menu;
+      return;
+    } else {
+      const success = await minusProductStock(menuData.id);
+      if (!success) {
+        console.error('재고 차감 실패');
+        Alert.alert('재고 차감 실패');
+        return;
+      } else {
+        updateMenus((prevMenus: MenuType[]) =>
+          prevMenus.map(menu =>
+            menu.id === menuData.id ? {...menu, stock: count} : menu,
+          ),
+        );
+      }
+    }
+  };
+
+  const getPresetTags = (marketMenus: MenuType[]): TagType[] => {
+    const uniqueTags = new Map<number, TagType>();
+
+    marketMenus.forEach(menu => {
+      menu.tags.forEach(tag => {
+        if (!uniqueTags.has(tag.id)) {
+          uniqueTags.set(tag.id, tag);
+        }
+      });
     });
-    updateMenus(updatedMenus);
+    return Array.from(uniqueTags.values());
   };
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+      }>
       {menus.map(menu => (
         <Menu
           key={menu.id}
           menu={menu}
           onEdit={() => handleEditProduct(menu)}
-          onIncreaseStock={() => handleIncreaseStock(menu.id)}
-          onDecreaseStock={() => handleDecreaseStock(menu.id)}
+          onIncreaseStock={() => handleIncreaseStock(menu)}
+          onDecreaseStock={() => handleDecreaseStock(menu)}
         />
       ))}
       <S.AddProductView>
-        <S.AddProductWrapper onPress={handleAddProduct}>
-          <S.AddText>+ 상품 추가하기 </S.AddText>
-        </S.AddProductWrapper>
+        <S.AddButton onPress={handleAddProduct}>
+          <Icon name="plus" size={16} color="rgba(255, 255, 255, 1)" />
+          <S.AddButtonText>상품 추가하기</S.AddButtonText>
+        </S.AddButton>
       </S.AddProductView>
 
       <MenuModal
@@ -124,6 +221,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
         onClose={handleModalClose}
         onSave={handleSaveMenu}
         initialData={currentMenu}
+        presetTags={getPresetTags(menus)}
       />
     </ScrollView>
   );

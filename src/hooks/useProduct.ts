@@ -1,7 +1,9 @@
-import {getProducts as getProductsApi} from '@/apis/Product';
-import {MenuType} from '@/types/ProductType';
 import {useCallback} from 'react';
 import {create} from 'zustand';
+
+import {getProducts as getProductsApi} from '@/apis/Product';
+import {MenuType} from '@/types/ProductType';
+
 import useProfile from './useProfile';
 
 type ProductStore = {

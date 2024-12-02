@@ -1,22 +1,23 @@
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {Alert, useWindowDimensions, View} from 'react-native';
+import {Alert} from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';
 
-import {
-  deleteMarketImage,
-  updateMarketInfo,
-  uploadMarketImage,
-} from '@/apis/Market';
+import {updateMarketInfo} from '@/apis/Market';
 import {BottomButton, Label} from '@/components/common';
+import EmptyMarket from '@/components/common/EmptyMarket';
+import NonRegister from '@/components/common/NonRegister';
 import TextInput from '@/components/common/TextInput';
-import {format} from '@/utils/date';
-import {pickImage} from '@/utils/image-picker';
 import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
+import usePullDownRefresh from '@/hooks/usePullDownRefresh';
+import {RootStackParamList} from '@/types/StackNavigationType';
+import {format} from '@/utils/date';
 
-import S, {HORIZONTAL_MARGIN, IMAGE_CARD_GAP} from './MarketInfoScreen.style';
-import {useNavigation} from '@react-navigation/native';
+import S from './MarketInfoScreen.style';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -26,19 +27,22 @@ const timeOptions = {
 } as const;
 
 const MarketInfoScreen = () => {
+  const {profile} = useProfile();
   const {marketInfo, fetchMarket} = useMarket();
-  const {fetch: fetchProfile} = useProfile();
+  const {refreshing, onRefresh} = usePullDownRefresh(fetchMarket);
 
-  const {width} = useWindowDimensions();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const navigation = useNavigation();
+  // TODO: 임시 휴무 스위치 버튼
+  // const [isTempClosing, setIsTempClosing] = useState(false);
 
   const [summary, setSummary] = useState<string>();
   const [pickupStartTime, setPickupStartTime] = useState<Date>();
   const [pickupEndTime, setPickupEndTime] = useState<Date>();
   const [marketOpenTime, setMarketOpenTime] = useState<Date>();
   const [marketCloseTime, setMarketCloseTime] = useState<Date>();
-  const [imageList, setImageList] = useState<string[]>([]);
+
+  // const [imageList, setImageList] = useState<string[]>([]);
 
   const [openModal, setOpenModal] = useState<
     keyof typeof timeOptions | undefined
@@ -47,10 +51,6 @@ const MarketInfoScreen = () => {
   useEffect(() => {
     fetchMarket();
   }, [fetchMarket]);
-
-  useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
 
   useEffect(() => {
     if (marketInfo) {
@@ -68,21 +68,24 @@ const MarketInfoScreen = () => {
       if (marketInfo.closeAt) {
         setMarketCloseTime(new Date(`2024-01-01T${marketInfo.closeAt}`));
       }
-      setImageList(marketInfo.imageUrls);
+      // setImageList(marketInfo.imageUrls);
     }
   }, [marketInfo]);
 
+  if (!profile) {
+    return <NonRegister />;
+  }
+
   if (!marketInfo) {
-    return (
-      <View>
-        <Text>{'마켓 정보를 불러오는 중입니다.'}</Text>
-      </View>
-    );
+    return <EmptyMarket />;
   }
 
   return (
     <S.Container>
-      <S.ScrollView>
+      <S.ScrollView
+        refreshControl={
+          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+        }>
         <TextInput label={'상호명'} disabled placeholder={marketInfo?.name} />
         <TextInput
           label={'한 줄 소개'}
@@ -93,6 +96,8 @@ const MarketInfoScreen = () => {
           onChange={e => setSummary(e.nativeEvent.text)}
           placeholder="가게소개를 입력해주세요"
         />
+        {/* <Label label={'임시 휴무'} /> */}
+        {/* TODO: 스위치 버튼으로 임시 휴무 */}
         <Label label={'영업 시간'} required />
         <S.TimeContainer>
           <S.TimePickerButton onPress={() => setOpenModal('market-open')}>
@@ -100,7 +105,7 @@ const MarketInfoScreen = () => {
               ? format(marketOpenTime.getTime(), 'HH:mm')
               : timeOptions['market-open']}
           </S.TimePickerButton>
-          <Text>~</Text>
+          <Text>{'~'}</Text>
           <S.TimePickerButton onPress={() => setOpenModal('market-close')}>
             {marketCloseTime
               ? format(marketCloseTime.getTime(), 'HH:mm')
@@ -114,7 +119,7 @@ const MarketInfoScreen = () => {
               ? format(pickupStartTime.getTime(), 'HH:mm')
               : timeOptions['pickup-start']}
           </S.TimePickerButton>
-          <Text>~</Text>
+          <Text>{'~'}</Text>
           <S.TimePickerButton onPress={() => setOpenModal('pickup-end')}>
             {pickupEndTime
               ? format(pickupEndTime.getTime(), 'HH:mm')
@@ -122,7 +127,7 @@ const MarketInfoScreen = () => {
           </S.TimePickerButton>
         </S.TimeContainer>
         {/* TODO: 대표 사진 선택 */}
-        <Label label={'대표 사진 선택'} required />
+        {/* <Label label={'대표 사진 선택'} required />
         <S.ImageCardGrid>
           {imageList.map(uri => {
             const cardWidth =
@@ -190,7 +195,7 @@ const MarketInfoScreen = () => {
             setImageList(prev => [...prev, s3Url]);
           }}>
           <Text>+</Text>
-        </S.ImageCardPlusButton>
+        </S.ImageCardPlusButton> */}
       </S.ScrollView>
       <DatePicker
         modal
@@ -217,6 +222,10 @@ const MarketInfoScreen = () => {
         onCancel={() => {
           setOpenModal(undefined);
         }}
+        minuteInterval={30}
+        cancelText="취소"
+        confirmText="확인"
+        title={openModal ? timeOptions[openModal] : undefined}
       />
       <BottomButton
         onPress={async () => {
@@ -225,7 +234,7 @@ const MarketInfoScreen = () => {
             !pickupEndTime ||
             !marketOpenTime ||
             !marketCloseTime ||
-            !imageList.length ||
+            // !imageList.length ||
             !summary
           ) {
             Alert.alert('필수 입력사항을 모두 입력해주세요.');
@@ -237,7 +246,7 @@ const MarketInfoScreen = () => {
             pickupEndAt: format(pickupEndTime.getTime(), 'HH:mm'),
             openAt: format(marketOpenTime.getTime(), 'HH:mm'),
             closeAt: format(marketCloseTime.getTime(), 'HH:mm'),
-            imageUrls: imageList,
+            // imageUrls: imageList,
             summary,
           });
 

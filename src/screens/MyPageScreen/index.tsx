@@ -2,34 +2,53 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
 import {Alert, TouchableOpacity, View} from 'react-native';
+import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 import {Button, Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-import {logout} from '@/apis/Login';
+import EmptyMarket from '@/components/common/EmptyMarket';
+import SwitchContainer from '@/components/common/SwitchContainer';
+import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
+import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
 
-import useMarket from '@/hooks/useMarket';
 import S from './MyPageScreen.style';
+
+import {
+  onForegroundMessageHandler,
+  requestNotificationPermission,
+  requestUserPermission,
+  setBackgroundMessageHandler,
+} from '@/utils/notification';
 
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
 
-  const {profile, fetch: fetchProfile, selectMarket} = useProfile();
+  const {profile, fetch: fetchProfile, selectMarket, logout} = useProfile();
   const {market, fetch: fetchMemberMarkets} = useMarket();
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  useEffect(() => {
-    fetchMemberMarkets();
-  }, [fetchMemberMarkets]);
+  const {onRefresh, refreshing} = usePullDownRefresh(async () => {
+    await fetchProfile();
+    await fetchMemberMarkets();
+  });
 
+  //TODO: fcm 관련 권한 및 토큰 등록 협의후 이동
   useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
+    requestNotificationPermission();
+    requestUserPermission();
+    setBackgroundMessageHandler();
+    onForegroundMessageHandler();
+  }, []);
 
   return (
-    <View>
+    <ScrollView
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+      }>
       {profile ? (
         <View>
           <S.ProfileContainer>
@@ -39,7 +58,7 @@ const MyPageScreen = () => {
               height={100}
             /> */}
             <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
-              <S.ProfileName>{`${profile.name}님 ${market && profile.marketId ? `의${market.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
+              <S.ProfileName>{`${profile.name} 님${market && profile.marketId ? `의 ${market.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
               <Icon name="down" size={20} color="#000000" />
             </S.ProfileNameContainer>
           </S.ProfileContainer>
@@ -48,7 +67,11 @@ const MyPageScreen = () => {
               const res = await logout();
 
               if (res) {
-                navigation.navigate('Register', {screen: 'Login'});
+                Alert.alert('로그아웃 되었습니다.', '', [
+                  {
+                    text: '확인',
+                  },
+                ]);
               } else {
                 console.error('로그아웃 실패');
                 Alert.alert('로그아웃 실패');
@@ -56,6 +79,16 @@ const MyPageScreen = () => {
             }}>
             로그아웃
           </Button>
+          {market.length === 0 && <EmptyMarket />}
+          <SwitchContainer
+            title="알림 수신 동의"
+            description="주문이 접수되면 알림을 보내드려요"
+            value={isNotification}
+            onChange={async () => {
+              // TODO: 알림 수신 동의 API 연동
+              setIsNotification(prev => !prev);
+            }}
+          />
         </View>
       ) : (
         <View>
@@ -108,7 +141,7 @@ const MyPageScreen = () => {
           </Modal>
         </Portal>
       )}
-    </View>
+    </ScrollView>
   );
 };
 

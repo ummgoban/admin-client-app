@@ -15,6 +15,7 @@ export type ProductType = DefaultProductType & {
 
 export type MenuType = ProductType & {
   productStatus: 'IN_STOCK' | 'OUT_OF_STOCK' | 'HIDDEN';
+  tags: TagType[];
 };
 
 export type TagType = {

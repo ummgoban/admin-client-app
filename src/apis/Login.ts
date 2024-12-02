@@ -44,7 +44,6 @@ const naverLogin = (): Promise<NaverLoginResponse> => {
   return RNNaverLogin.login();
 };
 
-// TODO: 이 객체 입니다
 const naverLoginParams = {
   appName: Config.NAVER_APP_NAME,
   consumerKey: Config.NAVER_CONSUMER_KEY,
@@ -151,15 +150,15 @@ const signInWithKakao = async (): Promise<SessionType | null> => {
  */
 // TODO: 로그인 후 리프레쉬
 export const login = async (
-  OAuthProvider: SessionType['OAuthProvider'],
+  oAuthProvider: SessionType['OAuthProvider'],
 ): Promise<boolean> => {
   let res: SessionType | null = null;
-  if (OAuthProvider === 'KAKAO') {
+  if (oAuthProvider === 'KAKAO') {
     res = await signInWithKakao();
-  } else if (OAuthProvider === 'NAVER') {
+  } else if (oAuthProvider === 'NAVER') {
     res = await signInWithNaver();
   } else {
-    throw new Error(`Unsupported OAuthProvider: ${OAuthProvider}`);
+    throw new Error(`Unsupported OAuthProvider: ${oAuthProvider}`);
   }
 
   if (res) {
@@ -170,7 +169,6 @@ export const login = async (
   return false;
 };
 
-// TODO: 로그아웃 후 리프레쉬
 export const logout = async (): Promise<boolean> => {
   try {
     const storageRes: SessionType | null = await getStorage('session');

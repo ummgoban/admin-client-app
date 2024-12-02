@@ -1,11 +1,14 @@
+import {useCallback} from 'react';
+import {create} from 'zustand';
+
 import {getMarket as getMarketAPI} from '@/apis/Market';
 import {getMemberMarkets as getMemberMarketsAPI} from '@/apis/Member';
 import {MarketType} from '@/types/Market';
-import {useCallback} from 'react';
-import {create} from 'zustand';
+
 import useProfile from './useProfile';
 
 type MarketStore = {
+  loading: boolean;
   market: Pick<MarketType, 'id' | 'name'>[];
   getMemberMarkets: () => Promise<Pick<MarketType, 'id' | 'name'>[] | null>;
   marketInfo: MarketType | null;
@@ -13,16 +16,20 @@ type MarketStore = {
 };
 
 const useMarketStore = create<MarketStore>(set => ({
+  loading: true,
   market: [],
   marketInfo: null,
   getMemberMarkets: async () => {
+    set({loading: true});
+
     const marketRes = await getMemberMarketsAPI();
 
     if (!marketRes) {
+      set({loading: false});
       return null;
     }
     const ret = marketRes.map(({marketId: id, name}) => ({id, name}));
-    set({market: ret});
+    set({market: ret, loading: false});
 
     return ret;
   },
@@ -32,14 +39,14 @@ const useMarketStore = create<MarketStore>(set => ({
 }));
 
 const useMarket = () => {
-  const {market, getMemberMarkets, marketInfo, setMarketInfo} =
+  const {market, getMemberMarkets, marketInfo, setMarketInfo, loading} =
     useMarketStore();
 
-  const {profile, selectMarket, fetch: fetchProfile} = useProfile();
+  const {profile, selectMarket} = useProfile();
 
   const fetchMemberMarkets = useCallback(async () => {
     if (!profile) {
-      await fetchProfile();
+      return;
     }
 
     const res = await getMemberMarkets();
@@ -48,20 +55,16 @@ const useMarket = () => {
       return;
     }
 
-    if (profile && !profile.marketId) {
+    if (!profile.marketId) {
       selectMarket(res[0].id);
     }
-  }, [fetchProfile, getMemberMarkets, profile, selectMarket]);
+  }, [getMemberMarkets, profile, selectMarket]);
 
   const refresh = useCallback(async () => {
     await getMemberMarkets();
   }, [getMemberMarkets]);
 
   const fetchMarket = useCallback(async () => {
-    if (!market || !market.length) {
-      await fetchMemberMarkets();
-    }
-
     if (!profile || !profile?.marketId) {
       return;
     }
@@ -71,10 +74,18 @@ const useMarket = () => {
     if (!res) {
       return;
     }
-    setMarketInfo(res);
-  }, [fetchMemberMarkets, market, profile, setMarketInfo]);
 
-  return {market, marketInfo, refresh, fetch: fetchMemberMarkets, fetchMarket};
+    setMarketInfo(res);
+  }, [profile, setMarketInfo]);
+
+  return {
+    market,
+    marketInfo,
+    refresh,
+    fetch: fetchMemberMarkets,
+    fetchMarket,
+    loading,
+  };
 };
 
 export default useMarket;

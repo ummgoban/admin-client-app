@@ -1,7 +1,7 @@
 import appleAuth, {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-
+import {signInWithApple} from '@/apis/Login';
 async function handleSignInApple() {
   try {
     // Apple 로그인 요청 수행
@@ -13,6 +13,7 @@ async function handleSignInApple() {
     // Apple에서 반환한 id_token 출력
     const idToken = appleAuthRequestResponse.identityToken;
     console.log('id_token:', idToken);
+    console.log('test: ', appleAuthRequestResponse);
 
     // 인증 상태 확인
     const credentialState = await appleAuth.getCredentialStateForUser(
@@ -36,9 +37,9 @@ function AppleLogin() {
       buttonType={AppleButton.Type.SIGN_IN}
       style={{
         width: '100%', // You must specify a width
-        height: 45, // You must specify a height
+        height: 50, // You must specify a height
       }}
-      onPress={handleSignInApple}
+      onPress={signInWithApple}
     />
   );
 }

@@ -3972,6 +3972,7 @@ __metadata:
     "@babel/runtime": ^7.20.0
     "@emotion/native": ^11.11.0
     "@emotion/react": ^11.13.0
+    "@invertase/react-native-apple-authentication": ^2.4.0
     "@notifee/react-native": ^9.1.2
     "@react-native-community/eslint-config": ^3.2.0
     "@react-native-firebase/app": ^21.6.0

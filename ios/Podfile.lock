@@ -1629,6 +1629,8 @@ PODS:
     - React-logger (= 0.75.2)
     - React-perflogger (= 0.75.2)
     - React-utils (= 0.75.2)
+  - RNAppleAuthentication (2.4.0):
+    - React-Core
   - RNFBApp (21.6.0):
     - Firebase/CoreOnly (= 11.5.0)
     - React-Core
@@ -1637,8 +1639,6 @@ PODS:
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
-  - RNAppleAuthentication (2.4.0):
-    - React-Core
   - RNGestureHandler (2.21.2):
     - DoubleConversion
     - glog
@@ -2073,16 +2073,19 @@ SPEC CHECKSUMS:
   React-RuntimeApple: 171b7b35ec9dc97ba358d691bea07fc81795ca3e
   React-RuntimeCore: 7dcad4be47b656fdd67f7a6a78cf746948a11890
   React-runtimeexecutor: 5bb52479abf8081086afb0397dc33dc97202a439
-  React-RuntimeHermes: 860cf64708a12a2fa62366fe51fe000121fa031b
-  React-runtimescheduler: fff88d51ad2c8815fc75930dbac224d680593e6b
-  React-utils: 81a715d9c0a2a49047e77a86f3a2247408540deb
-  ReactCodegen: 60973d382704c793c605b9be0fc7f31cb279442f
-  ReactCommon: 6ef348087d250257c44c0204461c03f036650e9b
+  React-RuntimeHermes: bfada6b4eb293117496b0b0ef6d31a8142649596
+  React-runtimescheduler: 9577260c8dd7c3c97eb6f5086441784fd5241f62
+  React-utils: f908da1113885e2c08b25247e0ea892c68e2eaf6
+  ReactCodegen: de94475c4712a61ba0b1e1c25eb54db32f56836d
+  ReactCommon: 8da2bad9c1e5901f7b5484e42e59578edeece142
   RNAppleAuthentication: e00c76acb03351f5544373c78fa7f359bef6d5d3
-  RNGestureHandler: aa9690789023c9be8f06aa90e10ce637ea788f4d
-  RNNaverLogin: 5558e71bd0faa39b67ded6daedb855b0f638e967
-  RNScreens: c7ceced6a8384cb9be5e7a5e88e9e714401fd958
-  RNVectorIcons: 6382277afab3c54658e9d555ee0faa7a37827136
+  RNFBApp: f54f97b84af43a870372c6d9915ebe6a61a35bed
+  RNFBMessaging: 79d87b7e8ec5695f10b6a913f506e8c3059718e0
+  RNGestureHandler: 5cf4d43fd8d31b236a6d8e392aa48432f01650aa
+  RNNaverLogin: 70d5674c64c49e5b9fc9c37fef42720c41147cb3
+  RNNotifee: bc20a5e3d581f629db988075944fdd944d363dfe
+  RNScreens: 16b782596e80e475b7f3ec769c9a97d789d9b0ed
+  RNVectorIcons: 7b81882e9c9369031aede0016dee0fe415cf2f43
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 36d44f1d31d7c11be1067e5c7a70a12c2eed355c
 

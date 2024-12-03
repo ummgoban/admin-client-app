@@ -51,8 +51,18 @@ const LoginScreen = () => {
               <S.NaverButtonText>네이버 로그인 시작하기</S.NaverButtonText>
             </S.NaverButton>
           </S.LoginButtonWrapper>
+          <S.LoginButtonWrapper>
+            <S.NaverButton
+              onPress={async () => {
+                const res = await login('APPLE');
+                if (res) {
+                  navigation.navigate('Home', {screen: 'Home'});
+                }
+              }}>
+              <S.NaverButtonText>네이버 로그인 시작하기</S.NaverButtonText>
+            </S.NaverButton>
+          </S.LoginButtonWrapper>
         </S.LoginButtonContainer>
-        <AppleLogin />
       </S.LoginButtonContainer>
     </S.LoginPageContainer>
   );

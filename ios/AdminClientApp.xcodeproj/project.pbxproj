@@ -49,12 +49,8 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-AdminClientApp-AdminClientAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdminClientApp-AdminClientAppTests.release.xcconfig"; path = "Target Support Files/Pods-AdminClientApp-AdminClientAppTests/Pods-AdminClientApp-AdminClientAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		913DA9316D93063C3CA5F37F /* Pods_AdminClientApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdminClientApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-<<<<<<< HEAD
-		FACFBE0C2CEF264A002A689A /* AdminClientApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AdminClientApp.entitlements; path = AdminClientApp/AdminClientApp.entitlements; sourceTree = "<group>"; };
-=======
 		FACFBE0D2CF02016002A689A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FACFBE0F2CF02578002A689A /* AdminClientApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AdminClientApp.entitlements; path = AdminClientApp/AdminClientApp.entitlements; sourceTree = "<group>"; };
->>>>>>> main
 		FAEE934C2CB7B1DA0063C7A1 /* AdminClientApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdminClientApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAEE934D2CB7B1DA0063C7A1 /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
 		FAEE934F2CB7B83F0063C7A1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -100,11 +96,7 @@
 		13B07FAE1A68108700A75B9A /* AdminClientApp */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				FACFBE0C2CEF264A002A689A /* AdminClientApp.entitlements */,
-=======
 				FACFBE0F2CF02578002A689A /* AdminClientApp.entitlements */,
->>>>>>> main
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,

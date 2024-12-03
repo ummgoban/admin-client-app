@@ -2,5 +2,6 @@
 export type UserType = {
   id: number | string;
   name: string;
-  image: string;
+  image?: string;
+  provider: string;
 };

@@ -2,10 +2,11 @@ import styled from '@emotion/native';
 
 const LoginPageContainer = styled.View`
   flex: 1;
-  margin: 150px 0px;
+  background-color: white;
 `;
 
 const LogoImg = styled.Image`
+  margin-top: 100px;
   width: 82px;
   height: 102px;
 `;
@@ -26,12 +27,13 @@ const Description = styled.View`
 `;
 
 const LoginButtonContainer = styled.View`
+margin-top: 24px;
   display: flex;
   align-items: center;
   gap: 15px;
   marign: 45px;
   width: 300px
-  height: 125px;
+  height: 200px;
 `;
 
 const LoginButtonWrapper = styled.View`

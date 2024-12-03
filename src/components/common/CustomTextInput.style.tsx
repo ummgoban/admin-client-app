@@ -15,7 +15,7 @@ const InputContainer = styled.View`
 const TextInput = styled(PaperTextInput)`
   ${props => !props.disabled && 'background-color: #ffffff'};
   display: flex;
-  height: 40px;
+  height: 50px;
   width: 200px;
   box-sizing: border-box;
   border-radius: 4px;

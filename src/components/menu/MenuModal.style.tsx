@@ -105,30 +105,23 @@ const ModalButtonText = styled.Text`
   color: white;
 `;
 
-const TagAddButtonWrapper = styled.View`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`;
 const TagsFlexWrap = styled.View`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   gap: 8px;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
+  flex: 1;
 `;
 const TagButtonWrapper = styled.View`
-  background-color: white;
+  background-color: #e0e0e0;
   display: flex;
   flex-direction: row;
   gap: 4px;
   justify-content: space-between;
   align-items: center;
   border-radius: 8px;
-  padding: 2px;
+  padding: 12px;
 `;
 
 const TagRemoveButton = styled.TouchableOpacity``;
@@ -136,7 +129,6 @@ const TagRemoveButton = styled.TouchableOpacity``;
 const S = {
   TagButtonWrapper,
   TagRemoveButton,
-  TagAddButtonWrapper,
   TagsFlexWrap,
   ModalOverlay,
   ModalView,

@@ -61,9 +61,9 @@ const TagModal = ({
               onChangeText={setNewTag}
               placeholder="새 태그 입력"
             />
-            <S.AddButton onPress={handleAddTag}>
+            <S.ModalButton onPress={handleAddTag}>
               <S.AddButtonText>추가</S.AddButtonText>
-            </S.AddButton>
+            </S.ModalButton>
           </S.InputRow>
           <S.TagList>
             {tagsList.map(tag => (
@@ -81,7 +81,7 @@ const TagModal = ({
             <S.ModalButton onPress={handleSave}>
               <S.ModalButtonText>저장</S.ModalButtonText>
             </S.ModalButton>
-            <S.ModalButton onPress={onClose}>
+            <S.ModalButton onPress={onClose} status="warning">
               <S.ModalButtonText>취소</S.ModalButtonText>
             </S.ModalButton>
           </S.ButtonContainer>

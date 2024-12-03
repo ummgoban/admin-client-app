@@ -207,18 +207,18 @@ const MenuModal = ({
                   onChangeText={text => handleInputChange('name', text)}
                 />
               </S.InputRow>
-              <S.TagAddButtonWrapper>
+              <S.InputRow>
                 <S.ModalButton onPress={() => setTagModalVisible(true)}>
-                  <S.ModalButtonText>태그 추가하기</S.ModalButtonText>
+                  <S.StatusButtonText>태그 추가하기</S.StatusButtonText>
                 </S.ModalButton>
-              </S.TagAddButtonWrapper>
-              <S.TagsFlexWrap>
-                {menuData.tags.map(tag => (
-                  <S.TagButtonWrapper key={tag.id}>
-                    <S.StatusButtonText>{tag.tagName}</S.StatusButtonText>
-                  </S.TagButtonWrapper>
-                ))}
-              </S.TagsFlexWrap>
+                <S.TagsFlexWrap>
+                  {menuData.tags.map(tag => (
+                    <S.TagButtonWrapper key={tag.id}>
+                      <S.StatusButtonText>{tag.tagName}</S.StatusButtonText>
+                    </S.TagButtonWrapper>
+                  ))}
+                </S.TagsFlexWrap>
+              </S.InputRow>
               <S.InputRow>
                 <CustomLabel label={'원가'} required />
                 <CustomTextInput

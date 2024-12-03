@@ -8,6 +8,7 @@ export const getPendingOrderLists = async (
     | 'ACCEPTED'
     | 'PICKEDUP_OR_CANCELED'
     | 'PICKEDUP'
+    | 'NO_SHOW'
     | 'CANCELED',
 ): Promise<OrderDetailInfoType[] | null> => {
   try {
@@ -37,6 +38,7 @@ export const updateOrderStatus = async (
     | 'ACCEPTED'
     | 'PICKEDUP_OR_CANCELED'
     | 'PICKEDUP'
+    | 'NO_SHOW'
     | 'CANCELED',
 ): Promise<boolean> => {
   try {

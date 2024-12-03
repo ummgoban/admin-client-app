@@ -12,6 +12,7 @@ export type OrderDetailInfoType = {
     | 'ACCEPTED'
     | 'PICKEDUP_OR_CANCELED'
     | 'PICKEDUP'
+    | 'NO_SHOW'
     | 'CANCELED';
   products: ProductType[];
 };

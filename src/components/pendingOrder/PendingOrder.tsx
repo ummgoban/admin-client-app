@@ -15,6 +15,7 @@ type Props = {
       | 'ACCEPTED'
       | 'PICKEDUP_OR_CANCELED'
       | 'PICKEDUP'
+      | 'NO_SHOW'
       | 'CANCELED',
   ) => void;
 };
@@ -37,6 +38,9 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
   const handleReject = () => {
     onStatusChange(order.id, 'CANCELED');
   };
+  const handleNoShow = () => {
+    onStatusChange(order.id, 'NO_SHOW');
+  };
 
   const handlePickup = () => {
     onStatusChange(order.id, 'PICKEDUP');
@@ -55,6 +59,7 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
         return (
           <S.ButtonContainer>
             <Button title="픽업" onPress={handlePickup} />
+            <Button title="노쇼" onPress={handleNoShow} />
           </S.ButtonContainer>
         );
       default:

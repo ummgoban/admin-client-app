@@ -10,6 +10,7 @@ const LogoImg = styled.Image`
   width: 82px;
   height: 102px;
 `;
+const LoginButton = styled.TouchableOpacity``;
 
 const TitleText = styled.Text`
   font-family: Pretendard;
@@ -38,7 +39,6 @@ margin-top: 24px;
 
 const LoginButtonWrapper = styled.View`
   display: flex;
-  flex: 1;
   width: 300px;
   height: 55px;
   align-items: center;
@@ -61,7 +61,9 @@ const KakaoButton = styled(OauthLoginButton)`
 const NaverButton = styled(OauthLoginButton)`
   background-color: #03c75a;
 `;
-
+const AppleButton = styled(OauthLoginButton)`
+  background-color: #e2e2e2;
+`;
 const OauthLoginButtonText = styled.Text`
   font-size: 16px;
 `;
@@ -83,7 +85,9 @@ const S = {
   Description,
   TitleText,
   LogoImg,
+  LoginButton,
   LoginPageContainer,
+  AppleButton,
 };
 
 export default S;

@@ -5,7 +5,6 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import AppleLogin from '@/components/login/AppleLogin';
 import useProfile from '@/hooks/useProfile';
-
 import S from './LoginScreen.style';
 
 const LoginScreen = () => {
@@ -52,15 +51,15 @@ const LoginScreen = () => {
             </S.NaverButton>
           </S.LoginButtonWrapper>
           <S.LoginButtonWrapper>
-            <S.NaverButton
+            <S.AppleButton
               onPress={async () => {
                 const res = await login('APPLE');
                 if (res) {
                   navigation.navigate('Home', {screen: 'Home'});
                 }
               }}>
-              <S.NaverButtonText>네이버 로그인 시작하기</S.NaverButtonText>
-            </S.NaverButton>
+              <S.KakaoButtonText>애플 로그인 시작하기</S.KakaoButtonText>
+            </S.AppleButton>
           </S.LoginButtonWrapper>
         </S.LoginButtonContainer>
       </S.LoginButtonContainer>

@@ -45,7 +45,6 @@ const LoginScreen = () => {
               <S.NaverButtonText>네이버 로그인 시작하기</S.NaverButtonText>
             </S.NaverButton>
           </S.LoginButtonWrapper>
-          {/* iOS 기기에서만 애플 로그인 버튼 표시 */}
           {Platform.OS === 'ios' && (
             <S.LoginButtonWrapper>
               <S.AppleButton

@@ -13,6 +13,7 @@ type PendingOrdersProps = {
     | 'ACCEPTED'
     | 'PICKEDUP_OR_CANCELED'
     | 'PICKEDUP'
+    | 'NO_SHOW'
     | 'CANCELED';
 };
 
@@ -45,6 +46,7 @@ const PendingOrders = ({orderStatus}: PendingOrdersProps) => {
       | 'ACCEPTED'
       | 'PICKEDUP_OR_CANCELED'
       | 'PICKEDUP'
+      | 'NO_SHOW'
       | 'CANCELED',
   ) => {
     updateOrderStatus(orderId, newStatus);

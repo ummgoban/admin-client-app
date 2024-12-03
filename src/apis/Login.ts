@@ -1,5 +1,4 @@
 import {
-  getProfile as getKakaoProfile,
   login as kakaoLogin,
   logout as kakaoLogout,
 } from '@react-native-seoul/kakao-login';
@@ -12,9 +11,7 @@ import {SessionType} from '@/types/Session';
 import {UserType} from '@/types/UserType';
 import {getStorage, setStorage} from '@/utils/storage';
 import apiClient from './ApiClient';
-import appleAuth, {
-  AppleButton,
-} from '@invertase/react-native-apple-authentication';
+import appleAuth from '@invertase/react-native-apple-authentication';
 
 // 네이버 로그인 관련 설정
 const {RNNaverLogin} = NativeModules;
@@ -145,6 +142,11 @@ const signInWithKakao = async (): Promise<SessionType | null> => {
     return null;
   }
 };
+
+/**
+ * @description 애플 로그인 함수
+ * @returns {Promise<boolean>} 성공 시 true, 실패 시 false
+ */
 export const signInWithApple = async (): Promise<SessionType | null> => {
   try {
     // Apple 로그인 요청 수행
@@ -153,7 +155,7 @@ export const signInWithApple = async (): Promise<SessionType | null> => {
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
 
-    // Apple에서 반환한 jwt
+    // 애플에서 반환한 jwt
     const token = appleAuthRequestResponse.identityToken;
 
     // 인증 상태 확인

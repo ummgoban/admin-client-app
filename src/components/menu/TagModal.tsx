@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Modal} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Alert, Modal} from 'react-native';
 import S from './TagModal.style';
 import {TagType} from '@/types/ProductType';
 import CustomTextInput from '../common/CustomTextInput';
@@ -24,6 +24,12 @@ const TagModal = ({
   );
   const [newTag, setNewTag] = useState('');
 
+  useEffect(() => {
+    if (isVisible) {
+      setNewTag('');
+    }
+  }, [isVisible]);
+
   const tagsList = [
     ...presetTags,
     ...selectedTags.filter(
@@ -32,6 +38,10 @@ const TagModal = ({
   ];
 
   const handleAddTag = () => {
+    if (newTag.trim() === '') {
+      Alert.alert('태그를 입력해주세요!');
+      return;
+    }
     const newTagObject = {id: Date.now(), tagName: newTag};
     setSelectedTags(prev => [...prev, newTagObject]);
     setNewTag('');

@@ -10,8 +10,13 @@ const ModalView = styled.View`
   width: 88%;
   padding: 20px;
   border-radius: 10px;
-  background-color: white;
+  background-color: #f5f5f5;
   align-items: center;
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.25;
+  shadow-radius: 4px;
+  elevation: 5;
 `;
 
 const InputRow = styled.View`
@@ -20,27 +25,23 @@ const InputRow = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 8px;
-  gap: 16px;
+  gap: 36px;
   justify-content: flex-start;
 `;
 
 const TagButton = styled.TouchableOpacity<{isSelected: boolean}>`
-  background-color: ${({isSelected}) => (isSelected ? '#4682b4' : 'white')};
-  border-radius: 20px;
+  background-color: ${props =>
+    props.isSelected ? props.theme.colors.pressed : 'white'};
+  border-radius: 8px;
   padding: 8px 12px;
   margin: 4px;
+  border: 1px solid;
+  border-color: ${props => (props.isSelected ? 'white' : '#E0E0E0')};
 `;
 
 const TagText = styled.Text`
-  color: #333;
   font-size: 14px;
-`;
-
-const AddButton = styled.TouchableOpacity`
-  margin-left: 12px;
-  background-color: #4682b4;
-  border-radius: 8px;
-  padding: 10px 16px;
+  font-weight: 700;
 `;
 
 const AddButtonText = styled.Text`
@@ -61,8 +62,10 @@ const ButtonContainer = styled.View`
   margin-top: 16px;
 `;
 
-const ModalButton = styled.TouchableOpacity`
-  background-color: #4682b4;
+const ModalButton = styled.TouchableOpacity<{
+  status?: 'error' | 'warning' | 'primary';
+}>`
+  background-color: ${props => props.theme.colors[props.status || 'primary']};
   border-radius: 8px;
   padding: 10px 16px;
 `;
@@ -78,7 +81,6 @@ const S = {
   InputRow,
   TagButton,
   TagText,
-  AddButton,
   AddButtonText,
   TagList,
   ButtonContainer,

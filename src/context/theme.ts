@@ -34,6 +34,9 @@ const theme = {
     errorHover: 'rgba(255, 44, 44, 0.08)',
     errorPressed: 'rgba(255, 44, 44, 0.18)',
     errorDisabled: 'rgba(255, 44, 44, 0.38)',
+
+    // pressed: dark green
+    pressed: 'rgba(105, 149, 50, 1)',
   },
   fonts: {
     ...DefaultTheme.fonts,

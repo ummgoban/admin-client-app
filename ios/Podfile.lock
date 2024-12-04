@@ -1629,6 +1629,8 @@ PODS:
     - React-logger (= 0.75.2)
     - React-perflogger (= 0.75.2)
     - React-utils (= 0.75.2)
+  - RNAppleAuthentication (2.4.0):
+    - React-Core
   - RNFBApp (21.6.0):
     - Firebase/CoreOnly (= 11.5.0)
     - React-Core
@@ -1707,6 +1709,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNSVG (15.9.0):
+    - React-Core
   - RNVectorIcons (10.2.0):
     - DoubleConversion
     - glog
@@ -1803,12 +1807,14 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNNaverLogin (from `../node_modules/@react-native-seoul/naver-login`)"
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -1971,6 +1977,8 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNAppleAuthentication:
+    :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -1983,6 +1991,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@notifee/react-native"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -2073,12 +2083,14 @@ SPEC CHECKSUMS:
   React-utils: f908da1113885e2c08b25247e0ea892c68e2eaf6
   ReactCodegen: de94475c4712a61ba0b1e1c25eb54db32f56836d
   ReactCommon: 8da2bad9c1e5901f7b5484e42e59578edeece142
+  RNAppleAuthentication: e00c76acb03351f5544373c78fa7f359bef6d5d3
   RNFBApp: f54f97b84af43a870372c6d9915ebe6a61a35bed
   RNFBMessaging: 79d87b7e8ec5695f10b6a913f506e8c3059718e0
   RNGestureHandler: 5cf4d43fd8d31b236a6d8e392aa48432f01650aa
   RNNaverLogin: 70d5674c64c49e5b9fc9c37fef42720c41147cb3
   RNNotifee: bc20a5e3d581f629db988075944fdd944d363dfe
   RNScreens: 16b782596e80e475b7f3ec769c9a97d789d9b0ed
+  RNSVG: 3d2bdcaef51c8071880a9c0072fe324f4423a3ba
   RNVectorIcons: 7b81882e9c9369031aede0016dee0fe415cf2f43
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 36d44f1d31d7c11be1067e5c7a70a12c2eed355c

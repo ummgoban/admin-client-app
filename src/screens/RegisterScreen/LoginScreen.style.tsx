@@ -2,13 +2,15 @@ import styled from '@emotion/native';
 
 const LoginPageContainer = styled.View`
   flex: 1;
-  margin: 150px 0px;
+  background-color: white;
 `;
 
 const LogoImg = styled.Image`
+  margin-top: 100px;
   width: 82px;
   height: 102px;
 `;
+const LoginButton = styled.TouchableOpacity``;
 
 const TitleText = styled.Text`
   font-family: Pretendard;
@@ -26,17 +28,17 @@ const Description = styled.View`
 `;
 
 const LoginButtonContainer = styled.View`
+margin-top: 24px;
   display: flex;
   align-items: center;
   gap: 15px;
   marign: 45px;
   width: 300px
-  height: 125px;
+  height: 200px;
 `;
 
 const LoginButtonWrapper = styled.View`
   display: flex;
-  flex: 1;
   width: 300px;
   height: 55px;
   align-items: center;
@@ -59,7 +61,9 @@ const KakaoButton = styled(OauthLoginButton)`
 const NaverButton = styled(OauthLoginButton)`
   background-color: #03c75a;
 `;
-
+const AppleButton = styled(OauthLoginButton)`
+  background-color: #e2e2e2;
+`;
 const OauthLoginButtonText = styled.Text`
   font-size: 16px;
 `;
@@ -81,7 +85,9 @@ const S = {
   Description,
   TitleText,
   LogoImg,
+  LoginButton,
   LoginPageContainer,
+  AppleButton,
 };
 
 export default S;

@@ -1,9 +1,9 @@
 export type SessionType = {
   accessToken: string;
-  refreshToken: string;
-  accessTokenExpiresAt: number;
-  refreshTokenExpiresAt: number;
-  OAuthProvider: 'NAVER' | 'KAKAO';
+  refreshToken?: string;
+  accessTokenExpiresAt?: number;
+  refreshTokenExpiresAt?: number;
+  OAuthProvider: 'NAVER' | 'KAKAO' | 'APPLE';
   jwtToken: string;
 };
 

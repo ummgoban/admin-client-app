@@ -1,5 +1,4 @@
 import {
-  getProfile as getKakaoProfile,
   login as kakaoLogin,
   logout as kakaoLogout,
 } from '@react-native-seoul/kakao-login';
@@ -12,6 +11,7 @@ import {SessionType} from '@/types/Session';
 import {UserType} from '@/types/UserType';
 import {getStorage, setStorage} from '@/utils/storage';
 import apiClient from './ApiClient';
+import appleAuth from '@invertase/react-native-apple-authentication';
 
 // 네이버 로그인 관련 설정
 const {RNNaverLogin} = NativeModules;
@@ -144,6 +144,59 @@ const signInWithKakao = async (): Promise<SessionType | null> => {
 };
 
 /**
+ * @description 애플 로그인 함수
+ * @returns {Promise<boolean>} 성공 시 true, 실패 시 false
+ */
+export const signInWithApple = async (): Promise<SessionType | null> => {
+  try {
+    // Apple 로그인 요청 수행
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+
+    // 애플에서 반환한 jwt
+    const token = appleAuthRequestResponse.identityToken;
+
+    // 인증 상태 확인
+    const credentialState = await appleAuth.getCredentialStateForUser(
+      appleAuthRequestResponse.user,
+    );
+
+    if (token && credentialState === appleAuth.State.AUTHORIZED) {
+      console.log('Apple User is authenticated');
+      const response = await apiClient.post<{
+        data: {
+          accessToken: string;
+          refreshToken: string;
+        };
+      }>('/auth/login', {
+        provider: 'APPLE',
+        roles: 'ROLE_STORE_OWNER',
+        accessToken: token,
+      });
+      console.log(response);
+      if (response) {
+        console.log('애플 로그인 성공:', response);
+        return {
+          accessToken: token,
+          OAuthProvider: 'APPLE',
+          jwtToken: response.data.accessToken,
+        };
+      } else {
+        console.log('애플 로그인 실패');
+        return null;
+      }
+    } else {
+      console.log('User is not authenticated');
+      return null;
+    }
+  } catch (error) {
+    console.error('Apple Sign-In Error:', error);
+    return null;
+  }
+};
+/**
  * @description 로그인 함수
  * @param {SessionType['OAuthProvider']} OAuthProvider
  * @returns {Promise<boolean>} 성공 시 true, 실패 시 false
@@ -157,6 +210,8 @@ export const login = async (
     res = await signInWithKakao();
   } else if (oAuthProvider === 'NAVER') {
     res = await signInWithNaver();
+  } else if (oAuthProvider === 'APPLE') {
+    res = await signInWithApple();
   } else {
     throw new Error(`Unsupported OAuthProvider: ${oAuthProvider}`);
   }
@@ -191,46 +246,21 @@ export const logout = async (): Promise<boolean> => {
   }
 };
 
+// TODO: 애플 로그인 이름 기본값 부재
 export const getProfile = async (): Promise<UserType | null> => {
   try {
-    const storageRes: SessionType | null = await getStorage('session');
-
-    if (!storageRes) {
+    const res = await apiClient.get<UserType | null>(`/members/profiles`);
+    if (res) {
+      return {
+        id: res.id,
+        name: res.name || '사장',
+        provider: res.provider,
+      };
+    } else {
       return null;
     }
-
-    let res: UserType | null = null;
-
-    if (storageRes.OAuthProvider === 'KAKAO') {
-      const kakaoProfileRes = await getKakaoProfile();
-
-      if (kakaoProfileRes) {
-        res = {
-          id: kakaoProfileRes.id,
-          name: kakaoProfileRes.nickname,
-          image: kakaoProfileRes.profileImageUrl,
-        };
-      }
-    } else if (storageRes.OAuthProvider === 'NAVER') {
-      const naverProfileRes = await NaverLogin.getProfile(
-        storageRes.accessToken,
-      );
-
-      if (
-        naverProfileRes.message === 'success' &&
-        naverProfileRes.resultcode === '00'
-      ) {
-        res = {
-          id: naverProfileRes.response.id,
-          name: naverProfileRes.response.name,
-          image: naverProfileRes.response.profile_image ?? '',
-        };
-      }
-    }
-
-    return res;
   } catch (error) {
-    console.error('프로필 불러오기 에러:', error);
+    console.error(`Error fetching profile: ${error}`);
     return null;
   }
 };

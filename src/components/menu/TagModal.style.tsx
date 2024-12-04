@@ -25,7 +25,7 @@ const InputRow = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 8px;
-  gap: 48px;
+  gap: 36px;
   justify-content: flex-start;
 `;
 

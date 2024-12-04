@@ -1,5 +1,6 @@
 import {OrderDetailInfoType} from '@/types/OrderDetailType';
 import {RootStackParamList} from '@/types/StackNavigationType';
+import {format} from '@/utils/date';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
@@ -9,7 +10,7 @@ import S from './PendingOrder.style';
 type Props = {
   order: OrderDetailInfoType;
   onStatusChange: (
-    orderId: number,
+    orderId: string,
     newStatus:
       | 'ORDERED'
       | 'ACCEPTED'
@@ -18,16 +19,6 @@ type Props = {
       | 'NO_SHOW'
       | 'CANCELED',
   ) => void;
-};
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const hours = date.getUTCHours() + 9;
-  const minutes = date.getUTCMinutes();
-  const period = hours >= 12 ? '오후' : '오전';
-  const formattedHours = hours % 12 || 12;
-
-  return `${period} ${formattedHours}시 ${minutes}분`;
 };
 
 const PendingOrder = ({order, onStatusChange}: Props) => {
@@ -63,7 +54,21 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
           </S.ButtonContainer>
         );
       default:
-        return <Text>{order.ordersStatus}</Text>;
+        let text = '';
+        switch (order.ordersStatus) {
+          case 'PICKEDUP_OR_CANCELED':
+            text = '픽업완료';
+            break;
+          case 'PICKEDUP':
+            text = '픽업완료';
+            break;
+          case 'NO_SHOW':
+            text = '노쇼';
+            break;
+          case 'CANCELED':
+            text = '취소됨';
+        }
+        return <S.RequestText>{text}</S.RequestText>;
     }
   };
 
@@ -81,26 +86,31 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
       <S.TimeInfoContainer>
         <S.TimeInfo>
           <Text>주문시간</Text>
-          <Text>{formatDate(order.createdAt)}</Text>
+          <Text>{format(order.createdAt, 'YYYY.MM.DD (dd)')}</Text>
+          <Text>{format(order.createdAt, 'HH:mm:ss')}</Text>
         </S.TimeInfo>
         <S.Divider />
         <S.TimeInfo>
           <Text>픽업예약</Text>
-          <Text>{formatDate(order.pickupReservedAt)}</Text>
+          <Text>{format(order.pickupReservedAt, 'YYYY.MM.DD (dd)')}</Text>
+          <Text>{format(order.pickupReservedAt, 'HH:mm:ss')}</Text>
         </S.TimeInfo>
       </S.TimeInfoContainer>
       <S.DetailContainer>
+        <S.TextStyled>주문번호: {order.id.slice(0, 8)}</S.TextStyled>
         <S.TextStyled>주문자명: {order.orderMemberName}</S.TextStyled>
         <S.RequestText>요청사항</S.RequestText>
-        <S.RequestText numberOfLines={3} ellipsizeMode="tail">
-          {order.customerRequest}
-        </S.RequestText>
+        <Text numberOfLines={3} ellipsizeMode="tail">
+          {order.customerRequest || '고객의 요청사항이 없습니다'}
+        </Text>
+        <S.TextStyled>주문 상품</S.TextStyled>
         <S.TextStyled numberOfLines={3} ellipsizeMode="tail">
           {order.products
             .map(product => `${product.name} ${product.count}개`)
             .join(', ')}
         </S.TextStyled>
-        <S.PriceText>{order.ordersPrice}원</S.PriceText>
+        <S.TextStyled>주문 가격</S.TextStyled>
+        <S.PriceText>{order.ordersPrice.toLocaleString()}원</S.PriceText>
         {renderButtons()}
       </S.DetailContainer>
     </S.PendingMenuContainer>

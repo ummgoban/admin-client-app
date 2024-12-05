@@ -3,7 +3,7 @@ import {RootStackParamList} from '@/types/StackNavigationType';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {Button, Text} from 'react-native';
+import {Text} from 'react-native';
 import S from './PendingOrder.style';
 
 type Props = {
@@ -51,15 +51,26 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
       case 'ORDERED':
         return (
           <S.ButtonContainer>
-            <Button title="수락" onPress={handleAccept} />
-            <Button title="거절" onPress={handleReject} />
+            <S.StatusButton onPress={handleAccept}>
+              <S.StatusButtonText>{'수락'}</S.StatusButtonText>
+            </S.StatusButton>
+            <S.StatusButton onPress={handleReject}>
+              {' '}
+              <S.StatusButtonText>{'거절'}</S.StatusButtonText>
+            </S.StatusButton>
           </S.ButtonContainer>
         );
       case 'ACCEPTED':
         return (
           <S.ButtonContainer>
-            <Button title="픽업" onPress={handlePickup} />
-            <Button title="노쇼" onPress={handleNoShow} />
+            <S.StatusButton onPress={handlePickup}>
+              {' '}
+              <S.StatusButtonText>{'픽업'}</S.StatusButtonText>
+            </S.StatusButton>
+            <S.StatusButton onPress={handleNoShow}>
+              {' '}
+              <S.StatusButtonText>{'노쇼'}</S.StatusButtonText>
+            </S.StatusButton>
           </S.ButtonContainer>
         );
       default:

@@ -55,7 +55,6 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
               <S.StatusButtonText>{'수락'}</S.StatusButtonText>
             </S.StatusButton>
             <S.StatusButton onPress={handleReject}>
-              {' '}
               <S.StatusButtonText>{'거절'}</S.StatusButtonText>
             </S.StatusButton>
           </S.ButtonContainer>
@@ -64,11 +63,9 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
         return (
           <S.ButtonContainer>
             <S.StatusButton onPress={handlePickup}>
-              {' '}
               <S.StatusButtonText>{'픽업'}</S.StatusButtonText>
             </S.StatusButton>
             <S.StatusButton onPress={handleNoShow}>
-              {' '}
               <S.StatusButtonText>{'노쇼'}</S.StatusButtonText>
             </S.StatusButton>
           </S.ButtonContainer>
@@ -102,10 +99,10 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
       </S.TimeInfoContainer>
       <S.DetailContainer>
         <S.TextStyled>주문자명: {order.orderMemberName}</S.TextStyled>
-        <S.RequestText>요청사항</S.RequestText>
+        {/* <S.RequestText>요청사항</S.RequestText>
         <S.RequestText numberOfLines={3} ellipsizeMode="tail">
           {order.customerRequest}
-        </S.RequestText>
+        </S.RequestText> */}
         <S.TextStyled numberOfLines={3} ellipsizeMode="tail">
           {order.products
             .map(product => `${product.name} ${product.count}개`)

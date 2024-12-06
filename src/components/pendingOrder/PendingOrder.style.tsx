@@ -61,6 +61,7 @@ const ButtonContainer = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 16px;
 `;
 
 const S = {

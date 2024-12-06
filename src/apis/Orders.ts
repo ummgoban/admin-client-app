@@ -32,7 +32,7 @@ export const getPendingOrderLists = async (
 };
 
 export const updateOrderStatus = async (
-  orderId: number,
+  orderId: string,
   orderStatus:
     | 'ORDERED'
     | 'ACCEPTED'

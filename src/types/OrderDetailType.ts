@@ -1,7 +1,7 @@
 import {ProductType} from './ProductType';
 
 export type OrderDetailInfoType = {
-  id: number;
+  id: string;
   customerRequest: string;
   createdAt: string;
   pickupReservedAt: string;

@@ -40,7 +40,7 @@ const PendingOrders = ({orderStatus}: PendingOrdersProps) => {
   }, [fetchOrders]);
 
   const handleStatusChange = (
-    orderId: number,
+    orderId: string,
     newStatus:
       | 'ORDERED'
       | 'ACCEPTED'

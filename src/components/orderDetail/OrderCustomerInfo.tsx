@@ -17,7 +17,6 @@ const OrderCustomerInfo = ({
   orderMemberName,
   createdAt,
   pickupReservedAt,
-  customerRequest,
 }: Props) => {
   return (
     <S.Container>
@@ -29,8 +28,8 @@ const OrderCustomerInfo = ({
       <S.InfoText>
         {`픽업 예정 시간: ${format(new Date(pickupReservedAt).getTime(), 'YYYY. MM. DD. (ddd) A hh:mm')}`}
       </S.InfoText>
-      <S.InfoText>요청사항:</S.InfoText>
-      <S.InfoText>{customerRequest}</S.InfoText>
+      {/* <S.InfoText>요청사항:</S.InfoText>
+      <S.InfoText>{customerRequest}</S.InfoText> */}
     </S.Container>
   );
 };

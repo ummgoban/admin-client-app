@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-
+import {Button, Text} from 'react-native-paper';
 const PendingMenuContainer = styled.TouchableOpacity`
   background-color: white;
   display: flex;
@@ -56,7 +56,14 @@ const PriceText = styled.Text`
   padding-top: 8px;
   font-weight: bold;
 `;
-
+const StatusButton = styled(Button)`
+  background-color: ${props => props.theme.colors.primary};
+  border-radius: 8px;
+`;
+const StatusButtonText = styled(Text)`
+  color: white;
+  ${props => props.theme.fonts.default};
+`;
 const ButtonContainer = styled.View`
   display: flex;
   flex-direction: row;
@@ -73,6 +80,8 @@ const S = {
   TextStyled,
   RequestText,
   PriceText,
+  StatusButton,
+  StatusButtonText,
   ButtonContainer,
 };
 export default S;

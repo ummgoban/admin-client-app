@@ -1,7 +1,7 @@
 import messaging from '@react-native-firebase/messaging';
+import {registerFCMToken} from '@/apis/Fcm';
 import notifee, {AndroidImportance} from '@notifee/react-native';
 import {PermissionsAndroid, Platform, Alert, Linking} from 'react-native';
-import {registerFCMToken} from '@/apis/Fcm';
 
 export const requestNotificationPermission = async () => {
   const authStatus = await messaging().requestPermission();

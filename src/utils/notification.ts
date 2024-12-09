@@ -1,6 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
-import {registerFCMToken} from '@/apis/Fcm';
 import notifee, {AndroidImportance} from '@notifee/react-native';
+import {registerFCMToken} from '@/apis/Fcm';
 import {PermissionsAndroid, Platform, Alert, Linking} from 'react-native';
 
 export const requestNotificationPermission = async () => {

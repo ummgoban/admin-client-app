@@ -1,7 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useState} from 'react';
-import {Alert, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
+import {
+  Alert,
+  TouchableOpacity,
+  View,
+  AppState,
+  AppStateStatus,
+} from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 import {Button, Modal, Portal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -16,15 +22,13 @@ import {RootStackParamList} from '@/types/StackNavigationType';
 import S from './MyPageScreen.style';
 
 import {
-  onForegroundMessageHandler,
-  requestNotificationPermission,
-  requestUserPermission,
-  setBackgroundMessageHandler,
+  changeNotificationPermission,
+  isNotificationPermissionEnabled,
 } from '@/utils/notification';
 
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [isNotification, setIsNotification] = useState(false);
+  const [isNotificationOn, setIsNotificationOn] = useState(false);
 
   const {profile, fetch: fetchProfile, selectMarket, logout} = useProfile();
   const {market, fetch: fetchMemberMarkets} = useMarket();
@@ -36,14 +40,46 @@ const MyPageScreen = () => {
     await fetchMemberMarkets();
   });
 
-  //TODO: fcm 관련 권한 및 토큰 등록 협의후 이동
-  useEffect(() => {
-    requestNotificationPermission();
-    requestUserPermission();
-    setBackgroundMessageHandler();
-    onForegroundMessageHandler();
+  const initializeNotificationPermission = useCallback(async () => {
+    try {
+      const isEnabled = await isNotificationPermissionEnabled();
+      setIsNotificationOn(isEnabled);
+    } catch (error) {
+      console.error('체크 실패', error);
+    }
   }, []);
 
+  //TODO: fcm 관련 권한 및 토큰 등록 협의후 이동
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
+      console.log('AppState 변경:', nextAppState);
+      if (nextAppState === 'active') {
+        initializeNotificationPermission();
+      } else if (nextAppState === 'background') {
+        console.log('앱이 백그라운드로 이동');
+      }
+    };
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+    return () => {
+      console.log('AppState 이벤트 클린업');
+      subscription.remove();
+    };
+  }, [initializeNotificationPermission]);
+
+  const handleNotificationSwitch = async () => {
+    try {
+      await changeNotificationPermission();
+      const newIsNotificationOn = await isNotificationPermissionEnabled();
+      if (newIsNotificationOn !== isNotificationOn) {
+        setIsNotificationOn(newIsNotificationOn);
+      }
+    } catch (error) {
+      console.error('알림 상태 변경 실패', error);
+    }
+  };
   return (
     <ScrollView
       refreshControl={
@@ -83,11 +119,8 @@ const MyPageScreen = () => {
           <SwitchContainer
             title="알림 수신 동의"
             description="주문이 접수되면 알림을 보내드려요"
-            value={isNotification}
-            onChange={async () => {
-              // TODO: 알림 수신 동의 API 연동
-              setIsNotification(prev => !prev);
-            }}
+            value={isNotificationOn}
+            onChange={handleNotificationSwitch}
           />
         </View>
       ) : (

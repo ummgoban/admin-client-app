@@ -2,7 +2,6 @@ import messaging from '@react-native-firebase/messaging';
 import notifee, {AndroidImportance} from '@notifee/react-native';
 import {PermissionsAndroid, Platform, Alert, Linking} from 'react-native';
 import {registerFCMToken} from '@/apis/Fcm';
-import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 
 export const requestNotificationPermission = async () => {
   const authStatus = await messaging().requestPermission();
@@ -61,10 +60,11 @@ const requestAndroidPermission = async (): Promise<boolean> => {
 
 export const changeNotificationPermission = async () => {
   const authStatus = await isNotificationPermissionEnabled();
+  console.log('test');
   if (authStatus) {
-    console.log('fcm 권한 거부됨', authStatus);
+    console.log('fcm 권한', authStatus);
   } else {
-    console.log('fcm 권한 허용', authStatus);
+    console.log('fcm 권한', authStatus);
     const token = await messaging().getToken();
     await registerFCMToken(token);
     setUpPushNotificationHandlers();

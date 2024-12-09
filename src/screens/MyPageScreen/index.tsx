@@ -49,7 +49,6 @@ const MyPageScreen = () => {
     }
   }, []);
 
-  //TODO: fcm 관련 권한 및 토큰 등록 협의후 이동
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
       console.log('AppState 변경:', nextAppState);

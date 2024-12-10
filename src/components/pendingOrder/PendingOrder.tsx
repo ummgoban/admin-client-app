@@ -107,10 +107,10 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
       <S.DetailContainer>
         <S.TextStyled>주문번호: {order.id.slice(0, 8)}</S.TextStyled>
         <S.TextStyled>주문자명: {order.orderMemberName}</S.TextStyled>
-        <S.RequestText>요청사항</S.RequestText>
+        {/* <S.RequestText>요청사항</S.RequestText>
         <Text numberOfLines={3} ellipsizeMode="tail">
           {order.customerRequest || '고객의 요청사항이 없습니다'}
-        </Text>
+        </Text> */}
         <S.TextStyled>주문 상품</S.TextStyled>
         <S.TextStyled numberOfLines={3} ellipsizeMode="tail">
           {order.products

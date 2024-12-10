@@ -1682,10 +1682,12 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNNotifee (9.1.2):
+  - RNNotifee (9.1.3):
     - React-Core
-    - RNNotifee/NotifeeCore (= 9.1.2)
-  - RNNotifee/NotifeeCore (9.1.2):
+    - RNNotifee/NotifeeCore (= 9.1.3)
+  - RNNotifee/NotifeeCore (9.1.3):
+    - React-Core
+  - RNPermissions (5.2.1):
     - React-Core
   - RNScreens (3.35.0):
     - DoubleConversion
@@ -1813,6 +1815,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNNaverLogin (from `../node_modules/@react-native-seoul/naver-login`)"
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -1989,6 +1992,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-seoul/naver-login"
   RNNotifee:
     :path: "../node_modules/@notifee/react-native"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -2088,7 +2093,8 @@ SPEC CHECKSUMS:
   RNFBMessaging: 79d87b7e8ec5695f10b6a913f506e8c3059718e0
   RNGestureHandler: 5cf4d43fd8d31b236a6d8e392aa48432f01650aa
   RNNaverLogin: 70d5674c64c49e5b9fc9c37fef42720c41147cb3
-  RNNotifee: bc20a5e3d581f629db988075944fdd944d363dfe
+  RNNotifee: 522276e0be010e98173175fb838514b69f18cbe0
+  RNPermissions: bd4e8932db57d658a7fd0395bc0ea8a344e28405
   RNScreens: 16b782596e80e475b7f3ec769c9a97d789d9b0ed
   RNSVG: 3d2bdcaef51c8071880a9c0072fe324f4423a3ba
   RNVectorIcons: 7b81882e9c9369031aede0016dee0fe415cf2f43

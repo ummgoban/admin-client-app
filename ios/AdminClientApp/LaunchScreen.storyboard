@@ -16,17 +16,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="lO3-dY-5g6">
-                                <rect key="frame" x="67" y="98" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="momchanpick" translatesAutoresizingMaskIntoConstraints="NO" id="58E-qX-rRa">
-                                <rect key="frame" x="67" y="269" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashScreenLogo" translatesAutoresizingMaskIntoConstraints="NO" id="CKs-3U-VcA">
+                                <rect key="frame" x="60" y="239" width="255" height="128"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" red="0.97647058959999999" green="0.96862745289999996" blue="0.74117648599999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="CKs-3U-VcA" secondAttribute="bottom" constant="300" id="5cN-PH-bB7"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="CKs-3U-VcA" secondAttribute="trailing" constant="100" id="HFn-eT-eSF"/>
+                            <constraint firstItem="CKs-3U-VcA" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="60" id="Skt-Ij-bxM"/>
+                            <constraint firstItem="CKs-3U-VcA" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="219" id="awS-jI-SwR"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="CKs-3U-VcA" secondAttribute="trailing" constant="60" id="p6P-cp-0aH"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -35,7 +37,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="20" height="24"/>
-        <image name="momchanpick" width="32" height="22"/>
+        <image name="SplashScreenLogo" width="505.5" height="899"/>
     </resources>
 </document>

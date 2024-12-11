@@ -39,7 +39,7 @@ const PendingOrders = ({orderStatus}: PendingOrdersProps) => {
     if (isFocused) {
       fetchOrders();
     }
-  }, [fetchOrders]);
+  }, [fetchOrders, isFocused]);
 
   const handleStatusChange = (
     orderId: string,

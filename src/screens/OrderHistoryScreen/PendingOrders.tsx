@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {RefreshControl, ScrollView} from 'react-native';
-
+import {useIsFocused} from '@react-navigation/native';
 import {getPendingOrderLists, updateOrderStatus} from '@/apis/Orders';
 import PendingOrder from '@/components/pendingOrder/PendingOrder';
 import useProfile from '@/hooks/useProfile';
@@ -19,7 +19,7 @@ type PendingOrdersProps = {
 
 const PendingOrders = ({orderStatus}: PendingOrdersProps) => {
   const [orders, setOrders] = useState<OrderDetailInfoType[]>([]);
-
+  const isFocused = useIsFocused();
   const {profile} = useProfile();
 
   const fetchOrders = useCallback(async () => {
@@ -36,8 +36,10 @@ const PendingOrders = ({orderStatus}: PendingOrdersProps) => {
   const {onRefresh, refreshing} = usePullDownRefresh(fetchOrders);
 
   useEffect(() => {
-    fetchOrders();
-  }, [fetchOrders]);
+    if (isFocused) {
+      fetchOrders();
+    }
+  }, [fetchOrders, isFocused]);
 
   const handleStatusChange = (
     orderId: string,

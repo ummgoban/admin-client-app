@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {View, ScrollView} from 'react-native';
 
 import {ToggleButton} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
@@ -42,9 +42,9 @@ const OrderHistoryScreen = () => {
           <S.ToggleText>{`완료/취소`}</S.ToggleText>
         </ToggleButton>
       </S.NavbarGroup>
-      <View>
+      <ScrollView>
         <PendingOrdersScreen orderStatus={selected} />
-      </View>
+      </ScrollView>
     </View>
   );
 };

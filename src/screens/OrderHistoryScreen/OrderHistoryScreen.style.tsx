@@ -14,6 +14,10 @@ const ToggleText = styled.Text`
   color: ${props => props.theme.colors.tertiary};
 `;
 
-const S = {NavbarGroup, ToggleText};
+const PendingOrderScreenContainer = styled.ScrollView`
+  margin-bottom: 36px;
+`;
+
+const S = {NavbarGroup, ToggleText, PendingOrderScreenContainer};
 
 export default S;

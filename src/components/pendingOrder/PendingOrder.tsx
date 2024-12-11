@@ -6,6 +6,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {Text} from 'react-native';
 import S from './PendingOrder.style';
+import {to6DigitHash} from '@/utils/hash';
 
 type Props = {
   order: OrderDetailInfoType;
@@ -105,7 +106,7 @@ const PendingOrder = ({order, onStatusChange}: Props) => {
         </S.TimeInfo>
       </S.TimeInfoContainer>
       <S.DetailContainer>
-        <S.TextStyled>주문번호: {order.id.slice(0, 8)}</S.TextStyled>
+        <S.TextStyled>주문번호: {to6DigitHash(order.id)}</S.TextStyled>
         <S.TextStyled>주문자명: {order.orderMemberName}</S.TextStyled>
         {/* <S.RequestText>요청사항</S.RequestText>
         <Text numberOfLines={3} ellipsizeMode="tail">

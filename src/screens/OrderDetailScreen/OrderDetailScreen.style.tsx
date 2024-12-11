@@ -2,11 +2,11 @@ import styled from '@emotion/native';
 
 const Container = styled.ScrollView`
   flex: 1;
-  margin: 0 16px;
+  background-color: white;
 `;
 
 const HorizonDivider = styled.View`
-  border: 1px solid #e2e2e2;
+  border: 3px solid #e2e2e2;
   width: 100%;
 `;
 

@@ -42,9 +42,9 @@ const OrderHistoryScreen = () => {
           <S.ToggleText>{`완료/취소`}</S.ToggleText>
         </ToggleButton>
       </S.NavbarGroup>
-      <ScrollView>
+      <S.PendingOrderScreenContainer>
         <PendingOrdersScreen orderStatus={selected} />
-      </ScrollView>
+      </S.PendingOrderScreenContainer>
     </View>
   );
 };

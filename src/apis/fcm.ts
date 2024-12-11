@@ -1,5 +1,4 @@
 import apiClient from './ApiClient';
-
 export const registerFCMToken = async (
   deviceToken: string,
 ): Promise<boolean> => {

@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState, useCallback} from 'react';
 import {
@@ -32,7 +32,7 @@ const MyPageScreen = () => {
 
   const {profile, fetch: fetchProfile, selectMarket, logout} = useProfile();
   const {market, fetch: fetchMemberMarkets} = useMarket();
-
+  const isFocused = useIsFocused();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const {onRefresh, refreshing} = usePullDownRefresh(async () => {
@@ -58,15 +58,23 @@ const MyPageScreen = () => {
         console.log('앱이 백그라운드로 이동');
       }
     };
+
     const subscription = AppState.addEventListener(
       'change',
       handleAppStateChange,
     );
+
     return () => {
       console.log('AppState 이벤트 클린업');
       subscription.remove();
     };
   }, [initializeNotificationPermission]);
+
+  useEffect(() => {
+    if (isFocused) {
+      initializeNotificationPermission();
+    }
+  }, [isFocused, initializeNotificationPermission]);
 
   const handleNotificationSwitch = async () => {
     try {

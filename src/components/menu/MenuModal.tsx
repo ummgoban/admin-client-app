@@ -120,9 +120,28 @@ const MenuModal = ({
   };
 
   const handleSave = () => {
-    if (menuData) {
-      onSave(menuData);
+    const menuOriginPrice = Number(
+      menuData.originPrice.toString().replace(/,/g, ''),
+    );
+    const menuDiscountPrice = Number(
+      menuData.discountPrice.toString().replace(/,/g, ''),
+    );
+    const menuStock = Number(menuData.stock);
+    if (
+      !menuData.name.trim() ||
+      menuOriginPrice <= 0 ||
+      menuDiscountPrice <= 0 ||
+      menuStock < 0
+    ) {
+      Alert.alert('입력 오류', '필수 항목을 전부 올바르게 입력해주세요!');
+      return;
     }
+
+    if (menuOriginPrice < menuDiscountPrice) {
+      Alert.alert('가격 설정 오류', '할인가가 원가보다 클 수 없어요!');
+      return;
+    }
+    onSave(menuData);
   };
 
   const handleImageUpload = async () => {

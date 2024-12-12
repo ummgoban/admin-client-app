@@ -65,13 +65,20 @@ const PendingOrders = ({orderStatus}: PendingOrdersProps) => {
       refreshControl={
         <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
       }>
-      {orders.map(order => (
-        <PendingOrder
-          key={order.id}
-          order={order}
-          onStatusChange={handleStatusChange}
-        />
-      ))}
+      {orders
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.pickupReservedAt).getTime() -
+            new Date(a.pickupReservedAt).getTime(),
+        )
+        .map(order => (
+          <PendingOrder
+            key={order.id}
+            order={order}
+            onStatusChange={handleStatusChange}
+          />
+        ))}
     </ScrollView>
   );
 };

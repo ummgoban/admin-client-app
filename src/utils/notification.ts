@@ -4,18 +4,19 @@ import {registerFCMToken} from '@/apis/fcm';
 import {PermissionsAndroid, Platform, Alert, Linking} from 'react-native';
 
 export const requestNotificationPermission = async () => {
-  const authStatus = await messaging().requestPermission();
-  console.log(authStatus);
-  if (
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL
-  ) {
-    console.log('fcm 권한 허용', authStatus);
-  } else {
-    console.log('fcm 권한 거부됨', authStatus);
-    return;
-  }
-  if (Platform.OS === 'android' && Platform.Version >= 33) {
+  if (Platform.OS === 'ios') {
+    const authStatus = await messaging().requestPermission();
+    console.log(authStatus);
+    if (
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL
+    ) {
+      console.log('fcm 권한 허용', authStatus);
+    } else {
+      console.log('fcm 권한 거부됨', authStatus);
+      return;
+    }
+  } else if (Platform.OS === 'android') {
     const androidPermission = await requestAndroidPermission();
     if (!androidPermission) {
       console.log('Android POST_NOTIFICATIONS 권한 거부됨');
@@ -28,19 +29,28 @@ export const requestNotificationPermission = async () => {
   console.log('FCM Token:', token);
 };
 
-export const isNotificationPermissionEnabled = async (): Promise<boolean> => {
+const isIOSNotificationPermissionEnabled = async (): Promise<boolean> => {
   const status = await messaging().hasPermission();
-  const AndroidPermssionStatus: boolean =
-    Platform.OS === 'android' && Platform.Version >= 33
-      ? await PermissionsAndroid.check(
-          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-        )
-      : true;
   return (
-    AndroidPermssionStatus &&
-    (status === messaging.AuthorizationStatus.AUTHORIZED ||
-      status === messaging.AuthorizationStatus.PROVISIONAL)
+    status === messaging.AuthorizationStatus.AUTHORIZED ||
+    status === messaging.AuthorizationStatus.PROVISIONAL
   );
+};
+
+const isAndroidNotificationPermissionEnabled = async (): Promise<boolean> => {
+  const androidPermission = await PermissionsAndroid.check(
+    PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+  );
+  return androidPermission;
+};
+
+export const isNotificationPermissionEnabled = async (): Promise<boolean> => {
+  if (Platform.OS === 'ios') {
+    return await isIOSNotificationPermissionEnabled();
+  } else if (Platform.OS === 'android') {
+    return await isAndroidNotificationPermissionEnabled();
+  }
+  return false;
 };
 
 const requestAndroidPermission = async (): Promise<boolean> => {
@@ -102,7 +112,13 @@ const setUpPushNotificationHandlers = () => {
 };
 
 const displayNotification = async (remoteMessage: any) => {
-  const {title, body} = remoteMessage.notification ?? {};
+  let title = remoteMessage.notification?.title;
+  let body = remoteMessage.notification?.body;
+
+  if (!title && !body) {
+    title = remoteMessage.data?.title || '맘찬픽';
+    body = remoteMessage.data?.body || '새로운 알림이 있습니다.';
+  }
 
   const notificationOptions = {
     title,

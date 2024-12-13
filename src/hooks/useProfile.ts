@@ -10,6 +10,10 @@ import {
 import {SessionType} from '@/types/Session';
 import {UserType} from '@/types/UserType';
 
+import messaging from '@react-native-firebase/messaging';
+import {registerFCMToken} from '@/apis/fcm';
+import {setUpPushNotificationHandlers} from '@/utils/notification';
+
 type AdminUserType = UserType & {
   marketId: number | null;
 };
@@ -55,6 +59,10 @@ const useProfile = () => {
 
   const refresh = useCallback(async () => {
     await getProfile();
+    const token = await messaging().getToken();
+    await registerFCMToken(token);
+    await setUpPushNotificationHandlers();
+    console.log('FCM Token:', token);
   }, [getProfile]);
 
   const selectMarket = useCallback(
@@ -66,7 +74,6 @@ const useProfile = () => {
 
   const logout = useCallback(async () => {
     const res = await logoutApi();
-
     if (res) {
       await refresh();
       return true;
@@ -80,6 +87,7 @@ const useProfile = () => {
       const res = await loginApi(oAuthProvider);
       if (res) {
         await refresh();
+
         return true;
       }
 

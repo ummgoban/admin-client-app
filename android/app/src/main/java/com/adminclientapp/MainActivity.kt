@@ -1,4 +1,4 @@
-package com.adminclientapp
+package com.ummgoban.momchanpickadmin
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

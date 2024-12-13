@@ -1,4 +1,4 @@
-package com.adminclientapp
+package com.ummgoban.momchanpickadmin
 
 import android.app.Application
 import com.facebook.react.PackageList

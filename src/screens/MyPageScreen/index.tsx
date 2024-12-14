@@ -51,7 +51,7 @@ const MyPageScreen = () => {
       if (isEnabled) {
         const token = await messaging().getToken();
         await registerFCMToken(token);
-        await setUpPushNotificationHandlers();
+        console.log('FCM Token:', token);
       }
     } catch (error) {
       console.error('체크 실패', error);

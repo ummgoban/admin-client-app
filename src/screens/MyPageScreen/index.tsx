@@ -21,7 +21,6 @@ import {RootStackParamList} from '@/types/StackNavigationType';
 
 import messaging from '@react-native-firebase/messaging';
 import {registerFCMToken} from '@/apis/fcm';
-import {setUpPushNotificationHandlers} from '@/utils/notification';
 
 import S from './MyPageScreen.style';
 

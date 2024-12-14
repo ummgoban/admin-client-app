@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {Platform} from 'react-native';
 import './gesture-handler';
 
 import RootProvider from './src/context';

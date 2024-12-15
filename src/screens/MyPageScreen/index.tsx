@@ -21,7 +21,6 @@ import {RootStackParamList} from '@/types/StackNavigationType';
 
 import messaging from '@react-native-firebase/messaging';
 import {registerFCMToken} from '@/apis/fcm';
-import {setUpPushNotificationHandlers} from '@/utils/notification';
 
 import S from './MyPageScreen.style';
 
@@ -51,7 +50,7 @@ const MyPageScreen = () => {
       if (isEnabled) {
         const token = await messaging().getToken();
         await registerFCMToken(token);
-        await setUpPushNotificationHandlers();
+        console.log('FCM Token:', token);
       }
     } catch (error) {
       console.error('체크 실패', error);

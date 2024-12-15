@@ -12,7 +12,6 @@ import {UserType} from '@/types/UserType';
 
 import messaging from '@react-native-firebase/messaging';
 import {registerFCMToken} from '@/apis/fcm';
-import {setUpPushNotificationHandlers} from '@/utils/notification';
 
 type AdminUserType = UserType & {
   marketId: number | null;
@@ -61,7 +60,6 @@ const useProfile = () => {
     await getProfile();
     const token = await messaging().getToken();
     await registerFCMToken(token);
-    await setUpPushNotificationHandlers();
     console.log('FCM Token:', token);
   }, [getProfile]);
 

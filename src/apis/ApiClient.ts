@@ -90,7 +90,7 @@ class ApiClient {
         D
       >(url, config);
 
-      console.debug('GET', url, res.data);
+      console.debug('GET', url, JSON.stringify(res.data, null, 2));
 
       if (res.data.code === 200 && res.data.data) {
         return res.data.data;
@@ -98,7 +98,7 @@ class ApiClient {
 
       return null;
     } catch (error) {
-      console.debug('GET', url, error);
+      console.debug('GET', url, JSON.stringify(error, null, 2));
       if (ApiError.isApiError(error)) {
         console.error(error.response?.data);
       } else {
@@ -120,11 +120,11 @@ class ApiClient {
         D
       >(url, body, config);
 
-      console.debug('POST', url, res.data);
+      console.debug('POST', url, JSON.stringify(res.data, null, 2));
 
       return res.data;
     } catch (error) {
-      console.debug('POST', url, error);
+      console.debug('POST', url, JSON.stringify(error, null, 2));
 
       if (ApiError.isApiError(error)) {
         console.error(error.response?.data);
@@ -148,11 +148,11 @@ class ApiClient {
         config,
       );
 
-      console.debug('PATCH', url, res.data);
+      console.debug('PATCH', url, JSON.stringify(res.data, null, 2));
 
       return res.data;
     } catch (error) {
-      console.debug('PATCH', url, error);
+      console.debug('PATCH', url, JSON.stringify(error, null, 2));
       if (ApiError.isApiError(error)) {
         console.error(error.response?.data);
       } else {
@@ -174,11 +174,11 @@ class ApiClient {
         config,
       );
 
-      console.debug('PUT', url, res.data);
+      console.debug('PUT', url, JSON.stringify(res.data, null, 2));
 
       return res.data;
     } catch (error) {
-      console.debug('PUT', url, error);
+      console.debug('PUT', url, JSON.stringify(error, null, 2));
       if (ApiError.isApiError(error)) {
         console.error(error.response?.data);
       } else {
@@ -198,7 +198,7 @@ class ApiClient {
 
       return res.data;
     } catch (error) {
-      console.debug('DELETE', url, error);
+      console.debug('DELETE', url, JSON.stringify(error, null, 2));
       if (ApiError.isApiError(error)) {
         console.error(error.response?.data);
       } else {

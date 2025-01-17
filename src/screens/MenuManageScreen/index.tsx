@@ -9,6 +9,7 @@ import useMarket from '@/hooks/useMarket';
 import useProduct from '@/hooks/useProduct';
 import useProfile from '@/hooks/useProfile';
 import {MenuType} from '@/types/ProductType';
+import {useIsFocused} from '@react-navigation/native';
 
 const MenuManageScreen = () => {
   const {profile} = useProfile();
@@ -16,10 +17,13 @@ const MenuManageScreen = () => {
   const {marketInfo} = useMarket();
 
   const [menus, setMenus] = useState<MenuType[]>([]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    fetchProduct();
-  }, [fetchProduct]);
+    if (isFocused) {
+      fetchProduct();
+    }
+  }, [fetchProduct, isFocused]);
 
   useEffect(() => {
     if (products) {

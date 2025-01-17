@@ -15,6 +15,7 @@ const ToggleText = styled.Text`
 `;
 
 const PendingOrderScreenContainer = styled.ScrollView`
+  margin-top: 12px;
   margin-bottom: 36px;
 `;
 

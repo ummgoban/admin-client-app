@@ -72,7 +72,7 @@ class ApiClient {
     return ApiClient.instance;
   }
 
-  get = async <T, D = any>(
+  get = async <T, D = unknown>(
     url: string,
     config?: AxiosRequestConfig<D> | undefined,
   ): Promise<T | null> => {
@@ -108,7 +108,7 @@ class ApiClient {
     }
   };
 
-  post = async <T, D = any>(
+  post = async <T, D = unknown>(
     url: string,
     body?: D | undefined,
     config?: AxiosRequestConfig<D> | undefined,
@@ -136,7 +136,7 @@ class ApiClient {
     }
   };
 
-  patch = async <T, D = any>(
+  patch = async <T, D = unknown>(
     url: string,
     body: D,
     config?: AxiosRequestConfig<D> | undefined,
@@ -162,7 +162,7 @@ class ApiClient {
     }
   };
 
-  put = async <T, D = any>(
+  put = async <T, D = unknown>(
     url: string,
     body: D | undefined,
     config?: AxiosRequestConfig<D> | undefined,

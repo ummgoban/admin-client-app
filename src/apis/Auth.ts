@@ -13,7 +13,7 @@ export const loginAuth = async (
         accessToken: string;
         refreshToken: string;
       };
-    }>('/auth/login', {
+    }>('common/auth/login', {
       provider,
       roles: 'ROLE_STORE_OWNER',
       accessToken,

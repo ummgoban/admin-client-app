@@ -2,13 +2,13 @@ import {MenuType} from '@/types/ProductType';
 import apiClient from './ApiClient';
 
 /**
- * GET /products
+ * GET owner/products
  */
 export const getProducts = async (
   marketId: number,
 ): Promise<MenuType[] | null> => {
   try {
-    const res = await apiClient.get<MenuType[]>(`/products`, {
+    const res = await apiClient.get<MenuType[]>(`owner/products`, {
       params: {
         marketId,
       },
@@ -23,7 +23,7 @@ export const getProducts = async (
 };
 
 /**
- * POST /products
+ * POST owner/products
  * @param product - 상품 정보
  * @returns 생성된 상품 정보
  */
@@ -36,7 +36,7 @@ export const createProduct = async (
       code: number;
       message: string;
     }>(
-      '/products',
+      'owner/products',
       {
         productImage: product.image,
         name: product.name,
@@ -63,14 +63,14 @@ export const createProduct = async (
 };
 
 /**
- *  PUT /products
+ *  PUT owner/products
  */
 export const updateProduct = async (
   productId: number,
   product: MenuType,
 ): Promise<boolean> => {
   try {
-    const res = await apiClient.put<{code: number}>(`/products`, {
+    const res = await apiClient.put<{code: number}>(`owner/products`, {
       productId,
       productImage: product.image,
       name: product.name,
@@ -89,11 +89,11 @@ export const updateProduct = async (
   }
 };
 /**
- *  PATCH /products
+ *  PATCH owner/products
  */
 export const addProductStock = async (productId: number): Promise<boolean> => {
   try {
-    const res = await apiClient.patch<{code: number}>(`/products`, {
+    const res = await apiClient.patch<{code: number}>(`owner/products`, {
       productId,
       count: 1,
     });
@@ -108,7 +108,7 @@ export const minusProductStock = async (
   productId: number,
 ): Promise<boolean> => {
   try {
-    const res = await apiClient.patch<{code: number}>(`/products`, {
+    const res = await apiClient.patch<{code: number}>(`owner/products`, {
       productId,
       count: -1,
     });
@@ -121,14 +121,14 @@ export const minusProductStock = async (
 };
 
 /**
- * DELETE /products/:productId
+ * DELETE owner/products/:productId
  */
 export const deleteProduct = async (productId: number): Promise<boolean> => {
   try {
     const res = await apiClient.del<{
       code: number;
       message: string;
-    }>(`/products/${productId}`);
+    }>(`owner/products/${productId}`);
 
     return res?.code === 200;
   } catch (error) {
@@ -147,7 +147,7 @@ export const uploadProductImage = async (
 ): Promise<string | null> => {
   try {
     const res = await apiClient.post<{data: {imageUrl: string}}>(
-      '/products/images',
+      'owner/products/images',
       updateImage,
       {
         headers: {
@@ -174,7 +174,7 @@ export const deleteProductImage = async (
   try {
     const res = await apiClient.del<{
       code: number;
-    }>('/products/images', {
+    }>('owner/products/images', {
       params: {imageUrl},
     });
 

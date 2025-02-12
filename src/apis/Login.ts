@@ -71,7 +71,7 @@ const signInWithNaver = async (): Promise<SessionType | null> => {
           accessToken: string;
           refreshToken: string;
         };
-      }>('/auth/login', {
+      }>('common/auth/login', {
         provider: 'NAVER',
         roles: 'ROLE_STORE_OWNER',
         accessToken,
@@ -117,7 +117,7 @@ const signInWithKakao = async (): Promise<SessionType | null> => {
         accessToken: string;
         refreshToken: string;
       };
-    }>('/auth/login', {
+    }>('common/auth/login', {
       provider: 'KAKAO',
       roles: 'ROLE_STORE_OWNER',
       accessToken: token.accessToken,
@@ -170,7 +170,7 @@ export const signInWithApple = async (): Promise<SessionType | null> => {
           accessToken: string;
           refreshToken: string;
         };
-      }>('/auth/login', {
+      }>('common/auth/login', {
         provider: 'APPLE',
         roles: 'ROLE_STORE_OWNER',
         accessToken: token,
@@ -249,7 +249,7 @@ export const logout = async (): Promise<boolean> => {
 // TODO: 애플 로그인 이름 기본값 부재
 export const getProfile = async (): Promise<UserType | null> => {
   try {
-    const res = await apiClient.get<UserType | null>(`/members/profiles`);
+    const res = await apiClient.get<UserType | null>(`common/members/profiles`);
     if (res) {
       return {
         id: res.id,

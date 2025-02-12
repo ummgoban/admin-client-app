@@ -28,7 +28,11 @@ const useMarketStore = create<MarketStore>(set => ({
       set({loading: false});
       return null;
     }
-    const ret = marketRes.map(({marketId: id, name}) => ({id, name}));
+    const ret = marketRes.map(({marketId: id, marketName: name}) => ({
+      id,
+      name,
+    }));
+
     set({market: ret, loading: false});
 
     return ret;

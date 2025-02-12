@@ -7,12 +7,7 @@ export const registerFCMToken = async (
   try {
     const res = await apiClient.post<{code: number; message: string}>(
       'common/members/device-token',
-      {},
-      {
-        params: {
-          deviceToken,
-        },
-      },
+      {deviceToken},
     );
     return !!res && res.code === 200;
   } catch (error) {

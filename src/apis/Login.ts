@@ -14,7 +14,7 @@ import {getStorage, setStorage} from '@/utils/storage';
 import apiClient from './ApiClient';
 import appleAuth from '@invertase/react-native-apple-authentication';
 import messaging from '@react-native-firebase/messaging';
-import {registerFCMToken} from './Fcm';
+import {registerFCMToken} from './fcm';
 // 네이버 로그인 관련 설정
 const {RNNaverLogin} = NativeModules;
 const initializeNaver = ({

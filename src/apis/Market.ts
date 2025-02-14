@@ -33,7 +33,7 @@ export const getMarket = async (
 ): Promise<MarketType | null> => {
   try {
     const res = await apiClient.get<MarketType | null>(
-      `customer/markets/${marketId}`,
+      `owner/markets/${marketId}`,
     );
 
     return res;

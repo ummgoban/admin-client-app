@@ -2,13 +2,13 @@ import {MenuType} from '@/types/ProductType';
 import apiClient from './ApiClient';
 
 /**
- * GET customer/products
+ * GET owner/products
  */
 export const getProducts = async (
   marketId: number,
 ): Promise<MenuType[] | null> => {
   try {
-    const res = await apiClient.get<MenuType[]>(`customer/products`, {
+    const res = await apiClient.get<MenuType[]>(`owner/products`, {
       params: {
         marketId,
       },

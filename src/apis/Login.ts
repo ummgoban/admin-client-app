@@ -74,8 +74,9 @@ const signInWithNaver = async (): Promise<SessionType | null> => {
         };
       }>('/common/auth/oauth-login', {
         provider: 'NAVER',
-        roles: 'ROLE_STORE_OWNER',
+        roles: 'ROLE_STORE_ADMIN',
         accessToken,
+        oauthRefreshToken: refreshToken,
       });
 
       if (response) {
@@ -129,8 +130,9 @@ const signInWithKakao = async (): Promise<SessionType | null> => {
       };
     }>('/common/auth/oauth-login', {
       provider: 'KAKAO',
-      roles: 'ROLE_STORE_OWNER',
+      roles: 'ROLE_STORE_ADMIN',
       accessToken: token.accessToken,
+      oauthRefreshToken: token.refreshToken,
     });
 
     if (response) {
@@ -187,7 +189,8 @@ const signInWithApple = async (): Promise<SessionType | null> => {
         };
       }>('/common/auth/oauth-login', {
         provider: 'APPLE',
-        roles: 'ROLE_STORE_OWNER',
+        roles: 'ROLE_STORE_ADMIN',
+        // TODO: 애플로그인 사용자명 및 리프레쉬 토큰 논의
         accessToken: token,
       });
       console.log(response);

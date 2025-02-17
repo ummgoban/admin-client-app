@@ -1,9 +1,10 @@
 import {
   login as kakaoLogin,
   logout as kakaoLogout,
+  KakaoOAuthToken,
 } from '@react-native-seoul/kakao-login';
 import NaverLogin from '@react-native-seoul/naver-login';
-import {NativeModules, Platform} from 'react-native';
+import {Alert, NativeModules, Platform} from 'react-native';
 import Config from 'react-native-config';
 
 import {NaverLoginInitParams, NaverLoginResponse} from '@/types/Login';
@@ -12,10 +13,10 @@ import {UserType} from '@/types/UserType';
 import {getStorage, setStorage} from '@/utils/storage';
 import apiClient from './ApiClient';
 import appleAuth from '@invertase/react-native-apple-authentication';
-
+import messaging from '@react-native-firebase/messaging';
+import {registerFCMToken} from './fcm';
 // 네이버 로그인 관련 설정
 const {RNNaverLogin} = NativeModules;
-
 const initializeNaver = ({
   appName,
   consumerKey,
@@ -25,7 +26,7 @@ const initializeNaver = ({
 }: NaverLoginInitParams) => {
   if (Platform.OS === 'ios') {
     if (!serviceUrlSchemeIOS) {
-      console.log('serviceUrlSchemeIOS is missing in iOS initialize.');
+      console.debug('serviceUrlSchemeIOS is missing in iOS initialize.');
       return;
     }
     RNNaverLogin.initialize(
@@ -71,10 +72,11 @@ const signInWithNaver = async (): Promise<SessionType | null> => {
           accessToken: string;
           refreshToken: string;
         };
-      }>('/auth/login', {
+      }>('/common/auth/oauth-login', {
         provider: 'NAVER',
-        roles: 'ROLE_STORE_OWNER',
+        roles: 'ROLE_STORE_ADMIN',
         accessToken,
+        oauthRefreshToken: refreshToken,
       });
 
       if (response) {
@@ -87,14 +89,14 @@ const signInWithNaver = async (): Promise<SessionType | null> => {
           accessTokenExpiresAt,
           refreshTokenExpiresAt: accessTokenExpiresAt,
           OAuthProvider: 'NAVER',
-          jwtToken: response.data.accessToken,
+          jwt: response.data.accessToken,
         };
       } else {
-        console.log('네이버 로그인 실패');
+        console.debug('네이버 로그인 실패');
         return null;
       }
     } else {
-      console.log('네이버 로그인 실패:', loginResult.failureResponse);
+      console.debug('네이버 로그인 실패:', loginResult.failureResponse);
       return null;
     }
   } catch (error) {
@@ -108,37 +110,52 @@ const signInWithNaver = async (): Promise<SessionType | null> => {
  * @returns {Promise<boolean>} 성공 시 true, 실패 시 false
  */
 const signInWithKakao = async (): Promise<SessionType | null> => {
+  let token: KakaoOAuthToken | null = null;
   try {
-    // Oauth 토큰 생성
-    const token = await kakaoLogin();
+    token = await kakaoLogin();
+  } catch (error) {
+    Alert.alert('카카오 로그인 에러');
+  }
+
+  if (!token) {
+    return null;
+  }
+
+  try {
     // JWT 토큰
     const response = await apiClient.post<{
       data: {
         accessToken: string;
         refreshToken: string;
       };
-    }>('/auth/login', {
+    }>('/common/auth/oauth-login', {
       provider: 'KAKAO',
-      roles: 'ROLE_STORE_OWNER',
+      roles: 'ROLE_STORE_ADMIN',
       accessToken: token.accessToken,
+      oauthRefreshToken: token.refreshToken,
     });
 
     if (response) {
-      console.log('카카오 로그인 성공:', response);
+      console.debug('카카오 로그인 성공:', response);
       return {
+        //TODO: JWT 토큰으로 대체 필요
         accessToken: token.accessToken,
         refreshToken: token.refreshToken,
         accessTokenExpiresAt: new Date(token.accessTokenExpiresAt).getTime(),
         refreshTokenExpiresAt: new Date(token.refreshTokenExpiresAt).getTime(),
         OAuthProvider: 'KAKAO',
-        jwtToken: response.data.accessToken,
+        jwt: response.data.accessToken,
       };
     } else {
-      console.log('카카오 로그인 실패');
+      console.debug('카카오 로그인 실패');
       return null;
     }
   } catch (error) {
     console.error('카카오 로그인 에러:', error);
+    Alert.alert(
+      '카카오 로그인 에러',
+      '카카오 로그인에 실패했습니다.\n오류가 계속될 경우 관리자에게 문의해주세요.',
+    );
     return null;
   }
 };
@@ -147,7 +164,7 @@ const signInWithKakao = async (): Promise<SessionType | null> => {
  * @description 애플 로그인 함수
  * @returns {Promise<boolean>} 성공 시 true, 실패 시 false
  */
-export const signInWithApple = async (): Promise<SessionType | null> => {
+const signInWithApple = async (): Promise<SessionType | null> => {
   try {
     // Apple 로그인 요청 수행
     const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -170,9 +187,10 @@ export const signInWithApple = async (): Promise<SessionType | null> => {
           accessToken: string;
           refreshToken: string;
         };
-      }>('/auth/login', {
+      }>('/common/auth/oauth-login', {
         provider: 'APPLE',
-        roles: 'ROLE_STORE_OWNER',
+        roles: 'ROLE_STORE_ADMIN',
+        // TODO: 애플로그인 사용자명 및 리프레쉬 토큰 논의
         accessToken: token,
       });
       console.log(response);
@@ -181,7 +199,7 @@ export const signInWithApple = async (): Promise<SessionType | null> => {
         return {
           accessToken: token,
           OAuthProvider: 'APPLE',
-          jwtToken: response.data.accessToken,
+          jwt: response.data.accessToken,
         };
       } else {
         console.log('애플 로그인 실패');
@@ -196,13 +214,81 @@ export const signInWithApple = async (): Promise<SessionType | null> => {
     return null;
   }
 };
+
+/**
+ * POST /common/members/sign-up
+ * body: { email, password, name, phoneNumber }
+ */
+export const credentialSignUp = async ({
+  email,
+  password,
+  name,
+  phoneNumber,
+}: {
+  email: string;
+  password: string;
+  name: string;
+  phoneNumber: string;
+}) => {
+  try {
+    const res = await apiClient.post<{
+      code: number;
+      message: string;
+    }>('/common/members/sign-up', {
+      email,
+      password,
+      name,
+      phoneNumber,
+    });
+
+    return res && res.code === 200;
+  } catch (error) {
+    console.error('Credential Sign Up Error:', error);
+    return false;
+  }
+};
+
+/**
+ * POST common/auth/login
+ * body: { email, password }
+ * TODO: error handling
+ * @see https://ummgoban.com/v1/swagger-ui/index.html#/%EC%9D%B8%EC%A6%9D/login
+ */
+export const credentialLogin = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  try {
+    const res = await apiClient.post<{
+      code: number;
+      data: SessionType;
+    }>('/common/auth/login', {
+      email,
+      password,
+    });
+
+    if (res && res.code === 200) {
+      setStorage('session', {...res.data, jwt: res.data.accessToken});
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.error('Credential Login Error:', error);
+    return false;
+  }
+};
+
 /**
  * @description 로그인 함수
  * @param {SessionType['OAuthProvider']} OAuthProvider
  * @returns {Promise<boolean>} 성공 시 true, 실패 시 false
  */
 // TODO: 로그인 후 리프레쉬
-export const login = async (
+export const loginWithOAuth = async (
   oAuthProvider: SessionType['OAuthProvider'],
 ): Promise<boolean> => {
   let res: SessionType | null = null;
@@ -218,13 +304,23 @@ export const login = async (
 
   if (res) {
     setStorage('session', res);
+
+    try {
+      console.log('test FCM after login');
+      const token = await messaging().getToken();
+      await registerFCMToken(token);
+    } catch (error) {
+      console.error('FCM 설정 중 오류 발생:', error);
+    }
     return true;
   }
 
   return false;
 };
 
+// TODO: 로그아웃 후 리프레쉬
 export const logout = async (): Promise<boolean> => {
+  // TODO: credentail logout 추가
   try {
     const storageRes: SessionType | null = await getStorage('session');
     if (!storageRes) {
@@ -246,14 +342,16 @@ export const logout = async (): Promise<boolean> => {
   }
 };
 
-// TODO: 애플 로그인 이름 기본값 부재
 export const getProfile = async (): Promise<UserType | null> => {
   try {
-    const res = await apiClient.get<UserType | null>(`/members/profiles`);
+    const res = await apiClient.get<UserType | null>(
+      '/common/members/profiles',
+    );
+
     if (res) {
       return {
         id: res.id,
-        name: res.name || '사장',
+        name: res.name || '고객',
         provider: res.provider,
       };
     } else {

@@ -76,6 +76,8 @@ const MarketInfoScreen = () => {
     return <NonRegister />;
   }
 
+  console.log('MarketInfoScreen', marketInfo);
+
   if (!marketInfo) {
     return <EmptyMarket />;
   }

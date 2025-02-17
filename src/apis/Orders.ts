@@ -1,6 +1,9 @@
 import {OrderDetailInfoType} from '@/types/OrderDetailType';
 import apiClient from './ApiClient';
 
+/**
+ * @description 주문 상태에 따른 주문 목록을 가져옵니다.
+ */
 export const getPendingOrderLists = async (
   marketId: number,
   orderStatus:
@@ -12,12 +15,15 @@ export const getPendingOrderLists = async (
     | 'CANCELED',
 ): Promise<OrderDetailInfoType[] | null> => {
   try {
-    const res = await apiClient.get<OrderDetailInfoType[]>('markets/orders', {
-      params: {
-        ordersStatus: orderStatus,
-        marketId,
+    const res = await apiClient.get<OrderDetailInfoType[]>(
+      'owner/markets/orders',
+      {
+        params: {
+          ordersStatus: orderStatus,
+          marketId,
+        },
       },
-    });
+    );
 
     if (res) {
       return res;
@@ -43,7 +49,7 @@ export const updateOrderStatus = async (
 ): Promise<boolean> => {
   try {
     const res = await apiClient.patch<{code: number}>(
-      '/orders',
+      'owner/orders',
       {},
       {
         params: {

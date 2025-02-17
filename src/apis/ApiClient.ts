@@ -26,7 +26,7 @@ class ApiClient {
   private static instance: ApiClient;
   private axiosInstance: AxiosInstance;
 
-  private _JWTToken: string | null = null;
+  private _jwt: string | null = null;
 
   private constructor() {
     this.axiosInstance = axios.create({
@@ -40,10 +40,10 @@ class ApiClient {
       async (config: InternalAxiosRequestConfig) => {
         const session: SessionType | null = await getStorage('session');
 
-        this._JWTToken = session?.jwtToken ?? null;
+        this._jwt = session?.jwt ?? null;
 
-        if (this._JWTToken) {
-          config.headers.Authorization = `Bearer ${this._JWTToken}`;
+        if (this._jwt) {
+          config.headers.Authorization = `Bearer ${this._jwt}`;
         }
         console.debug('Request:', config);
         return config;
@@ -55,8 +55,8 @@ class ApiClient {
     this.axiosInstance.interceptors.response.use(
       response => {
         if (response.data && response.data.token) {
-          this._JWTToken = response.data.token; // 토큰 갱신
-          console.log('토큰 갱신:', this._JWTToken);
+          this._jwt = response.data.token; // 토큰 갱신
+          console.log('토큰 갱신:', this._jwt);
         }
         return response;
       },
@@ -72,7 +72,7 @@ class ApiClient {
     return ApiClient.instance;
   }
 
-  get = async <T, D = any>(
+  get = async <T, D = unknown>(
     url: string,
     config?: AxiosRequestConfig<D> | undefined,
   ): Promise<T | null> => {
@@ -108,7 +108,7 @@ class ApiClient {
     }
   };
 
-  post = async <T, D = any>(
+  post = async <T, D = unknown>(
     url: string,
     body?: D | undefined,
     config?: AxiosRequestConfig<D> | undefined,
@@ -136,7 +136,7 @@ class ApiClient {
     }
   };
 
-  patch = async <T, D = any>(
+  patch = async <T, D = unknown>(
     url: string,
     body: D,
     config?: AxiosRequestConfig<D> | undefined,
@@ -162,7 +162,7 @@ class ApiClient {
     }
   };
 
-  put = async <T, D = any>(
+  put = async <T, D = unknown>(
     url: string,
     body: D | undefined,
     config?: AxiosRequestConfig<D> | undefined,

@@ -16,7 +16,7 @@ export const createMarket = async (
     const res = await apiClient.post<
       {code: number; data: {marketId: number}},
       RegistMarketType
-    >('/markets', market);
+    >('owner/markets', market);
 
     if (res && res.code === 200) {
       return res.data;
@@ -32,7 +32,9 @@ export const getMarket = async (
   marketId: number,
 ): Promise<MarketType | null> => {
   try {
-    const res = await apiClient.get<MarketType | null>(`/markets/${marketId}`);
+    const res = await apiClient.get<MarketType | null>(
+      `owner/markets/${marketId}`,
+    );
 
     return res;
   } catch (error) {
@@ -47,7 +49,7 @@ export const updateMarketInfo = async (
 ): Promise<boolean> => {
   try {
     const res = await apiClient.patch<{code: number}>(
-      `/markets/${marketId}`,
+      `owner/markets/${marketId}`,
       marketInfo,
     );
 
@@ -66,7 +68,7 @@ export const uploadMarketImage = async (
 ): Promise<string | null> => {
   try {
     const res = await apiClient.post<{data: {imageUrl: string}}>(
-      '/markets/images',
+      'owner/markets/images',
       updateImage,
       {
         headers: {
@@ -94,7 +96,7 @@ export const deleteMarketImage = async (imageUrl: string): Promise<boolean> => {
   try {
     const res = await apiClient.del<{
       code: number;
-    }>('/markets/images', {
+    }>('owner/markets/images', {
       params: {imageUrl},
     });
 

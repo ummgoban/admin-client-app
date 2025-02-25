@@ -49,6 +49,13 @@ const tabBarData: TabBarComponentType = {
       name: 'storefront',
     },
   },
+  Review: {
+    label: '리뷰 관리',
+    icon: {
+      family: 'MaterialIcons',
+      name: 'mode-edit',
+    },
+  },
 };
 
 const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {

@@ -12,6 +12,7 @@ export interface HomeStackParamList extends ParamListBase {
   MyPage: undefined;
   MenuManage: undefined;
   Order: undefined;
+  Review: undefined;
 }
 
 export interface RegisterStackParamList extends ParamListBase {

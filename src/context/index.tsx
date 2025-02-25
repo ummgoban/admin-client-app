@@ -1,14 +1,17 @@
 import React from 'react';
+import EmotionProvider from './EmotionProvider';
 import NavigationProvider from './NavigationProvider';
 import ReactNativePaperProvider from './ReactNativePaperProvider';
-import EmotionProvider from './EmotionProvider';
+import ReactQueryProvider from './ReactQueryProvider';
 
 const RootProvider = ({children}: {children: React.ReactNode}) => {
   return (
     <NavigationProvider>
-      <EmotionProvider>
-        <ReactNativePaperProvider>{children}</ReactNativePaperProvider>
-      </EmotionProvider>
+      <ReactQueryProvider>
+        <EmotionProvider>
+          <ReactNativePaperProvider>{children}</ReactNativePaperProvider>
+        </EmotionProvider>
+      </ReactQueryProvider>
     </NavigationProvider>
   );
 };

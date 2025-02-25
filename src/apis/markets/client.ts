@@ -3,10 +3,10 @@ import {
   RegistMarketType,
   UpdateMarketInfoType,
 } from '@/types/Market';
-import apiClient from './ApiClient';
+import apiClient from '../ApiClient';
+import {MarketListResponse} from './model';
 
 /**
- * @deprecated use [createMarket](./markets/query.ts) instead
  * POST /markets
  * body: RegistMarketType
  */
@@ -23,6 +23,21 @@ export const createMarket = async (
       return res.data;
     }
     return null;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+/**
+ * @description 모든 관리 가게 목록을 가져옵니다.
+ * @returns
+ */
+export const getMarketList = async (): Promise<MarketListResponse[] | null> => {
+  try {
+    const res = await apiClient.get<MarketListResponse[]>('owner/markets');
+
+    return res;
   } catch (error) {
     console.error(error);
     return null;

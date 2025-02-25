@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 
+import {useMarket} from '@/apis/markets';
+
 import {ToggleButton} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
-import useMarket from '@/hooks/useMarket';
+
 import useProfile from '@/hooks/useProfile';
+
 import PendingOrdersScreen from './PendingOrders';
 
 import S from './OrderHistoryScreen.style';
@@ -16,7 +19,7 @@ const OrderHistoryScreen = () => {
   >('ORDERED');
 
   const {profile} = useProfile();
-  const {marketInfo} = useMarket();
+  const {data: marketInfo} = useMarket(profile?.marketId);
 
   if (!profile) {
     return <NonRegister />;

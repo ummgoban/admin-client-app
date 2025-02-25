@@ -7,16 +7,17 @@ import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';
 
 import {updateMarketInfo} from '@/apis/Market';
+import {useMarket} from '@/apis/markets';
 import {BottomButton, Label} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
 import TextInput from '@/components/common/TextInput';
-import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {format} from '@/utils/date';
 
+import {useQueryClient} from '@tanstack/react-query';
 import S from './MarketInfoScreen.style';
 
 const timeOptions = {
@@ -28,8 +29,15 @@ const timeOptions = {
 
 const MarketInfoScreen = () => {
   const {profile} = useProfile();
-  const {marketInfo, fetchMarket} = useMarket();
-  const {refreshing, onRefresh} = usePullDownRefresh(fetchMarket);
+
+  const queryClient = useQueryClient();
+  const {data: marketInfo} = useMarket(profile?.marketId);
+
+  const {refreshing, onRefresh} = usePullDownRefresh(async () => {
+    await queryClient.invalidateQueries({
+      queryKey: ['market', profile?.marketId],
+    });
+  });
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -47,10 +55,6 @@ const MarketInfoScreen = () => {
   const [openModal, setOpenModal] = useState<
     keyof typeof timeOptions | undefined
   >(undefined);
-
-  useEffect(() => {
-    fetchMarket();
-  }, [fetchMarket]);
 
   useEffect(() => {
     if (marketInfo) {

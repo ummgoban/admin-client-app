@@ -1,46 +1,61 @@
-import {useNavigation, useIsFocused} from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Alert,
-  TouchableOpacity,
-  View,
   AppState,
   AppStateStatus,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
-import {Button, Modal, Portal} from 'react-native-paper';
+import {Button, Modal, Portal, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useQueryClient} from '@tanstack/react-query';
+
+import {registerFCMToken} from '@/apis/fcm';
+import {useMarketList} from '@/apis/markets';
 
 import EmptyMarket from '@/components/common/EmptyMarket';
 import SwitchContainer from '@/components/common/SwitchContainer';
-import useMarket from '@/hooks/useMarket';
+
 import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
-
-import messaging from '@react-native-firebase/messaging';
-import {registerFCMToken} from '@/apis/fcm';
-
-import S from './MyPageScreen.style';
 
 import {
   changeNotificationPermission,
   isNotificationPermissionEnabled,
 } from '@/utils/notification';
 
+import S from './MyPageScreen.style';
+
+// TODO: 강제 fetch 방법 강구
+
 const MyPageScreen = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isNotificationOn, setIsNotificationOn] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const {profile, fetch: fetchProfile, selectMarket, logout} = useProfile();
-  const {market, fetch: fetchMemberMarkets} = useMarket();
+  const {data: marketListData, isLoading} = useMarketList();
+
+  const marketList =
+    marketListData?.map(({marketId: id, marketName: name}) => ({
+      id,
+      name,
+    })) || [];
+
   const isFocused = useIsFocused();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const {onRefresh, refreshing} = usePullDownRefresh(async () => {
     await fetchProfile();
-    await fetchMemberMarkets();
+    await queryClient.invalidateQueries({
+      queryKey: ['marketList'],
+    });
   });
 
   const initializeNotificationPermission = useCallback(async () => {
@@ -95,6 +110,12 @@ const MyPageScreen = () => {
       console.error('알림 상태 변경 실패', error);
     }
   };
+
+  if (isLoading) {
+    // TODO: Loading Screen
+    return <Text>loading...</Text>;
+  }
+
   return (
     <ScrollView
       refreshControl={
@@ -109,7 +130,7 @@ const MyPageScreen = () => {
               height={100}
             /> */}
             <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
-              <S.ProfileName>{`${profile.name} 님${market && profile.marketId ? `의 ${market.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
+              <S.ProfileName>{`${profile.name} 님${marketList && profile.marketId ? `의 ${marketList.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
               <Icon name="down" size={20} color="#000000" />
             </S.ProfileNameContainer>
           </S.ProfileContainer>
@@ -130,7 +151,7 @@ const MyPageScreen = () => {
             }}>
             로그아웃
           </Button>
-          {market.length === 0 && <EmptyMarket />}
+          {marketList.length === 0 && <EmptyMarket />}
           <SwitchContainer
             title="알림 수신 동의"
             description="주문이 접수되면 알림을 보내드려요"
@@ -157,7 +178,7 @@ const MyPageScreen = () => {
                 </S.ModalCloseButton>
               </S.ModalHeader>
               <S.ModalContent>
-                {market.map(({id, name}) => (
+                {marketList.map(({id, name}) => (
                   <S.ModalContentItem
                     key={id}
                     selected={profile?.marketId === id}

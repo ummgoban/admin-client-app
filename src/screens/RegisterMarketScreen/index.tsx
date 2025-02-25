@@ -1,13 +1,14 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
+import {Alert} from 'react-native';
 import {Modal} from 'react-native-paper';
 
-import {createMarket} from '@/apis/Market';
 import {BottomButton, TextInput} from '@/components/common';
+
+import {useCreateMarket} from '@/apis/markets';
 
 import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
-import {useNavigation} from '@react-navigation/native';
-import {Alert} from 'react-native';
 
 import S from './RegisterMarketScreen.style';
 
@@ -53,6 +54,8 @@ const RegisterMarketScreen = () => {
   const [contactNumber, setContactNumber] = useState<string | undefined>(
     undefined,
   );
+
+  const {mutateAsync: createMarket} = useCreateMarket();
 
   const handleAddressSelect = (data: AddressData) => {
     const selectedAddress = data.roadAddress || data.jibunAddress;

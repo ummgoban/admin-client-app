@@ -9,6 +9,7 @@ import {HomeStackParamList} from '@/types/StackNavigationType';
 import {TabBar} from '@components/common';
 import OrderNavigator from './OrderNavigator';
 import ReviewScreen from '@/screens/ReviewScreen/Index';
+import ReviewNavigator from './ReviewNavigator';
 
 const Tab = createBottomTabNavigator<HomeStackParamList>();
 
@@ -49,7 +50,7 @@ const HomeNavigator = () => {
       />
       <Tab.Screen
         name="Review"
-        component={ReviewScreen}
+        component={ReviewNavigator}
         options={{
           title: '리뷰 관리',
         }}

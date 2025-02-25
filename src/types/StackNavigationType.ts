@@ -1,6 +1,7 @@
 import {ParamListBase} from '@react-navigation/native';
 
 import {OrderDetailInfoType} from './OrderDetailType';
+import {ReviewType} from './Reviews';
 
 type StackParamType<T> = {
   screen?: keyof T;
@@ -36,10 +37,18 @@ export interface RegisterMarketParmaList extends ParamListBase {
   RegisterMarketDone: undefined;
 }
 
+export interface ReviewParamList extends ParamListBase {
+  Review: undefined;
+  ReivewReply: {
+    review: ReviewType;
+  };
+}
+
 export interface RootStackParamList extends ParamListBase {
   Home: StackParamType<HomeStackParamList>;
   Register: StackParamType<RegisterStackParamList>;
   Detail: StackParamType<DetailStackParamList>;
   RegisterMarketRoot: StackParamType<RegisterMarketParmaList>;
   Order: StackParamType<OrderStackParamList>;
+  Review: StackParamType<ReviewParamList>;
 }

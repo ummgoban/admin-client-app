@@ -3,8 +3,9 @@ import {ReviewStackParamList} from '@/types/StackNavigationType';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useCreateReviewReply} from '@/apis/reviews';
 import S from './ReviewReplyScreen.style';
-import {ActivityIndicator} from 'react-native';
+import {ActivityIndicator} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import CustomTextInput from '@/components/common/CustomTextInput';
 
 type ReviewReplyScreenProps = StackScreenProps<
   ReviewStackParamList,
@@ -59,20 +60,24 @@ const ReviewReplyScreen = ({route}: ReviewReplyScreenProps) => {
           <S.ContentText>{reviewData.reviewReplies.content}</S.ContentText>
           <S.InfoText>
             작성일:{' '}
-            {new Date(reviewData.reviewReplies.createAt).toLocaleDateString()}
+            {new Date(reviewData.createdAt).toLocaleDateString('ko-KR', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
           </S.InfoText>
         </S.ReplySection>
       )}
 
       <S.ReplySection>
-        <S.ReplyInput
-          placeholder="대댓글 내용을 입력하세요"
+        <CustomTextInput
+          placeholder="리뷰에 답변해주세요!"
           value={replyContent}
           onChangeText={setReplyContent}
         />
         <S.ReplyButton onPress={handleReplySubmit} disabled={isPending}>
           {isPending ? (
-            <ActivityIndicator color="white" />
+            <ActivityIndicator animating={true} size="large" />
           ) : (
             <S.ReplyButtonText>대댓글 작성하기</S.ReplyButtonText>
           )}

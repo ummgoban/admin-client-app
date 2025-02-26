@@ -6,8 +6,6 @@ const Container = styled.View`
 
 const ReviewItemContainer = styled.View`
   padding: 16px;
-  border-bottom-width: 1px;
-  border-bottom-color: #ccc;
 `;
 
 const ReviewTitle = styled.Text`

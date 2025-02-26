@@ -1,4 +1,4 @@
-import {ReviewType} from '@/types/Reviews';
+import {ReviewType} from '@/types/ReviewType';
 
 export type ReviewListsRequest = {
   marketId: number;

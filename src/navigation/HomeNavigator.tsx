@@ -8,7 +8,6 @@ import MyPageScreen from '@/screens/MyPageScreen';
 import {HomeStackParamList} from '@/types/StackNavigationType';
 import {TabBar} from '@components/common';
 import OrderNavigator from './OrderNavigator';
-import ReviewScreen from '@/screens/ReviewScreen/Index';
 import ReviewNavigator from './ReviewNavigator';
 
 const Tab = createBottomTabNavigator<HomeStackParamList>();

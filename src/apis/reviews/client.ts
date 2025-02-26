@@ -36,7 +36,7 @@ export const postReviewReply = async ({
 } | null> => {
   try {
     const res = await apiClient.post<{code: number; message: string}>(
-      `/onwer/review/${reviewId}/replies`,
+      `/owner/review/${reviewId}/replies`,
       {content},
     );
     return res;

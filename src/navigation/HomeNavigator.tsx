@@ -51,7 +51,7 @@ const HomeNavigator = () => {
         name="Review"
         component={ReviewNavigator}
         options={{
-          title: '리뷰 관리',
+          headerShown: false,
         }}
       />
       {/* Add more screens here */}

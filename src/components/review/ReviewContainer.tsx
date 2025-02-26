@@ -2,9 +2,10 @@ import {ReviewType} from '@/types/ReviewType';
 import React from 'react';
 import S from './ReviewContainer.style';
 import {useNavigation} from '@react-navigation/native';
-import {FlatList, ActivityIndicator, TouchableOpacity} from 'react-native';
+import {FlatList, TouchableOpacity} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '@/types/StackNavigationType';
+import {ActivityIndicator} from 'react-native-paper';
 
 type ReviewContainerProps = {
   reviews: ReviewType[];
@@ -49,11 +50,11 @@ const ReviewContainer = ({
             fetchNextPage();
           }
         }}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.6}
         ListFooterComponent={
           isFetchingNextPage ? (
             <S.FooterContainer>
-              <ActivityIndicator size="small" />
+              <ActivityIndicator animating={true} size="large" />
             </S.FooterContainer>
           ) : null
         }

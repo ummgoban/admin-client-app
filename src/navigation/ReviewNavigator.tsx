@@ -1,9 +1,6 @@
 import ReviewScreen from '@/screens/ReviewScreen/Index';
 import ReviewReplyScreen from '@/screens/ReviewReplyScreen/Index';
-import {
-  ReviewStackParamList,
-  RootStackParamList,
-} from '@/types/StackNavigationType';
+import {ReviewStackParamList} from '@/types/StackNavigationType';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 
@@ -11,9 +8,19 @@ const Stack = createStackNavigator<ReviewStackParamList>();
 
 const ReviewNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Review" component={ReviewScreen} />
-      <Stack.Screen name="ReviewReply" component={ReviewReplyScreen} />
+    <Stack.Navigator
+      initialRouteName="Review"
+      screenOptions={{headerShown: true}}>
+      <Stack.Screen
+        name="Review"
+        component={ReviewScreen}
+        options={{title: '리뷰 관리'}}
+      />
+      <Stack.Screen
+        name="ReviewReply"
+        component={ReviewReplyScreen}
+        options={{title: '댓글 달기'}}
+      />
     </Stack.Navigator>
   );
 };

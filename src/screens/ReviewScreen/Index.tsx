@@ -1,26 +1,14 @@
 // ReviewScreen.tsx
 import React from 'react';
 import {ActivityIndicator, Text} from 'react-native';
-import styled from '@emotion/native';
+import S from './ReviewScreen.style';
 import {useReviewList} from '@/apis/reviews';
 import useProfile from '@/hooks/useProfile';
 import ReviewContainer from '@/components/review/ReviewContainer';
 
-const ScreenContainer = styled.View`
-  flex: 1;
-  background-color: white;
-`;
-
 const ReviewScreen = () => {
   const {profile} = useProfile();
-  if (!profile || !profile.marketId) {
-    return (
-      // FIXME: 프로필 없을때 로직
-      <ScreenContainer>
-        <ActivityIndicator />
-      </ScreenContainer>
-    );
-  }
+  const marketId = profile?.marketId;
 
   const {
     data: reviewLists,
@@ -28,23 +16,32 @@ const ReviewScreen = () => {
     fetchNextPage,
     isFetchingNextPage,
     status,
-    error,
-  } = useReviewList(profile.marketId);
+    // error,
+  } = useReviewList(marketId!, Boolean(marketId));
+
+  if (!profile || !profile.marketId) {
+    return (
+      // FIXME: 프로필 없을때 로직
+      <S.Container>
+        <ActivityIndicator />
+      </S.Container>
+    );
+  }
 
   if (status === 'pending') {
     return (
-      <ScreenContainer>
+      <S.Container>
         <ActivityIndicator />
-      </ScreenContainer>
+      </S.Container>
     );
   }
 
   // TODO: error 로직 개선
   if (status === 'error') {
     return (
-      <ScreenContainer>
+      <S.Container>
         <Text>Error</Text>
-      </ScreenContainer>
+      </S.Container>
     );
   }
 
@@ -52,14 +49,14 @@ const ReviewScreen = () => {
     reviewLists?.pages.flatMap(page => (page ? page.reviews : [])) || [];
 
   return (
-    <ScreenContainer>
+    <S.Container>
       <ReviewContainer
         reviews={reviews}
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}
         isFetchingNextPage={isFetchingNextPage}
       />
-    </ScreenContainer>
+    </S.Container>
   );
 };
 

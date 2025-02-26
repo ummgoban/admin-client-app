@@ -1,8 +1,8 @@
 import {useInfiniteQuery, useMutation} from '@tanstack/react-query';
 import {getReveiewLists, postReviewReply} from './client';
-import {ReviewListsRequest, ReviewReplyCreateRequest} from './model';
+import {ReviewReplyCreateRequest} from './model';
 
-export const useReviewList = (marketId: number) => {
+export const useReviewList = (marketId: number, enabled: boolean) => {
   return useInfiniteQuery({
     queryKey: ['marketList', marketId],
     queryFn: ({pageParam = 0}) =>
@@ -12,7 +12,7 @@ export const useReviewList = (marketId: number) => {
     getNextPageParam: lastPage => {
       return lastPage?.hasNext ? lastPage.reviews.length : undefined;
     },
-    enabled: Boolean(marketId),
+    enabled: enabled,
   });
 };
 

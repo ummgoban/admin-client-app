@@ -10,7 +10,9 @@ export const useReviewList = (marketId: number, enabled: boolean) => {
       getReveiewLists({cursorId: pageParam, size: 5, marketId}),
     initialPageParam: 0,
     getNextPageParam: lastPage => {
-      return lastPage?.hasNext ? lastPage.reviews.length : undefined;
+      return lastPage?.hasNext
+        ? lastPage.reviews[lastPage.reviews.length - 1].id
+        : undefined;
     },
     enabled: enabled,
   });

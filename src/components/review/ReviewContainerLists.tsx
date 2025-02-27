@@ -1,5 +1,5 @@
-import {ReviewType} from '@/types/ReviewType';
 import React from 'react';
+import {ReviewType} from '@/types/ReviewType';
 import S from './ReviewContainerLists.style';
 import {FlatList} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
@@ -23,7 +23,7 @@ const ReviewContainerLists = ({
       <FlatList
         data={reviews}
         keyExtractor={item => item.id.toString()}
-        renderItem={ReviewContainer}
+        renderItem={({item}) => <ReviewContainer item={item} />}
         onEndReached={() => {
           if (hasNextPage && !isFetchingNextPage) {
             fetchNextPage();

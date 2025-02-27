@@ -1,5 +1,5 @@
-import ReviewScreen from '@/screens/ReviewScreen/Index';
-import ReviewReplyScreen from '@/screens/ReviewReplyScreen/Index';
+import ReviewScreen from '@/screens/ReviewScreen';
+import ReviewReplyScreen from '@/screens/ReviewReplyScreen';
 import {ReviewStackParamList} from '@/types/StackNavigationType';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';

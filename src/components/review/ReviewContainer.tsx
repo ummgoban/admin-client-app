@@ -1,28 +1,19 @@
-import {ReviewType} from '@/types/ReviewType';
 import React from 'react';
 import S from './ReviewContainer.style';
+import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {FlatList, TouchableOpacity} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '@/types/StackNavigationType';
-import {ActivityIndicator} from 'react-native-paper';
+import {ReviewType} from '@/types/ReviewType';
 
 type ReviewContainerProps = {
-  reviews: ReviewType[];
-  hasNextPage: boolean;
-  isFetchingNextPage: boolean;
-  fetchNextPage: () => void;
+  item: ReviewType;
 };
 
-const ReviewContainer = ({
-  reviews,
-  hasNextPage,
-  isFetchingNextPage,
-  fetchNextPage,
-}: ReviewContainerProps) => {
+const ReviewContainer = ({item}: ReviewContainerProps) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const renderItem = ({item}: {item: ReviewType}) => (
+  return (
     <TouchableOpacity
       onPress={() => navigation.navigate('ReviewReply', {review: item})}>
       <S.ReviewItemContainer>
@@ -37,29 +28,6 @@ const ReviewContainer = ({
         </S.ReviewDate>
       </S.ReviewItemContainer>
     </TouchableOpacity>
-  );
-
-  return (
-    <S.Container>
-      <FlatList
-        data={reviews}
-        keyExtractor={item => item.id.toString()}
-        renderItem={renderItem}
-        onEndReached={() => {
-          if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-          }
-        }}
-        onEndReachedThreshold={0.6}
-        ListFooterComponent={
-          isFetchingNextPage ? (
-            <S.FooterContainer>
-              <ActivityIndicator animating={true} size="large" />
-            </S.FooterContainer>
-          ) : null
-        }
-      />
-    </S.Container>
   );
 };
 

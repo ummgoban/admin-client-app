@@ -1,4 +1,8 @@
 import styled from '@emotion/native';
+const Container = styled.View`
+  flex: 1;
+  background-color: white;
+`;
 
 const ReviewItemContainer = styled.View`
   padding: 16px;
@@ -18,6 +22,18 @@ const ReviewDate = styled.Text`
   color: gray;
 `;
 
-const S = {ReviewItemContainer, ReviewTitle, ReviewContent, ReviewDate};
+const FooterContainer = styled.View`
+  padding: 16px;
+  align-items: center;
+`;
+
+const S = {
+  Container,
+  ReviewItemContainer,
+  ReviewTitle,
+  ReviewContent,
+  ReviewDate,
+  FooterContainer,
+};
 
 export default S;

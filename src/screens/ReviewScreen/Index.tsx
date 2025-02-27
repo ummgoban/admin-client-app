@@ -4,7 +4,7 @@ import {ActivityIndicator, Text} from 'react-native';
 import S from './ReviewScreen.style';
 import {useReviewList} from '@/apis/reviews';
 import useProfile from '@/hooks/useProfile';
-import ReviewContainer from '@/components/review/ReviewContainer';
+import ReviewContainerLists from '@/components/review/ReviewContainerLists';
 
 const ReviewScreen = () => {
   const {profile} = useProfile();
@@ -50,7 +50,7 @@ const ReviewScreen = () => {
 
   return (
     <S.Container>
-      <ReviewContainer
+      <ReviewContainerLists
         reviews={reviews}
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}

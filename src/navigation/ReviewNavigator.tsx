@@ -1,8 +1,8 @@
 import React from 'react';
-import ReviewScreen from '@/screens/ReviewScreen';
-import ReviewReplyScreen from '@/screens/ReviewReplyScreen';
 import {ReviewStackParamList} from '@/types/StackNavigationType';
 import {createStackNavigator} from '@react-navigation/stack';
+import ReviewScreen from '@/screens/ReviewScreen';
+import ReviewReplyScreen from '@/screens/ReviewReplyScreen';
 
 const Stack = createStackNavigator<ReviewStackParamList>();
 

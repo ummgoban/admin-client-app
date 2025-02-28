@@ -41,17 +41,17 @@ const HomeNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="MyPage"
-        component={MyPageScreen}
-        options={{
-          title: '마이페이지',
-        }}
-      />
-      <Tab.Screen
         name="Review"
         component={ReviewNavigator}
         options={{
           headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="MyPage"
+        component={MyPageScreen}
+        options={{
+          title: '마이페이지',
         }}
       />
       {/* Add more screens here */}

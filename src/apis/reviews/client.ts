@@ -12,7 +12,7 @@ export const getReveiewLists = async ({
 }: ReviewListsRequest): Promise<ReviewListsResponse | null> => {
   try {
     const res = await apiClient.get<ReviewListsResponse | null>(
-      `customer/review/market/${marketId}`,
+      `/owner/review/market/${marketId}`,
       {
         params: {
           cursorId,

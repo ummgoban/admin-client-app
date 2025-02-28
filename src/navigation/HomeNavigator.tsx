@@ -8,6 +8,7 @@ import MyPageScreen from '@/screens/MyPageScreen';
 import {HomeStackParamList} from '@/types/StackNavigationType';
 import {TabBar} from '@components/common';
 import OrderNavigator from './OrderNavigator';
+import ReviewNavigator from './ReviewNavigator';
 
 const Tab = createBottomTabNavigator<HomeStackParamList>();
 
@@ -44,6 +45,13 @@ const HomeNavigator = () => {
         component={MyPageScreen}
         options={{
           title: '마이페이지',
+        }}
+      />
+      <Tab.Screen
+        name="Review"
+        component={ReviewNavigator}
+        options={{
+          headerShown: false,
         }}
       />
       {/* Add more screens here */}

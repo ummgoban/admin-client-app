@@ -74,7 +74,7 @@ export const createManager = async (marketId: number): Promise<boolean> => {
   }
 };
 
-export const generateAuthCode = async (
+export const createAuthCode = async (
   marketId: number,
 ): Promise<GenerateAuthCodeResponse | null> => {
   try {

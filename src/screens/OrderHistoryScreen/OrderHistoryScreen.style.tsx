@@ -2,23 +2,23 @@ import styled from '@emotion/native';
 
 import {ToggleButtonGroup} from '@/components/common';
 
-const NavbarGroup = styled(ToggleButtonGroup)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+const S = {
+  NavbarGroup: styled(ToggleButtonGroup)`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
-  margin: 10px;
-`;
+    margin: 10px;
+  `,
 
-const ToggleText = styled.Text`
-  color: ${props => props.theme.colors.tertiary};
-`;
+  ToggleText: styled.Text`
+    color: ${props => props.theme.colors.tertiary};
+  `,
 
-const PendingOrderScreenContainer = styled.ScrollView`
-  margin-top: 12px;
-  margin-bottom: 36px;
-`;
-
-const S = {NavbarGroup, ToggleText, PendingOrderScreenContainer};
+  PendingOrderScreenContainer: styled.ScrollView`
+    margin-top: 12px;
+    margin-bottom: 36px;
+  `,
+};
 
 export default S;

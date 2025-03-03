@@ -1,23 +1,23 @@
 import styled from '@emotion/native';
 
-const ReviewItemContainer = styled.View`
-  padding: 16px;
-`;
+const S = {
+  ReviewItemContainer: styled.View`
+    padding: 16px;
+  `,
 
-const ReviewTitle = styled.Text`
-  font-weight: bold;
-  margin-bottom: 4px;
-`;
+  ReviewTitle: styled.Text`
+    font-weight: bold;
+    margin-bottom: 4px;
+  `,
 
-const ReviewContent = styled.Text`
-  margin-bottom: 8px;
-`;
+  ReviewContent: styled.Text`
+    margin-bottom: 8px;
+  `,
 
-const ReviewDate = styled.Text`
-  font-size: 12px;
-  color: gray;
-`;
-
-const S = {ReviewItemContainer, ReviewTitle, ReviewContent, ReviewDate};
+  ReviewDate: styled.Text`
+    font-size: 12px;
+    color: gray;
+  `,
+};
 
 export default S;

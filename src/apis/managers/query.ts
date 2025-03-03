@@ -33,7 +33,7 @@ export const useDeleteManager = ({
   });
 };
 
-export const useReadManagers = (marketId: number) => {
+export const useReadManagers = (marketId: number | undefined | null) => {
   return useQuery({
     queryKey: ['readManagers', marketId],
     queryFn: () => {

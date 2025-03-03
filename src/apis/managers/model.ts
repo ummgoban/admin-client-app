@@ -1,7 +1,7 @@
 import {ManagerInfo} from '@/types/Managers';
 
 export type DeleteManagerRequest = {
-  marketId: number;
+  marketId: number | null;
   memberId: number;
 };
 

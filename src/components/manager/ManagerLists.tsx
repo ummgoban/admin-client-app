@@ -4,10 +4,11 @@ import ManagerList from './ManagerList';
 import {ManagerInfo} from '@/types/Managers';
 
 type ManagerListsProps = {
-  managers?: ManagerInfo[];
+  managers: ManagerInfo[] | null | undefined;
+  marketId: number | null;
 };
 
-const ManagerLists = ({managers}: ManagerListsProps) => {
+const ManagerLists = ({managers, marketId}: ManagerListsProps) => {
   return (
     <S.ListsContainer>
       {/* 헤더 영역 */}
@@ -21,10 +22,10 @@ const ManagerLists = ({managers}: ManagerListsProps) => {
       {managers?.map(manager => (
         <ManagerList
           key={manager.id}
-          id={manager.id}
+          memberId={manager.id}
+          marketId={marketId}
           name={manager.name}
           marketRole={manager.marketRole}
-          createdAt={manager.createdAt}
         />
       ))}
     </S.ListsContainer>

@@ -93,7 +93,7 @@ const S = {
   `,
 
   ModalButton: styled.TouchableOpacity<{
-    status: 'error' | 'warning' | 'primary';
+    status?: 'error' | 'warning' | 'primary';
   }>`
     padding: 10px;
     border-radius: 8px;

@@ -22,14 +22,17 @@ const ManagerList = ({id, name, marketRole, createdAt}: ManagerListProps) => {
     }
   };
   const role = getRoleLabel(marketRole);
+
   return (
     <S.ListContainer>
       <S.NameText>{name}</S.NameText>
       <S.RoleText>{role}</S.RoleText>
-      {role !== '사장' && (
+      {role === '직원' ? (
         <S.DeleteButton onPress={handleDelete}>
           <S.DeleteText>삭제하기</S.DeleteText>
         </S.DeleteButton>
+      ) : (
+        <S.EmptyPlaceholder />
       )}
     </S.ListContainer>
   );

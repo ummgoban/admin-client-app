@@ -2,11 +2,10 @@ import styled from '@emotion/native';
 
 const S = {
   ListContainer: styled.View`
+    display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    border-bottom-width: 1px;
-    border-bottom-color: #ccc;
+    padding: 8px 0px;
   `,
   NameText: styled.Text`
     flex: 1;
@@ -20,10 +19,12 @@ const S = {
     flex: 1;
     align-items: center;
     justify-content: center;
-    padding: 5px;
   `,
   DeleteText: styled.Text`
     color: red;
+  `,
+  EmptyPlaceholder: styled.View`
+    flex: 1;
   `,
 };
 

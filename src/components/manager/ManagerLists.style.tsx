@@ -5,6 +5,7 @@ const S = {
     flex: 1;
     background-color: white;
     padding: 20px;
+    margin-top: 8px;
   `,
   HeaderRow: styled.View`
     flex-direction: row;

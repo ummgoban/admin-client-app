@@ -74,6 +74,7 @@ export const createManager = async (marketId: number): Promise<boolean> => {
   }
 };
 
+// FIXME: 에러 핸들링을 위해 message까지 return?
 export const createAuthCode = async (
   marketId: number,
 ): Promise<GenerateAuthCodeResponse | null> => {

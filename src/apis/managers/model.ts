@@ -12,9 +12,15 @@ export type ReadCreatePendingMangerResponse = {
   ttl: number;
 };
 
+// FIXME: type issue
 export type GenerateAuthCodeResponse = {
-  authCode: string;
-  createdAt: string;
+  code: number;
+  message: string;
+  data: {
+    authCode: string;
+    marketName: string;
+    createdAt: string;
+  };
 };
 
 export type ValidationAuthCodeRequest = {

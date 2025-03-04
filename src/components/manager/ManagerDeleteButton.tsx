@@ -36,7 +36,7 @@ const ManagerDeleteButton = ({
   return (
     <>
       <S.DeleteButton onPress={showModal}>
-        <S.DeleteText>해고하기</S.DeleteText>
+        <S.DeleteText>삭제하기</S.DeleteText>
       </S.DeleteButton>
       <Portal>
         <Modal visible={visible} onDismiss={hideModal}>

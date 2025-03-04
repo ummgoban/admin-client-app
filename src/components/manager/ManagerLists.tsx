@@ -14,7 +14,7 @@ const ManagerLists = ({managers, marketId}: ManagerListsProps) => {
       <S.HeaderRow>
         <S.HeaderText>이름</S.HeaderText>
         <S.HeaderText>직책</S.HeaderText>
-        <S.HeaderText>해고하기</S.HeaderText>
+        <S.HeaderText>삭제하기</S.HeaderText>
       </S.HeaderRow>
 
       {managers?.map(manager => (

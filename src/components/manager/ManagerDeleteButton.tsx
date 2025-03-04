@@ -5,7 +5,7 @@ import {useQueryClient} from '@tanstack/react-query';
 import {useDeleteManager} from '@/apis/managers';
 
 type ManagerDeleteButtonProps = {
-  marketId: number | null;
+  marketId: number;
   memberId: number;
 };
 
@@ -14,10 +14,6 @@ const ManagerDeleteButton = ({
   memberId,
 }: ManagerDeleteButtonProps) => {
   const queryClient = useQueryClient();
-
-  if (!marketId) {
-    return;
-  }
   const {mutateAsync: mutateDeleteManager} = useDeleteManager({
     marketId,
     memberId,

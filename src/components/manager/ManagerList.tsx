@@ -20,6 +20,9 @@ const ManagerList = ({
   name,
   marketRole,
 }: ManagerListProps) => {
+  if (!marketId) {
+    marketId = 0;
+  }
   const role = ROLE_LABELS[marketRole];
 
   return (

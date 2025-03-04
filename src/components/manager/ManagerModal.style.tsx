@@ -61,17 +61,19 @@ const S = {
     flex-direction: column;
     align-items: center;
     padding: 8px;
-    background-color: #f9f9f9;
+    background-color: white;
     border-radius: 10px;
     margin: 8px;
   `,
 
   MarketNameText: styled.Text`
+    line-height: 24px;
     font-size: 16px;
     font-weight: 600;
   `,
 
   AuthCodeText: styled.Text`
+    line-height: 24px;
     font-size: 16px;
     font-weight: 700;
   `,
@@ -84,7 +86,7 @@ const S = {
   CountdownText: styled.Text`
     font-size: 14px;
     margin-top: 4px;
-    color: #555;
+    color: red;
   `,
   FooterButtons: styled.View`
     display: flex;

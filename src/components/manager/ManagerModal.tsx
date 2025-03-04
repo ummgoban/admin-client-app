@@ -2,7 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {Portal, Modal} from 'react-native-paper';
 import S from './ManagerModal.style';
 import {useQueryClient} from '@tanstack/react-query';
-import {useCreateAuthCode, useReadCreatePendingMangers} from '@/apis/managers';
+import {
+  useCreateAuthCode,
+  useCreateManager,
+  useReadCreatePendingMangers,
+} from '@/apis/managers';
 import {BottomButton} from '../common';
 import {useIntervalValue} from '@/hooks/useIntervalValue';
 
@@ -11,6 +15,8 @@ type ManagerModalProps = {
   onDismiss: () => void;
   marketId: number;
 };
+
+// TODO: fcm 알림 이용해서 pendingManager 화면에 출력
 
 const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
   const queryClient = useQueryClient();
@@ -22,6 +28,7 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
 
   const {data: pendingManagerData} = useReadCreatePendingMangers(marketId);
   const {mutateAsync: generateAuthCodeMutate} = useCreateAuthCode(marketId);
+  const {mutateAsync: createManagerMutate} = useCreateManager(marketId);
 
   const handleGenerateAuthCode = async () => {
     const res = await generateAuthCodeMutate();
@@ -30,8 +37,8 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
       setMarketName(res.data.marketName);
       setAuthCode(res.data.authCode);
       // 테스트 10초
-      const targetTime = Date.now() + 5000;
-      setExpireAuthTime(targetTime);
+      const authTargetTime = Date.now() + 600000;
+      setExpireAuthTime(authTargetTime);
       setAuthTimerFlag(true);
     }
   };
@@ -40,12 +47,29 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
     return Math.floor((expireAuthTime - Date.now()) / 1000);
   }, 10);
 
+  const handleTimerOff = () => {
+    setMarketName(null);
+    setAuthCode(null);
+    setAuthTimerFlag(false);
+  };
+
+  const handleCreateManager = async () => {
+    const res = await createManagerMutate();
+    if (res) {
+      queryClient.invalidateQueries({queryKey: ['pendingManagers', marketId]});
+      queryClient.invalidateQueries({queryKey: ['readManagers', marketId]});
+      handleTimerOff();
+      onDismiss();
+    } else {
+      // TODO: 백엔드와 소통 후 직원 추가시 에러처리
+      console.log('error');
+    }
+  };
+
   useEffect(() => {
     if (authTimerFlag && remainingTime <= 0) {
-      setMarketName(null);
-      setAuthCode(null);
+      handleTimerOff();
       queryClient.invalidateQueries({queryKey: ['pendingManagers', marketId]});
-      setAuthTimerFlag(false);
     }
   }, [remainingTime]);
 
@@ -63,7 +87,8 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
                 <S.AuthCodeText>인증코드: {authCode}</S.AuthCodeText>
                 {remainingTime > 0 && (
                   <S.CountdownText>
-                    유효 시간: {remainingTime}초
+                    유효 시간: {Math.floor(remainingTime / 60)}분
+                    {remainingTime % 60}초
                   </S.CountdownText>
                 )}
               </S.AuthCodeContainer>
@@ -86,10 +111,7 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
           <S.ModalFooter>
             <S.FooterButtons>
               <BottomButton onPress={onDismiss}>닫기</BottomButton>
-              <BottomButton
-                onPress={() => {
-                  /* 직원 등록하기 로직 추후 추가 */
-                }}>
+              <BottomButton onPress={handleCreateManager}>
                 직원 등록하기
               </BottomButton>
             </S.FooterButtons>

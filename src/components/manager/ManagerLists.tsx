@@ -33,7 +33,7 @@ const ManagerLists = ({managers, marketId}: ManagerListsProps) => {
           <ManagerList
             key={manager.id}
             memberId={manager.id}
-            marketId={marketId}
+            marketId={marketId!!}
             name={manager.name}
             marketRole={manager.marketRole}
           />

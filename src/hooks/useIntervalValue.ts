@@ -1,11 +1,7 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {useInterval} from './useInterval';
 
-export function useIntervalValue<T>(
-  calculator: () => T,
-  delay: number,
-  deps: any[] = [],
-): T {
+export function useIntervalValue<T>(calculator: () => T, delay: number): T {
   const [result, setResult] = useState<T>(calculator());
 
   useInterval(() => {

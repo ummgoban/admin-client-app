@@ -37,7 +37,7 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
       setMarketName(res.data.marketName);
       setAuthCode(res.data.authCode);
       // 테스트 10초
-      const authTargetTime = Date.now() + 600000;
+      const authTargetTime = Date.now() + 10000;
       setExpireAuthTime(authTargetTime);
       setAuthTimerFlag(true);
     }
@@ -71,7 +71,7 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
       handleTimerOff();
       queryClient.invalidateQueries({queryKey: ['pendingManagers', marketId]});
     }
-  }, [remainingTime]);
+  }, [remainingTime, authTimerFlag, marketId, queryClient]);
 
   return (
     <Portal>

@@ -11,14 +11,12 @@ type ManagerListsProps = {
 const ManagerLists = ({managers, marketId}: ManagerListsProps) => {
   return (
     <S.ListsContainer>
-      {/* 헤더 영역 */}
       <S.HeaderRow>
         <S.HeaderText>이름</S.HeaderText>
         <S.HeaderText>직책</S.HeaderText>
         <S.HeaderText>해고하기</S.HeaderText>
       </S.HeaderRow>
 
-      {/* 리스트 영역 */}
       {managers?.map(manager => (
         <ManagerList
           key={manager.id}

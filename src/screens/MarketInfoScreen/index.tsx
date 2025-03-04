@@ -19,6 +19,8 @@ import {format} from '@/utils/date';
 
 import {useQueryClient} from '@tanstack/react-query';
 import S from './MarketInfoScreen.style';
+import {useReadManagers} from '@/apis/managers';
+import ManagerLists from '@/components/manager/ManagerLists';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -32,6 +34,7 @@ const MarketInfoScreen = () => {
 
   const queryClient = useQueryClient();
   const {data: marketInfo} = useMarket(profile?.marketId);
+  const {data: managersInfo} = useReadManagers(profile?.marketId);
 
   const {refreshing, onRefresh} = usePullDownRefresh(async () => {
     await queryClient.invalidateQueries({
@@ -132,6 +135,9 @@ const MarketInfoScreen = () => {
               : timeOptions['pickup-end']}
           </S.TimePickerButton>
         </S.TimeContainer>
+
+        <Label label={'직원 목록'} />
+        <ManagerLists managers={managersInfo} marketId={profile?.marketId} />
         {/* TODO: 대표 사진 선택 */}
         {/* <Label label={'대표 사진 선택'} required />
         <S.ImageCardGrid>

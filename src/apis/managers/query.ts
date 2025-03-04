@@ -53,27 +53,27 @@ export const useReadCreatePendingMangers = (marketId: number) => {
   });
 };
 
-export const useCreateManager = async (marketId: number) => {
+export const useCreateManager = (marketId: number) => {
   return useMutation({
     mutationKey: ['createManager', marketId],
     mutationFn: async () => {
       if (!marketId) return;
-      return createManager(marketId);
+      return await createManager(marketId);
     },
   });
 };
 
-export const useCreateAuthCode = async (marketId: number) => {
+export const useCreateAuthCode = (marketId: number) => {
   return useMutation({
     mutationKey: ['createAuthCode', marketId],
     mutationFn: async () => {
       if (!marketId) return;
-      return createAuthCode(marketId);
+      return await createAuthCode(marketId);
     },
   });
 };
 
-export const useValidateAuthCode = async ({
+export const useValidateAuthCode = ({
   marketName,
   authCode,
 }: ValidationAuthCodeRequest) => {
@@ -81,7 +81,7 @@ export const useValidateAuthCode = async ({
     mutationKey: ['validateAuthCode', authCode],
     mutationFn: async () => {
       if (!marketName || !authCode) return;
-      return valdiateAuthCode({marketName, authCode});
+      return await valdiateAuthCode({marketName, authCode});
     },
   });
 };

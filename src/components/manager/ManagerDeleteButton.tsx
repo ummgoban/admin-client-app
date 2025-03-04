@@ -14,6 +14,10 @@ const ManagerDeleteButton = ({
   memberId,
 }: ManagerDeleteButtonProps) => {
   const queryClient = useQueryClient();
+
+  if (!marketId) {
+    return;
+  }
   const {mutateAsync: mutateDeleteManager} = useDeleteManager({
     marketId,
     memberId,

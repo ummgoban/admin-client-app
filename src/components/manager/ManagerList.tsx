@@ -9,10 +9,9 @@ type ManagerListProps = {
   marketRole: 'ROLE_STORE_OWNER' | 'ROLE_STORE_MANAGER';
 };
 
-const getRoleLabel = (
-  role: 'ROLE_STORE_OWNER' | 'ROLE_STORE_MANAGER',
-): string => {
-  return role === 'ROLE_STORE_OWNER' ? '사장' : '직원';
+const ROLE_LABELS: Record<'ROLE_STORE_OWNER' | 'ROLE_STORE_MANAGER', string> = {
+  ROLE_STORE_OWNER: '사장',
+  ROLE_STORE_MANAGER: '직원',
 };
 
 const ManagerList = ({
@@ -21,7 +20,7 @@ const ManagerList = ({
   name,
   marketRole,
 }: ManagerListProps) => {
-  const role = getRoleLabel(marketRole);
+  const role = ROLE_LABELS[marketRole];
 
   return (
     <S.ListContainer>

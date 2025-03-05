@@ -38,7 +38,7 @@ export interface RegisterMarketParmaList extends ParamListBase {
 }
 
 export interface ReviewStackParamList extends ParamListBase {
-  Review: undefined;
+  ReviewManagement: undefined;
   ReviewReply: {
     review: ReviewType;
   };

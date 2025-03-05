@@ -1,10 +1,28 @@
-import OrderDetailScreen from '@/screens/OrderDetailScreen';
-import OrderHistoryScreen from '@/screens/OrderHistoryScreen';
-import {OrderStackParamList} from '@/types/StackNavigationType';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 import React from 'react';
 
+import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
+import {defaultOptions} from '@/components/common/Appbar/AppbarOptions';
+
+import OrderDetailScreen from '@/screens/OrderDetailScreen';
+import OrderHistoryScreen from '@/screens/OrderHistoryScreen';
+
+import {OrderStackParamList} from '@/types/StackNavigationType';
+
 const Stack = createStackNavigator<OrderStackParamList>();
+
+const orderScreenOptions: StackNavigationOptions = {
+  ...defaultOptions,
+  headerTitle: () => <HeaderTitle title="주문 내역" />,
+};
+
+const orderDetailScreenOptions: StackNavigationOptions = {
+  ...defaultOptions,
+  headerTitle: () => <HeaderTitle title="주문 상세" />,
+};
 
 const OrderNavigator = () => {
   return (
@@ -12,12 +30,12 @@ const OrderNavigator = () => {
       <Stack.Screen
         name="OrderHistory"
         component={OrderHistoryScreen}
-        options={{title: '주문 내역'}}
+        options={orderScreenOptions}
       />
       <Stack.Screen
         name="OrderDetail"
         component={OrderDetailScreen}
-        options={{title: '주문 상세'}}
+        options={orderDetailScreenOptions}
       />
     </Stack.Navigator>
   );

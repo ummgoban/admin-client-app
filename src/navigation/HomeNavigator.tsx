@@ -26,8 +26,7 @@ const defaultScreenOptions: BottomTabNavigationOptions = {
 };
 
 const orderScreenOptions: BottomTabNavigationOptions = {
-  ...defaultScreenOptions,
-  headerTitle: () => <HeaderTitle title="주문 관리" />,
+  headerShown: false,
 };
 
 const marketInfoScreenOptions: BottomTabNavigationOptions = {
@@ -41,8 +40,7 @@ const menuManageScreenOptions: BottomTabNavigationOptions = {
 };
 
 const reviewScreenOptions: BottomTabNavigationOptions = {
-  ...defaultScreenOptions,
-  headerTitle: () => <HeaderTitle title="리뷰 관리" />,
+  headerShown: false,
 };
 
 const myPageScreenOptions: BottomTabNavigationOptions = {

@@ -3,9 +3,16 @@ import Postcode from '@actbase/react-daum-postcode';
 import {Button, Text} from 'react-native-paper';
 
 const S = {
-  RegisterMarketContainer: styled.ScrollView`
+  RegisterMarketContainer: styled.View`
+    position: relative;
+
     flex: 1;
-    margin: 16px;
+  `,
+
+  RegisterMarketScrollContainer: styled.ScrollView`
+    flex: 1;
+
+    padding: 16px;
   `,
 
   RegisterMarketInputContainer: styled.View`

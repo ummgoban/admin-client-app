@@ -7,11 +7,10 @@ import {useQueryClient} from '@tanstack/react-query';
 import {ActivityIndicator} from 'react-native-paper';
 
 type PendingOrdersProps = {
-  marketId: number;
   orders: OrderDetailInfoType[];
 };
 
-const PendingOrders = ({orders, marketId}: PendingOrdersProps) => {
+const PendingOrders = ({orders}: PendingOrdersProps) => {
   const queryClient = useQueryClient();
   const {mutate: patchOrderMutate, isPending: isPatchOrderPending} =
     usePatchOrder();

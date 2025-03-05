@@ -60,7 +60,7 @@ const OrderHistoryScreen = () => {
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
         }>
-        <PendingOrdersScreen orders={orders} marketId={marketId} />
+        <PendingOrdersScreen orders={orders} />
       </S.PendingOrderScreenContainer>
     </View>
   );

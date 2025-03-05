@@ -7,7 +7,7 @@ import ManagerModal from './ManagerModal';
 
 type ManagerListsProps = {
   managers: ManagerInfo[] | null | undefined;
-  marketId: number | null;
+  marketId: number;
 };
 
 const ManagerLists = ({managers, marketId}: ManagerListsProps) => {

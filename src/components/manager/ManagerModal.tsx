@@ -24,7 +24,6 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
   const [marketName, setMarketName] = useState<string | null>(null);
   const [authCode, setAuthCode] = useState<string | null>(null);
   const [expireAuthTime, setExpireAuthTime] = useState<number>(0);
-  const [authTimerFlag, setAuthTimerFlag] = useState<boolean>(false);
 
   const {data: pendingManagerData} = useReadCreatePendingMangers(marketId);
   const {mutateAsync: generateAuthCodeMutate} = useCreateAuthCode(marketId);
@@ -33,24 +32,23 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
   const handleGenerateAuthCode = async () => {
     const res = await generateAuthCodeMutate();
     if (res) {
+      const authTargetTime = Date.now() + 10000;
+      // TODO: 테스트 10초, 실제 600000으로 변경
+      setExpireAuthTime(authTargetTime);
       queryClient.invalidateQueries({queryKey: ['pendingManagers', marketId]});
       setMarketName(res.data.marketName);
       setAuthCode(res.data.authCode);
-      // 테스트 10초
-      const authTargetTime = Date.now() + 10000;
-      setExpireAuthTime(authTargetTime);
-      setAuthTimerFlag(true);
     }
   };
 
-  const remainingTime = useIntervalValue(() => {
-    return Math.floor((expireAuthTime - Date.now()) / 1000);
-  }, 10);
+  const remainingTime = useIntervalValue(
+    () => Math.floor((expireAuthTime - Date.now()) / 1000),
+    1000,
+  );
 
   const handleTimerOff = () => {
     setMarketName(null);
     setAuthCode(null);
-    setAuthTimerFlag(false);
   };
 
   const handleCreateManager = async () => {
@@ -67,11 +65,11 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
   };
 
   useEffect(() => {
-    if (authTimerFlag && remainingTime <= 0) {
+    if (expireAuthTime && Date.now() >= expireAuthTime) {
       handleTimerOff();
       queryClient.invalidateQueries({queryKey: ['pendingManagers', marketId]});
     }
-  }, [remainingTime, authTimerFlag, marketId, queryClient]);
+  }, [expireAuthTime, queryClient, marketId, remainingTime]);
 
   return (
     <Portal>

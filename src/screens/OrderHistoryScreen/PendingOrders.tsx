@@ -1,70 +1,44 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {RefreshControl, ScrollView} from 'react-native';
-import {useIsFocused} from '@react-navigation/native';
-import {getPendingOrderLists, updateOrderStatus} from '@/apis/Orders';
+import {View} from 'react-native';
 import PendingOrder from '@/components/pendingOrder/PendingOrder';
-import useProfile from '@/hooks/useProfile';
-import usePullDownRefresh from '@/hooks/usePullDownRefresh';
-import {OrderDetailInfoType} from '@/types/OrderDetailType';
+import {OrderDetailInfoType, OrdersStatus} from '@/types/OrderDetailType';
+import {usePatchOrder} from '@/apis/orders/query';
+import {useQueryClient} from '@tanstack/react-query';
+import {ActivityIndicator} from 'react-native-paper';
 
 type PendingOrdersProps = {
-  orderStatus:
-    | 'ORDERED'
-    | 'ACCEPTED'
-    | 'PICKEDUP_OR_CANCELED'
-    | 'PICKEDUP'
-    | 'NO_SHOW'
-    | 'CANCELED';
+  marketId: number;
+  orders: OrderDetailInfoType[];
 };
 
-const PendingOrders = ({orderStatus}: PendingOrdersProps) => {
-  const [orders, setOrders] = useState<OrderDetailInfoType[]>([]);
-  const isFocused = useIsFocused();
-  const {profile} = useProfile();
+const PendingOrders = ({orders, marketId}: PendingOrdersProps) => {
+  const queryClient = useQueryClient();
+  const {mutate: patchOrderMutate, isPending: isPatchOrderPending} =
+    usePatchOrder();
 
-  const fetchOrders = useCallback(async () => {
-    if (!profile?.marketId) {
-      return;
-    }
+  const isLoading = isPatchOrderPending;
+  if (isLoading || !orders) {
+    return <ActivityIndicator />;
+  }
 
-    const data = await getPendingOrderLists(profile.marketId, orderStatus);
-    if (data) {
-      setOrders(data);
-    }
-  }, [orderStatus, profile?.marketId]);
-
-  const {onRefresh, refreshing} = usePullDownRefresh(fetchOrders);
-
-  useEffect(() => {
-    if (isFocused) {
-      fetchOrders();
-    }
-  }, [fetchOrders, isFocused]);
-
-  const handleStatusChange = (
-    orderId: string,
-    newStatus:
-      | 'ORDERED'
-      | 'ACCEPTED'
-      | 'PICKEDUP_OR_CANCELED'
-      | 'PICKEDUP'
-      | 'NO_SHOW'
-      | 'CANCELED',
-  ) => {
-    updateOrderStatus(orderId, newStatus);
-    setOrders(prevOrders => {
-      const updatedOrders = prevOrders.map(order =>
-        order.id === orderId ? {...order, ordersStatus: newStatus} : order,
-      );
-      return updatedOrders.filter(order => order.ordersStatus === orderStatus);
-    });
+  const handleStatusChange = (orderId: string, newStatus: OrdersStatus) => {
+    patchOrderMutate(
+      {ordersId: orderId, ordersStatus: newStatus},
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['orders', newStatus, marketId],
+          });
+        },
+        onError: error => {
+          console.error(error);
+        },
+      },
+    );
   };
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
-      }>
+    <View>
       {orders
         .slice()
         .sort(
@@ -79,7 +53,7 @@ const PendingOrders = ({orderStatus}: PendingOrdersProps) => {
             onStatusChange={handleStatusChange}
           />
         ))}
-    </ScrollView>
+    </View>
   );
 };
 

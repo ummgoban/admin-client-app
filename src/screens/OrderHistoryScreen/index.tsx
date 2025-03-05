@@ -6,22 +6,30 @@ import {useMarket} from '@/apis/markets';
 import {ToggleButton} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
-
 import useProfile from '@/hooks/useProfile';
-
+import {useGetOrders, usePatchOrder} from '@/apis/orders/query';
+import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import PendingOrdersScreen from './PendingOrders';
+import {RefreshControl} from 'react-native';
+import {ActivityIndicator} from 'react-native-paper';
 
 import S from './OrderHistoryScreen.style';
+import {OrdersStatus} from '@/types/OrderDetailType';
 
 const OrderHistoryScreen = () => {
-  const [selected, setSelected] = useState<
-    'ORDERED' | 'ACCEPTED' | 'PICKEDUP_OR_CANCELED'
-  >('ORDERED');
-
+  const [selected, setSelected] = useState<OrdersStatus>('ORDERED');
   const {profile} = useProfile();
-  const {data: marketInfo} = useMarket(profile?.marketId);
+  const marketId = profile?.marketId;
 
-  if (!profile) {
+  const {data: marketInfo} = useMarket(marketId);
+  const {
+    data: orders,
+    refetch,
+    isLoading: getOrderLoading,
+  } = useGetOrders({marketId: marketId ?? 0, ordersStatus: selected});
+  const {onRefresh, refreshing} = usePullDownRefresh(refetch);
+
+  if (!profile || !marketId) {
     return <NonRegister />;
   }
 
@@ -29,6 +37,9 @@ const OrderHistoryScreen = () => {
     return <EmptyMarket />;
   }
 
+  if (getOrderLoading || !orders) {
+    return <ActivityIndicator />;
+  }
   return (
     <View>
       <S.NavbarGroup selected={selected}>
@@ -45,8 +56,11 @@ const OrderHistoryScreen = () => {
           <S.ToggleText>{`완료/취소`}</S.ToggleText>
         </ToggleButton>
       </S.NavbarGroup>
-      <S.PendingOrderScreenContainer>
-        <PendingOrdersScreen orderStatus={selected} />
+      <S.PendingOrderScreenContainer
+        refreshControl={
+          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+        }>
+        <PendingOrdersScreen orders={orders} marketId={marketId} />
       </S.PendingOrderScreenContainer>
     </View>
   );

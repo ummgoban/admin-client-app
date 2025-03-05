@@ -40,7 +40,7 @@ const ReviewReplyScreen = ({route}: ReviewReplyScreenProps) => {
       <S.InfoText>
         작성일: {new Date(reviewData.createdAt).toLocaleDateString()}
       </S.InfoText>
-      <S.InfoText>제품: {reviewData.products.join(', ')}</S.InfoText>
+      <S.InfoText>메뉴: {reviewData.products.join(', ')}</S.InfoText>
 
       {reviewData.imageUrls && reviewData.imageUrls.length > 0 && (
         <S.ImageContainer>

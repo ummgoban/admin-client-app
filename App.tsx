@@ -1,12 +1,16 @@
 import React, {useEffect} from 'react';
+import {StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import SplashScreen from 'react-native-splash-screen';
+
 import './gesture-handler';
 
 import RootProvider from './src/context';
 import AppNavigator from './src/navigation';
-import SplashScreen from 'react-native-splash-screen';
+
 import {
-  setUpPushNotificationHandlers,
   requestNotificationPermission,
+  setUpPushNotificationHandlers,
 } from './src/utils/notification';
 
 function App(): React.JSX.Element {
@@ -21,9 +25,17 @@ function App(): React.JSX.Element {
 
   return (
     <RootProvider>
-      <AppNavigator />
+      <SafeAreaView style={styles.container}>
+        <AppNavigator />
+      </SafeAreaView>
     </RootProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default App;

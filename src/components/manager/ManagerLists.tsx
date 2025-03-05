@@ -16,10 +16,6 @@ const ManagerLists = ({managers, marketId}: ManagerListsProps) => {
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
-  if (!marketId) {
-    marketId = 0;
-  }
-
   return (
     <>
       <S.ListsContainer>

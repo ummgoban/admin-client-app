@@ -1,10 +1,28 @@
-import LoginScreen from '@/screens/RegisterScreen/LoginScreen';
-import SignupScreen from '@/screens/RegisterScreen/SignupScreen';
-import {RootStackParamList} from '@/types/StackNavigationType';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 import React from 'react';
 
+import LoginScreen from '@/screens/RegisterScreen/LoginScreen';
+import SignupScreen from '@/screens/RegisterScreen/SignupScreen';
+
+import {defaultOptions} from '@/components/common/Appbar/AppbarOptions';
+import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
+
+import {RootStackParamList} from '@/types/StackNavigationType';
+
 const Stack = createStackNavigator<RootStackParamList>();
+
+const loginScreenOptions: StackNavigationOptions = {
+  ...defaultOptions,
+  headerTitle: () => <HeaderTitle title="로그인" />,
+};
+
+const signupScreenOptions: StackNavigationOptions = {
+  ...defaultOptions,
+  headerTitle: () => <HeaderTitle title="회원가입" />,
+};
 
 const RegistrationNavigaitor = () => {
   return (
@@ -12,12 +30,12 @@ const RegistrationNavigaitor = () => {
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        options={{title: '로그인'}}
+        options={loginScreenOptions}
       />
       <Stack.Screen
         name="SignUp"
         component={SignupScreen}
-        options={{headerTitle: '회원가입'}}
+        options={signupScreenOptions}
       />
     </Stack.Navigator>
   );

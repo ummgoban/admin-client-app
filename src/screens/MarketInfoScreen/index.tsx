@@ -11,7 +11,7 @@ import {useMarket} from '@/apis/markets';
 import {BottomButton, Label} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
-import TextInput from '@/components/common/TextInput';
+import TextInput from '@/components/common/TextInput/TextInput';
 import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
@@ -98,9 +98,8 @@ const MarketInfoScreen = () => {
         <TextInput label={'상호명'} disabled placeholder={marketInfo?.name} />
         <TextInput
           label={'한 줄 소개'}
-          required
           multiline
-          limit={40}
+          maxLength={40}
           value={summary}
           onChange={e => setSummary(e.nativeEvent.text)}
           placeholder="가게소개를 입력해주세요"

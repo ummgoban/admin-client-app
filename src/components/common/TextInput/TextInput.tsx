@@ -16,11 +16,6 @@ type TextInputProps = {
   errorStyle?: StyleProp<TextStyle>;
 } & Omit<ReactNativePaperTextInputProps, 'mode' | 'label'>;
 
-/**
- * @description
- * label={undefined}: label을 사용할 경우 아웃라인에 표시되기 때문에 undefined 이용
- *
- */
 const TextInput = ({
   label,
   labelPosition = 'top',

@@ -74,6 +74,7 @@ export const createManager = async (marketId: number): Promise<boolean> => {
   }
 };
 
+// FIXME: 에러 핸들링을 위해 code, message까지 return? 리액트 쿼리 사용 때문에 고민
 export const createAuthCode = async (
   marketId: number,
 ): Promise<GenerateAuthCodeResponse | null> => {

@@ -137,7 +137,9 @@ const MarketInfoScreen = () => {
         </S.TimeContainer>
 
         <Label label={'직원 목록'} />
-        <ManagerLists managers={managersInfo} marketId={profile?.marketId} />
+        {profile?.marketId && (
+          <ManagerLists managers={managersInfo} marketId={profile?.marketId} />
+        )}
         {/* TODO: 대표 사진 선택 */}
         {/* <Label label={'대표 사진 선택'} required />
         <S.ImageCardGrid>

@@ -3,7 +3,8 @@ import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import {Modal} from 'react-native-paper';
 
-import {BottomButton, TextInput} from '@/components/common';
+import {BottomButton} from '@/components/common';
+import TextInput from '@/components/common/TextInput/TextInput';
 
 import {useCreateMarket} from '@/apis/markets';
 
@@ -69,39 +70,32 @@ const RegisterMarketScreen = () => {
         <S.RegisterMarketInputContainer>
           <S.AddressLayout>
             <TextInput
-              label={'주소'}
               placeholder="주소를 입력해주세요"
               errorMessage="주소를 입력해주세요"
               error={isError(address)}
               value={address}
               onChange={e => setAddress(e.nativeEvent.text)}
               disabled
-              required
             />
             <S.PostcodeButton onPress={() => setPostcodeVisible(true)}>
               <S.PostcodeButtonText>{'주소 검색하기'}</S.PostcodeButtonText>
             </S.PostcodeButton>
           </S.AddressLayout>
           <TextInput
-            label={'상세주소'}
             placeholder="동과 호수를 입력해주세요"
             errorMessage="상세주소를 입력해주세요"
             error={isError(specificAddress)}
             value={specificAddress}
             onChange={e => setSpecificAddress(e.nativeEvent.text)}
-            required
           />
           <TextInput
-            label={'가게명'}
             placeholder="가게명을 입력해주세요"
             errorMessage="가게명을 입력해주세요"
             error={isError(marketName)}
             value={marketName}
             onChange={e => setMarketName(e.nativeEvent.text)}
-            required
           />
           <TextInput
-            label={'전화번호'}
             placeholder="010-1234-5678"
             errorMessage="전화번호를 입력해주세요"
             keyboardType="numeric"
@@ -119,17 +113,14 @@ const RegisterMarketScreen = () => {
             onChange={e =>
               setContactNumber(e.nativeEvent.text.replaceAll(/-/g, ''))
             }
-            required
           />
           <TextInput
-            label={'사업자등록번호(10자)'}
             placeholder="사업자등록번호를 입력해주세요(10자)"
             errorMessage="사업자등록번호를 입력해주세요(10자)"
             inputMode="numeric"
             error={isError(businessNumber, 10)}
             value={businessNumber}
             onChange={e => setBusinessNumber(e.nativeEvent.text)}
-            required
           />
         </S.RegisterMarketInputContainer>
         <BottomButton

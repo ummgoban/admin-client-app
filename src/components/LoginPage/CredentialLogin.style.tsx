@@ -27,6 +27,7 @@ const S = {
   `,
 
   SignUpButton: styled(Button)`
+    width: 100%;
     text-align: center;
     ${({theme}) => theme.fonts.body2}
   `,

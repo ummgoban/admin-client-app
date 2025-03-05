@@ -1,25 +1,43 @@
 import React from 'react';
-import {ReviewStackParamList} from '@/types/StackNavigationType';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
+
 import ReviewScreen from '@/screens/ReviewScreen';
 import ReviewReplyScreen from '@/screens/ReviewReplyScreen';
 
+import {defaultOptions} from '@/components/common/Appbar/AppbarOptions';
+import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
+
+import {ReviewStackParamList} from '@/types/StackNavigationType';
+
 const Stack = createStackNavigator<ReviewStackParamList>();
+
+const reviewScreenOptions: StackNavigationOptions = {
+  ...defaultOptions,
+  headerTitle: () => <HeaderTitle title="리뷰 관리" />,
+};
+
+const reviewReplyScreenOptions: StackNavigationOptions = {
+  ...defaultOptions,
+  headerTitle: () => <HeaderTitle title="댓글 달기" />,
+};
 
 const ReviewNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Review"
+      initialRouteName="ReviewManagement"
       screenOptions={{headerShown: true}}>
       <Stack.Screen
-        name="Review"
+        name="ReviewManagement"
         component={ReviewScreen}
-        options={{title: '리뷰 관리'}}
+        options={reviewScreenOptions}
       />
       <Stack.Screen
         name="ReviewReply"
         component={ReviewReplyScreen}
-        options={{title: '댓글 달기'}}
+        options={reviewReplyScreenOptions}
       />
     </Stack.Navigator>
   );

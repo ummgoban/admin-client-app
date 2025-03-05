@@ -4,11 +4,18 @@ import {Button, Text} from 'react-native-paper';
 
 const S = {
   RegisterMarketContainer: styled.View`
+    position: relative;
+
     flex: 1;
-    margin: 16px;
   `,
 
-  RegisterMarketInputContainer: styled.ScrollView`
+  RegisterMarketScrollContainer: styled.ScrollView`
+    flex: 1;
+
+    padding: 16px;
+  `,
+
+  RegisterMarketInputContainer: styled.View`
     display: flex;
     flex-direction: column;
 
@@ -17,11 +24,11 @@ const S = {
 
   AddressLayout: styled.View`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
-    align-items: center;
+    align-items: flex-end;
 
-    gap: 16px;
+    gap: 8px;
   `,
 
   PostcodeButton: styled(Button)`

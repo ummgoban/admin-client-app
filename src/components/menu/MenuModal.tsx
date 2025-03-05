@@ -4,7 +4,7 @@ import {MenuType, TagType} from '@/types/ProductType';
 import {pickImage} from '@/utils/image-picker';
 import React, {useEffect, useState} from 'react';
 import {Alert, Modal} from 'react-native';
-import {TextInput} from '../common';
+import TextInput from '../common/TextInput/TextInput';
 import CustomLabel from '../common/CustomLabel';
 import TagModal from './TagModal';
 

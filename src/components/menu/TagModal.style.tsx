@@ -32,7 +32,7 @@ const S = {
 
   TagButton: styled.TouchableOpacity<{isSelected: boolean}>`
     background-color: ${props =>
-      props.isSelected ? props.theme.colors.pressed : 'white'};
+      props.isSelected ? props.theme.colors.primaryPressed : 'white'};
     border-radius: 8px;
     padding: 8px 12px;
     margin: 4px;

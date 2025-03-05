@@ -9,7 +9,7 @@ import NonRegister from '@/components/common/NonRegister';
 import useProfile from '@/hooks/useProfile';
 import {useGetOrders} from '@/apis/orders/query';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
-import PendingOrdersScreen from './PendingOrders';
+import PendingOrdersScreen from '../../components/pendingOrder/PendingOrders';
 import {RefreshControl} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 

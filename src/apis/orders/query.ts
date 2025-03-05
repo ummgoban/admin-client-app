@@ -1,4 +1,4 @@
-import {useQuery, useMutation} from '@tanstack/react-query';
+import {useQuery, useMutation, keepPreviousData} from '@tanstack/react-query';
 import {OrdersRequest, OrderPatchRequest} from './model';
 import {getPendingOrderLists, updateOrderStatus} from './client';
 
@@ -10,6 +10,8 @@ export const useGetOrders = ({ordersStatus, marketId}: OrdersRequest) => {
       return getPendingOrderLists({ordersStatus, marketId});
     },
     enabled: marketId !== 0,
+    staleTime: 1000 * 60 * 5,
+    placeholderData: keepPreviousData,
   });
 };
 

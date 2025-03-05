@@ -18,7 +18,7 @@ const PendingOrders = ({orders, marketId}: PendingOrdersProps) => {
 
   const isLoading = isPatchOrderPending;
   if (isLoading || !orders) {
-    return <ActivityIndicator />;
+    <ActivityIndicator />;
   }
 
   const handleStatusChange = (orderId: string, newStatus: OrdersStatus) => {
@@ -27,7 +27,7 @@ const PendingOrders = ({orders, marketId}: PendingOrdersProps) => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['orders', newStatus, marketId],
+            queryKey: ['orders'],
           });
         },
         onError: error => {

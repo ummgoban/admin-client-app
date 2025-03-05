@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import PendingOrder from '@/components/pendingOrder/PendingOrder';
 import {OrderDetailInfoType, OrdersStatus} from '@/types/OrderDetailType';

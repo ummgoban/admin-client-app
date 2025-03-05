@@ -7,7 +7,7 @@ import {ToggleButton} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
 import useProfile from '@/hooks/useProfile';
-import {useGetOrders, usePatchOrder} from '@/apis/orders/query';
+import {useGetOrders} from '@/apis/orders/query';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import PendingOrdersScreen from './PendingOrders';
 import {RefreshControl} from 'react-native';

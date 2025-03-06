@@ -208,6 +208,16 @@ const MyPageScreen = () => {
                   <Icon name="plus" size={20} color="#000000" />
                   <S.ModalAddButtonText>매장 추가</S.ModalAddButtonText>
                 </S.ModalAddButton>
+                <S.ModalAddButton
+                  onPress={() => {
+                    navigation.navigate('RegisterMarketRoot', {
+                      screen: 'RegisterManager',
+                    });
+                    setOpenModal(false);
+                  }}>
+                  <Icon name="plus" size={20} color="#000000" />
+                  <S.ModalAddButtonText>직원 인증</S.ModalAddButtonText>
+                </S.ModalAddButton>
               </S.ModalContent>
             </S.ModalContainer>
           </Modal>

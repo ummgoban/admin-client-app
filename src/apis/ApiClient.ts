@@ -1,4 +1,5 @@
 import axios, {
+  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
@@ -8,19 +9,7 @@ import Config from 'react-native-config';
 
 import {SessionType} from '@/types/Session';
 import {getStorage} from '@/utils/storage';
-
-class ApiError extends Error {
-  response?: AxiosResponse & {
-    data: {errorCode: number; errorMessage: string};
-  };
-
-  static isApiError = (error: any | unknown): error is ApiError => {
-    return (
-      error.response?.data?.errorCode !== undefined &&
-      error.response?.data?.errorMessage !== undefined
-    );
-  };
-}
+import CustomError from './CustomError';
 
 class ApiClient {
   private static instance: ApiClient;
@@ -45,7 +34,6 @@ class ApiClient {
         if (this._jwt) {
           config.headers.Authorization = `Bearer ${this._jwt}`;
         }
-        console.debug('Request:', config);
         return config;
       },
       error => Promise.reject(error),
@@ -53,10 +41,10 @@ class ApiClient {
 
     // 응답 인터셉터: 응답에서 토큰을 받아 저장
     this.axiosInstance.interceptors.response.use(
-      response => {
+      (response: AxiosResponse) => {
         if (response.data && response.data.token) {
           this._jwt = response.data.token; // 토큰 갱신
-          console.log('토큰 갱신:', this._jwt);
+          console.debug('토큰 갱신:', this._jwt);
         }
         return response;
       },
@@ -72,24 +60,13 @@ class ApiClient {
     return ApiClient.instance;
   }
 
-  get = async <T, D = unknown>(
+  get = async <T>(
     url: string,
-    config?: AxiosRequestConfig<D> | undefined,
+    config?: AxiosRequestConfig<any> | undefined,
   ): Promise<T | null> => {
     try {
-      const res = await this.axiosInstance.get<
-        T,
-        AxiosResponse<
-          {
-            data: T;
-            code: number;
-            message: string;
-          },
-          D
-        >,
-        D
-      >(url, config);
-
+      console.debug('GET', url, JSON.stringify(config, null, 2));
+      const res: AxiosResponse = await this.axiosInstance.get(url, config);
       console.debug('GET', url, JSON.stringify(res.data, null, 2));
 
       if (res.data.code === 200 && res.data.data) {
@@ -98,38 +75,47 @@ class ApiClient {
 
       return null;
     } catch (error) {
-      console.debug('GET', url, JSON.stringify(error, null, 2));
-      if (ApiError.isApiError(error)) {
-        console.error(error.response?.data);
-      } else {
-        console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.error(
+            'GET',
+            url,
+            JSON.stringify(error.response.data, null, 2),
+          );
+          throw new CustomError(error.response.data);
+        }
       }
+
       return null;
     }
   };
 
   post = async <T, D = unknown>(
     url: string,
-    body?: D | undefined,
+    body?: D,
     config?: AxiosRequestConfig<D> | undefined,
   ): Promise<T | null> => {
     try {
-      const res: AxiosResponse = await this.axiosInstance.post<
-        T,
-        AxiosResponse<T, D>,
-        D
-      >(url, body, config);
+      console.debug('POST', url, JSON.stringify(config, null, 2));
+      const res: AxiosResponse<T, D> = await this.axiosInstance.post(
+        url,
+        body,
+        config,
+      );
 
       console.debug('POST', url, JSON.stringify(res.data, null, 2));
 
       return res.data;
     } catch (error) {
-      console.debug('POST', url, JSON.stringify(error, null, 2));
-
-      if (ApiError.isApiError(error)) {
-        console.error(error.response?.data);
-      } else {
-        console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.error(
+            'POST',
+            url,
+            JSON.stringify(error.response.data, null, 2),
+          );
+          throw new CustomError(error.response.data);
+        }
       }
 
       return null;
@@ -142,7 +128,8 @@ class ApiClient {
     config?: AxiosRequestConfig<D> | undefined,
   ): Promise<T | null> => {
     try {
-      const res = await this.axiosInstance.patch<T, AxiosResponse<T, D>, D>(
+      console.debug('PATCH', url, JSON.stringify(config, null, 2));
+      const res: AxiosResponse<T, D> = await this.axiosInstance.patch(
         url,
         body,
         config,
@@ -152,11 +139,15 @@ class ApiClient {
 
       return res.data;
     } catch (error) {
-      console.debug('PATCH', url, JSON.stringify(error, null, 2));
-      if (ApiError.isApiError(error)) {
-        console.error(error.response?.data);
-      } else {
-        console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.error(
+            'PATCH',
+            url,
+            JSON.stringify(error.response.data, null, 2),
+          );
+          throw new CustomError(error.response.data);
+        }
       }
       return null;
     }
@@ -164,11 +155,12 @@ class ApiClient {
 
   put = async <T, D = unknown>(
     url: string,
-    body: D | undefined,
+    body: D,
     config?: AxiosRequestConfig<D> | undefined,
   ): Promise<T | null> => {
     try {
-      const res = await this.axiosInstance.put<T, AxiosResponse<T, any>, D>(
+      console.debug('PUT', url, JSON.stringify(config, null, 2));
+      const res: AxiosResponse<T, D> = await this.axiosInstance.put(
         url,
         body,
         config,
@@ -178,32 +170,45 @@ class ApiClient {
 
       return res.data;
     } catch (error) {
-      console.debug('PUT', url, JSON.stringify(error, null, 2));
-      if (ApiError.isApiError(error)) {
-        console.error(error.response?.data);
-      } else {
-        console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.error(
+            'PUT',
+            url,
+            JSON.stringify(error.response.data, null, 2),
+          );
+          throw new CustomError(error.response.data);
+        }
       }
       return null;
     }
   };
 
-  del = async <T>(
+  del = async <T, D = unknown>(
     url: string,
-    config?: AxiosRequestConfig<any> | undefined,
+    config?: AxiosRequestConfig<D> | undefined,
   ): Promise<T | null> => {
     try {
-      const res: AxiosResponse = await this.axiosInstance.delete(url, config);
-      console.debug('DELETE', url, res.data);
+      const res: AxiosResponse<T, D> = await this.axiosInstance.delete(
+        url,
+        config,
+      );
+
+      console.debug('DELETE', url, JSON.stringify(res.data, null, 2));
 
       return res.data;
     } catch (error) {
-      console.debug('DELETE', url, JSON.stringify(error, null, 2));
-      if (ApiError.isApiError(error)) {
-        console.error(error.response?.data);
-      } else {
-        console.error(error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.error(
+            'DELETE',
+            url,
+            JSON.stringify(error.response.data, null, 2),
+          );
+          throw new CustomError(error.response.data);
+        }
       }
+
       return null;
     }
   };

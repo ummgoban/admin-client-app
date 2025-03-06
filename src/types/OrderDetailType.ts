@@ -22,3 +22,11 @@ export type OrderDetailResponseType = {
   message: string;
   data: OrderDetailInfoType;
 };
+
+export type OrdersStatus =
+  | 'ORDERED'
+  | 'ACCEPTED'
+  | 'PICKEDUP_OR_CANCELED'
+  | 'PICKEDUP'
+  | 'NO_SHOW'
+  | 'CANCELED';

@@ -1,6 +1,6 @@
 import {useCallback, useState} from 'react';
 
-const usePullDownRefresh = (callback: () => Promise<void>) => {
+const usePullDownRefresh = <T>(callback: () => Promise<T>) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(async () => {

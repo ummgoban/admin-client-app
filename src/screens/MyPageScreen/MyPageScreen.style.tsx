@@ -99,6 +99,7 @@ const S = {
     flex-direction: column;
 
     gap: 8px;
+
     padding: 16px;
   `,
 
@@ -139,7 +140,7 @@ const S = {
     gap: 8px;
 
     padding: 16px;
-    margin: 16px 0;
+    margin: 8px 0;
 
     border-radius: 8px;
 

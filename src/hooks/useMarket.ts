@@ -9,8 +9,10 @@ import useProfile from './useProfile';
 
 type MarketStore = {
   loading: boolean;
-  market: Pick<MarketType, 'id' | 'name'>[];
-  getMemberMarkets: () => Promise<Pick<MarketType, 'id' | 'name'>[] | null>;
+  market: Array<Pick<MarketType, 'id' | 'name'> & {role: string}> | null;
+  getMemberMarkets: () => Promise<Array<
+    Pick<MarketType, 'id' | 'name'> & {role: string}
+  > | null>;
   marketInfo: MarketType | null;
   setMarketInfo: (marketInfo: MarketType) => void;
 };
@@ -28,10 +30,13 @@ const useMarketStore = create<MarketStore>(set => ({
       set({loading: false});
       return null;
     }
-    const ret = marketRes.map(({marketId: id, marketName: name}) => ({
-      id,
-      name,
-    }));
+    const ret = marketRes.map(
+      ({marketId: id, marketName: name, marketRole: role}) => ({
+        id,
+        name,
+        role,
+      }),
+    );
 
     set({market: ret, loading: false});
 
@@ -58,7 +63,6 @@ const useMarket = () => {
     if (!res || !res.length) {
       return;
     }
-
     if (!profile.marketId) {
       selectMarket(res[0].id);
     }
@@ -72,7 +76,6 @@ const useMarket = () => {
     if (!profile || !profile?.marketId) {
       return;
     }
-
     const res = await getMarketAPI(profile.marketId);
 
     if (!res) {

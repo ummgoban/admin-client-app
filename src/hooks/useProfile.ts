@@ -15,6 +15,7 @@ import {registerFCMToken} from '@/apis/fcm';
 
 type AdminUserType = UserType & {
   marketId: number | null;
+  role: string | null;
 };
 
 type ProfileStore = {
@@ -35,7 +36,7 @@ const useProfileStore = create<ProfileStore>(set => ({
       set({profile: null, loading: false});
       return;
     }
-    set({profile: {...profileRes, marketId: null}, loading: false});
+    set({profile: {...profileRes, marketId: null, role: null}, loading: false});
   },
   setCurrentMarketId: marketId => {
     set(state => {

@@ -42,7 +42,7 @@ const ManagerDeleteButton = ({
         <Modal visible={visible} onDismiss={hideModal}>
           <S.ModalContainer>
             <S.ModalHeader>
-              <S.ModalHeaderText>해고하시겠습니까?</S.ModalHeaderText>
+              <S.ModalHeaderText>직원을 삭제하시겠습니까?</S.ModalHeaderText>
             </S.ModalHeader>
             <S.ModalFooter>
               <Button onPress={handleDeletePress}>확인</Button>

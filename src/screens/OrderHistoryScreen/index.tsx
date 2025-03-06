@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 
-import {useMarket} from '@/apis/markets';
+import {useGetMarket} from '@/apis/markets';
 
 import {ToggleButton} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
@@ -21,7 +21,7 @@ const OrderHistoryScreen = () => {
   const {profile} = useProfile();
   const marketId = profile?.marketId;
 
-  const {data: marketInfo} = useMarket(marketId);
+  const {data: marketInfo} = useGetMarket(marketId);
   const {
     data: orders,
     refetch,

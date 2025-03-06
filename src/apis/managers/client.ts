@@ -6,6 +6,7 @@ import {
   ReadManagersResponse,
   ValidationAuthCodeRequest,
 } from './model';
+import CustomError from '../CustomError';
 
 export const withDrawManager = async (marketId: number): Promise<boolean> => {
   try {
@@ -15,7 +16,7 @@ export const withDrawManager = async (marketId: number): Promise<boolean> => {
     return !!res && res.code === 200;
   } catch (error) {
     console.log('직원 탈퇴 에러', error);
-    return false;
+    throw new CustomError(error);
   }
 };
 
@@ -30,7 +31,7 @@ export const deleteManager = async ({
     return !!res && res.code === 200;
   } catch (error) {
     console.log('직원 해고 에러', error);
-    return false;
+    throw new CustomError(error);
   }
 };
 
@@ -44,7 +45,7 @@ export const readManagers = async (
     return res;
   } catch (error) {
     console.error('직원 조회 에러', error);
-    return null;
+    throw new CustomError(error);
   }
 };
 
@@ -58,7 +59,7 @@ export const readCreatePendingManagers = async (
     return res;
   } catch (error) {
     console.error('인증 대기 직원 조회 에러');
-    return null;
+    throw new CustomError(error);
   }
 };
 
@@ -70,7 +71,7 @@ export const createManager = async (marketId: number): Promise<boolean> => {
     return !!res && res.code === 200;
   } catch (error) {
     console.error('직원 생성 에러', error);
-    return false;
+    throw new CustomError(error);
   }
 };
 
@@ -85,7 +86,7 @@ export const createAuthCode = async (
     return res;
   } catch (error) {
     console.error('인증 코드 생성 에러');
-    return null;
+    throw new CustomError(error);
   }
 };
 
@@ -103,7 +104,7 @@ export const valdiateAuthCode = async ({
     );
     return !!res && res.code === 200;
   } catch (error) {
-    console.error('직원 인증 코드 에러');
-    return false;
+    console.error('직원 인증 코드 에러', error);
+    throw new CustomError(error);
   }
 };

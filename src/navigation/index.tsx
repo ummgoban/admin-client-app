@@ -5,14 +5,14 @@ import HomeNavigator from './HomeNavigator';
 import ResgitrationMarketNavigator from './RegisterMarketNavigator';
 import RegistrationNavigaitor from './RegisterNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
   const inset = useSafeAreaInsets();
   return (
-    <View style={{paddingBottom: inset.bottom, flex: 1}}>
+    <View style={[styles.container, {paddingBottom: inset.bottom}]}>
       <Stack.Navigator
         initialRouteName={'Home'}
         screenOptions={{headerShown: false}}>
@@ -27,5 +27,11 @@ const AppNavigator = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default AppNavigator;

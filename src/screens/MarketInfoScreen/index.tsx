@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {RefreshControl} from 'react-native-gesture-handler';
@@ -21,7 +21,6 @@ import {useQueryClient} from '@tanstack/react-query';
 import S from './MarketInfoScreen.style';
 import {useReadManagers} from '@/apis/managers';
 import ManagerLists from '@/components/manager/ManagerLists';
-import useMarket from '@/hooks/useMarket';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -32,7 +31,6 @@ const timeOptions = {
 
 const MarketInfoScreen = () => {
   const {profile} = useProfile();
-  // const {market: a, marketInfo: b} = useMarket();
   const queryClient = useQueryClient();
   const {data: marketInfo} = useGetMarket(profile?.marketId);
   const {data: managersInfo} = useReadManagers(profile?.marketId);
@@ -98,7 +96,6 @@ const MarketInfoScreen = () => {
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
         }>
-        {/* <Text>{currentMarketRole}</Text> */}
         <TextInput label={'상호명'} placeholder={marketInfo?.name} disabled />
         <TextInput
           label={'한 줄 소개'}

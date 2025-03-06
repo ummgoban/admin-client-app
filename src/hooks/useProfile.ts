@@ -15,6 +15,7 @@ import {registerFCMToken} from '@/apis/fcm';
 
 type AdminUserType = UserType & {
   marketId: number | null;
+  role: string | null;
 };
 
 type ProfileStore = {

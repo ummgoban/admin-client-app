@@ -5,7 +5,7 @@ import MenuManageDetailScreen from './MenuManageDetailScreen';
 
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
-import {useMarket} from '@/apis/markets';
+import {useGetMarket} from '@/apis/markets';
 import useProduct from '@/hooks/useProduct';
 import useProfile from '@/hooks/useProfile';
 import {MenuType} from '@/types/ProductType';
@@ -14,7 +14,7 @@ import {useIsFocused} from '@react-navigation/native';
 const MenuManageScreen = () => {
   const {profile} = useProfile();
   const {products, fetch: fetchProduct} = useProduct();
-  const {data: marketInfo} = useMarket(profile?.marketId);
+  const {data: marketInfo} = useGetMarket(profile?.marketId);
 
   const [menus, setMenus] = useState<MenuType[]>([]);
   const isFocused = useIsFocused();

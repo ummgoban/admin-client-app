@@ -30,6 +30,7 @@ import {
 } from '@/utils/notification';
 
 import S from './MyPageScreen.style';
+import useMarket from '@/hooks/useMarket';
 
 // TODO: 강제 fetch 방법 강구
 
@@ -40,6 +41,7 @@ const MyPageScreen = () => {
   const queryClient = useQueryClient();
 
   const {profile, fetch: fetchProfile, selectMarket, logout} = useProfile();
+  const {fetchMarket, fetch: fetchMemberMarkets} = useMarket();
   const {data: marketListData, isLoading} = useMarketList();
 
   const marketList =
@@ -185,8 +187,9 @@ const MyPageScreen = () => {
                     onPress={() => {
                       if (profile?.marketId !== id) {
                         selectMarket(id);
+                        fetchMarket();
+                        fetchMemberMarkets();
                       }
-
                       setOpenModal(false);
                     }}>
                     {/* <S.ModalContentItemIcon

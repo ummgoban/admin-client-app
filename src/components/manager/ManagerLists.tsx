@@ -8,9 +8,14 @@ import ManagerModal from './ManagerModal';
 type ManagerListsProps = {
   managers: ManagerInfo[] | null | undefined;
   marketId: number;
+  isEditPermssion: boolean;
 };
 
-const ManagerLists = ({managers, marketId}: ManagerListsProps) => {
+const ManagerLists = ({
+  managers,
+  marketId,
+  isEditPermssion,
+}: ManagerListsProps) => {
   const [visible, setVisible] = useState(false);
 
   const showModal = () => setVisible(true);
@@ -32,9 +37,12 @@ const ManagerLists = ({managers, marketId}: ManagerListsProps) => {
             marketId={marketId!!}
             name={manager.name}
             marketRole={manager.marketRole}
+            isEditPermssion={isEditPermssion}
           />
         ))}
-        <BottomButton onPress={showModal}>직원 추가하기</BottomButton>
+        <BottomButton onPress={showModal} disabled={isEditPermssion}>
+          직원 추가하기
+        </BottomButton>
       </S.ListsContainer>
       <ManagerModal
         visible={visible}

@@ -1,13 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import {Alert} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';
 
 import {updateMarketInfo} from '@/apis/Market';
-import {useMarket} from '@/apis/markets';
+import {useGetMarket} from '@/apis/markets';
 import {BottomButton, Label} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
@@ -21,6 +21,7 @@ import {useQueryClient} from '@tanstack/react-query';
 import S from './MarketInfoScreen.style';
 import {useReadManagers} from '@/apis/managers';
 import ManagerLists from '@/components/manager/ManagerLists';
+import useMarket from '@/hooks/useMarket';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -31,9 +32,9 @@ const timeOptions = {
 
 const MarketInfoScreen = () => {
   const {profile} = useProfile();
-
+  // const {market: a, marketInfo: b} = useMarket();
   const queryClient = useQueryClient();
-  const {data: marketInfo} = useMarket(profile?.marketId);
+  const {data: marketInfo} = useGetMarket(profile?.marketId);
   const {data: managersInfo} = useReadManagers(profile?.marketId);
 
   const {refreshing, onRefresh} = usePullDownRefresh(async () => {
@@ -43,6 +44,10 @@ const MarketInfoScreen = () => {
   });
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const isEditPermssion =
+    managersInfo?.find(manager => manager.id === profile?.id)?.marketRole ===
+    'ROLE_STORE_OWNER';
 
   // TODO: 임시 휴무 스위치 버튼
   // const [isTempClosing, setIsTempClosing] = useState(false);
@@ -83,19 +88,18 @@ const MarketInfoScreen = () => {
     return <NonRegister />;
   }
 
-  console.log('MarketInfoScreen', marketInfo);
-
   if (!marketInfo) {
     return <EmptyMarket />;
   }
-
+  console.log(isEditPermssion);
   return (
     <S.Container>
       <S.ScrollView
         refreshControl={
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
         }>
-        <TextInput label={'상호명'} disabled placeholder={marketInfo?.name} />
+        {/* <Text>{currentMarketRole}</Text> */}
+        <TextInput label={'상호명'} placeholder={marketInfo?.name} disabled />
         <TextInput
           label={'한 줄 소개'}
           multiline
@@ -103,18 +107,23 @@ const MarketInfoScreen = () => {
           value={summary}
           onChange={e => setSummary(e.nativeEvent.text)}
           placeholder="가게소개를 입력해주세요"
+          disabled={!isEditPermssion}
         />
         {/* <Label label={'임시 휴무'} /> */}
         {/* TODO: 스위치 버튼으로 임시 휴무 */}
         <Label label={'영업 시간'} required />
         <S.TimeContainer>
-          <S.TimePickerButton onPress={() => setOpenModal('market-open')}>
+          <S.TimePickerButton
+            onPress={() => setOpenModal('market-open')}
+            disabled={!isEditPermssion}>
             {marketOpenTime
               ? format(marketOpenTime.getTime(), 'HH:mm')
               : timeOptions['market-open']}
           </S.TimePickerButton>
           <Text>{'~'}</Text>
-          <S.TimePickerButton onPress={() => setOpenModal('market-close')}>
+          <S.TimePickerButton
+            onPress={() => setOpenModal('market-close')}
+            disabled={!isEditPermssion}>
             {marketCloseTime
               ? format(marketCloseTime.getTime(), 'HH:mm')
               : timeOptions['market-close']}
@@ -122,13 +131,17 @@ const MarketInfoScreen = () => {
         </S.TimeContainer>
         <Label label={'픽업 시간'} required />
         <S.TimeContainer>
-          <S.TimePickerButton onPress={() => setOpenModal('pickup-start')}>
+          <S.TimePickerButton
+            onPress={() => setOpenModal('pickup-start')}
+            disabled={!isEditPermssion}>
             {pickupStartTime
               ? format(pickupStartTime.getTime(), 'HH:mm')
               : timeOptions['pickup-start']}
           </S.TimePickerButton>
           <Text>{'~'}</Text>
-          <S.TimePickerButton onPress={() => setOpenModal('pickup-end')}>
+          <S.TimePickerButton
+            onPress={() => setOpenModal('pickup-end')}
+            disabled={!isEditPermssion}>
             {pickupEndTime
               ? format(pickupEndTime.getTime(), 'HH:mm')
               : timeOptions['pickup-end']}
@@ -137,7 +150,11 @@ const MarketInfoScreen = () => {
 
         <Label label={'직원 목록'} />
         {profile?.marketId && (
-          <ManagerLists managers={managersInfo} marketId={profile?.marketId} />
+          <ManagerLists
+            managers={managersInfo}
+            marketId={profile?.marketId}
+            isEditPermssion={!isEditPermssion}
+          />
         )}
         {/* TODO: 대표 사진 선택 */}
         {/* <Label label={'대표 사진 선택'} required />
@@ -271,7 +288,8 @@ const MarketInfoScreen = () => {
 
           Alert.alert('마켓 정보가 저장되었습니다.');
           navigation.goBack();
-        }}>
+        }}
+        disabled={!isEditPermssion}>
         저장
       </BottomButton>
     </S.Container>

@@ -23,7 +23,7 @@ export const useMarketList = () => {
   });
 };
 
-export const useMarket = (marketId: number | undefined | null) => {
+export const useGetMarket = (marketId: number | undefined | null) => {
   return useQuery({
     queryKey: ['market', marketId],
     queryFn: () => {

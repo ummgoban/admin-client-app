@@ -63,7 +63,6 @@ const useMarket = () => {
     if (!res || !res.length) {
       return;
     }
-    console.log('marketMember: ', res);
     if (!profile.marketId) {
       selectMarket(res[0].id);
     }
@@ -79,7 +78,6 @@ const useMarket = () => {
     }
     const res = await getMarketAPI(profile.marketId);
 
-    console.log('market: ', res);
     if (!res) {
       return;
     }

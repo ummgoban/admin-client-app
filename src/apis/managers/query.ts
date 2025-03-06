@@ -73,15 +73,11 @@ export const useCreateAuthCode = (marketId: number) => {
   });
 };
 
-export const useValidateAuthCode = ({
-  marketName,
-  authCode,
-}: ValidationAuthCodeRequest) => {
+export const useValidateAuthCode = () => {
   return useMutation({
-    mutationKey: ['validateAuthCode', authCode],
-    mutationFn: async () => {
-      if (!marketName || !authCode) return;
-      return await valdiateAuthCode({marketName, authCode});
+    mutationKey: ['validateAuthCode'],
+    mutationFn: ({marketName, authCode}: ValidationAuthCodeRequest) => {
+      return valdiateAuthCode({marketName, authCode});
     },
   });
 };

@@ -25,17 +25,9 @@ function App(): React.JSX.Element {
 
   return (
     <RootProvider>
-      <SafeAreaView style={styles.container}>
-        <AppNavigator />
-      </SafeAreaView>
+      <AppNavigator />
     </RootProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;

@@ -39,13 +39,14 @@ const useProfileStore = create<ProfileStore>(set => ({
   loading: true,
   profile: null,
   setProfile: profile => {
-    set({
+    set(prev => ({
       profile: {
+        ...prev.profile,
         ...profile,
-        marketId: null,
-        role: null,
+        role: prev.profile?.role ?? null,
+        marketId: prev.profile?.marketId ?? null,
       },
-    });
+    }));
   },
   setCurrentMarketId: marketId => {
     set(state => {

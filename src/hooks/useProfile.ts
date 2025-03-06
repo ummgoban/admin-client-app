@@ -1,17 +1,27 @@
-import {useCallback} from 'react';
+import {MutateOptions, useQueryClient} from '@tanstack/react-query';
+import {useCallback, useEffect} from 'react';
 import {create} from 'zustand';
 
-import {
-  getProfile as getProfileApi,
-  loginWithOAuth as loginWithOAuthApi,
-  logout as logoutApi,
-} from '@/apis/Login';
-
-import {SessionType} from '@/types/Session';
 import {UserType} from '@/types/UserType';
 
-import messaging from '@react-native-firebase/messaging';
-import {registerFCMToken} from '@/apis/fcm';
+import {
+  useLoginQuery,
+  useLoginWithOAuthQuery,
+  useLogoutQuery,
+  useProfileQuery,
+  useSendEmailCodeMutation,
+  useSignUpQuery,
+  useVerifyEmailCodeMutation,
+  useWithdrawMutation,
+} from '@/apis/auth/query';
+
+import type {
+  LoginRequest,
+  OAuthLoginRequest,
+  SignUpRequest,
+} from '@/apis/auth/model';
+
+import CustomError from '@/apis/CustomError';
 
 type AdminUserType = UserType & {
   marketId: number | null;
@@ -21,22 +31,21 @@ type AdminUserType = UserType & {
 type ProfileStore = {
   loading: boolean;
   profile: AdminUserType | null;
-  getProfile: () => Promise<void>;
+  setProfile: (profile: UserType) => void;
   setCurrentMarketId: (marketId: number) => void;
 };
 
 const useProfileStore = create<ProfileStore>(set => ({
   loading: true,
   profile: null,
-  getProfile: async () => {
-    set({loading: true});
-    const profileRes = await getProfileApi();
-
-    if (!profileRes) {
-      set({profile: null, loading: false});
-      return;
-    }
-    set({profile: {...profileRes, marketId: null, role: null}, loading: false});
+  setProfile: profile => {
+    set({
+      profile: {
+        ...profile,
+        marketId: null,
+        role: null,
+      },
+    });
   },
   setCurrentMarketId: marketId => {
     set(state => {
@@ -49,20 +58,30 @@ const useProfileStore = create<ProfileStore>(set => ({
 }));
 
 const useProfile = () => {
-  const {profile, getProfile, setCurrentMarketId, loading} = useProfileStore();
+  const {profile, setProfile, setCurrentMarketId} = useProfileStore();
 
-  const fetchProfile = useCallback(async () => {
-    if (!profile) {
-      await getProfile();
-    }
-  }, [getProfile, profile]);
+  const {data} = useProfileQuery();
 
-  const refresh = useCallback(async () => {
-    await getProfile();
-    const token = await messaging().getToken();
-    await registerFCMToken(token);
-    console.log('FCM Token:', token);
-  }, [getProfile]);
+  const {mutate: mutateLogout, isPending: logoutPending} = useLogoutQuery();
+  const {mutate: mutateLogin, isPending: loginPending} = useLoginQuery();
+  const {mutateAsync: mutateLoginWithOAuth, isPending: oAuthPending} =
+    useLoginWithOAuthQuery();
+  const {mutate: mutateSignUp, isPending: signUpPending} = useSignUpQuery();
+  const {mutate: mutateSendEmailCode, isPending: isPendingSendEmailCode} =
+    useSendEmailCodeMutation();
+  const {mutate: mutateVerifyEmailCode, isPending: isPendingVerifyEmailCode} =
+    useVerifyEmailCodeMutation();
+  const {mutate: mutateWithdraw, isPending: isPendingWithdraw} =
+    useWithdrawMutation();
+
+  const loading =
+    logoutPending || loginPending || oAuthPending || signUpPending;
+
+  const queryClient = useQueryClient();
+
+  const refreshProfile = useCallback(async () => {
+    await queryClient.invalidateQueries({queryKey: ['profile']});
+  }, [queryClient]);
 
   const selectMarket = useCallback(
     (marketId: number) => {
@@ -71,38 +90,142 @@ const useProfile = () => {
     [setCurrentMarketId],
   );
 
-  const logout = useCallback(async () => {
-    const res = await logoutApi();
-    if (res) {
-      await refresh();
-      return true;
-    }
+  const logout = useCallback(
+    ({
+      onSuccess,
+      onError,
+      ...rest
+    }: {
+      onSuccess?: () => void;
+      onError?: (error: CustomError) => void;
+    } & MutateOptions<boolean, CustomError, void, unknown>) => {
+      mutateLogout(undefined, {
+        onSuccess: async () => {
+          await refreshProfile();
+          if (onSuccess) {
+            onSuccess();
+          }
+        },
+        onError: error => {
+          if (error instanceof CustomError) {
+            if (onError) {
+              onError(error);
+            }
+          }
+        },
+        ...rest,
+      });
+    },
+    [mutateLogout, refreshProfile],
+  );
 
-    return false;
-  }, [refresh]);
+  const signUp = useCallback(
+    (
+      variables: SignUpRequest,
+      options?: MutateOptions<boolean, CustomError, SignUpRequest, unknown>,
+    ) => {
+      mutateSignUp(variables, {
+        onSuccess: async (_data, _variables, _context) => {
+          await refreshProfile();
+          if (options?.onSuccess) {
+            options.onSuccess(_data, _variables, _context);
+          }
+        },
+        onError: (error, _variables, _context) => {
+          if (error instanceof CustomError) {
+            if (options?.onError) {
+              options.onError(error, _variables, _context);
+            }
+          }
+        },
+        ...options,
+      });
+    },
+    [mutateSignUp, refreshProfile],
+  );
+
+  const login = useCallback(
+    (
+      variables: LoginRequest,
+      options?: MutateOptions<boolean, CustomError, void, unknown>,
+    ) => {
+      mutateLogin(variables, {
+        onSuccess: async (_data, _variables, _context) => {
+          await refreshProfile();
+          if (options?.onSuccess) {
+            options.onSuccess(_data, undefined, _context);
+          }
+        },
+        onError: (error, _variables, _context) => {
+          if (error instanceof CustomError) {
+            if (options?.onError) {
+              options?.onError(error, undefined, _context);
+            }
+          }
+        },
+      });
+    },
+    [mutateLogin, refreshProfile],
+  );
 
   const loginWithOAuth = useCallback(
-    async (oAuthProvider: SessionType['OAuthProvider']) => {
-      const res = await loginWithOAuthApi(oAuthProvider);
+    async (oAuthProvider: OAuthLoginRequest) => {
+      const res = await mutateLoginWithOAuth(oAuthProvider);
       if (res) {
-        await refresh();
-
+        await refreshProfile();
         return true;
       }
 
+      console.log('loginWithOAuth failed');
+
       return false;
     },
-    [refresh],
+    [mutateLoginWithOAuth, refreshProfile],
   );
+
+  const withdraw = useCallback(
+    (options?: MutateOptions<boolean, CustomError, void, unknown>) => {
+      mutateWithdraw(undefined, {
+        onSuccess: async (_data, _variables, _context) => {
+          await refreshProfile();
+          if (options?.onSuccess) {
+            options.onSuccess(_data, undefined, _context);
+          }
+        },
+        onError: (error, _variables, _context) => {
+          if (error instanceof CustomError) {
+            if (options?.onError) {
+              options.onError(error, undefined, _context);
+            }
+          }
+        },
+        ...options,
+      });
+    },
+    [mutateWithdraw, refreshProfile],
+  );
+
+  useEffect(() => {
+    if (data) {
+      setProfile(data);
+    }
+  }, [data, setProfile]);
 
   return {
     profile,
-    refresh,
-    fetch: fetchProfile,
+    refreshProfile,
     selectMarket,
+    signUp,
     loading,
-    logout,
+    login,
     loginWithOAuth,
+    logout,
+    sendEmailCode: mutateSendEmailCode,
+    verifyEmailCode: mutateVerifyEmailCode,
+    isPendingSendEmailCode,
+    isPendingVerifyEmailCode,
+    withdraw,
+    isPendingWithdraw,
   };
 };
 

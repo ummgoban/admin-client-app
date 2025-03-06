@@ -3,13 +3,13 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
 
-import {credentialLogin} from '@/apis/Login';
+import TextInput from '../common/TextInput/TextInput';
+
+import useProfile from '@/hooks/useProfile';
 
 import {RootStackParamList} from '@/types/StackNavigationType';
 
 import S from './CredentialLogin.style';
-import useProfile from '@/hooks/useProfile';
-import TextInput from '../common/TextInput/TextInput';
 
 const CredentialLogin = () => {
   const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ const CredentialLogin = () => {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const {fetch} = useProfile();
+  const {login} = useProfile();
 
   return (
     <S.LoginFormWrapper>
@@ -35,15 +35,18 @@ const CredentialLogin = () => {
       <S.SubmitButton
         mode="contained"
         disabled={!email || !password}
-        onPress={async () => {
-          const res = await credentialLogin({email, password});
-          if (res) {
-            await fetch();
-            navigation.navigate('Home', {screen: 'Feed'});
-            return;
-          }
-
-          Alert.alert('로그인에 실패했습니다.');
+        onPress={() => {
+          login(
+            {email, password},
+            {
+              onSuccess: () => {
+                navigation.navigate('Home', {screen: 'Feed'});
+              },
+              onError: error => {
+                Alert.alert('로그인에 실패했습니다.', error.errorMessage);
+              },
+            },
+          );
         }}>
         로그인
       </S.SubmitButton>

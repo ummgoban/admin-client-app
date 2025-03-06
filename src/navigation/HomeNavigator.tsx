@@ -2,9 +2,7 @@ import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import React, {useEffect} from 'react';
-
-import useProfile from '@/hooks/useProfile';
+import React from 'react';
 
 import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
 import {TabBar} from '@components/common';
@@ -49,12 +47,6 @@ const myPageScreenOptions: BottomTabNavigationOptions = {
 };
 
 const HomeNavigator = () => {
-  const {fetch: fetchProfile} = useProfile();
-
-  useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
-
   return (
     <Tab.Navigator tabBar={TabBar}>
       <Tab.Screen

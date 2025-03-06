@@ -4,7 +4,9 @@ import {
   TextInput as ReactNativePaperTextInput,
   type TextInputProps as ReactNativePaperTextInputProps,
 } from 'react-native-paper';
-import {StyleProp, StyleSheet, TextStyle} from 'react-native';
+import {StyleProp, StyleSheet, TextStyle, ViewStyle} from 'react-native';
+
+import theme from '@/context/theme';
 
 import S from './TextInput.style';
 
@@ -14,19 +16,26 @@ type TextInputProps = {
   validation?: (value: string) => boolean;
   errorMessage?: string;
   errorStyle?: StyleProp<TextStyle>;
+  style?: StyleProp<ViewStyle>;
 } & Omit<ReactNativePaperTextInputProps, 'mode' | 'label'>;
 
+/**
+ * @description
+ * label={undefined}: label을 사용할 경우 아웃라인에 표시되기 때문에 undefined 이용
+ *
+ */
 const TextInput = ({
   label,
   labelPosition = 'top',
   validation,
   errorMessage,
   errorStyle,
+  style,
   ...props
 }: TextInputProps) => {
   const value = props.value;
   return (
-    <S.Container>
+    <S.Container style={style}>
       <S.TextInputWrapper
         style={
           label
@@ -42,6 +51,11 @@ const TextInput = ({
             mode="outlined"
             style={styles.input}
             label={undefined}
+            outlineStyle={
+              value && validation && !validation(value)
+                ? styles.errorInput
+                : null
+            }
           />
         </S.TextInputContainer>
       </S.TextInputWrapper>
@@ -58,6 +72,9 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: 'white',
     height: 48,
+  },
+  errorInput: {
+    borderColor: theme.colors.error,
   },
   labelTop: {
     display: 'flex',

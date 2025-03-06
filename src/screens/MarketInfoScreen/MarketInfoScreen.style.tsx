@@ -7,9 +7,19 @@ export const IMAGE_CARD_GAP = 8;
 const S = {
   Container: styled.View`
     flex: 1;
-    margin: 0 16px;
   `,
-  ScrollView: styled.ScrollView``,
+  ScrollView: styled.ScrollView`
+    padding: 16px;
+
+    margin-bottom: 32px;
+  `,
+
+  InputContainer: styled.View`
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+  `,
 
   TimeContainer: styled.View`
     display: flex;

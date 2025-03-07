@@ -33,6 +33,7 @@ export const useDeleteManager = ({
   });
 };
 
+// FIXME: 페이지 단에서 queryKey 사용시 profile.id null handling
 export const useReadManagers = (marketId: number) => {
   return useQuery({
     queryKey: ['readManagers', marketId],

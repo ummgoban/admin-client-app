@@ -40,8 +40,9 @@ const MyPageScreen = () => {
 
   const queryClient = useQueryClient();
 
-  const {profile, fetch: fetchProfile, selectMarket, logout} = useProfile();
+  const {profile, selectMarket, logout} = useProfile();
   const {fetchMarket, fetch: fetchMemberMarkets} = useMarket();
+
   const {data: marketListData, isLoading} = useMarketList();
 
   const marketList =
@@ -54,7 +55,6 @@ const MyPageScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const {onRefresh, refreshing} = usePullDownRefresh(async () => {
-    await fetchProfile();
     await queryClient.invalidateQueries({
       queryKey: ['marketList'],
     });
@@ -137,19 +137,19 @@ const MyPageScreen = () => {
             </S.ProfileNameContainer>
           </S.ProfileContainer>
           <Button
-            onPress={async () => {
-              const res = await logout();
-
-              if (res) {
-                Alert.alert('로그아웃 되었습니다.', '', [
-                  {
-                    text: '확인',
-                  },
-                ]);
-              } else {
-                console.error('로그아웃 실패');
-                Alert.alert('로그아웃 실패');
-              }
+            onPress={() => {
+              logout({
+                onSuccess: () => {
+                  Alert.alert('로그아웃 되었습니다.', '', [
+                    {
+                      text: '확인',
+                    },
+                  ]);
+                },
+                onError: error => {
+                  Alert.alert('로그아웃 실패', error.errorMessage);
+                },
+              });
             }}>
             로그아웃
           </Button>

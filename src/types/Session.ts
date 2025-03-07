@@ -3,8 +3,7 @@ export type SessionType = {
   refreshToken?: string;
   accessTokenExpiresAt?: number;
   refreshTokenExpiresAt?: number;
-  OAuthProvider: 'NAVER' | 'KAKAO' | 'APPLE';
-  jwt: string;
+  OAuthProvider: 'NAVER' | 'KAKAO' | 'APPLE' | 'BASIC';
 };
 
 export type StorageType = {

@@ -29,7 +29,7 @@ class ApiClient {
       async (config: InternalAxiosRequestConfig) => {
         const session: SessionType | null = await getStorage('session');
 
-        this._jwt = session?.jwt ?? null;
+        this._jwt = session?.accessToken ?? null;
 
         if (this._jwt) {
           config.headers.Authorization = `Bearer ${this._jwt}`;
@@ -86,6 +86,8 @@ class ApiClient {
         }
       }
 
+      console.error('unknown error', JSON.stringify(error, null, 2));
+
       return null;
     }
   };
@@ -96,7 +98,12 @@ class ApiClient {
     config?: AxiosRequestConfig<D> | undefined,
   ): Promise<T | null> => {
     try {
-      console.debug('POST', url, JSON.stringify(config, null, 2));
+      console.debug(
+        'POST',
+        url,
+        JSON.stringify(body, null, 2),
+        JSON.stringify(config, null, 2),
+      );
       const res: AxiosResponse<T, D> = await this.axiosInstance.post(
         url,
         body,
@@ -118,6 +125,8 @@ class ApiClient {
         }
       }
 
+      console.error('unknown error', JSON.stringify(error, null, 2));
+
       return null;
     }
   };
@@ -128,7 +137,12 @@ class ApiClient {
     config?: AxiosRequestConfig<D> | undefined,
   ): Promise<T | null> => {
     try {
-      console.debug('PATCH', url, JSON.stringify(config, null, 2));
+      console.debug(
+        'PATCH',
+        url,
+        JSON.stringify(body, null, 2),
+        JSON.stringify(config, null, 2),
+      );
       const res: AxiosResponse<T, D> = await this.axiosInstance.patch(
         url,
         body,
@@ -149,6 +163,9 @@ class ApiClient {
           throw new CustomError(error.response.data);
         }
       }
+
+      console.error('unknown error', JSON.stringify(error, null, 2));
+
       return null;
     }
   };
@@ -159,7 +176,12 @@ class ApiClient {
     config?: AxiosRequestConfig<D> | undefined,
   ): Promise<T | null> => {
     try {
-      console.debug('PUT', url, JSON.stringify(config, null, 2));
+      console.debug(
+        'PUT',
+        url,
+        JSON.stringify(body, null, 2),
+        JSON.stringify(config, null, 2),
+      );
       const res: AxiosResponse<T, D> = await this.axiosInstance.put(
         url,
         body,
@@ -180,6 +202,9 @@ class ApiClient {
           throw new CustomError(error.response.data);
         }
       }
+
+      console.error('unknown error', JSON.stringify(error, null, 2));
+
       return null;
     }
   };
@@ -208,6 +233,8 @@ class ApiClient {
           throw new CustomError(error.response.data);
         }
       }
+
+      console.error('unknown error', JSON.stringify(error, null, 2));
 
       return null;
     }

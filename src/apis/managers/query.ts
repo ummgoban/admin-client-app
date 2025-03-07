@@ -33,7 +33,10 @@ export const useDeleteManager = ({
   });
 };
 
-// FIXME: 페이지 단에서 queryKey 사용시 profile.id null handling
+/**
+ * FIXME: Query data cannot be undefined. Please make sure to return a value other than undefined from your query function. Affected query key: ["readManagers",null]
+ * queryKey에 null이 들어가면 안됩니다.
+ * */
 export const useReadManagers = (marketId: number) => {
   return useQuery({
     queryKey: ['readManagers', marketId],

@@ -33,7 +33,7 @@ const MarketInfoScreen = () => {
   const {profile} = useProfile();
   const queryClient = useQueryClient();
   const {data: marketInfo} = useGetMarket(profile?.marketId);
-  const {data: managersInfo} = useReadManagers(profile?.marketId);
+  const {data: managersInfo} = useReadManagers(profile?.marketId ?? 0);
 
   const {refreshing, onRefresh} = usePullDownRefresh(async () => {
     await queryClient.invalidateQueries({

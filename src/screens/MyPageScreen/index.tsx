@@ -31,16 +31,18 @@ import {
 
 import S from './MyPageScreen.style';
 import useMarket from '@/hooks/useMarket';
+import theme from '@/context/theme';
 
 // TODO: 강제 fetch 방법 강구
 
 const MyPageScreen = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openMarketListModal, setOpenMarketListModal] = useState(false);
+  const [openWithdrawModal, setOpenWithdrawModal] = useState(false);
   const [isNotificationOn, setIsNotificationOn] = useState(false);
 
   const queryClient = useQueryClient();
 
-  const {profile, selectMarket, logout} = useProfile();
+  const {profile, selectMarket, logout, withdraw} = useProfile();
   const {fetchMarket, fetch: fetchMemberMarkets} = useMarket();
 
   const {data: marketListData, isLoading} = useMarketList();
@@ -131,7 +133,8 @@ const MyPageScreen = () => {
               width={100}
               height={100}
             /> */}
-            <S.ProfileNameContainer onPress={() => setOpenModal(prev => !prev)}>
+            <S.ProfileNameContainer
+              onPress={() => setOpenMarketListModal(prev => !prev)}>
               <S.ProfileName>{`${profile.name} 님${marketList && profile.marketId ? `의 ${marketList.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
               <Icon name="down" size={20} color="#000000" />
             </S.ProfileNameContainer>
@@ -160,6 +163,9 @@ const MyPageScreen = () => {
             value={isNotificationOn}
             onChange={handleNotificationSwitch}
           />
+          <S.WithdrawButton onPress={() => setOpenWithdrawModal(true)}>
+            회원탈퇴
+          </S.WithdrawButton>
         </View>
       ) : (
         <View>
@@ -169,13 +175,16 @@ const MyPageScreen = () => {
           </TouchableOpacity>
         </View>
       )}
-      {openModal && (
+      {openMarketListModal && (
         <Portal>
-          <Modal visible={openModal} onDismiss={() => setOpenModal(false)}>
+          <Modal
+            visible={openMarketListModal}
+            onDismiss={() => setOpenMarketListModal(false)}>
             <S.ModalContainer>
               <S.ModalHeader>
                 <S.ModalHeaderTitle>매장</S.ModalHeaderTitle>
-                <S.ModalCloseButton onPress={() => setOpenModal(false)}>
+                <S.ModalCloseButton
+                  onPress={() => setOpenMarketListModal(false)}>
                   <Icon name="close" size={20} color="#000000" />
                 </S.ModalCloseButton>
               </S.ModalHeader>
@@ -190,7 +199,7 @@ const MyPageScreen = () => {
                         fetchMarket();
                         fetchMemberMarkets();
                       }
-                      setOpenModal(false);
+                      setOpenMarketListModal(false);
                     }}>
                     {/* <S.ModalContentItemIcon
                       source={{uri: 'https://legacy.reactjs.org/logo-og.png'}}
@@ -203,7 +212,7 @@ const MyPageScreen = () => {
                     navigation.navigate('RegisterMarketRoot', {
                       screen: 'RegisterMarket',
                     });
-                    setOpenModal(false);
+                    setOpenMarketListModal(false);
                   }}>
                   <Icon name="plus" size={20} color="#000000" />
                   <S.ModalAddButtonText>매장 추가</S.ModalAddButtonText>
@@ -213,7 +222,7 @@ const MyPageScreen = () => {
                     navigation.navigate('RegisterMarketRoot', {
                       screen: 'RegisterManager',
                     });
-                    setOpenModal(false);
+                    setOpenMarketListModal(false);
                   }}>
                   <Icon name="plus" size={20} color="#000000" />
                   <S.ModalAddButtonText>직원 인증</S.ModalAddButtonText>
@@ -223,6 +232,64 @@ const MyPageScreen = () => {
           </Modal>
         </Portal>
       )}
+      <Portal>
+        <S.WithdrawModal
+          visible={openWithdrawModal}
+          onDismiss={() => setOpenWithdrawModal(false)}>
+          <S.WithdrawModalContainer>
+            <S.WithdrawModalContent>
+              {'회원 탈퇴 시 저장되어 있는 모든 정보가 사라져요.\n'}
+
+              {'계속 탈퇴하시겠어요?'}
+            </S.WithdrawModalContent>
+            <S.WithdrawModalActionContainer>
+              <S.WithdrawModalCancelButton
+                onPress={() => setOpenWithdrawModal(false)}
+                textColor={theme.colors.primary}>
+                취소
+              </S.WithdrawModalCancelButton>
+              <S.WithdrawModalConfirmButton
+                textColor={theme.colors.dark}
+                onPress={() =>
+                  Alert.alert(
+                    '정말로 회원 탈퇴하시나요?',
+                    '회원 탈퇴 시 저장되어 있는 모든 정보가 사라져요.',
+                    [
+                      {
+                        text: '취소',
+                        onPress: () => setOpenWithdrawModal(false),
+                      },
+                      {
+                        text: '탈퇴하기',
+                        onPress: () => {
+                          withdraw({
+                            onSuccess: () => {
+                              navigation.navigate('Home', {screen: 'Feed'});
+                            },
+                            onError: error => {
+                              Alert.alert(
+                                '탈퇴 중에 오류가 발생해요.',
+                                error.errorMessage,
+                                [
+                                  {
+                                    text: '확인',
+                                    onPress: () => setOpenWithdrawModal(false),
+                                  },
+                                ],
+                              );
+                            },
+                          });
+                        },
+                      },
+                    ],
+                  )
+                }>
+                탈퇴하기
+              </S.WithdrawModalConfirmButton>
+            </S.WithdrawModalActionContainer>
+          </S.WithdrawModalContainer>
+        </S.WithdrawModal>
+      </Portal>
     </ScrollView>
   );
 };

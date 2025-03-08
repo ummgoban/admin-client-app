@@ -1,4 +1,5 @@
 import styled from '@emotion/native';
+import {Button, Modal, Text} from 'react-native-paper';
 
 const S = {
   EmptyText: styled.Text`
@@ -151,6 +152,38 @@ const S = {
     font-size: 16px;
     line-height: 20px;
   `,
+
+  WithdrawButton: styled(Button)`
+    margin: 16px 0;
+  `,
+
+  WithdrawModal: styled(Modal)``,
+  WithdrawModalContainer: styled.View`
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    background-color: white;
+
+    padding: 16px;
+    margin: 0 16px;
+  `,
+  WithdrawModalContent: styled(Text)`
+    ${({theme}) => theme.fonts.labelLarge}
+
+    text-align: center;
+  `,
+  WithdrawModalActionContainer: styled.View`
+    display: flex;
+    flex-direction: row;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+  `,
+  WithdrawModalConfirmButton: styled(Button)``,
+  WithdrawModalCancelButton: styled(Button)``,
 };
 
 export default S;

@@ -87,10 +87,14 @@ const CredentialSignUp = () => {
           <S.SendEmailCodeButton
             disabled={!validateEmail(email) || isPendingSendEmailCode}
             onPress={() => {
+              setIsValidationEmail(false);
+              setEmailCode('');
               sendEmailCode(
                 {email},
                 {
                   onSuccess: setIsPendingValidationEmail,
+                  onError: error =>
+                    Alert.alert(error.errorMessage ?? error.message),
                 },
               );
             }}>
@@ -100,10 +104,10 @@ const CredentialSignUp = () => {
                 ? '인증번호 재발송'
                 : '인증번호 발송'}
           </S.SendEmailCodeButton>
+          {isPendingSendEmailCode && (
+            <ActivityIndicator size="small" animating={true} />
+          )}
         </S.EmailVerifyContainer>
-        {isPendingSendEmailCode && (
-          <ActivityIndicator size="small" animating={true} />
-        )}
         {isPendingValidationEmail && (
           <S.EmailVerifyContainer>
             <TextInput
@@ -113,10 +117,13 @@ const CredentialSignUp = () => {
               onChange={e => setEmailCode(e.nativeEvent.text)}
               validation={validateEmailCode}
               errorMessage="인증코드 6자리를 입력해주세요."
+              disabled={isValidationEmail}
             />
             <S.VerifyEmailCodeButton
               disabled={
-                !validateEmailCode(emailCode) || isPendingVerifyEmailCode
+                !validateEmailCode(emailCode) ||
+                isPendingVerifyEmailCode ||
+                isValidationEmail
               }
               onPress={() =>
                 verifyEmailCode(
@@ -191,12 +198,10 @@ const CredentialSignUp = () => {
                 phoneNumber,
               },
               {
-                onSuccess: () => {
-                  navigation.navigate('Register', {screen: 'Login'});
-                },
-                onError: error => {
-                  Alert.alert(`${error.errorMessage}`);
-                },
+                onSuccess: () =>
+                  navigation.navigate('Register', {screen: 'Login'}),
+                onError: error =>
+                  Alert.alert(error.errorMessage ?? error.message),
               },
             );
           }}>

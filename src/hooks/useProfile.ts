@@ -31,7 +31,7 @@ type AdminUserType = UserType & {
 type ProfileStore = {
   loading: boolean;
   profile: AdminUserType | null;
-  setProfile: (profile: UserType) => void;
+  setProfile: (profile: UserType | null) => void;
   setCurrentMarketId: (marketId: number) => void;
 };
 
@@ -39,6 +39,11 @@ const useProfileStore = create<ProfileStore>(set => ({
   loading: true,
   profile: null,
   setProfile: profile => {
+    if (!profile) {
+      set({profile: null});
+      return;
+    }
+
     set(prev => ({
       profile: {
         ...prev.profile,
@@ -61,7 +66,7 @@ const useProfileStore = create<ProfileStore>(set => ({
 const useProfile = () => {
   const {profile, setProfile, setCurrentMarketId} = useProfileStore();
 
-  const {data} = useProfileQuery();
+  const {data, error: profileError} = useProfileQuery();
 
   const {mutate: mutateLogout, isPending: logoutPending} = useLogoutQuery();
   const {mutate: mutateLogin, isPending: loginPending} = useLoginQuery();
@@ -207,10 +212,14 @@ const useProfile = () => {
   );
 
   useEffect(() => {
+    if (profileError) {
+      setProfile(null);
+      return;
+    }
     if (data) {
       setProfile(data);
     }
-  }, [data, setProfile]);
+  }, [data, profileError, setProfile]);
 
   return {
     profile,

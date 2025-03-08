@@ -135,7 +135,6 @@ export const loginWithOAuth = async (
   return false;
 };
 
-// TODO: 로그아웃 후 리프레쉬
 export const logout = async (): Promise<boolean> => {
   // TODO: credentail logout 추가
   try {

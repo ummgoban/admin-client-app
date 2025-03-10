@@ -40,7 +40,7 @@ const CredentialLogin = () => {
             {email, password},
             {
               onSuccess: () => {
-                navigation.navigate('Home', {screen: 'Feed'});
+                navigation.navigate('Home', {screen: 'MyPage'});
               },
               onError: error => {
                 Alert.alert('로그인에 실패했습니다.', error.errorMessage);

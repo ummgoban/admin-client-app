@@ -143,11 +143,12 @@ export const deleteProduct = async (productId: number): Promise<boolean> => {
  * @returns
  */
 export const uploadProductImage = async (
+  marketId: number,
   updateImage: FormData,
 ): Promise<string | null> => {
   try {
     const res = await apiClient.post<{data: {imageUrl: string}}>(
-      'owner/products/images',
+      `owner/markets/images/${marketId}`,
       updateImage,
       {
         headers: {

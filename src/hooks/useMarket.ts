@@ -1,95 +1,42 @@
 import {useCallback} from 'react';
-import {create} from 'zustand';
-
-import {getMarket as getMarketAPI} from '@/apis/Market';
-import {getMemberMarkets as getMemberMarketsAPI} from '@/apis/Member';
-import {MarketType} from '@/types/Market';
-
+import {useEffect, useState} from 'react';
 import useProfile from './useProfile';
-
-type MarketStore = {
-  loading: boolean;
-  market: Array<Pick<MarketType, 'id' | 'name'> & {role: string}> | null;
-  getMemberMarkets: () => Promise<Array<
-    Pick<MarketType, 'id' | 'name'> & {role: string}
-  > | null>;
-  marketInfo: MarketType | null;
-  setMarketInfo: (marketInfo: MarketType) => void;
-};
-
-const useMarketStore = create<MarketStore>(set => ({
-  loading: true,
-  market: [],
-  marketInfo: null,
-  getMemberMarkets: async () => {
-    set({loading: true});
-
-    const marketRes = await getMemberMarketsAPI();
-
-    if (!marketRes) {
-      set({loading: false});
-      return null;
-    }
-    const ret = marketRes.map(
-      ({marketId: id, marketName: name, marketRole: role}) => ({
-        id,
-        name,
-        role,
-      }),
-    );
-
-    set({market: ret, loading: false});
-
-    return ret;
-  },
-  setMarketInfo: marketInfo => {
-    set({marketInfo: marketInfo});
-  },
-}));
+import useMemberMarket from './useMemberMarket';
+import {useGetMarket} from '@/apis/markets';
 
 const useMarket = () => {
-  const {market, getMemberMarkets, marketInfo, setMarketInfo, loading} =
-    useMarketStore();
-
+  const {
+    marketList,
+    getMemberMarkets,
+    loading: isMarketListLoading,
+  } = useMemberMarket();
   const {profile, selectMarket} = useProfile();
 
-  const fetchMemberMarkets = useCallback(async () => {
-    if (!profile) {
-      return;
-    }
-
-    const res = await getMemberMarkets();
-
-    if (!res || !res.length) {
-      return;
-    }
-    if (!profile.marketId) {
-      selectMarket(res[0].id);
-    }
-  }, [getMemberMarkets, profile, selectMarket]);
-
-  const refresh = useCallback(async () => {
-    await getMemberMarkets();
-  }, [getMemberMarkets]);
+  const {
+    data: marketDetail,
+    isLoading: isMarketDetailLoading,
+    refetch: refetchMarket,
+  } = useGetMarket(profile?.marketId);
+  const loading = isMarketListLoading || isMarketDetailLoading;
 
   const fetchMarket = useCallback(async () => {
-    if (!profile || !profile?.marketId) {
+    if (!profile || !profile?.marketId || !marketDetail) {
       return;
     }
-    const res = await getMarketAPI(profile.marketId);
+    refetchMarket();
+  }, [profile, refetchMarket, marketDetail]);
 
-    if (!res) {
-      return;
+  useEffect(() => {
+    if (profile && marketList && marketList.length > 0 && !profile.marketId) {
+      selectMarket(marketList[0].id);
+      refetchMarket();
     }
-
-    setMarketInfo(res);
-  }, [profile, setMarketInfo]);
+  }, [profile, marketList, selectMarket, refetchMarket]);
 
   return {
-    market,
-    marketInfo,
-    refresh,
-    fetch: fetchMemberMarkets,
+    marketList,
+    marketInfo: marketDetail,
+    refresh: getMemberMarkets,
     fetchMarket,
     loading,
   };

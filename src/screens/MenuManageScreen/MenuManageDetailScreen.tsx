@@ -28,7 +28,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<MenuType | null>(null);
 
-  const {market} = useMarket();
+  const {marketInfo} = useMarket();
   const {profile} = useProfile();
   const {refresh} = useProduct();
 
@@ -45,7 +45,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   };
 
   const handleSaveMenu = async (menuData: MenuType) => {
-    if (!market || !market.length || !profile?.marketId) {
+    if (!marketInfo || !profile?.marketId) {
       console.debug('MemuManageDetailScreen', '마켓 정보가 없습니다.');
       return;
     }

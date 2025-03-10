@@ -32,7 +32,7 @@ const LoginScreen = () => {
           onPress={async () => {
             const res = await loginWithOAuth('KAKAO');
             if (res) {
-              navigation.navigate('Home', {screen: 'Feed'});
+              navigation.navigate('Home', {screen: 'Order'});
             }
           }}>
           <KakaoLoginButton />
@@ -41,7 +41,7 @@ const LoginScreen = () => {
           onPress={async () => {
             const res = await loginWithOAuth('NAVER');
             if (res) {
-              navigation.navigate('Home', {screen: 'Feed'});
+              navigation.navigate('Home', {screen: 'Order'});
             }
           }}>
           <NaverLoginButton />
@@ -52,7 +52,7 @@ const LoginScreen = () => {
             onPress={async () => {
               const res = await loginWithOAuth('APPLE');
               if (res) {
-                navigation.navigate('Home', {screen: 'Feed'});
+                navigation.navigate('Home', {screen: 'Order'});
               }
             }}>
             <AppleLoginButton />

@@ -15,13 +15,14 @@ import {ActivityIndicator} from 'react-native-paper';
 
 import S from './OrderHistoryScreen.style';
 import {OrdersStatus} from '@/types/OrderDetailType';
+import useMarket from '@/hooks/useMarket';
 
 const OrderHistoryScreen = () => {
   const [selected, setSelected] = useState<OrdersStatus>('ORDERED');
   const {profile} = useProfile();
   const marketId = profile?.marketId;
 
-  const {data: marketInfo} = useGetMarket(marketId);
+  const {marketInfo} = useMarket();
   const {
     data: orders,
     refetch,

@@ -7,6 +7,7 @@ import {Alert, Modal} from 'react-native';
 import TextInput from '../common/TextInput/TextInput';
 import CustomLabel from '../common/CustomLabel';
 import TagModal from './TagModal';
+import useProfile from '@/hooks/useProfile';
 
 import useProduct from '@/hooks/useProduct';
 
@@ -42,6 +43,7 @@ const MenuModal = ({
   initialData,
   presetTags,
 }: Props) => {
+  const {profile} = useProfile();
   const [menuData, setMenuData] = useState<MenuType>({
     id: -1,
     name: '',
@@ -161,7 +163,7 @@ const MenuModal = ({
       uri: res,
     });
 
-    const s3Url = await uploadProductImage(formdata);
+    const s3Url = await uploadProductImage(profile?.marketId ?? 0, formdata);
 
     if (!s3Url) {
       console.error('uploadProductImage Error: no s3Url');

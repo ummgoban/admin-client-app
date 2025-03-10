@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 
-import {useGetMarket} from '@/apis/markets';
-
 import {ToggleButton} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';

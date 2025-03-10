@@ -22,7 +22,6 @@ import type {
 } from '@/apis/auth/model';
 
 import CustomError from '@/apis/CustomError';
-import {useGetMarket} from '@/apis/markets';
 
 type AdminUserType = UserType & {
   marketId: number | null;

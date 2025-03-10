@@ -15,7 +15,6 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {useQueryClient} from '@tanstack/react-query';
 
 import {registerFCMToken} from '@/apis/fcm';
-import {useMarketList} from '@/apis/markets';
 
 import EmptyMarket from '@/components/common/EmptyMarket';
 import SwitchContainer from '@/components/common/SwitchContainer';

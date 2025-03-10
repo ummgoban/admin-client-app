@@ -7,7 +7,6 @@ import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';
 
 import {updateMarketInfo} from '@/apis/Market';
-import {useGetMarket} from '@/apis/markets';
 import {BottomButton, Label} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
@@ -22,8 +21,6 @@ import S from './MarketInfoScreen.style';
 import {useReadManagers} from '@/apis/managers';
 import ManagerLists from '@/components/manager/ManagerLists';
 import useMarket from '@/hooks/useMarket';
-import {useMarketList} from '@/apis/markets';
-import {useIsFocused} from '@react-navigation/native';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -35,10 +32,7 @@ const timeOptions = {
 const MarketInfoScreen = () => {
   const {profile} = useProfile();
   const queryClient = useQueryClient();
-  const {marketInfo, marketList: markets, fetchMarket} = useMarket();
-  const {data: marketListData, isLoading} = useMarketList();
-
-  const isFocused = useIsFocused();
+  const {marketInfo} = useMarket();
 
   // const {data: marketInfo} = useGetMarket(profile?.marketId);
   const {data: managersInfo} = useReadManagers(profile?.marketId ?? 0);
@@ -98,12 +92,6 @@ const MarketInfoScreen = () => {
     return <EmptyMarket />;
   }
 
-  useEffect(() => {
-    console.log('profileTest:', profile);
-    // queryClient.invalidateQueries({
-    //   queryKey: ['market', profile?.marketId],
-    // });
-  }, [profile, isFocused]);
   return (
     <S.Container>
       <S.ScrollView

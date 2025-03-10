@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import useProfile from './useProfile';
 import useMemberMarket from './useMemberMarket';
 import {useGetMarket} from '@/apis/markets';

@@ -87,6 +87,7 @@ const useProfile = () => {
 
   const refreshProfile = useCallback(async () => {
     await queryClient.invalidateQueries({queryKey: ['profile']});
+    await queryClient.invalidateQueries({queryKey: ['marketList']});
   }, [queryClient]);
 
   const selectMarket = useCallback(

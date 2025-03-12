@@ -7,7 +7,6 @@ import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';
 
 import {updateMarketInfo} from '@/apis/Market';
-import {useGetMarket} from '@/apis/markets';
 import {BottomButton, Label} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
@@ -21,6 +20,7 @@ import {useQueryClient} from '@tanstack/react-query';
 import S from './MarketInfoScreen.style';
 import {useReadManagers} from '@/apis/managers';
 import ManagerLists from '@/components/manager/ManagerLists';
+import useMarket from '@/hooks/useMarket';
 
 const timeOptions = {
   'market-open': '영업 시작 시간',
@@ -32,7 +32,9 @@ const timeOptions = {
 const MarketInfoScreen = () => {
   const {profile} = useProfile();
   const queryClient = useQueryClient();
-  const {data: marketInfo} = useGetMarket(profile?.marketId);
+  const {marketInfo} = useMarket();
+
+  // const {data: marketInfo} = useGetMarket(profile?.marketId);
   const {data: managersInfo} = useReadManagers(profile?.marketId ?? 0);
 
   const {refreshing, onRefresh} = usePullDownRefresh(async () => {

@@ -15,7 +15,6 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {useQueryClient} from '@tanstack/react-query';
 
 import {registerFCMToken} from '@/apis/fcm';
-import {useMarketList} from '@/apis/markets';
 
 import EmptyMarket from '@/components/common/EmptyMarket';
 import SwitchContainer from '@/components/common/SwitchContainer';
@@ -43,12 +42,10 @@ const MyPageScreen = () => {
   const queryClient = useQueryClient();
 
   const {profile, selectMarket, logout, withdraw} = useProfile();
-  const {fetchMarket, fetch: fetchMemberMarkets} = useMarket();
-
-  const {data: marketListData, isLoading} = useMarketList();
+  const {marketList: marketListData, loading: isLoading} = useMarket();
 
   const marketList =
-    marketListData?.map(({marketId: id, marketName: name}) => ({
+    marketListData?.map(({id: id, name: name}) => ({
       id,
       name,
     })) || [];
@@ -195,9 +192,8 @@ const MyPageScreen = () => {
                     selected={profile?.marketId === id}
                     onPress={() => {
                       if (profile?.marketId !== id) {
+                        console.log('id: ', id);
                         selectMarket(id);
-                        fetchMarket();
-                        fetchMemberMarkets();
                       }
                       setOpenMarketListModal(false);
                     }}>

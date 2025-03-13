@@ -85,8 +85,8 @@ android {
         applicationId "com.ummgoban.momchanpickadmin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6  // update version code
-        versionName "1.0.0-alpha.2" // update version name
+        versionCode 7  // update version code
+        versionName "1.0.0-alpha.3" // update version name
         resValue "string", "build_config_package", "com.ummgoban.momchanpickadmin"
     }
     signingConfigs {

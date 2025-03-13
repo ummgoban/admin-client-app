@@ -60,7 +60,7 @@ react {
 /**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
@@ -85,8 +85,8 @@ android {
         applicationId "com.ummgoban.momchanpickadmin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5  // update version code
-        versionName "1.0.0-alpha.1"  // update version name
+        versionCode 6  // update version code
+        versionName "1.0.0-alpha.2" // update version name
         resValue "string", "build_config_package", "com.ummgoban.momchanpickadmin"
     }
     signingConfigs {
@@ -116,7 +116,6 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
-
         }
     }
 }

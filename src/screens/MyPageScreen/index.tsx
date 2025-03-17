@@ -8,6 +8,7 @@ import {
   AppStateStatus,
   TouchableOpacity,
   View,
+  Linking,
 } from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 import {Button, Modal, Portal, Text} from 'react-native-paper';
@@ -162,22 +163,12 @@ const MyPageScreen = () => {
             onChange={handleNotificationSwitch}
           />
           <S.NoticeSection>
-            <S.NoticeSectionTitle>문의 및 알림</S.NoticeSectionTitle>
+            <S.NoticeSectionTitle>문의 </S.NoticeSectionTitle>
             <S.ButtonContainer>
               <NavigationTextButton
-                text="공지사항"
-                fontSize="20px"
-                onPress={() =>
-                  navigation.navigate('MyPageRoot', {screen: 'Notice'})
-                }
-                isNotice={false}
-              />
-              <NavigationTextButton
-                text="약관 및 정책"
-                fontSize="20px"
-                onPress={() =>
-                  navigation.navigate('MyPageRoot', {screen: 'Policy'})
-                }
+                text="서비스 이용 약관"
+                fontSize="16px"
+                onPress={() => Linking.openURL('https://ummgoban.github.io')}
                 isNotice={false}
               />
             </S.ButtonContainer>

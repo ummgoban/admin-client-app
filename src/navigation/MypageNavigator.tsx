@@ -8,24 +8,12 @@ import {MyPageStackParamList} from '@/types/StackNavigationType';
 import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
 
 import MyPageScreen from '@/screens/MyPageScreen';
-import NoticePage from '@/screens/MyPageScreen/NoticePage';
-import PolicyPage from '@/screens/MyPageScreen/PolicyPage';
 
 const Stack = createStackNavigator<MyPageStackParamList>();
 
 const myPageScreenOptions: StackNavigationOptions = {
   ...defaultOptions,
   headerTitle: () => <HeaderTitle title="마이페이지" />,
-};
-
-const noticePageOptions: StackNavigationOptions = {
-  ...defaultOptions,
-  headerTitle: () => <HeaderTitle title="공지사항" />,
-};
-
-const policyPageOptions: StackNavigationOptions = {
-  ...defaultOptions,
-  headerTitle: () => <HeaderTitle title="약관 및 정책" />,
 };
 
 const MyPageNavigator = () => {
@@ -37,17 +25,6 @@ const MyPageNavigator = () => {
         name="MyPage"
         component={MyPageScreen}
         options={myPageScreenOptions}
-      />
-
-      <Stack.Screen
-        name={'Notice'}
-        component={NoticePage}
-        options={noticePageOptions}
-      />
-      <Stack.Screen
-        name={'Policy'}
-        component={PolicyPage}
-        options={policyPageOptions}
       />
     </Stack.Navigator>
   );

@@ -6,6 +6,7 @@ import ResgitrationMarketNavigator from './RegisterMarketNavigator';
 import RegistrationNavigaitor from './RegisterNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
+import MyPageNavigator from './MypageNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -22,6 +23,7 @@ const AppNavigator = () => {
           component={ResgitrationMarketNavigator}
         />
         <Stack.Screen name="Register" component={RegistrationNavigaitor} />
+        <Stack.Screen name="MyPageRoot" component={MyPageNavigator} />
         {/* Add more screens here */}
       </Stack.Navigator>
     </View>

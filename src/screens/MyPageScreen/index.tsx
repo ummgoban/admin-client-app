@@ -18,10 +18,11 @@ import {registerFCMToken} from '@/apis/fcm';
 
 import EmptyMarket from '@/components/common/EmptyMarket';
 import SwitchContainer from '@/components/common/SwitchContainer';
-
+2;
 import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
+import NavigationTextButton from '@/components/common/NavigationTextButton';
 
 import {
   changeNotificationPermission,
@@ -160,6 +161,27 @@ const MyPageScreen = () => {
             value={isNotificationOn}
             onChange={handleNotificationSwitch}
           />
+          <S.NoticeSection>
+            <S.NoticeSectionTitle>문의 및 알림</S.NoticeSectionTitle>
+            <S.ButtonContainer>
+              <NavigationTextButton
+                text="공지사항"
+                fontSize="20px"
+                onPress={() =>
+                  navigation.navigate('MyPageRoot', {screen: 'Notice'})
+                }
+                isNotice={false}
+              />
+              <NavigationTextButton
+                text="약관 및 정책"
+                fontSize="20px"
+                onPress={() =>
+                  navigation.navigate('MyPageRoot', {screen: 'Policy'})
+                }
+                isNotice={false}
+              />
+            </S.ButtonContainer>
+          </S.NoticeSection>
           <S.WithdrawButton onPress={() => setOpenWithdrawModal(true)}>
             회원탈퇴
           </S.WithdrawButton>

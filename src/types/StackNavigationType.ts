@@ -44,6 +44,12 @@ export interface ReviewStackParamList extends ParamListBase {
   };
 }
 
+export interface MyPageStackParamList extends ParamListBase {
+  MyPageRoot: undefined;
+  Notice: undefined;
+  Policy: undefined;
+}
+
 export interface RootStackParamList extends ParamListBase {
   Home: StackParamType<HomeStackParamList>;
   Register: StackParamType<RegisterStackParamList>;
@@ -51,4 +57,5 @@ export interface RootStackParamList extends ParamListBase {
   RegisterMarketRoot: StackParamType<RegisterMarketParmaList>;
   Order: StackParamType<OrderStackParamList>;
   Review: StackParamType<ReviewStackParamList>;
+  MyPageRoot: StackParamType<MyPageStackParamList>;
 }

@@ -27,6 +27,25 @@ const S = {
     border-radius: 50px;
   `,
 
+  NoticeSection: styled.View`
+    display: flex;
+    margin: 32px 16px;
+    algin-items: center;
+    padding: 0px 60px;
+    gap: 8px;
+  `,
+  ButtonContainer: styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  `,
+
+  NoticeSectionTitle: styled.Text`
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #888;
+  `,
+
   ProfileNameContainer: styled.TouchableOpacity`
     display: flex;
     flex-direction: row;

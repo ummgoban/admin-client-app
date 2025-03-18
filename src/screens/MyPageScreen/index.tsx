@@ -168,7 +168,7 @@ const MyPageScreen = () => {
               <NavigationTextButton
                 text="서비스 이용 약관"
                 fontSize="16px"
-                onPress={() => Linking.openURL('https://ummgoban.github.io')}
+                onPress={() => Linking.openURL('https://ummgoban.com/privacy')}
                 isNotice={false}
               />
             </S.ButtonContainer>

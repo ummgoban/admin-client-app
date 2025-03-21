@@ -5,9 +5,13 @@ import S from './ReviewScreen.style';
 import {useReviewList} from '@/apis/reviews';
 import useProfile from '@/hooks/useProfile';
 import ReviewContainerLists from '@/components/review/ReviewContainerLists';
+import NonRegister from '@/components/common/NonRegister';
+import EmptyMarket from '@/components/common/EmptyMarket';
+import useMarket from '@/hooks/useMarket';
 
 const ReviewScreen = () => {
   const {profile} = useProfile();
+  const {marketInfo} = useMarket();
   const marketId = profile?.marketId;
 
   const {
@@ -19,13 +23,12 @@ const ReviewScreen = () => {
     // error,
   } = useReviewList(marketId!, Boolean(marketId));
 
-  if (!profile || !profile.marketId) {
-    return (
-      // FIXME: 프로필 없을때 로직
-      <S.Container>
-        <ActivityIndicator />
-      </S.Container>
-    );
+  if (!profile) {
+    return <NonRegister />;
+  }
+
+  if (!marketId || !marketInfo) {
+    return <EmptyMarket />;
   }
 
   if (status === 'pending') {
@@ -48,6 +51,13 @@ const ReviewScreen = () => {
   const reviews =
     reviewLists?.pages.flatMap(page => (page ? page.reviews : [])) || [];
 
+  if (reviews.length === 0 || !reviews) {
+    return (
+      <S.Container>
+        <Text>등록된 리뷰가 없어요!</Text>
+      </S.Container>
+    );
+  }
   return (
     <S.Container>
       <ReviewContainerLists

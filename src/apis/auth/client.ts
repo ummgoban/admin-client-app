@@ -217,6 +217,9 @@ export const verifyEmailCode = async ({
 export const withdraw = async () => {
   try {
     const res = await apiClient.del('/common/auth/withdraw');
+
+    await setStorage('session', {});
+
     return !!res;
   } catch (error) {
     throw new CustomError(error);

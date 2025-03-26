@@ -273,7 +273,13 @@ const MyPageScreen = () => {
                         onPress: () => {
                           withdraw({
                             onSuccess: () => {
-                              navigation.navigate('Home', {screen: 'Feed'});
+                              queryClient.invalidateQueries({
+                                queryKey: ['profile'],
+                              });
+                              navigation.navigate('Order', {
+                                screen: 'OrderHistoryFeed',
+                              });
+                              setOpenWithdrawModal(false);
                             },
                             onError: error => {
                               Alert.alert(

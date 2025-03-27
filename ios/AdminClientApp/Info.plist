@@ -72,11 +72,9 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take pictures.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to display images.</string>
+<string>This app requires access to your camera to take photos. Store owners can upload pictures of their menu items for sale.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>This app requires access to your photo library to upload and display images. Store owners can upload pictures of their menu items for sale.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

@@ -166,7 +166,7 @@ export const getProfile = async (): Promise<UserType | null> => {
     if (res) {
       return {
         id: res.id,
-        name: res.name || '고객',
+        name: res.name || '사장',
         provider: res.provider,
       };
     } else {
@@ -187,7 +187,7 @@ export const sendEmailCode = async ({
       {
         params: {
           email,
-          role: 'ROLE_STORE_ADMIN',
+          roles: 'ROLE_STORE_ADMIN',
         },
       },
     );
@@ -217,6 +217,9 @@ export const verifyEmailCode = async ({
 export const withdraw = async () => {
   try {
     const res = await apiClient.del('/common/auth/withdraw');
+
+    await setStorage('session', {});
+
     return !!res;
   } catch (error) {
     throw new CustomError(error);

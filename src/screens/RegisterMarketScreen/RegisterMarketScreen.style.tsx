@@ -61,6 +61,12 @@ const S = {
     width: 100%;
     height: 100%;
   `,
+
+  Notice: styled(Text)`
+    ${({theme}) => theme.fonts.body2}
+    color: ${props => props.theme.colors.error};
+    margin-top: 8px;
+  `,
 };
 
 export default S;

@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, Text} from 'react-native';
 import {Modal} from 'react-native-paper';
 
 import {BottomButton} from '@/components/common';
@@ -64,6 +64,20 @@ const RegisterMarketScreen = () => {
     setPostcodeVisible(false);
   };
 
+  const disabledRegisterButton =
+    !marketName ||
+    isError(marketName) ||
+    !contactNumber ||
+    isError(contactNumber, 11) ||
+    (contactNumber && isLocalNumber(contactNumber)) ===
+      (contactNumber && isPhoneNumber(contactNumber)) ||
+    !businessNumber ||
+    isError(businessNumber, 10) ||
+    !address ||
+    isError(address) ||
+    !specificAddress ||
+    isError(specificAddress);
+
   return (
     <>
       <S.RegisterMarketContainer>
@@ -105,7 +119,7 @@ const RegisterMarketScreen = () => {
               placeholder="010-1234-5678"
               errorMessage="전화번호를 입력해주세요"
               keyboardType="numeric"
-              error={isError(contactNumber)}
+              error={isError(contactNumber, 11)}
               maxLength={11}
               value={
                 contactNumber && isPhoneNumber(contactNumber)
@@ -132,22 +146,12 @@ const RegisterMarketScreen = () => {
               onChange={e => setBusinessNumber(e.nativeEvent.text)}
             />
           </S.RegisterMarketInputContainer>
+          {disabledRegisterButton && (
+            <S.Notice>모든 입력 사항은 필수 입력 사항입니다.</S.Notice>
+          )}
         </S.RegisterMarketScrollContainer>
         <BottomButton
-          disabled={
-            !marketName ||
-            isError(marketName) ||
-            !contactNumber ||
-            isError(contactNumber) ||
-            (contactNumber && isLocalNumber(contactNumber)) ===
-              (contactNumber && isPhoneNumber(contactNumber)) ||
-            !businessNumber ||
-            isError(businessNumber, 10) ||
-            !address ||
-            isError(address) ||
-            !specificAddress ||
-            isError(specificAddress)
-          }
+          disabled={disabledRegisterButton}
           onPress={async () => {
             if (
               !marketName ||

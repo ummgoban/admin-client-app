@@ -106,6 +106,7 @@ const RegisterMarketScreen = () => {
               errorMessage="전화번호를 입력해주세요"
               keyboardType="numeric"
               error={isError(contactNumber)}
+              maxLength={11}
               value={
                 contactNumber && isPhoneNumber(contactNumber)
                   ? contactNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')

@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Alert, Text} from 'react-native';
+import {Alert} from 'react-native';
 import {Modal} from 'react-native-paper';
 
 import {BottomButton} from '@/components/common';

@@ -30,7 +30,7 @@ const S = {
   NoticeSection: styled.View`
     display: flex;
     margin: 32px 16px;
-    algin-items: center;
+    align-items: center;
     padding: 0px 60px;
     gap: 8px;
   `,

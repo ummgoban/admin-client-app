@@ -8,6 +8,7 @@ import {
   AppStateStatus,
   TouchableOpacity,
   View,
+  Linking,
 } from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 import {Button, Modal, Portal, Text} from 'react-native-paper';
@@ -18,10 +19,10 @@ import {registerFCMToken} from '@/apis/fcm';
 
 import EmptyMarket from '@/components/common/EmptyMarket';
 import SwitchContainer from '@/components/common/SwitchContainer';
-
 import useProfile from '@/hooks/useProfile';
 import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
+import NavigationTextButton from '@/components/common/NavigationTextButton';
 
 import {
   changeNotificationPermission,
@@ -160,6 +161,17 @@ const MyPageScreen = () => {
             value={isNotificationOn}
             onChange={handleNotificationSwitch}
           />
+          <S.NoticeSection>
+            <S.NoticeSectionTitle>문의 </S.NoticeSectionTitle>
+            <S.ButtonContainer>
+              <NavigationTextButton
+                text="서비스 이용 약관"
+                fontSize="16px"
+                onPress={() => Linking.openURL('https://ummgoban.com/privacy')}
+                isNotice={false}
+              />
+            </S.ButtonContainer>
+          </S.NoticeSection>
           <S.WithdrawButton onPress={() => setOpenWithdrawModal(true)}>
             회원탈퇴
           </S.WithdrawButton>
@@ -260,7 +272,13 @@ const MyPageScreen = () => {
                         onPress: () => {
                           withdraw({
                             onSuccess: () => {
-                              navigation.navigate('Home', {screen: 'Feed'});
+                              queryClient.invalidateQueries({
+                                queryKey: ['profile'],
+                              });
+                              navigation.navigate('Order', {
+                                screen: 'OrderHistoryFeed',
+                              });
+                              setOpenWithdrawModal(false);
                             },
                             onError: error => {
                               Alert.alert(

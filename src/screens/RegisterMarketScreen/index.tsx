@@ -69,8 +69,7 @@ const RegisterMarketScreen = () => {
     isError(marketName) ||
     !contactNumber ||
     isError(contactNumber, 11) ||
-    (contactNumber && isLocalNumber(contactNumber)) ===
-      (contactNumber && isPhoneNumber(contactNumber)) ||
+    !(isLocalNumber(contactNumber) || isPhoneNumber(contactNumber)) ||
     !businessNumber ||
     isError(businessNumber, 10) ||
     !address ||

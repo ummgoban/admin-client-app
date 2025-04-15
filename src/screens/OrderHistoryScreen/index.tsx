@@ -28,11 +28,11 @@ const OrderHistoryScreen = () => {
   } = useGetOrders({marketId: marketId ?? 0, ordersStatus: selected});
   const {onRefresh, refreshing} = usePullDownRefresh(refetch);
 
-  if (!profile || !marketId) {
+  if (!profile) {
     return <NonRegister />;
   }
 
-  if (!marketInfo) {
+  if (!marketId || !marketInfo) {
     return <EmptyMarket />;
   }
 

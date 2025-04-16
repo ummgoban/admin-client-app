@@ -170,6 +170,7 @@ const useProfile = () => {
             }
           }
         },
+        ...options?.onSettled,
       });
     },
     [mutateLogin, refreshProfile],
@@ -206,7 +207,7 @@ const useProfile = () => {
             }
           }
         },
-        ...options,
+        ...options?.onSettled,
       });
     },
     [mutateWithdraw, refreshProfile],

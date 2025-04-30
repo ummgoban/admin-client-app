@@ -13,11 +13,10 @@ const Stack = createStackNavigator<RootStackParamList>();
 const AppNavigator = () => {
   const inset = useSafeAreaInsets();
   return (
-    // eslint-disable-next-line react-native/no-inline-styles
-
     <View
       style={[
         styles.container,
+        // eslint-disable-next-line react-native/no-inline-styles
         {paddingBottom: inset.bottom, backgroundColor: 'white'},
       ]}>
       <Stack.Navigator

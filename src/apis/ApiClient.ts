@@ -8,14 +8,70 @@ import axios, {
 import Config from 'react-native-config';
 
 import {SessionType} from '@/types/Session';
-import {getStorage} from '@/utils/storage';
+import {getStorage, setStorage} from '@/utils/storage';
 import CustomError from './CustomError';
+import {refreshAccessToken} from './auth/client';
 
 class ApiClient {
   private static instance: ApiClient;
   private axiosInstance: AxiosInstance;
 
   private _jwt: string | null = null;
+
+  private async setAuthorizationHeader(
+    config: InternalAxiosRequestConfig,
+  ): Promise<void> {
+    const session: SessionType | null = await getStorage('session');
+    this._jwt = session?.accessToken ?? null;
+
+    if (!this._jwt) {
+      return;
+    }
+
+    /**
+     * OAuth 서비스에 따라 refreshToken이 없는 경우가 있어. AccessToken 만료 시 강제 로그아웃 처리
+     */
+    const isOAuthTokenExpired =
+      session &&
+      session.OAuthProvider !== 'BASIC' &&
+      session.accessTokenExpiresAt &&
+      session.accessTokenExpiresAt < Date.now();
+
+    // Oauth 토큰이 만료된 경우에 강제 로그아웃
+    if (isOAuthTokenExpired) {
+      console.debug('OAuth token expired. Force Sign Out');
+      // setStorage('session', {});
+      this._jwt = null;
+      config.headers.Authorization = null;
+      return;
+    }
+
+    // 리프레쉬 토큰이 있는 경우 갱신
+    // 리프레쉬 토큰 갱신 실패 시 강제 로그아웃
+    if (session?.refreshToken) {
+      try {
+        const newSession = await refreshAccessToken(session.refreshToken);
+
+        if (newSession) {
+          setStorage('session', newSession);
+
+          config.headers.Authorization = `Bearer ${newSession.accessToken}`;
+          return;
+        } else {
+          setStorage('session', {});
+          this._jwt = null;
+          config.headers.Authorization = null;
+        }
+      } catch (error) {
+        console.error('Error refreshing access token:', error);
+        setStorage('session', {});
+        this._jwt = null;
+        config.headers.Authorization = null;
+      }
+    }
+
+    config.headers.Authorization = `Bearer ${this._jwt}`;
+  }
 
   private constructor() {
     this.axiosInstance = axios.create({
@@ -27,24 +83,22 @@ class ApiClient {
 
     this.axiosInstance.interceptors.request.use(
       async (config: InternalAxiosRequestConfig) => {
-        const session: SessionType | null = await getStorage('session');
-
-        this._jwt = session?.accessToken ?? null;
-
-        if (this._jwt) {
-          config.headers.Authorization = `Bearer ${this._jwt}`;
+        if (config.url?.includes('/auth/refresh')) {
+          // Skip authorization header for refresh token request
+          return config;
         }
+
+        await this.setAuthorizationHeader(config);
         return config;
       },
       error => Promise.reject(error),
     );
 
-    // 응답 인터셉터: 응답에서 토큰을 받아 저장
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => {
-        if (response.data && response.data.token) {
-          this._jwt = response.data.token; // 토큰 갱신
-          console.debug('토큰 갱신:', this._jwt);
+        if (response.data?.token) {
+          this._jwt = response.data.token; // Update token
+          console.debug('Token updated:', this._jwt);
         }
         return response;
       },

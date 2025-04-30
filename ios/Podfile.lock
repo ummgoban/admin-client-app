@@ -1631,6 +1631,8 @@ PODS:
     - React-utils (= 0.75.2)
   - RNAppleAuthentication (2.4.0):
     - React-Core
+  - RNCAsyncStorage (2.1.2):
+    - React-Core
   - RNFBApp (21.6.0):
     - Firebase/CoreOnly (= 11.5.0)
     - React-Core
@@ -1810,6 +1812,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -1982,6 +1985,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -2026,7 +2031,7 @@ SPEC CHECKSUMS:
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   naveridlogin-sdk-ios: d9d46d02119d303023d7000cd5963864d5bb89e5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  RCT-Folly: 4464f4d875961fce86008d45f4ecf6cef6de0740
+  RCT-Folly: 34124ae2e667a0e5f0ea378db071d27548124321
   RCTDeprecation: 34cbf122b623037ea9facad2e92e53434c5c7422
   RCTRequired: 24c446d7bcd0f517d516b6265d8df04dc3eb1219
   RCTTypeSafety: ef5e91bd791abd3a99b2c75fd565791102a66352
@@ -2089,6 +2094,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 81b80bf3fcf9fe55b614b1f1a3d8d27ffe411c84
   ReactCommon: 860a0ad92824ca3782e0345b7f48cfb7816eabc5
   RNAppleAuthentication: 8d313d93fe2238d6b7ff0a39c67ebcf298d96653
+  RNCAsyncStorage: b9f5f78da5d16a853fe3dc22e8268d932fc45a83
   RNFBApp: d43a1f56744d5ad3a20c2127af16b82f8b8f58be
   RNFBMessaging: 479542d869c03e819ed4e9b9ea5132630c44c5d0
   RNGestureHandler: fc04a2ca677e1d661d94716ef96a441aa98d6c68

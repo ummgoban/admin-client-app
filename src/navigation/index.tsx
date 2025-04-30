@@ -13,7 +13,12 @@ const Stack = createStackNavigator<RootStackParamList>();
 const AppNavigator = () => {
   const inset = useSafeAreaInsets();
   return (
-    <View style={[styles.container, {paddingBottom: inset.bottom}]}>
+    <View
+      style={[
+        styles.container,
+        // eslint-disable-next-line react-native/no-inline-styles
+        {paddingBottom: inset.bottom, backgroundColor: 'white'},
+      ]}>
       <Stack.Navigator
         initialRouteName={'Home'}
         screenOptions={{headerShown: false}}>

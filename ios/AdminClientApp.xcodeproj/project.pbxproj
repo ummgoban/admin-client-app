@@ -19,7 +19,7 @@
 		BEFC88344809484A3AC58E5E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 2E9E29C83F45A06E2A14B984 /* PrivacyInfo.xcprivacy */; };
 		CF01AE337BC648A39295E25E /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 381656E9A06E4C7D92E7CA06 /* Pretendard-Regular.ttf */; };
 		D0A0730BE89F3BA8FE38FB21 /* Pods_AdminClientApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913DA9316D93063C3CA5F37F /* Pods_AdminClientApp.framework */; };
-		FAD033D52DA7F2C60099C67B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAD033D42DA7F2C60099C67B /* GoogleService-Info.plist */; };
+		FA5BF4312DC24200009D11AC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA5BF4302DC24200009D11AC /* GoogleService-Info.plist */; };
 		FAEE934E2CB7B1DA0063C7A1 /* SwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE934D2CB7B1DA0063C7A1 /* SwiftBridge.swift */; };
 		FDEA8C53B73E4CC184A5BFF5 /* Pretendard-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9682FD8AF154F53B0F60FD5 /* Pretendard-Light.ttf */; };
 /* End PBXBuildFile section */
@@ -45,22 +45,22 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AdminClientApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AdminClientApp/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = AdminClientApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		2DD4096A66DA4E0189C8EA13 /* Pretendard-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.ttf"; path = "../src/assets/fonts/Pretendard-SemiBold.ttf"; sourceTree = "<group>"; };
+		2DD4096A66DA4E0189C8EA13 /* Pretendard-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.ttf"; path = "../src/assets/fonts/Pretendard-SemiBold.ttf"; sourceTree = "<group>"; };
 		2E9E29C83F45A06E2A14B984 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = AdminClientApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		30C5DBC4BD5B25A93C94988F /* Pods_AdminClientApp_AdminClientAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdminClientApp_AdminClientAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		36EF18A45F3447FF960720C1 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.ttf"; path = "../src/assets/fonts/Pretendard-Medium.ttf"; sourceTree = "<group>"; };
-		381656E9A06E4C7D92E7CA06 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.ttf"; path = "../src/assets/fonts/Pretendard-Regular.ttf"; sourceTree = "<group>"; };
+		36EF18A45F3447FF960720C1 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.ttf"; path = "../src/assets/fonts/Pretendard-Medium.ttf"; sourceTree = "<group>"; };
+		381656E9A06E4C7D92E7CA06 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.ttf"; path = "../src/assets/fonts/Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-AdminClientApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdminClientApp.debug.xcconfig"; path = "Target Support Files/Pods-AdminClientApp/Pods-AdminClientApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-AdminClientApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdminClientApp.release.xcconfig"; path = "Target Support Files/Pods-AdminClientApp/Pods-AdminClientApp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-AdminClientApp-AdminClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdminClientApp-AdminClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-AdminClientApp-AdminClientAppTests/Pods-AdminClientApp-AdminClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AdminClientApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-AdminClientApp-AdminClientAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdminClientApp-AdminClientAppTests.release.xcconfig"; path = "Target Support Files/Pods-AdminClientApp-AdminClientAppTests/Pods-AdminClientApp-AdminClientAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		913DA9316D93063C3CA5F37F /* Pods_AdminClientApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdminClientApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A2D8C298B57F469193EA5DBC /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Bold.ttf"; path = "../src/assets/fonts/Pretendard-Bold.ttf"; sourceTree = "<group>"; };
-		D9682FD8AF154F53B0F60FD5 /* Pretendard-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.ttf"; path = "../src/assets/fonts/Pretendard-Light.ttf"; sourceTree = "<group>"; };
+		A2D8C298B57F469193EA5DBC /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Bold.ttf"; path = "../src/assets/fonts/Pretendard-Bold.ttf"; sourceTree = "<group>"; };
+		D9682FD8AF154F53B0F60FD5 /* Pretendard-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.ttf"; path = "../src/assets/fonts/Pretendard-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FA5BF4302DC24200009D11AC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FACFBE0F2CF02578002A689A /* AdminClientApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AdminClientApp.entitlements; path = AdminClientApp/AdminClientApp.entitlements; sourceTree = "<group>"; };
-		FAD033D42DA7F2C60099C67B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FAEE934C2CB7B1DA0063C7A1 /* AdminClientApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdminClientApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAEE934D2CB7B1DA0063C7A1 /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
 		FAEE934F2CB7B83F0063C7A1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -110,9 +110,9 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				FAD033D42DA7F2C60099C67B /* GoogleService-Info.plist */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				FA5BF4302DC24200009D11AC /* GoogleService-Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				2E9E29C83F45A06E2A14B984 /* PrivacyInfo.xcprivacy */,
@@ -186,7 +186,6 @@
 				2DD4096A66DA4E0189C8EA13 /* Pretendard-SemiBold.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,8 +283,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				FAD033D52DA7F2C60099C67B /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				FA5BF4312DC24200009D11AC /* GoogleService-Info.plist in Resources */,
 				BEFC88344809484A3AC58E5E /* PrivacyInfo.xcprivacy in Resources */,
 				54413E5D62C848D3AA1C31C8 /* Pretendard-Bold.ttf in Resources */,
 				FDEA8C53B73E4CC184A5BFF5 /* Pretendard-Light.ttf in Resources */,
@@ -531,6 +530,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AdminClientApp/AdminClientApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3P5SZ6DAC9;
 				ENABLE_BITCODE = NO;
@@ -547,6 +548,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momchanpick.adminapp;
 				PRODUCT_NAME = AdminClientApp;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AdminClientApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -561,6 +563,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AdminClientApp/AdminClientApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3P5SZ6DAC9;
 				INFOPLIST_FILE = AdminClientApp/Info.plist;
@@ -576,6 +580,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.momchanpick.adminapp;
 				PRODUCT_NAME = AdminClientApp;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AdminClientApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -667,10 +672,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -755,10 +757,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

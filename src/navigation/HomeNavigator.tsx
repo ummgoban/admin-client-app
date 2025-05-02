@@ -15,12 +15,14 @@ import {HomeStackParamList} from '@/types/StackNavigationType';
 
 import OrderNavigator from './OrderNavigator';
 import ReviewNavigator from './ReviewNavigator';
+import theme from '@/context/theme';
 
 const Tab = createBottomTabNavigator<HomeStackParamList>();
 
 const defaultScreenOptions: BottomTabNavigationOptions = {
   headerShown: true,
   headerTitleAlign: 'left' as const,
+  headerTintColor: theme.colors.dark,
 };
 
 const orderScreenOptions: BottomTabNavigationOptions = {

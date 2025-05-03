@@ -1,5 +1,8 @@
 import {RootStackParamList} from '@/types/StackNavigationType';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 import React from 'react';
 import HomeNavigator from './HomeNavigator';
 import ResgitrationMarketNavigator from './RegisterMarketNavigator';
@@ -7,8 +10,15 @@ import RegistrationNavigaitor from './RegisterNavigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {View, StyleSheet} from 'react-native';
 import MyPageNavigator from './MypageNavigator';
+import {defaultOptions} from '@/components/common/Appbar/AppbarOptions';
+import theme from '@/context/theme';
 
 const Stack = createStackNavigator<RootStackParamList>();
+
+export const defaultScreenOptions: StackNavigationOptions = {
+  ...defaultOptions,
+  headerTintColor: theme.colors.dark,
+};
 
 const AppNavigator = () => {
   const inset = useSafeAreaInsets();

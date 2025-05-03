@@ -7,20 +7,20 @@ import React from 'react';
 import LoginScreen from '@/screens/RegisterScreen/LoginScreen';
 import SignupScreen from '@/screens/RegisterScreen/SignupScreen';
 
-import {defaultOptions} from '@/components/common/Appbar/AppbarOptions';
 import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
 
 import {RootStackParamList} from '@/types/StackNavigationType';
+import {defaultScreenOptions} from '.';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const loginScreenOptions: StackNavigationOptions = {
-  ...defaultOptions,
+  ...defaultScreenOptions,
   headerTitle: () => <HeaderTitle title="로그인" />,
 };
 
 const signupScreenOptions: StackNavigationOptions = {
-  ...defaultOptions,
+  ...defaultScreenOptions,
   headerTitle: () => <HeaderTitle title="회원가입" />,
 };
 

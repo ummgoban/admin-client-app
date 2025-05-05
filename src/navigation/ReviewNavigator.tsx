@@ -10,17 +10,17 @@ import ReviewReplyScreen from '@/screens/ReviewReplyScreen';
 import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
 
 import {ReviewStackParamList} from '@/types/StackNavigationType';
-import {defaultScreenOptions} from '.';
+import {defaultOptions} from '@/components/common/Appbar/AppbarOptions';
 
 const Stack = createStackNavigator<ReviewStackParamList>();
 
 const reviewScreenOptions: StackNavigationOptions = {
-  ...defaultScreenOptions,
+  ...defaultOptions,
   headerTitle: () => <HeaderTitle title="리뷰 관리" />,
 };
 
 const reviewReplyScreenOptions: StackNavigationOptions = {
-  ...defaultScreenOptions,
+  ...defaultOptions,
   headerTitle: () => <HeaderTitle title="댓글 달기" />,
 };
 

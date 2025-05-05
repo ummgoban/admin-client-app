@@ -7,12 +7,12 @@ import {MyPageStackParamList} from '@/types/StackNavigationType';
 import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
 
 import MyPageScreen from '@/screens/MyPageScreen';
-import {defaultScreenOptions} from '.';
+import {defaultOptions} from '@/components/common/Appbar/AppbarOptions';
 
 const Stack = createStackNavigator<MyPageStackParamList>();
 
 const myPageScreenOptions: StackNavigationOptions = {
-  ...defaultScreenOptions,
+  ...defaultOptions,
   headerTitle: () => <HeaderTitle title="마이페이지" />,
 };
 

@@ -15,11 +15,6 @@ import theme from '@/context/theme';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-export const defaultScreenOptions: StackNavigationOptions = {
-  ...defaultOptions,
-  headerTintColor: theme.colors.dark,
-};
-
 const AppNavigator = () => {
   const inset = useSafeAreaInsets();
   return (

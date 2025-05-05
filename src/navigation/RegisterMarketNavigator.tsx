@@ -10,16 +10,16 @@ import RegisterManagerScreen from '@/screens/RegisterManagerScreen';
 import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
 
 import {RootStackParamList} from '@/types/StackNavigationType';
-import {defaultScreenOptions} from '.';
+import {defaultOptions} from '@/components/common/Appbar/AppbarOptions';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const registerMarketScreenOptions: StackNavigationOptions = {
-  ...defaultScreenOptions,
+  ...defaultOptions,
   headerTitle: () => <HeaderTitle title="매장 등록" />,
 };
 const registerManagerScreenOptions: StackNavigationOptions = {
-  ...defaultScreenOptions,
+  ...defaultOptions,
   headerTitle: () => <HeaderTitle title="직원 인증" />,
 };
 

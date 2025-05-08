@@ -10,15 +10,15 @@ import NotificationProvider from './NotificationProvider';
 const RootProvider = ({children}: {children: React.ReactNode}) => {
   return (
     <SafeAreaProvider>
-      <NavigationProvider>
-        <NotificationProvider>
-          <ReactQueryProvider>
+      <ReactQueryProvider>
+        <NavigationProvider>
+          <NotificationProvider>
             <EmotionProvider>
               <ReactNativePaperProvider>{children}</ReactNativePaperProvider>
             </EmotionProvider>
-          </ReactQueryProvider>
-        </NotificationProvider>
-      </NavigationProvider>
+          </NotificationProvider>
+        </NavigationProvider>
+      </ReactQueryProvider>
     </SafeAreaProvider>
   );
 };

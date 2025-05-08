@@ -16,6 +16,7 @@ import messaging from '@react-native-firebase/messaging';
 import notificationService from '@/utils/notification.service';
 import {navigationRef} from './NavigationProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import useProfile from '@/hooks/useProfile';
 
 type NotificationContextType = {
   goToNotificationSettings: () => void;
@@ -26,6 +27,7 @@ type NotificationPayload = {
   routeName: string;
   screen?: string;
   params?: string;
+  marketId?: string;
 };
 
 const NotificationContext = createContext<NotificationContextType>({
@@ -34,6 +36,8 @@ const NotificationContext = createContext<NotificationContextType>({
 });
 
 const NotificationProvider: React.FC<PropsWithChildren> = ({children}) => {
+  const {selectMarket} = useProfile();
+
   const onPressedNotification = useCallback(
     async (notification: Notification) => {
       if (!notification?.data) {
@@ -43,10 +47,15 @@ const NotificationProvider: React.FC<PropsWithChildren> = ({children}) => {
 
       try {
         const payload = notification.data as NotificationPayload;
+        if (payload.marketId) {
+          selectMarket(Number(payload.marketId));
+        }
+
         if (payload.routeName && navigationRef.current?.isReady()) {
           const parsedParams = payload.params
             ? JSON.parse(payload.params)
             : undefined;
+
           navigationRef.current.navigate(payload.routeName, {
             screen: payload.screen,
             params: parsedParams,
@@ -56,7 +65,7 @@ const NotificationProvider: React.FC<PropsWithChildren> = ({children}) => {
         console.log('Error in onPressedNotification:', err);
       }
     },
-    [],
+    [selectMarket],
   );
 
   const displayNotification = useCallback(async (remoteMessage: any) => {

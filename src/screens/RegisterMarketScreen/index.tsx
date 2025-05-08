@@ -32,6 +32,14 @@ const isLocalNumber = (value: string) => {
 const isPhoneNumber = (value: string) => {
   return /^(01[0|1|6|7|8|9])(\d{3,4})(\d{4})$/g.test(value);
 };
+
+const isValidStartDate = (value: string) => {
+  return /^\d{8}$/.test(value);
+};
+
+const isValidBusinessNumber = (value: string) => {
+  return /^\d{10}$/.test(value);
+};
 interface AddressData {
   roadAddress: string;
   jibunAddress: string;
@@ -54,6 +62,10 @@ const RegisterMarketScreen = () => {
   const [specificAddress, setSpecificAddress] = useState<string | undefined>(
     undefined,
   );
+  const [startDate, setStartDate] = useState<string | undefined>(undefined);
+  const [marketOwnerName, setMarketOwnerName] = useState<string | undefined>(
+    undefined,
+  );
   const [contactNumber, setContactNumber] = useState<string | undefined>(
     undefined,
   );
@@ -66,6 +78,16 @@ const RegisterMarketScreen = () => {
     setPostcodeVisible(false);
   };
 
+  const disabledBusinessNumberVerifyButton =
+    !marketOwnerName ||
+    isError(marketOwnerName) ||
+    !marketName ||
+    isError(marketName) ||
+    !startDate ||
+    !isValidStartDate(startDate) ||
+    !businessNumber ||
+    !isValidBusinessNumber(businessNumber);
+
   const disabledRegisterButton =
     !marketName ||
     isError(marketName) ||
@@ -73,13 +95,11 @@ const RegisterMarketScreen = () => {
     isError(contactNumber, 11) ||
     (contactNumber && isLocalNumber(contactNumber)) ===
       (contactNumber && isPhoneNumber(contactNumber)) ||
-    !businessNumber ||
-    isError(businessNumber, 10) ||
-    !isBusinessNumberVerified ||
     !address ||
     isError(address) ||
     !specificAddress ||
-    isError(specificAddress);
+    isError(specificAddress) ||
+    disabledBusinessNumberVerifyButton;
 
   return (
     <>
@@ -110,6 +130,14 @@ const RegisterMarketScreen = () => {
               onChange={e => setSpecificAddress(e.nativeEvent.text)}
             />
             <TextInput
+              label="사장님 성함"
+              placeholder="사장님 성함을 입력해주세요"
+              errorMessage="사장님 이름을 입력해주세요"
+              error={isError(marketOwnerName)}
+              value={marketOwnerName}
+              onChange={e => setMarketOwnerName(e.nativeEvent.text)}
+            />
+            <TextInput
               label="가게명"
               placeholder="가게명을 입력해주세요"
               errorMessage="가게명을 입력해주세요"
@@ -138,6 +166,16 @@ const RegisterMarketScreen = () => {
                 setContactNumber(e.nativeEvent.text.replaceAll(/-/g, ''))
               }
             />
+            <TextInput
+              label="개업일자"
+              placeholder="YYYYMMDD 형식으로 입력해주세요"
+              errorMessage="개업일자를 입력해주세요"
+              inputMode="numeric"
+              maxLength={8}
+              error={isError(startDate, 8)}
+              value={startDate}
+              onChange={e => setStartDate(e.nativeEvent.text)}
+            />
             <S.InputLayout>
               <TextInput
                 label="사업자등록번호"
@@ -150,10 +188,9 @@ const RegisterMarketScreen = () => {
                 onChange={e => setBusinessNumber(e.nativeEvent.text)}
               />
               <S.VerifyBusinessButton
-                disabled={!businessNumber || isError(businessNumber, 10)}
+                disabled={disabledBusinessNumberVerifyButton}
                 onPress={() => setPostcodeVisible(true)}>
-                <S.ButtonText
-                  disabled={!businessNumber || isError(businessNumber, 10)}>
+                <S.ButtonText disabled={disabledBusinessNumberVerifyButton}>
                   사업자등록번호 인증
                 </S.ButtonText>
               </S.VerifyBusinessButton>

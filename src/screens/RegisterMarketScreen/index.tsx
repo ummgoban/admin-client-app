@@ -47,6 +47,8 @@ const RegisterMarketScreen = () => {
   const [businessNumber, setBusinessNumber] = useState<string | undefined>(
     undefined,
   );
+  const [isBusinessNumberVerified, setIsBusinessNumberVerified] =
+    useState<boolean>(false);
   const [isPostcodeVisible, setPostcodeVisible] = useState(false);
   const [address, setAddress] = useState<string | undefined>(undefined);
   const [specificAddress, setSpecificAddress] = useState<string | undefined>(
@@ -73,6 +75,7 @@ const RegisterMarketScreen = () => {
       (contactNumber && isPhoneNumber(contactNumber)) ||
     !businessNumber ||
     isError(businessNumber, 10) ||
+    !isBusinessNumberVerified ||
     !address ||
     isError(address) ||
     !specificAddress ||
@@ -83,7 +86,7 @@ const RegisterMarketScreen = () => {
       <S.RegisterMarketContainer>
         <S.RegisterMarketScrollContainer>
           <S.RegisterMarketInputContainer>
-            <S.AddressLayout>
+            <S.InputLayout>
               <TextInput
                 label="주소"
                 placeholder="주소 검색을 통해 입력해주세요"
@@ -94,9 +97,9 @@ const RegisterMarketScreen = () => {
                 disabled
               />
               <S.PostcodeButton onPress={() => setPostcodeVisible(true)}>
-                <S.PostcodeButtonText>{'주소 검색하기'}</S.PostcodeButtonText>
+                <S.ButtonText>{'주소 검색하기'}</S.ButtonText>
               </S.PostcodeButton>
-            </S.AddressLayout>
+            </S.InputLayout>
             <TextInput
               label="상세 주소"
               placeholder="동과 호수를 입력해주세요"
@@ -135,16 +138,26 @@ const RegisterMarketScreen = () => {
                 setContactNumber(e.nativeEvent.text.replaceAll(/-/g, ''))
               }
             />
-            <TextInput
-              label="사업자등록번호"
-              placeholder="사업자등록번호를 입력해주세요(10자)"
-              errorMessage="사업자등록번호를 입력해주세요(10자)"
-              inputMode="numeric"
-              maxLength={10}
-              error={isError(businessNumber, 10)}
-              value={businessNumber}
-              onChange={e => setBusinessNumber(e.nativeEvent.text)}
-            />
+            <S.InputLayout>
+              <TextInput
+                label="사업자등록번호"
+                placeholder="사업자등록번호를 입력해주세요(10자)"
+                errorMessage="사업자등록번호를 입력해주세요(10자)"
+                inputMode="numeric"
+                maxLength={10}
+                error={isError(businessNumber, 10)}
+                value={businessNumber}
+                onChange={e => setBusinessNumber(e.nativeEvent.text)}
+              />
+              <S.VerifyBusinessButton
+                disabled={!businessNumber || isError(businessNumber, 10)}
+                onPress={() => setPostcodeVisible(true)}>
+                <S.ButtonText
+                  disabled={!businessNumber || isError(businessNumber, 10)}>
+                  사업자등록번호 인증
+                </S.ButtonText>
+              </S.VerifyBusinessButton>
+            </S.InputLayout>
           </S.RegisterMarketInputContainer>
           {disabledRegisterButton && (
             <S.Notice>모든 입력 사항은 필수 입력 사항입니다.</S.Notice>

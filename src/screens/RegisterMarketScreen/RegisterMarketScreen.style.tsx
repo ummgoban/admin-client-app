@@ -3,7 +3,7 @@ import Postcode from '@actbase/react-daum-postcode';
 import {Button, Text} from 'react-native-paper';
 
 const S = {
-  RegisterMarketContainer: styled.View`
+  RegisterMarketContainer: styled.KeyboardAvoidingView`
     position: relative;
 
     flex: 1;

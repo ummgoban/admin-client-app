@@ -50,6 +50,7 @@ const RegisterMarketScreen = () => {
     undefined,
   );
 
+  // 사업자등록번호 정보가 filled 되었는지
   const disabledBusinessNumberVerifyButton =
     !businessNumber ||
     !isValidBusinessNumber(businessNumber) ||
@@ -80,20 +81,33 @@ const RegisterMarketScreen = () => {
     setPostcodeVisible(false);
   };
 
-  const disabledRegisterButton =
+  // 모든 인풋에 입력이 되었는지, 안되었으면 true
+  const isInputIncomplete =
     !marketName ||
     isError(marketName) ||
     !contactNumber ||
     isError(contactNumber, 11) ||
-    (contactNumber && isLocalNumber(contactNumber)) ===
-      (contactNumber && isPhoneNumber(contactNumber)) ||
+    (!isLocalNumber(contactNumber) && !isPhoneNumber(contactNumber)) ||
     !address ||
     isError(address) ||
     !specificAddress ||
     isError(specificAddress) ||
-    disabledBusinessNumberVerifyButton ||
-    !isVerifiedBusinessNumber;
+    !businessNumber ||
+    isError(businessNumber, 10) ||
+    !marketOwnerName ||
+    isError(marketOwnerName) ||
+    !startDate ||
+    !isValidStartDate(startDate);
 
+  // 입력 + 사업자 등록 인증까지 체크
+  const disabledRegisterButton = isInputIncomplete || !isVerifiedBusinessNumber;
+
+  const showNotice =
+    isInputIncomplete || (!isInputIncomplete && !isVerifiedBusinessNumber);
+
+  const noticeMessage = isInputIncomplete
+    ? '모든 입력 사항은 필수 입력 사항입니다.'
+    : '사업자등록번호 인증이 필요합니다.';
   return (
     <>
       <S.RegisterMarketContainer>
@@ -182,21 +196,17 @@ const RegisterMarketScreen = () => {
               />
               <S.VerifyBusinessButton
                 disabled={disabledBusinessNumberVerifyButton}
-                onPress={() => verifyBusinessNumber()}>
+                onPress={() => {
+                  verifyBusinessNumber();
+                  console.log(isInputIncomplete);
+                }}>
                 <S.ButtonText disabled={disabledBusinessNumberVerifyButton}>
                   사업자등록번호 인증
                 </S.ButtonText>
               </S.VerifyBusinessButton>
-              {!disabledRegisterButton && isVerifiedBusinessNumber && (
-                <S.VerifiedBusinessText>
-                  사업자등록번호 인증이 완료되었습니다.
-                </S.VerifiedBusinessText>
-              )}
             </S.InputLayout>
           </S.RegisterMarketInputContainer>
-          {disabledRegisterButton && (
-            <S.Notice>모든 입력 사항은 필수 입력 사항입니다.</S.Notice>
-          )}
+          {showNotice && <S.Notice>{noticeMessage}</S.Notice>}
         </S.RegisterMarketScrollContainer>
         <BottomButton
           disabled={disabledRegisterButton}

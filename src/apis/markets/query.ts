@@ -64,9 +64,12 @@ export const useDeleteMarketImage = (imageUrl: string) => {
 
 export const useVerifyBusinessNumber = (
   params?: VerifyBusinessNumberRequest,
+  enabled: boolean = false,
 ) => {
   return useQuery({
-    queryKey: ['verifyBusinessNumber'],
+    queryKey: params
+      ? ['verifyBusinessNumber', params]
+      : ['verifyBusinessNumber', 'idle'],
     queryFn: () => {
       if (!params) {
         console.error('no params');
@@ -74,7 +77,7 @@ export const useVerifyBusinessNumber = (
       }
       return verifyBusinessNumber(params);
     },
-    enabled: false,
+    enabled: enabled && !!params,
     staleTime: 0,
   });
 };

@@ -1,45 +1,26 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, Text} from 'react-native';
 import {Modal} from 'react-native-paper';
 
 import {BottomButton} from '@/components/common';
 import TextInput from '@/components/common/TextInput/TextInput';
 
-import {useCreateMarket} from '@/apis/markets';
+import {useCreateMarket, useVerifyBusinessNumber} from '@/apis/markets';
 
 import useMarket from '@/hooks/useMarket';
 import useProfile from '@/hooks/useProfile';
 
 import S from './RegisterMarketScreen.style';
 
-const isError = (value: string | undefined, validLength?: number) => {
-  if (value === undefined) {
-    return false;
-  }
+import {
+  isError,
+  isLocalNumber,
+  isPhoneNumber,
+  isValidBusinessNumber,
+  isValidStartDate,
+} from '@/utils/marketRegister';
 
-  if (value.length === 0) {
-    return true;
-  }
-
-  return !!validLength && value?.length !== validLength;
-};
-
-const isLocalNumber = (value: string) => {
-  return /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]))(\d{3,4})(\d{4})$/g.test(value);
-};
-
-const isPhoneNumber = (value: string) => {
-  return /^(01[0|1|6|7|8|9])(\d{3,4})(\d{4})$/g.test(value);
-};
-
-const isValidStartDate = (value: string) => {
-  return /^\d{8}$/.test(value);
-};
-
-const isValidBusinessNumber = (value: string) => {
-  return /^\d{10}$/.test(value);
-};
 interface AddressData {
   roadAddress: string;
   jibunAddress: string;
@@ -55,8 +36,7 @@ const RegisterMarketScreen = () => {
   const [businessNumber, setBusinessNumber] = useState<string | undefined>(
     undefined,
   );
-  const [isBusinessNumberVerified, setIsBusinessNumberVerified] =
-    useState<boolean>(false);
+
   const [isPostcodeVisible, setPostcodeVisible] = useState(false);
   const [address, setAddress] = useState<string | undefined>(undefined);
   const [specificAddress, setSpecificAddress] = useState<string | undefined>(
@@ -70,23 +50,35 @@ const RegisterMarketScreen = () => {
     undefined,
   );
 
+  const disabledBusinessNumberVerifyButton =
+    !businessNumber ||
+    !isValidBusinessNumber(businessNumber) ||
+    !marketOwnerName ||
+    isError(marketOwnerName) ||
+    !marketName ||
+    isError(marketName) ||
+    !startDate ||
+    !isValidStartDate(startDate);
+
   const {mutateAsync: createMarket} = useCreateMarket();
+
+  const {data: isVerifiedBusinessNumber, refetch: verifyBusinessNumber} =
+    useVerifyBusinessNumber(
+      !disabledBusinessNumberVerifyButton
+        ? {
+            businessNumber,
+            startDate,
+            name: marketOwnerName,
+            marketName,
+          }
+        : undefined,
+    );
 
   const handleAddressSelect = (data: AddressData) => {
     const selectedAddress = data.roadAddress || data.jibunAddress;
     setAddress(selectedAddress);
     setPostcodeVisible(false);
   };
-
-  const disabledBusinessNumberVerifyButton =
-    !marketOwnerName ||
-    isError(marketOwnerName) ||
-    !marketName ||
-    isError(marketName) ||
-    !startDate ||
-    !isValidStartDate(startDate) ||
-    !businessNumber ||
-    !isValidBusinessNumber(businessNumber);
 
   const disabledRegisterButton =
     !marketName ||
@@ -99,7 +91,8 @@ const RegisterMarketScreen = () => {
     isError(address) ||
     !specificAddress ||
     isError(specificAddress) ||
-    disabledBusinessNumberVerifyButton;
+    disabledBusinessNumberVerifyButton ||
+    !isVerifiedBusinessNumber;
 
   return (
     <>
@@ -189,11 +182,16 @@ const RegisterMarketScreen = () => {
               />
               <S.VerifyBusinessButton
                 disabled={disabledBusinessNumberVerifyButton}
-                onPress={() => setPostcodeVisible(true)}>
+                onPress={() => verifyBusinessNumber()}>
                 <S.ButtonText disabled={disabledBusinessNumberVerifyButton}>
                   사업자등록번호 인증
                 </S.ButtonText>
               </S.VerifyBusinessButton>
+              {!disabledRegisterButton && isVerifiedBusinessNumber && (
+                <S.VerifiedBusinessText>
+                  사업자등록번호 인증이 완료되었습니다.
+                </S.VerifiedBusinessText>
+              )}
             </S.InputLayout>
           </S.RegisterMarketInputContainer>
           {disabledRegisterButton && (

@@ -82,6 +82,12 @@ const S = {
     color: ${props => props.theme.colors.error};
     margin-top: 8px;
   `,
+
+  VerifiedBusinessText: styled(Text)`
+    ${({theme}) => theme.fonts.body2}
+    color: ${props => props.theme.colors.tertiary};
+    margin-bottom: 4px;
+  `,
 };
 
 export default S;

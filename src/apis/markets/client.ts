@@ -131,11 +131,11 @@ export const verifyBusinessNumber = async (
   data: VerifyBusinessNumberRequest,
 ): Promise<boolean> => {
   try {
-    const res = await apiClient.get<{data: VerifyBusinessNumberResponse}>(
+    const res = await apiClient.get<VerifyBusinessNumberResponse>(
       'owner/markets/verification/business-number',
       {params: data},
     );
-    return !!res && res.data.validBusinessNumber;
+    return !!res && res.validBusinessNumber;
   } catch (error) {
     console.error(error);
     return false;

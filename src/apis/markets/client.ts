@@ -4,7 +4,11 @@ import {
   UpdateMarketInfoType,
 } from '@/types/Market';
 import apiClient from '../ApiClient';
-import {MarketListResponse} from './model';
+import {
+  MarketListResponse,
+  VerifyBusinessNumberRequest,
+  VerifyBusinessNumberResponse,
+} from './model';
 
 /**
  * POST /markets
@@ -117,6 +121,21 @@ export const deleteMarketImage = async (imageUrl: string): Promise<boolean> => {
     });
 
     return !!res && res.code === 200;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+export const verifyBusinessNumber = async (
+  data: VerifyBusinessNumberRequest,
+): Promise<boolean> => {
+  try {
+    const res = await apiClient.get<{data: VerifyBusinessNumberResponse}>(
+      'owner/markets/verification/business-number',
+      {params: data},
+    );
+    return !!res && res.data.validBusinessNumber;
   } catch (error) {
     console.error(error);
     return false;

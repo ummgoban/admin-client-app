@@ -6,8 +6,10 @@ import {
   getMarketList,
   updateMarketInfo,
   uploadMarketImage,
+  verifyBusinessNumber,
 } from './client';
 import {RegistMarketType, UpdateMarketInfoType} from '@/types/Market';
+import {VerifyBusinessNumberRequest} from './model';
 
 export const useCreateMarket = () => {
   return useMutation({
@@ -57,5 +59,22 @@ export const useDeleteMarketImage = (imageUrl: string) => {
   return useMutation({
     mutationKey: ['deleteMarketImage'],
     mutationFn: () => deleteMarketImage(imageUrl),
+  });
+};
+
+export const useVerifyBusinessNumber = (
+  params?: VerifyBusinessNumberRequest,
+) => {
+  return useQuery({
+    queryKey: ['verifyBusinessNumber'],
+    queryFn: () => {
+      if (!params) {
+        console.error('no params');
+        return;
+      }
+      return verifyBusinessNumber(params);
+    },
+    enabled: false,
+    staleTime: 0,
   });
 };

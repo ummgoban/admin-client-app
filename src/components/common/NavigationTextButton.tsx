@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Entypo';
 import S from './NavigationTextButton.style';
 
 type NavigationTextButtonProps = {
@@ -27,7 +27,9 @@ const NavigationTextButton = ({
             {text}
           </S.NoticeText>
         )}
-        {isNotice && <Icon name="right" size={iconSize} color={fontColor} />}
+        {isNotice && (
+          <Icon name="chevron-thin-right" size={iconSize} color={fontColor} />
+        )}
       </S.TouchableWrapper>
     </S.TouchableButtonContainer>
   );

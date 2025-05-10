@@ -200,7 +200,6 @@ const RegisterMarketScreen = () => {
                     disabled={disabledBusinessNumberVerifyButton}
                     onPress={() => {
                       verifyBusinessNumber();
-                      console.log(isInputIncomplete);
                     }}>
                     <S.ButtonText disabled={disabledBusinessNumberVerifyButton}>
                       사업자등록번호 인증

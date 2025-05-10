@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 import {Button, Modal, Portal, Text} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Feather';
 import {useQueryClient} from '@tanstack/react-query';
 
 import {registerFCMToken} from '@/apis/fcm';
@@ -134,7 +134,7 @@ const MyPageScreen = () => {
             <S.ProfileNameContainer
               onPress={() => setOpenMarketListModal(prev => !prev)}>
               <S.ProfileName>{`${profile.name} 님${marketList && profile.marketId ? `의 ${marketList.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
-              <Icon name="down" size={20} color="#000000" />
+              <Icon name="chevron-down" size={24} color="#000000" />
             </S.ProfileNameContainer>
           </S.ProfileContainer>
           <Button
@@ -194,7 +194,7 @@ const MyPageScreen = () => {
                 <S.ModalHeaderTitle>매장</S.ModalHeaderTitle>
                 <S.ModalCloseButton
                   onPress={() => setOpenMarketListModal(false)}>
-                  <Icon name="close" size={20} color="#000000" />
+                  <Icon name="x" size={20} color="#000000" />
                 </S.ModalCloseButton>
               </S.ModalHeader>
               <S.ModalContent>

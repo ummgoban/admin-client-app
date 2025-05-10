@@ -25,3 +25,17 @@ export const isValidStartDate = (value: string) => {
 export const isValidBusinessNumber = (value: string) => {
   return /^\d{10}$/.test(value);
 };
+
+export const formatPhoneNumber = (value: string): string => {
+  if (isPhoneNumber(value)) {
+    return value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+  }
+  if (isLocalNumber(value)) {
+    return value.replace(/(\d{2,3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+  }
+  return value;
+};
+
+export const deleteHyphen = (value: string) => {
+  return value.replaceAll(/-/g, '');
+};

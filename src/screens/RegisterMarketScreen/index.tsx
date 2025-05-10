@@ -24,6 +24,8 @@ import {
   isPhoneNumber,
   isValidBusinessNumber,
   isValidStartDate,
+  deleteHyphen,
+  formatPhoneNumber,
 } from '@/utils/marketRegister';
 
 interface AddressData {
@@ -168,21 +170,9 @@ const RegisterMarketScreen = () => {
                   keyboardType="numeric"
                   error={isError(contactNumber, 11)}
                   maxLength={11}
-                  value={
-                    contactNumber && isPhoneNumber(contactNumber)
-                      ? contactNumber.replace(
-                          /(\d{3})(\d{4})(\d{4})/,
-                          '$1-$2-$3',
-                        )
-                      : contactNumber && isLocalNumber(contactNumber)
-                        ? contactNumber.replace(
-                            /(\d{2,3})(\d{3,4})(\d{4})/,
-                            '$1-$2-$3',
-                          )
-                        : contactNumber
-                  }
+                  value={formatPhoneNumber(contactNumber ?? '')}
                   onChange={e =>
-                    setContactNumber(e.nativeEvent.text.replaceAll(/-/g, ''))
+                    setContactNumber(deleteHyphen(e.nativeEvent.text))
                   }
                 />
                 <TextInput

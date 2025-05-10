@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
 
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Feather';
 
 import {
   createProduct,

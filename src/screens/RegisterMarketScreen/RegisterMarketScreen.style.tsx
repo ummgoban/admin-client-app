@@ -3,7 +3,7 @@ import Postcode from '@actbase/react-daum-postcode';
 import {Button, Text} from 'react-native-paper';
 
 const S = {
-  RegisterMarketContainer: styled.View`
+  RegisterMarketContainer: styled.KeyboardAvoidingView`
     position: relative;
 
     flex: 1;
@@ -22,7 +22,7 @@ const S = {
     gap: 20px;
   `,
 
-  AddressLayout: styled.View`
+  InputLayout: styled.View`
     display: flex;
     flex-direction: column;
 
@@ -36,9 +36,24 @@ const S = {
     border-radius: 8px;
   `,
 
-  PostcodeButtonText: styled(Text)`
-    color: #000000;
-    ${props => props.theme.fonts.default};
+  VerifyBusinessButton: styled(Button)<{disabled?: boolean}>`
+    background-color: ${props => {
+      if (props.disabled) {
+        return props.theme.colors.primaryDisabled;
+      }
+      return props.theme.colors.primary;
+    }};
+    border-radius: 8px;
+  `,
+
+  ButtonText: styled(Text)<{disabled?: boolean}>`
+    color: ${props => {
+        if (props.disabled) {
+          return props.theme.colors.tertiaryDisabled;
+        }
+        return props.theme.colors.dark;
+      }}
+      ${props => props.theme.fonts.default};
   `,
 
   ModalContainer: styled.View`
@@ -66,6 +81,12 @@ const S = {
     ${({theme}) => theme.fonts.body2}
     color: ${props => props.theme.colors.error};
     margin-top: 8px;
+  `,
+
+  VerifiedBusinessText: styled(Text)`
+    ${({theme}) => theme.fonts.body2}
+    color: ${props => props.theme.colors.tertiary};
+    margin-bottom: 4px;
   `,
 };
 

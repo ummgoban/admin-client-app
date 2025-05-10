@@ -2,9 +2,12 @@ import React from 'react';
 
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 
-import {default as AntIcon} from 'react-native-vector-icons/AntDesign';
 import {default as FeatherIcon} from 'react-native-vector-icons/Feather';
 import {default as MaterialIcons} from 'react-native-vector-icons/MaterialIcons';
+
+import {SvgProps} from 'react-native-svg';
+import File from '@/assets/icons/file-regular.svg';
+import Profile from '@/assets/icons/user-profile-regular.svg';
 
 import {HomeStackParamList} from '@/types/StackNavigationType';
 
@@ -13,13 +16,17 @@ import S from './TabBar.style';
 type TabBarComponentType = {
   [route in keyof HomeStackParamList]: {
     label: string;
-    icon: {
-      family: 'AntDesign' | 'Feather' | 'MaterialIcons';
-      name: string;
-    };
+    icon:
+      | {
+          family: 'Feather' | 'MaterialIcons';
+          name: string;
+        }
+      | {
+          family: 'SVG';
+          component: React.FC<SvgProps>;
+        };
   };
 };
-
 const tabBarData: TabBarComponentType = {
   MenuManage: {
     label: '메뉴 관리',
@@ -31,15 +38,15 @@ const tabBarData: TabBarComponentType = {
   MyPage: {
     label: '마이 페이지',
     icon: {
-      family: 'Feather',
-      name: 'user',
+      family: 'SVG',
+      component: Profile,
     },
   },
   Order: {
     label: '주문 내역',
     icon: {
-      family: 'AntDesign',
-      name: 'profile',
+      family: 'SVG',
+      component: File,
     },
   },
   MarketInfo: {
@@ -97,10 +104,10 @@ const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
             onPress={onPress}
             onLongPress={onLongPress}>
             <S.TabBarItem>
-              {icon.family === 'AntDesign' && (
-                <AntIcon
-                  name={icon.name}
-                  size={24}
+              {icon.family === 'SVG' && (
+                <icon.component
+                  width={24}
+                  height={24}
                   color={isFocused ? 'rgba(112, 200, 2, 1)' : '#222'}
                 />
               )}

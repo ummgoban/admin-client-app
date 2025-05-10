@@ -72,7 +72,7 @@ export const useVerifyBusinessNumber = (
       : ['verifyBusinessNumber', 'idle'],
     queryFn: () => {
       if (!params) {
-        console.error('no params');
+        console.debug('no params');
         return;
       }
       return verifyBusinessNumber(params);

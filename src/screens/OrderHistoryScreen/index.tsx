@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {View} from 'react-native';
-
+import {useFocusEffect} from '@react-navigation/native';
 import {ToggleButton} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
@@ -20,13 +20,20 @@ const OrderHistoryScreen = () => {
   const {profile} = useProfile();
   const marketId = profile?.marketId;
 
-  const {marketInfo} = useMarket();
   const {
     data: orders,
     refetch,
     isLoading: getOrderLoading,
   } = useGetOrders({marketId: marketId ?? 0, ordersStatus: selected});
   const {onRefresh, refreshing} = usePullDownRefresh(refetch);
+  const {marketInfo} = useMarket();
+  useFocusEffect(
+    useCallback(() => {
+      if (marketId) {
+        refetch();
+      }
+    }, [marketId, refetch]),
+  );
 
   if (!profile) {
     return <NonRegister />;
@@ -39,6 +46,7 @@ const OrderHistoryScreen = () => {
   if (getOrderLoading || !orders) {
     return <ActivityIndicator />;
   }
+
   return (
     <View>
       <S.NavbarGroup selected={selected}>

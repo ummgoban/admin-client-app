@@ -10,7 +10,7 @@ export const useGetOrders = ({ordersStatus, marketId}: OrdersRequest) => {
       return getPendingOrderLists({ordersStatus, marketId});
     },
     enabled: marketId !== 0,
-    staleTime: 1000,
+    staleTime: 1000 * 60 * 5,
     placeholderData: keepPreviousData,
     refetchOnMount: 'always',
   });

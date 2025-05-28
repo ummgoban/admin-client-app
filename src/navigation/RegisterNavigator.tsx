@@ -10,17 +10,18 @@ import SignupScreen from '@/screens/RegisterScreen/SignupScreen';
 import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
 
 import {RootStackParamList} from '@/types/StackNavigationType';
-import {defaultScreenOptions} from '.';
+
+import {defaultOptions} from '@/components/common/Appbar/AppbarOptions';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const loginScreenOptions: StackNavigationOptions = {
-  ...defaultScreenOptions,
+  ...defaultOptions,
   headerTitle: () => <HeaderTitle title="로그인" />,
 };
 
 const signupScreenOptions: StackNavigationOptions = {
-  ...defaultScreenOptions,
+  ...defaultOptions,
   headerTitle: () => <HeaderTitle title="회원가입" />,
 };
 

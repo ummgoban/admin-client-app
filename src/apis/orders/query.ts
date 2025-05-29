@@ -4,7 +4,7 @@ import {getPendingOrderLists, updateOrderStatus} from './client';
 
 export const useGetOrders = ({ordersStatus, marketId}: OrdersRequest) => {
   return useQuery({
-    queryKey: ['orders', ordersStatus, marketId, Date.now()],
+    queryKey: ['orders', ordersStatus, marketId],
     queryFn: () => {
       if (!marketId) return null;
       return getPendingOrderLists({ordersStatus, marketId});

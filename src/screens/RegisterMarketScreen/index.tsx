@@ -39,7 +39,12 @@ const RegisterMarketScreen = () => {
   const {selectMarket} = useProfile();
   const {refresh} = useMarket();
 
+  // 앱 표시 가게이름
   const [marketName, setMarketName] = useState<string | undefined>(undefined);
+  // 사업자등록 가게 이름
+  const [businessMarketName, setBusinesesMarketName] = useState<
+    string | undefined
+  >(undefined);
   const [businessNumber, setBusinessNumber] = useState<string | undefined>(
     undefined,
   );
@@ -63,8 +68,8 @@ const RegisterMarketScreen = () => {
     !isValidBusinessNumber(businessNumber) ||
     !marketOwnerName ||
     isError(marketOwnerName) ||
-    !marketName ||
-    isError(marketName) ||
+    !businessMarketName ||
+    isError(businessMarketName) ||
     !startDate ||
     !isValidStartDate(startDate);
 
@@ -77,7 +82,7 @@ const RegisterMarketScreen = () => {
             businessNumber,
             startDate,
             name: marketOwnerName,
-            marketName,
+            businessMarketName,
           }
         : undefined,
     );
@@ -106,7 +111,9 @@ const RegisterMarketScreen = () => {
     !marketOwnerName ||
     isError(marketOwnerName) ||
     !startDate ||
-    !isValidStartDate(startDate);
+    !isValidStartDate(startDate) ||
+    isError(marketName) ||
+    !marketName;
 
   // 입력 + 사업자 등록 인증까지 체크
   const disabledRegisterButton = isInputIncomplete || !isVerifiedBusinessNumber;
@@ -117,6 +124,7 @@ const RegisterMarketScreen = () => {
   const noticeMessage = isInputIncomplete
     ? '모든 입력 사항은 필수 입력 사항입니다.'
     : '사업자등록번호 인증이 필요합니다.';
+
   return (
     <>
       <S.RegisterMarketContainer
@@ -159,7 +167,7 @@ const RegisterMarketScreen = () => {
                 />
                 <TextInput
                   label="가게명"
-                  placeholder="가게명을 입력해주세요"
+                  placeholder="맘찬픽에서 표시될 가게명을 입력해주세요"
                   errorMessage="가게명을 입력해주세요"
                   error={isError(marketName)}
                   value={marketName}
@@ -178,26 +186,35 @@ const RegisterMarketScreen = () => {
                   }
                 />
                 <TextInput
+                  label="상호명"
+                  placeholder="사업자 등록 정보 상호명을 입력해주세요"
+                  errorMessage="상호명을 입력해주세요"
+                  inputMode="numeric"
+                  maxLength={8}
+                  error={isError(businessMarketName)}
+                  value={businessMarketName}
+                  onChange={e => setStartDate(e.nativeEvent.text)}
+                />
+                <TextInput
                   label="개업일자"
                   placeholder="YYYYMMDD 형식으로 입력해주세요"
                   errorMessage="개업일자를 입력해주세요"
                   inputMode="numeric"
-                  maxLength={8}
                   error={isError(startDate, 8)}
                   value={startDate}
                   onChange={e => setStartDate(e.nativeEvent.text)}
                 />
+                <TextInput
+                  label="사업자등록번호"
+                  placeholder="사업자등록번호를 입력해주세요(10자)"
+                  errorMessage="사업자등록번호를 입력해주세요(10자)"
+                  inputMode="numeric"
+                  maxLength={10}
+                  error={isError(businessNumber, 10)}
+                  value={businessNumber}
+                  onChange={e => setBusinessNumber(e.nativeEvent.text)}
+                />
                 <S.InputLayout>
-                  <TextInput
-                    label="사업자등록번호"
-                    placeholder="사업자등록번호를 입력해주세요(10자)"
-                    errorMessage="사업자등록번호를 입력해주세요(10자)"
-                    inputMode="numeric"
-                    maxLength={10}
-                    error={isError(businessNumber, 10)}
-                    value={businessNumber}
-                    onChange={e => setBusinessNumber(e.nativeEvent.text)}
-                  />
                   <S.VerifyBusinessButton
                     disabled={disabledBusinessNumberVerifyButton}
                     onPress={() => {
@@ -219,7 +236,8 @@ const RegisterMarketScreen = () => {
                   !businessNumber ||
                   !address ||
                   !specificAddress ||
-                  !contactNumber
+                  !contactNumber ||
+                  !businessMarketName
                 ) {
                   return;
                 }
@@ -229,6 +247,7 @@ const RegisterMarketScreen = () => {
                   address,
                   specificAddress,
                   contactNumber,
+                  businessMarketName,
                 });
 
                 if (res && res.marketId) {

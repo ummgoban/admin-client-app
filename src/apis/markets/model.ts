@@ -14,7 +14,7 @@ export type verifyBusinessNumberInterface = {
   businessNumber: string;
   startDate: string;
   name: string;
-  marketName: string;
+  businessMarketName: string;
 };
 
 export type VerifyBusinessNumberRequest = verifyBusinessNumberInterface;

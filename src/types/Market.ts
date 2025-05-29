@@ -24,6 +24,7 @@ export type UpdateMarketInfoType = {
 
 export type RegistMarketType = {
   name: string;
+  businessMarketName: string;
   businessNumber: string;
   address: string;
   specificAddress: string;

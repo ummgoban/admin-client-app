@@ -1,6 +1,6 @@
 import {
   MarketType,
-  RegistMarketType,
+  RegisterMarketType,
   UpdateMarketInfoType,
 } from '@/types/Market';
 import apiClient from './ApiClient';
@@ -8,15 +8,15 @@ import apiClient from './ApiClient';
 /**
  * @deprecated use [createMarket](./markets/query.ts) instead
  * POST /markets
- * body: RegistMarketType
+ * body: RegisterMarketType
  */
 export const createMarket = async (
-  market: RegistMarketType,
+  market: RegisterMarketType,
 ): Promise<{marketId: number} | null> => {
   try {
     const res = await apiClient.post<
       {code: number; data: {marketId: number}},
-      RegistMarketType
+      RegisterMarketType
     >('owner/markets', market);
 
     if (res && res.code === 200) {

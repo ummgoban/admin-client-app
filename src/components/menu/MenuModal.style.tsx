@@ -19,7 +19,12 @@ const S = {
     width: 100%;
     height: 100%;
   `,
-
+  ModalCloseButton: styled.TouchableOpacity`
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 1;
+  `,
   ModalViewInner: styled.View`
     display: flex;
     justify-content: center;
@@ -123,6 +128,13 @@ const S = {
     align-items: center;
     border-radius: 8px;
     padding: 12px;
+  `,
+  XIcon: styled.Image`
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 24px;
+    right: 24px;
   `,
 
   TagRemoveButton: styled.TouchableOpacity``,

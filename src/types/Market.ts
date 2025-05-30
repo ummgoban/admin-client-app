@@ -22,8 +22,9 @@ export type UpdateMarketInfoType = {
   // imageUrls: string[];
 };
 
-export type RegistMarketType = {
+export type RegisterMarketType = {
   name: string;
+  businessMarketName: string;
   businessNumber: string;
   address: string;
   specificAddress: string;

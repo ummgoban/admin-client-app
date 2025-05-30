@@ -39,7 +39,12 @@ const RegisterMarketScreen = () => {
   const {selectMarket} = useProfile();
   const {refresh} = useMarket();
 
+  // 앱 표시 가게이름
   const [marketName, setMarketName] = useState<string | undefined>(undefined);
+  // 사업자등록 정보 가게 이름
+  const [businessMarketName, setBusinesesMarketName] = useState<
+    string | undefined
+  >(undefined);
   const [businessNumber, setBusinessNumber] = useState<string | undefined>(
     undefined,
   );
@@ -49,6 +54,8 @@ const RegisterMarketScreen = () => {
   const [specificAddress, setSpecificAddress] = useState<string | undefined>(
     undefined,
   );
+  const [isVerifiedBusinessNumber, setIsVerifiedBusinessNumber] =
+    useState<boolean>(false);
   const [startDate, setStartDate] = useState<string | undefined>(undefined);
   const [marketOwnerName, setMarketOwnerName] = useState<string | undefined>(
     undefined,
@@ -63,25 +70,40 @@ const RegisterMarketScreen = () => {
     !isValidBusinessNumber(businessNumber) ||
     !marketOwnerName ||
     isError(marketOwnerName) ||
-    !marketName ||
-    isError(marketName) ||
+    !businessMarketName ||
+    isError(businessMarketName) ||
     !startDate ||
     !isValidStartDate(startDate);
 
   const {mutateAsync: createMarket} = useCreateMarket();
+  const {mutateAsync: verifyBusinessNumber} = useVerifyBusinessNumber();
 
-  const {data: isVerifiedBusinessNumber, refetch: verifyBusinessNumber} =
-    useVerifyBusinessNumber(
-      !disabledBusinessNumberVerifyButton
-        ? {
-            businessNumber,
-            startDate,
-            name: marketOwnerName,
-            marketName,
+  const handleVerifyBusinessNumber = () => {
+    if (disabledBusinessNumberVerifyButton) return;
+
+    verifyBusinessNumber(
+      {
+        businessNumber,
+        startDate,
+        name: marketOwnerName,
+        businessMarketName,
+      },
+      {
+        onSuccess: data => {
+          if (data) {
+            Alert.alert('사업자등록번호 인증에 성공했습니다.');
+            setIsVerifiedBusinessNumber(true);
+          } else {
+            Alert.alert('인증 실패', '유효하지 않은 사업자 등록 정보입니다.');
+            setIsVerifiedBusinessNumber(false);
           }
-        : undefined,
+        },
+        onError: () => {
+          Alert.alert('서버와의 통신에 실패했습니다. 다시 시도해주세요.');
+        },
+      },
     );
-
+  };
   const handleAddressSelect = (data: AddressData) => {
     const selectedAddress = data.roadAddress || data.jibunAddress;
     setAddress(selectedAddress);
@@ -106,7 +128,9 @@ const RegisterMarketScreen = () => {
     !marketOwnerName ||
     isError(marketOwnerName) ||
     !startDate ||
-    !isValidStartDate(startDate);
+    !isValidStartDate(startDate) ||
+    isError(marketName) ||
+    !marketName;
 
   // 입력 + 사업자 등록 인증까지 체크
   const disabledRegisterButton = isInputIncomplete || !isVerifiedBusinessNumber;
@@ -117,6 +141,7 @@ const RegisterMarketScreen = () => {
   const noticeMessage = isInputIncomplete
     ? '모든 입력 사항은 필수 입력 사항입니다.'
     : '사업자등록번호 인증이 필요합니다.';
+
   return (
     <>
       <S.RegisterMarketContainer
@@ -150,16 +175,8 @@ const RegisterMarketScreen = () => {
                   onChange={e => setSpecificAddress(e.nativeEvent.text)}
                 />
                 <TextInput
-                  label="사장님 성함"
-                  placeholder="사장님 성함을 입력해주세요"
-                  errorMessage="사장님 이름을 입력해주세요"
-                  error={isError(marketOwnerName)}
-                  value={marketOwnerName}
-                  onChange={e => setMarketOwnerName(e.nativeEvent.text)}
-                />
-                <TextInput
                   label="가게명"
-                  placeholder="가게명을 입력해주세요"
+                  placeholder="맘찬픽에서 표시될 가게명을 입력해주세요"
                   errorMessage="가게명을 입력해주세요"
                   error={isError(marketName)}
                   value={marketName}
@@ -178,6 +195,24 @@ const RegisterMarketScreen = () => {
                   }
                 />
                 <TextInput
+                  label="사장님 성함"
+                  placeholder="사장님 성함을 입력해주세요"
+                  errorMessage="사장님 이름을 입력해주세요"
+                  error={isError(marketOwnerName)}
+                  value={marketOwnerName}
+                  onChange={e => setMarketOwnerName(e.nativeEvent.text)}
+                  disabled={isVerifiedBusinessNumber}
+                />
+                <TextInput
+                  label="상호명"
+                  placeholder="사업자 등록 정보 상호명을 입력해주세요"
+                  errorMessage="상호명을 입력해주세요"
+                  error={isError(businessMarketName)}
+                  value={businessMarketName}
+                  onChange={e => setBusinesesMarketName(e.nativeEvent.text)}
+                  disabled={isVerifiedBusinessNumber}
+                />
+                <TextInput
                   label="개업일자"
                   placeholder="YYYYMMDD 형식으로 입력해주세요"
                   errorMessage="개업일자를 입력해주세요"
@@ -186,24 +221,31 @@ const RegisterMarketScreen = () => {
                   error={isError(startDate, 8)}
                   value={startDate}
                   onChange={e => setStartDate(e.nativeEvent.text)}
+                  disabled={isVerifiedBusinessNumber}
+                />
+                <TextInput
+                  label="사업자등록번호"
+                  placeholder="사업자등록번호를 입력해주세요(10자)"
+                  errorMessage="사업자등록번호를 입력해주세요(10자)"
+                  inputMode="numeric"
+                  maxLength={10}
+                  error={isError(businessNumber, 10)}
+                  value={businessNumber}
+                  onChange={e => setBusinessNumber(e.nativeEvent.text)}
+                  disabled={isVerifiedBusinessNumber}
                 />
                 <S.InputLayout>
-                  <TextInput
-                    label="사업자등록번호"
-                    placeholder="사업자등록번호를 입력해주세요(10자)"
-                    errorMessage="사업자등록번호를 입력해주세요(10자)"
-                    inputMode="numeric"
-                    maxLength={10}
-                    error={isError(businessNumber, 10)}
-                    value={businessNumber}
-                    onChange={e => setBusinessNumber(e.nativeEvent.text)}
-                  />
                   <S.VerifyBusinessButton
-                    disabled={disabledBusinessNumberVerifyButton}
-                    onPress={() => {
-                      verifyBusinessNumber();
-                    }}>
-                    <S.ButtonText disabled={disabledBusinessNumberVerifyButton}>
+                    disabled={
+                      disabledBusinessNumberVerifyButton ||
+                      isVerifiedBusinessNumber
+                    }
+                    onPress={handleVerifyBusinessNumber}>
+                    <S.ButtonText
+                      disabled={
+                        disabledBusinessNumberVerifyButton ||
+                        isVerifiedBusinessNumber
+                      }>
                       사업자등록번호 인증
                     </S.ButtonText>
                   </S.VerifyBusinessButton>
@@ -219,7 +261,8 @@ const RegisterMarketScreen = () => {
                   !businessNumber ||
                   !address ||
                   !specificAddress ||
-                  !contactNumber
+                  !contactNumber ||
+                  !businessMarketName
                 ) {
                   return;
                 }
@@ -229,6 +272,7 @@ const RegisterMarketScreen = () => {
                   address,
                   specificAddress,
                   contactNumber,
+                  businessMarketName,
                 });
 
                 if (res && res.marketId) {

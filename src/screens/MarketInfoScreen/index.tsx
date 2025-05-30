@@ -53,8 +53,6 @@ const MarketInfoScreen = () => {
   // const [isTempClosing, setIsTempClosing] = useState(false);
 
   const [summary, setSummary] = useState<string>();
-  // const [pickupStartTime, setPickupStartTime] = useState<Date>();
-  // const [pickupEndTime, setPickupEndTime] = useState<Date>();
   const [marketOpenTime, setMarketOpenTime] = useState<Date>();
   const [marketCloseTime, setMarketCloseTime] = useState<Date>();
 
@@ -68,12 +66,6 @@ const MarketInfoScreen = () => {
     if (marketInfo) {
       setSummary(marketInfo.summary);
 
-      // if (marketInfo.pickupStartAt) {
-      //   setPickupStartTime(new Date(`2024-01-01T${marketInfo.pickupStartAt}`));
-      // }
-      // if (marketInfo.pickupEndAt) {
-      //   setPickupEndTime(new Date(`2024-01-01T${marketInfo.pickupEndAt}`));
-      // }
       if (marketInfo.openAt) {
         setMarketOpenTime(new Date(`2024-01-01T${marketInfo.openAt}`));
       }
@@ -233,12 +225,6 @@ const MarketInfoScreen = () => {
         date={new Date('2024-01-01T08:00:00')}
         onConfirm={date => {
           switch (openModal) {
-            // case 'pickup-start':
-            //   setPickupStartTime(date);
-            //   break;
-            // case 'pickup-end':
-            //   setPickupEndTime(date);
-            //   break;
             case 'market-open':
               setMarketOpenTime(date);
               break;
@@ -259,8 +245,6 @@ const MarketInfoScreen = () => {
       <BottomButton
         onPress={async () => {
           if (
-            // !pickupStartTime ||
-            // !pickupEndTime ||
             !marketOpenTime ||
             !marketCloseTime ||
             // !imageList.length ||

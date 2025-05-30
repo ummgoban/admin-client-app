@@ -8,13 +8,13 @@ import {
   uploadMarketImage,
   verifyBusinessNumber,
 } from './client';
-import {RegistMarketType, UpdateMarketInfoType} from '@/types/Market';
+import {RegisterMarketType, UpdateMarketInfoType} from '@/types/Market';
 import {VerifyBusinessNumberRequest} from './model';
 
 export const useCreateMarket = () => {
   return useMutation({
     mutationKey: ['createMarket'],
-    mutationFn: (market: RegistMarketType) => createMarket(market),
+    mutationFn: (market: RegisterMarketType) => createMarket(market),
   });
 };
 

@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "private": true,
   "scripts": {
+    "ci": "sh ./.script/ci.sh",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
@@ -32,6 +33,7 @@
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/stack": "^6.4.1",
     "@tanstack/react-query": "^5.66.9",
+    "@ummgoban/shared": "0.0.1-alpha.5",
     "axios": "^1.7.4",
     "dayjs": "^1.11.13",
     "react": "18.3.1",

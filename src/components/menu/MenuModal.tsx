@@ -120,7 +120,7 @@ const MenuModal = ({
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const menuOriginPrice = Number(
       menuData.originPrice.toString().replace(/,/g, ''),
     );
@@ -128,6 +128,8 @@ const MenuModal = ({
       menuData.discountPrice.toString().replace(/,/g, ''),
     );
     const menuStock = Number(menuData.stock);
+    const clientImage = menuData.image;
+
     if (
       !menuData.name.trim() ||
       menuOriginPrice <= 0 ||
@@ -142,7 +144,24 @@ const MenuModal = ({
       Alert.alert('가격 설정 오류', '할인가가 원가보다 클 수 없어요!');
       return;
     }
-    onSave(menuData);
+
+    const formdata = new FormData();
+    formdata.append('updateImage', {
+      name: clientImage.split('/').pop(),
+      type: `image/jpeg`,
+      uri: clientImage,
+    });
+
+    const s3Url = await uploadProductImage(profile?.marketId ?? 0, formdata);
+
+    if (!s3Url) {
+      Alert.alert('이미지 업로드에 실패했습니다.');
+      return;
+    }
+    onSave({
+      ...menuData,
+      image: s3Url,
+    });
   };
 
   const handleImageUpload = async () => {
@@ -154,27 +173,9 @@ const MenuModal = ({
       return;
     }
 
-    const formdata = new FormData();
-
-    formdata.append('updateImage', {
-      name: res.split('/').pop(),
-      type: `image/jpeg`,
-      uri: res,
-    });
-
-    const s3Url = await uploadProductImage(profile?.marketId ?? 0, formdata);
-
-    if (!s3Url) {
-      console.error('uploadProductImage Error: no s3Url');
-      Alert.alert('이미지를 업로드하지 못했습니다.');
-      return;
-    }
-
-    console.debug('MenuModal', 's3Url', s3Url);
-
     setMenuData(prev => ({
       ...prev,
-      image: s3Url,
+      image: res,
     }));
   };
 

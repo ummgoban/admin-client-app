@@ -4192,6 +4192,7 @@ __metadata:
     react-native-date-picker: ^5.0.7
     react-native-encrypted-storage: ^4.0.3
     react-native-gesture-handler: ^2.18.1
+    react-native-image-crop-picker: ^0.50.1
     react-native-image-picker: ^7.1.2
     react-native-paper: ^5.12.5
     react-native-permissions: ^5.2.1
@@ -9855,6 +9856,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 0a42cedb8860a326b465085d0f7622ba03f038b0f0bdd1b1fe5703e58d62cb08bfb82a686c069a1a1410705c2ae0d82971b0449d83796fdd6d071131cf88e68b
+  languageName: node
+  linkType: hard
+
+"react-native-image-crop-picker@npm:^0.50.1":
+  version: 0.50.1
+  resolution: "react-native-image-crop-picker@npm:0.50.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 35d4fae23e7da88da388fea740b39aeb2d5f9adecfd971a1efb04c8331e636dff777baedb4c94755a2ae18d9d43bacb68a25d39343e63c7dd14562c5d6934816
   languageName: node
   linkType: hard
 

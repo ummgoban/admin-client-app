@@ -9868,6 +9868,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-image-picker@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "react-native-image-picker@npm:7.1.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 35d4fae23e7da88da388fea740b39aeb2d5f9adecfd971a1efb04c8331e636dff777baedb4c94755a2ae18d9d43bacb68a25d39343e63c7dd14562c5d6934816
+  languageName: node
+  linkType: hard
+
 "react-native-paper@npm:^5.12.5":
   version: 5.12.5
   resolution: "react-native-paper@npm:5.12.5"

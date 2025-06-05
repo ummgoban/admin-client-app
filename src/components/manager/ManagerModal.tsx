@@ -32,8 +32,7 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
   const handleGenerateAuthCode = async () => {
     const res = await generateAuthCodeMutate();
     if (res) {
-      const authTargetTime = Date.now() + 10000;
-      // TODO: 테스트 10초, 실제 600000으로 변경
+      const authTargetTime = Date.now() + 600000;
       setExpireAuthTime(authTargetTime);
       queryClient.invalidateQueries({queryKey: ['pendingManagers', marketId]});
       setMarketName(res.data.marketName);
@@ -65,11 +64,11 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
   };
 
   useEffect(() => {
-    if (expireAuthTime && Date.now() >= expireAuthTime) {
+    if (expireAuthTime && Date.now() >= expireAuthTime && visible) {
       handleTimerOff();
       queryClient.invalidateQueries({queryKey: ['pendingManagers', marketId]});
     }
-  }, [expireAuthTime, queryClient, marketId, remainingTime]);
+  }, [expireAuthTime, queryClient, marketId, remainingTime, visible]);
 
   return (
     <Portal>

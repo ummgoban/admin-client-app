@@ -19,6 +19,7 @@
 		BEFC88344809484A3AC58E5E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 2E9E29C83F45A06E2A14B984 /* PrivacyInfo.xcprivacy */; };
 		CF01AE337BC648A39295E25E /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 381656E9A06E4C7D92E7CA06 /* Pretendard-Regular.ttf */; };
 		D0A0730BE89F3BA8FE38FB21 /* Pods_AdminClientApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913DA9316D93063C3CA5F37F /* Pods_AdminClientApp.framework */; };
+		FAE19D172DF0898E008C596C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAE19D152DF0898E008C596C /* InfoPlist.strings */; };
 		FAEA58CB2DCB2323006B7FB4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAEA58CA2DCB2323006B7FB4 /* GoogleService-Info.plist */; };
 		FAEE934E2CB7B1DA0063C7A1 /* SwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE934D2CB7B1DA0063C7A1 /* SwiftBridge.swift */; };
 		FDEA8C53B73E4CC184A5BFF5 /* Pretendard-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9682FD8AF154F53B0F60FD5 /* Pretendard-Light.ttf */; };
@@ -60,6 +61,7 @@
 		D9682FD8AF154F53B0F60FD5 /* Pretendard-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.ttf"; path = "../src/assets/fonts/Pretendard-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FACFBE0F2CF02578002A689A /* AdminClientApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AdminClientApp.entitlements; path = AdminClientApp/AdminClientApp.entitlements; sourceTree = "<group>"; };
+		FAE19D162DF0898E008C596C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FAEA58CA2DCB2323006B7FB4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FAEE934C2CB7B1DA0063C7A1 /* AdminClientApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdminClientApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAEE934D2CB7B1DA0063C7A1 /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				FAE19D152DF0898E008C596C /* InfoPlist.strings */,
 				FAEA58CA2DCB2323006B7FB4 /* GoogleService-Info.plist */,
 				FAEE934F2CB7B83F0063C7A1 /* Config.xcconfig */,
 				13B07FAE1A68108700A75B9A /* AdminClientApp */,
@@ -258,6 +261,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -291,6 +295,7 @@
 				A85C614023124376A34B5F93 /* Pretendard-Medium.ttf in Resources */,
 				CF01AE337BC648A39295E25E /* Pretendard-Regular.ttf in Resources */,
 				37A50826F42A4148A91461BD /* Pretendard-SemiBold.ttf in Resources */,
+				FAE19D172DF0898E008C596C /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +473,17 @@
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FAE19D152DF0898E008C596C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAE19D162DF0898E008C596C /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
@@ -672,7 +688,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -757,7 +776,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

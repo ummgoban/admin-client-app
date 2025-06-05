@@ -72,9 +72,9 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to your camera to take photos. Store owners can upload pictures of their menu items for sale.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to your photo library to upload and display images. Store owners can upload pictures of their menu items for sale.</string>
+<string>판매할 반찬 업로드 시 사진을 촬영하여 업로드 할 수 있도록 카메라 접근 권한이 필요합니다.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>판매할 반찬 업로드 시 사진을 촬영하여 업로드 할 수 있도록 카메라 접근 권한이 필요합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pretendard-Bold.ttf</string>

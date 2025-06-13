@@ -186,9 +186,9 @@ const RegisterMarketScreen = () => {
                   label="전화번호"
                   placeholder="010-1234-5678"
                   errorMessage="전화번호를 입력해주세요"
-                  keyboardType="numeric"
+                  keyboardType="phone-pad"
                   error={isError(contactNumber, 11)}
-                  maxLength={11}
+                  maxLength={13}
                   value={formatPhoneNumber(contactNumber ?? '')}
                   onChange={e =>
                     setContactNumber(deleteHyphen(e.nativeEvent.text))

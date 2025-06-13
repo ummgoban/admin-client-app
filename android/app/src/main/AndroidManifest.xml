@@ -6,7 +6,7 @@
   <!-- 이미지/카메라 -->
   <uses-permission android:name="android.permission.CAMERA"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> 
+  <!-- <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> -->
 
     <application
       android:name=".MainApplication"
@@ -30,17 +30,24 @@
         </intent-filter>
       </activity>
       <activity
-   android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-   android:exported="true">
-  <intent-filter>
-      <action android:name="android.intent.action.VIEW" />
-      <category android:name="android.intent.category.DEFAULT" />
-      <category android:name="android.intent.category.BROWSABLE" />
+        android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
 
-      <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
-      <data android:host="oauth"
-          android:scheme="@string/KAKAO_NATIVE_KEY" />
-  </intent-filter>
-</activity>
+            <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
+            <data android:host="oauth"
+                android:scheme="@string/KAKAO_NATIVE_KEY" />
+        </intent-filter>
+      </activity>
+      <service android:name="com.google.android.gms.metadata.ModuleDependencies" android:enabled="false" android:exported="false">
+        <intent-filter>
+          <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+        </intent-filter>
+
+        <meta-data android:name="photopicker_activity:0:required" android:value="" />
+      </service>
     </application>
 </manifest>

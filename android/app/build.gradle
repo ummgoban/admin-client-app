@@ -93,7 +93,7 @@ android {
         applicationId "com.ummgoban.momchanpickadmin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 18  // TODO: update version code
+        versionCode 19  // TODO: update version code
         versionName "1.1.2" // TODO: update version name
         resValue "string", "build_config_package", "com.ummgoban.momchanpickadmin"
     }

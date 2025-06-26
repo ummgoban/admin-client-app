@@ -164,7 +164,6 @@ export const loginWithOAuth = async (
 };
 
 export const logout = async (): Promise<boolean> => {
-  // TODO: credentail logout 추가
   try {
     const storageRes: SessionType | null = await getStorage('session');
     if (!storageRes) {
@@ -177,11 +176,11 @@ export const logout = async (): Promise<boolean> => {
       await NaverLogin.logout();
     }
 
-    await setStorage('session', {});
-
     return true;
   } catch (error) {
     throw new CustomError(error);
+  } finally {
+    await setStorage('session', {});
   }
 };
 

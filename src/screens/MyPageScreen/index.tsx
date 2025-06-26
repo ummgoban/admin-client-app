@@ -113,6 +113,18 @@ const MyPageScreen = () => {
     }
   };
 
+  const logoutCallback = useCallback(() => {
+    Alert.alert('로그아웃 되었습니다.', '', [
+      {
+        onPress: () =>
+          navigation.navigate('Home', {
+            screen: 'Feed',
+          }),
+        text: '확인',
+      },
+    ]);
+  }, [navigation]);
+
   if (isLoading) {
     // TODO: Loading Screen
     return <Text>loading...</Text>;
@@ -140,16 +152,8 @@ const MyPageScreen = () => {
           <Button
             onPress={() => {
               logout({
-                onSuccess: () => {
-                  Alert.alert('로그아웃 되었습니다.', '', [
-                    {
-                      text: '확인',
-                    },
-                  ]);
-                },
-                onError: error => {
-                  Alert.alert('로그아웃 실패', error.errorMessage);
-                },
+                onSuccess: logoutCallback,
+                onError: logoutCallback,
               });
             }}>
             로그아웃

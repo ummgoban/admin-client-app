@@ -148,6 +148,7 @@ const MyPageScreen = () => {
               <S.ProfileName>{`${profile.name} 님${marketList && profile.marketId ? `의 ${marketList.find(val => val.id === profile.marketId)?.name ?? ''}` : ''}`}</S.ProfileName>
               <Icon name="chevron-down" size={24} color="#000000" />
             </S.ProfileNameContainer>
+            <S.UserEmailText>{profile.email}</S.UserEmailText>
           </S.ProfileContainer>
           <Button
             onPress={() => {

@@ -195,6 +195,8 @@ export const getProfile = async (): Promise<UserType | null> => {
         id: res.id,
         name: res.name || '사장',
         provider: res.provider,
+        nickname: res.nickname,
+        email: res.email,
       };
     } else {
       return null;

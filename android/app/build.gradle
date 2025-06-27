@@ -1,4 +1,9 @@
 apply plugin: "com.android.application"
+project.ext.envConfigFiles = [
+    debug: ".env",
+    release: ".env.release",
+]
+
 apply plugin: 'com.google.gms.google-services'
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 apply plugin: "org.jetbrains.kotlin.android"
@@ -88,8 +93,8 @@ android {
         applicationId "com.ummgoban.momchanpickadmin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 14  // TODO: update version code
-        versionName "1.1.0-alpha.0" // TODO: update version name
+        versionCode 21  // TODO: update version code
+        versionName "1.1.2.2" // TODO: update version name
         resValue "string", "build_config_package", "com.ummgoban.momchanpickadmin"
     }
     signingConfigs {

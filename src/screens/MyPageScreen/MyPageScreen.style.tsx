@@ -203,6 +203,11 @@ const S = {
   `,
   WithdrawModalConfirmButton: styled(Button)``,
   WithdrawModalCancelButton: styled(Button)``,
+
+  UserEmailText: styled.Text`
+    font-size: 16px;
+    color: #888;
+  `,
 };
 
 export default S;

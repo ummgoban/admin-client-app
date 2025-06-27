@@ -62,13 +62,23 @@ const ManagerModal = ({visible, onDismiss, marketId}: ManagerModalProps) => {
       console.log('error');
     }
   };
+  useEffect(() => {
+    if (remainingTime <= 0 && authCode) {
+      handleTimerOff();
+    }
+  }, [remainingTime, authCode]);
 
   useEffect(() => {
-    if (expireAuthTime && Date.now() >= expireAuthTime && visible) {
-      handleTimerOff();
-      queryClient.invalidateQueries({queryKey: ['pendingManagers', marketId]});
+    if (visible && authCode) {
+      const interval = setInterval(() => {
+        queryClient.invalidateQueries({
+          queryKey: ['pendingManagers', marketId],
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
     }
-  }, [expireAuthTime, queryClient, marketId, remainingTime, visible]);
+  }, [visible, authCode, marketId, queryClient]);
 
   return (
     <Portal>

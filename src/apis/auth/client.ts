@@ -136,31 +136,36 @@ export const credentialLogin = async ({
 export const loginWithOAuth = async (
   oAuthProvider: SessionType['OAuthProvider'],
 ): Promise<boolean> => {
-  let res: SessionType | null = null;
-  if (oAuthProvider === 'KAKAO') {
-    res = await signInWithKakao();
-  } else if (oAuthProvider === 'NAVER') {
-    res = await signInWithNaver();
-  } else if (oAuthProvider === 'APPLE') {
-    res = await signInWithApple();
-  } else {
-    throw new Error(`Unsupported OAuthProvider: ${oAuthProvider}`);
-  }
+  try {
+    let res: SessionType | null = null;
 
-  if (res) {
-    await setStorage('session', res);
-
-    try {
-      console.log('test FCM after login');
-      const token = await messaging().getToken();
-      await registerFCMToken(token);
-    } catch (error) {
-      throw new CustomError(error);
+    if (oAuthProvider === 'KAKAO') {
+      res = await signInWithKakao();
+    } else if (oAuthProvider === 'NAVER') {
+      res = await signInWithNaver();
+    } else if (oAuthProvider === 'APPLE') {
+      res = await signInWithApple();
+    } else {
+      throw new Error(`Unsupported OAuthProvider: ${oAuthProvider}`);
     }
-    return true;
-  }
 
-  return false;
+    if (res) {
+      await setStorage('session', res);
+
+      try {
+        console.log('test FCM after login');
+        const token = await messaging().getToken();
+        await registerFCMToken(token);
+      } catch (error) {
+        throw new CustomError(error);
+      }
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    throw new CustomError(error);
+  }
 };
 
 export const logout = async (): Promise<boolean> => {

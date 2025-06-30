@@ -106,17 +106,9 @@ export const signInWithNaver = async (): Promise<SessionType | null> => {
  */
 export const signInWithKakao = async (): Promise<SessionType | null> => {
   let token: KakaoOAuthToken | null = null;
+
   try {
     token = await kakaoLogin();
-  } catch (error) {
-    Alert.alert('카카오 로그인 에러');
-  }
-
-  if (!token) {
-    return null;
-  }
-
-  try {
     // JWT 토큰
     const response = await apiClient.post<{
       data: {

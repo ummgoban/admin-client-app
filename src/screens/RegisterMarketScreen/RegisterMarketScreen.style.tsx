@@ -13,6 +13,11 @@ const S = {
     padding: 16px;
   `,
 
+  ColSpacer: styled.View`
+    height: 32px;
+    width: 100%;
+  `,
+
   RegisterMarketInputContainer: styled.View`
     display: flex;
     flex-direction: column;

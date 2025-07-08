@@ -150,7 +150,7 @@ const RegisterMarketScreen = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             <S.RegisterMarketScrollContainer
-              contentContainerStyle={{paddingBottom: 24, flexGrow: 1}}>
+              contentContainerStyle={{paddingBottom: 24}}>
               <S.RegisterMarketInputContainer>
                 <S.InputLayout>
                   <TextInput

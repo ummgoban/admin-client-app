@@ -145,11 +145,12 @@ const RegisterMarketScreen = () => {
   return (
     <>
       <S.RegisterMarketContainer
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
             <S.RegisterMarketScrollContainer
-              contentContainerStyle={{paddingBottom: 24}}>
+              contentContainerStyle={{paddingBottom: 24, flexGrow: 1}}>
               <S.RegisterMarketInputContainer>
                 <S.InputLayout>
                   <TextInput

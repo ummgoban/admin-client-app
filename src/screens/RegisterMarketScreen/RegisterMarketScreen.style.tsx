@@ -10,8 +10,6 @@ const S = {
   `,
 
   RegisterMarketScrollContainer: styled.ScrollView`
-    flex: 1;
-
     padding: 16px;
   `,
 

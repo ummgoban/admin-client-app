@@ -22,7 +22,7 @@ const LoginScreen = () => {
 
   return (
     <S.Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <S.LoginPageContainer>
           <S.MomChanPickLogoWrapper>
             <MomChanPickLogo width={160} height={160} />

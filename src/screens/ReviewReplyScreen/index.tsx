@@ -73,6 +73,7 @@ const ReviewReplyScreen = ({route}: ReviewReplyScreenProps) => {
           )}
 
           <S.ReplySection>
+            {/* TODO: Input 태그 height 증가 */}
             <TextInput
               placeholder="리뷰에 답변해주세요!"
               value={replyContent}

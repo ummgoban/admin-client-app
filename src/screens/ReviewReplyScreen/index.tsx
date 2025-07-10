@@ -34,9 +34,7 @@ const ReviewReplyScreen = ({route}: ReviewReplyScreenProps) => {
   };
 
   return (
-    <S.Container
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}>
+    <S.Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <S.ScreenWrapper>
           <S.Title>{reviewData.name}</S.Title>

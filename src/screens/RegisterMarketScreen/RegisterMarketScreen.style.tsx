@@ -10,9 +10,12 @@ const S = {
   `,
 
   RegisterMarketScrollContainer: styled.ScrollView`
-    flex: 1;
-
     padding: 16px;
+  `,
+
+  ColSpacer: styled.View`
+    height: 32px;
+    width: 100%;
   `,
 
   RegisterMarketInputContainer: styled.View`

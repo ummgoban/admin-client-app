@@ -40,6 +40,9 @@ const S = {
   `,
 
   ReplySection: styled.View`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin-top: 16px;
     padding-top: 16px;
     border-top-width: 1px;

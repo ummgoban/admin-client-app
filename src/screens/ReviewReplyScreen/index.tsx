@@ -5,8 +5,8 @@ import {useCreateReviewReply} from '@/apis/reviews';
 import S from './ReviewReplyScreen.style';
 import {ActivityIndicator} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-import CustomTextInput from '@/components/common/CustomTextInput';
 import {Keyboard, TouchableWithoutFeedback, Platform} from 'react-native';
+import TextInput from '@/components/common/TextInput/TextInput';
 
 type ReviewReplyScreenProps = StackScreenProps<
   ReviewStackParamList,
@@ -73,11 +73,10 @@ const ReviewReplyScreen = ({route}: ReviewReplyScreenProps) => {
           )}
 
           <S.ReplySection>
-            <CustomTextInput
+            <TextInput
               placeholder="리뷰에 답변해주세요!"
               value={replyContent}
               onChangeText={setReplyContent}
-              style={{height: 160, width: '100%'}}
             />
             <S.ReplyButton onPress={handleReplySubmit} disabled={isPending}>
               {isPending ? (

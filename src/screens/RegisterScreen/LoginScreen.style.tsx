@@ -1,6 +1,9 @@
 import styled from '@emotion/native';
 
 const S = {
+  Container: styled.KeyboardAvoidingView`
+    flex: 1;
+  `,
   LoginPageContainer: styled.ScrollView`
     flex: 1;
     background-color: white;

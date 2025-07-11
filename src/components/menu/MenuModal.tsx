@@ -3,7 +3,14 @@ import CustomTextInput from '@/components/common/CustomTextInput';
 import {MenuType, TagType} from '@/types/ProductType';
 import {pickImage} from '@/utils/image-picker';
 import React, {useEffect, useState} from 'react';
-import {Alert, Modal, SafeAreaView} from 'react-native';
+import {
+  Alert,
+  Modal,
+  SafeAreaView,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import TextInput from '../common/TextInput/TextInput';
 import CustomLabel from '../common/CustomLabel';
 import TagModal from './TagModal';
@@ -210,114 +217,122 @@ const MenuModal = ({
     <Modal visible={isVisible} transparent={true} animationType="slide">
       <S.ModalOverlay>
         <SafeAreaView>
-          <S.ModalView>
-            <S.ModalCloseButton onPress={onClose}>
-              <Icon name="close" size={24} />
-            </S.ModalCloseButton>
-            <S.ModalScrollView>
-              <S.ModalViewInner>
-                <S.ModalImageWrapper onPress={handleImageUpload}>
-                  {menuData.image ? (
-                    <S.ModalImage source={{uri: menuData.image}} />
-                  ) : (
-                    <S.ModalButton onPress={handleImageUpload}>
-                      <S.ModalButtonText>이미지 선택하기</S.ModalButtonText>
-                    </S.ModalButton>
-                  )}
-                </S.ModalImageWrapper>
-                <S.InputRow>
-                  <TextInput
-                    value={menuData.name}
-                    placeholder="메뉴 이름 입력"
-                    onChangeText={text => handleInputChange('name', text)}
-                  />
-                </S.InputRow>
-                <S.InputRow>
-                  <S.ModalButton onPress={() => setTagModalVisible(true)}>
-                    <S.StatusButtonText>태그 추가하기</S.StatusButtonText>
-                  </S.ModalButton>
-                  <S.TagsFlexWrap>
-                    {menuData.tags.map(tag => (
-                      <S.TagButtonWrapper key={tag.id}>
-                        <S.StatusButtonText>{tag.tagName}</S.StatusButtonText>
-                      </S.TagButtonWrapper>
-                    ))}
-                  </S.TagsFlexWrap>
-                </S.InputRow>
-                <S.InputRow>
-                  <CustomLabel label={'원가'} required />
-                  <CustomTextInput
-                    value={menuData.originPrice.toString()}
-                    onChangeText={text =>
-                      handleInputChange('originPrice', text)
-                    }
-                  />
-                </S.InputRow>
-                <S.InputRow>
-                  <CustomLabel label={'할인가'} required />
-                  <CustomTextInput
-                    value={menuData.discountPrice.toString()}
-                    onChangeText={text =>
-                      handleInputChange('discountPrice', text)
-                    }
-                  />
-                </S.InputRow>
-
-                <S.InputRow>
-                  <S.InputLabel>적용 할인율</S.InputLabel>
-                  <CustomTextInput
-                    value={menuData.discountRate.toString() + '%'}
-                    disabled
-                  />
-                </S.InputRow>
-                <S.InputRow>
-                  <CustomLabel label={'재고'} required />
-                  <CustomTextInput
-                    value={menuData.stock.toString()}
-                    onChangeText={text => handleInputChange('stock', text)}
-                  />
-                </S.InputRow>
-                <S.InputRow>
-                  <S.InputLabel>판매 상태</S.InputLabel>
-                  <S.StatusButtonContainer>
-                    {Object.entries(STATUS_OPTIONS).map(([status, label]) => (
-                      <S.StatusButton
-                        key={status}
-                        onPress={() =>
-                          handleStatusChange(
-                            status as MenuType['productStatus'],
-                          )
+          <S.Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <S.ModalView>
+                <S.ModalCloseButton onPress={onClose}>
+                  <Icon name="close" size={24} />
+                </S.ModalCloseButton>
+                <S.ModalScrollView>
+                  <S.ModalViewInner>
+                    <S.ModalImageWrapper onPress={handleImageUpload}>
+                      {menuData.image ? (
+                        <S.ModalImage source={{uri: menuData.image}} />
+                      ) : (
+                        <S.ModalButton onPress={handleImageUpload}>
+                          <S.ModalButtonText>이미지 선택하기</S.ModalButtonText>
+                        </S.ModalButton>
+                      )}
+                    </S.ModalImageWrapper>
+                    <S.InputRow>
+                      <TextInput
+                        value={menuData.name}
+                        placeholder="메뉴 이름 입력"
+                        onChangeText={text => handleInputChange('name', text)}
+                      />
+                    </S.InputRow>
+                    <S.InputRow>
+                      <S.ModalButton onPress={() => setTagModalVisible(true)}>
+                        <S.StatusButtonText>태그 추가하기</S.StatusButtonText>
+                      </S.ModalButton>
+                      <S.TagsFlexWrap>
+                        {menuData.tags.map(tag => (
+                          <S.TagButtonWrapper key={tag.id}>
+                            <S.StatusButtonText>
+                              {tag.tagName}
+                            </S.StatusButtonText>
+                          </S.TagButtonWrapper>
+                        ))}
+                      </S.TagsFlexWrap>
+                    </S.InputRow>
+                    <S.InputRow>
+                      <CustomLabel label={'원가'} required />
+                      <CustomTextInput
+                        value={menuData.originPrice.toString()}
+                        onChangeText={text =>
+                          handleInputChange('originPrice', text)
                         }
-                        isActive={menuData.productStatus === status}>
-                        <S.StatusButtonText>{label}</S.StatusButtonText>
-                      </S.StatusButton>
-                    ))}
-                  </S.StatusButtonContainer>
-                </S.InputRow>
+                      />
+                    </S.InputRow>
+                    <S.InputRow>
+                      <CustomLabel label={'할인가'} required />
+                      <CustomTextInput
+                        value={menuData.discountPrice.toString()}
+                        onChangeText={text =>
+                          handleInputChange('discountPrice', text)
+                        }
+                      />
+                    </S.InputRow>
 
-                <S.ButtonContainer>
-                  <S.ModalButton onPress={handleSave}>
-                    <S.ModalButtonText>저장</S.ModalButtonText>
-                  </S.ModalButton>
-                  <S.ModalButton onPress={onClose} status="warning">
-                    <S.ModalButtonText>취소</S.ModalButtonText>
-                  </S.ModalButton>
-                  {initialData && (
-                    <S.ModalButton onPress={handleDelete} status="error">
-                      <S.ModalButtonText>삭제</S.ModalButtonText>
-                    </S.ModalButton>
-                  )}
-                </S.ButtonContainer>
-                <TagModal
-                  isVisible={tagModalVisible}
-                  onClose={() => setTagModalVisible(false)}
-                  onSave={handleTagsUpdate}
-                  initialTags={initialData?.tags}
-                  presetTags={presetTags}
-                />
-              </S.ModalViewInner>
-            </S.ModalScrollView>
-          </S.ModalView>
+                    <S.InputRow>
+                      <S.InputLabel>적용 할인율</S.InputLabel>
+                      <CustomTextInput
+                        value={menuData.discountRate.toString() + '%'}
+                        disabled
+                      />
+                    </S.InputRow>
+                    <S.InputRow>
+                      <CustomLabel label={'재고'} required />
+                      <CustomTextInput
+                        value={menuData.stock.toString()}
+                        onChangeText={text => handleInputChange('stock', text)}
+                      />
+                    </S.InputRow>
+                    <S.InputRow>
+                      <S.InputLabel>판매 상태</S.InputLabel>
+                      <S.StatusButtonContainer>
+                        {Object.entries(STATUS_OPTIONS).map(
+                          ([status, label]) => (
+                            <S.StatusButton
+                              key={status}
+                              onPress={() =>
+                                handleStatusChange(
+                                  status as MenuType['productStatus'],
+                                )
+                              }
+                              isActive={menuData.productStatus === status}>
+                              <S.StatusButtonText>{label}</S.StatusButtonText>
+                            </S.StatusButton>
+                          ),
+                        )}
+                      </S.StatusButtonContainer>
+                    </S.InputRow>
+
+                    <S.ButtonContainer>
+                      <S.ModalButton onPress={handleSave}>
+                        <S.ModalButtonText>저장</S.ModalButtonText>
+                      </S.ModalButton>
+                      <S.ModalButton onPress={onClose} status="warning">
+                        <S.ModalButtonText>취소</S.ModalButtonText>
+                      </S.ModalButton>
+                      {initialData && (
+                        <S.ModalButton onPress={handleDelete} status="error">
+                          <S.ModalButtonText>삭제</S.ModalButtonText>
+                        </S.ModalButton>
+                      )}
+                    </S.ButtonContainer>
+                    <TagModal
+                      isVisible={tagModalVisible}
+                      onClose={() => setTagModalVisible(false)}
+                      onSave={handleTagsUpdate}
+                      initialTags={initialData?.tags}
+                      presetTags={presetTags}
+                    />
+                  </S.ModalViewInner>
+                </S.ModalScrollView>
+              </S.ModalView>
+            </TouchableWithoutFeedback>
+          </S.Container>
         </SafeAreaView>
       </S.ModalOverlay>
     </Modal>

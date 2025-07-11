@@ -1,7 +1,11 @@
 import styled from '@emotion/native';
 
 const S = {
-  Container: styled.ScrollView`
+  Container: styled.KeyboardAvoidingView`
+    flex: 1;
+  `,
+
+  ScreenWrapper: styled.ScrollView`
     flex: 1;
     background-color: white;
     padding: 16px;
@@ -36,6 +40,9 @@ const S = {
   `,
 
   ReplySection: styled.View`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin-top: 16px;
     padding-top: 16px;
     border-top-width: 1px;

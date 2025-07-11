@@ -2,6 +2,10 @@ import styled from '@emotion/native';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const S = {
+  Container: styled.KeyboardAvoidingView`
+    flex: 1;
+  `,
+
   ModalOverlay: styled.View`
     display: flex;
     flex: 1;

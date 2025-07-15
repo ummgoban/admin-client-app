@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "ci": "sh ./.script/ci.sh",
-    "android": "react-native run-android",
+    "android": "cp .env.development .env && npx react-native run-android",
+    "android:release": "cp .env.release .env && cd android && ./gradlew assembleRelease",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",

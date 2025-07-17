@@ -148,7 +148,7 @@ export const uploadProductImage = async (
 ): Promise<string | null> => {
   try {
     const res = await apiClient.post<{data: {imageUrl: string}}>(
-      `owner/markets/images/${marketId}`,
+      `owner/products/images/${marketId}`,
       updateImage,
       {
         headers: {

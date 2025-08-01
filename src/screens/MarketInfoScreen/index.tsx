@@ -59,7 +59,7 @@ const MarketInfoScreen = () => {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const isEditPermssion =
+  const isEditPermission =
     managersInfo?.find(manager => manager.id === profile?.id)?.marketRole ===
     'ROLE_STORE_OWNER';
 
@@ -129,7 +129,7 @@ const MarketInfoScreen = () => {
             value={summary}
             onChange={e => setSummary(e.nativeEvent.text)}
             placeholder="가게소개를 입력해주세요"
-            disabled={!isEditPermssion}
+            disabled={!isEditPermission}
           />
           {/* <Label label={'임시 휴무'} /> */}
           {/* TODO: 스위치 버튼으로 임시 휴무 */}
@@ -140,7 +140,7 @@ const MarketInfoScreen = () => {
                 <S.DayText>{dayMap[item.dayOfWeek]}: </S.DayText>
                 <S.TimePickerButton
                   onPress={() => setOpenModal({type: 'open', index: idx})}
-                  disabled={!isEditPermssion}>
+                  disabled={!isEditPermission}>
                   {item.openTime
                     ? format((item.openTime as Date).getTime(), 'HH:mm')
                     : '시작 시간'}
@@ -148,7 +148,7 @@ const MarketInfoScreen = () => {
                 <Text>{'~'}</Text>
                 <S.TimePickerButton
                   onPress={() => setOpenModal({type: 'close', index: idx})}
-                  disabled={!isEditPermssion}>
+                  disabled={!isEditPermission}>
                   {item.closeTime
                     ? format((item.closeTime as Date).getTime(), 'HH:mm')
                     : '종료 시간'}
@@ -160,7 +160,7 @@ const MarketInfoScreen = () => {
           <S.TimeContainer>
             <S.TimePickerButton
               onPress={() => setOpenModal('pickup-start')}
-              disabled={!isEditPermssion}>
+              disabled={!isEditPermission}>
               {pickupStartTime
                 ? format(pickupStartTime.getTime(), 'HH:mm')
                 : timeOptions['pickup-start']}
@@ -168,7 +168,7 @@ const MarketInfoScreen = () => {
             <Text>{'~'}</Text>
             <S.TimePickerButton
               onPress={() => setOpenModal('pickup-end')}
-              disabled={!isEditPermssion}>
+              disabled={!isEditPermission}>
               {pickupEndTime
                 ? format(pickupEndTime.getTime(), 'HH:mm')
                 : timeOptions['pickup-end']}
@@ -180,7 +180,7 @@ const MarketInfoScreen = () => {
             <ManagerLists
               managers={managersInfo}
               marketId={profile?.marketId}
-              isEditPermssion={!isEditPermssion}
+              isEditPermission={!isEditPermission}
             />
           )}
           {/* TODO: 대표 사진 선택 */}
@@ -316,7 +316,7 @@ const MarketInfoScreen = () => {
           Alert.alert('가게 정보가 저장되었습니다.');
           navigation.goBack();
         }}
-        disabled={!isEditPermssion}>
+        disabled={!isEditPermission}>
         저장
       </BottomButton>
     </S.Container>

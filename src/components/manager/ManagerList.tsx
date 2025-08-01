@@ -7,7 +7,7 @@ type ManagerListProps = {
   marketId: number;
   name: string;
   marketRole: 'ROLE_STORE_OWNER' | 'ROLE_STORE_MANAGER';
-  isEditPermssion: boolean;
+  isEditPermission: boolean;
 };
 
 const ROLE_LABELS: Record<'ROLE_STORE_OWNER' | 'ROLE_STORE_MANAGER', string> = {
@@ -20,7 +20,7 @@ const ManagerList = ({
   memberId,
   name,
   marketRole,
-  isEditPermssion,
+  isEditPermission,
 }: ManagerListProps) => {
   const role = ROLE_LABELS[marketRole];
 
@@ -28,7 +28,7 @@ const ManagerList = ({
     <S.ListContainer>
       <S.NameText>{name}</S.NameText>
       <S.RoleText>{role}</S.RoleText>
-      {!isEditPermssion && role === '직원' ? (
+      {!isEditPermission && role === '직원' ? (
         <ManagerDeleteButton marketId={marketId} memberId={memberId} />
       ) : (
         <S.EmptyPlaceholder />

@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import {Button} from 'react-native-paper';
+import {Button, Text} from 'react-native-paper';
 
 export const HORIZONTAL_MARGIN = 16;
 export const IMAGE_CARD_GAP = 8;
@@ -30,6 +30,8 @@ const S = {
 
   TimePickerButton: styled(Button)``,
 
+  BusinessTimeInput: styled.View``,
+
   ImageCardGrid: styled.View`
     display: flex;
     flex-direction: row;
@@ -38,6 +40,10 @@ const S = {
     gap: 8px;
 
     margin: 16px 0;
+  `,
+
+  DayText: styled(Text)`
+    ${({theme}) => theme.fonts.body2}
   `,
 
   ImageCardPlusButton: styled(Button)`

@@ -16,18 +16,32 @@ import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {format} from '@/utils/date';
 
+import {OpenHour, Weekday} from '@/types/Market';
 import {useQueryClient} from '@tanstack/react-query';
 import S from './MarketInfoScreen.style';
 import {useReadManagers} from '@/apis/managers';
 import ManagerLists from '@/components/manager/ManagerLists';
 import useMarket from '@/hooks/useMarket';
 
-const timeOptions = {
-  'market-open': '영업 시작 시간',
-  'market-close': '영업 종료 시간',
-  'pickup-start': '픽업 시작 시간',
-  'pickup-end': '픽업 종료 시간',
-} as const;
+const WEEKDAYS: Weekday[] = [
+  'MONDAY',
+  'TUESDAY',
+  'WEDNESDAY',
+  'THURSDAY',
+  'FRIDAY',
+  'SATURDAY',
+  'SUNDAY',
+];
+
+const dayMap: Record<Weekday, string> = {
+  MONDAY: '월요일',
+  TUESDAY: '화요일',
+  WEDNESDAY: '수요일',
+  THURSDAY: '목요일',
+  FRIDAY: '금요일',
+  SATURDAY: '토요일',
+  SUNDAY: '일요일',
+};
 
 const MarketInfoScreen = () => {
   const {profile} = useProfile();
@@ -45,7 +59,7 @@ const MarketInfoScreen = () => {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const isEditPermssion =
+  const isEditPermission =
     managersInfo?.find(manager => manager.id === profile?.id)?.marketRole ===
     'ROLE_STORE_OWNER';
 
@@ -53,26 +67,39 @@ const MarketInfoScreen = () => {
   // const [isTempClosing, setIsTempClosing] = useState(false);
 
   const [summary, setSummary] = useState<string>();
-  const [marketOpenTime, setMarketOpenTime] = useState<Date>();
-  const [marketCloseTime, setMarketCloseTime] = useState<Date>();
+  const [marketName, setMarketName] = useState<string>('');
 
   // const [imageList, setImageList] = useState<string[]>([]);
 
-  const [openModal, setOpenModal] = useState<
-    keyof typeof timeOptions | undefined
-  >(undefined);
+  const [openModal, setOpenModal] = useState<{
+    type: 'open' | 'close';
+    index: number;
+  } | null>(null);
+
+  const [openHours, setOpenHours] = useState<OpenHour[]>(
+    WEEKDAYS.map(day => ({
+      dayOfWeek: day,
+      openTime: null,
+      closeTime: null,
+    })),
+  );
 
   useEffect(() => {
     if (marketInfo) {
       setSummary(marketInfo.summary);
+      setMarketName(marketInfo.name);
 
-      if (marketInfo.openAt) {
-        setMarketOpenTime(new Date(`2024-01-01T${marketInfo.openAt}`));
+      if (marketInfo.openHours?.length) {
+        const newOpenHours = WEEKDAYS.map(day => {
+          const found = marketInfo.openHours.find(h => h.dayOfWeek === day);
+          return {
+            dayOfWeek: day,
+            openTime: found ? new Date(`2024-01-01T${found.openTime}`) : null,
+            closeTime: found ? new Date(`2024-01-01T${found.closeTime}`) : null,
+          };
+        });
+        setOpenHours(newOpenHours);
       }
-      if (marketInfo.closeAt) {
-        setMarketCloseTime(new Date(`2024-01-01T${marketInfo.closeAt}`));
-      }
-      // setImageList(marketInfo.imageUrls);
     }
   }, [marketInfo]);
 
@@ -91,39 +118,49 @@ const MarketInfoScreen = () => {
           <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
         }>
         <S.InputContainer>
-          <TextInput label={'상호명'} placeholder={marketInfo?.name} disabled />
+          <TextInput
+            label={'상호명'}
+            value={marketName}
+            placeholder={marketName}
+            onChange={e => setMarketName(e.nativeEvent.text)}
+          />
           <TextInput
             label={'한 줄 소개'}
             value={summary}
             onChange={e => setSummary(e.nativeEvent.text)}
             placeholder="가게소개를 입력해주세요"
-            disabled={!isEditPermssion}
+            disabled={!isEditPermission}
           />
           {/* <Label label={'임시 휴무'} /> */}
           {/* TODO: 스위치 버튼으로 임시 휴무 */}
-          <Label label={'영업 시간'} required />
-          <S.TimeContainer>
-            <S.TimePickerButton
-              onPress={() => setOpenModal('market-open')}
-              disabled={!isEditPermssion}>
-              {marketOpenTime
-                ? format(marketOpenTime.getTime(), 'HH:mm')
-                : timeOptions['market-open']}
-            </S.TimePickerButton>
-            <Text>{'~'}</Text>
-            <S.TimePickerButton
-              onPress={() => setOpenModal('market-close')}
-              disabled={!isEditPermssion}>
-              {marketCloseTime
-                ? format(marketCloseTime.getTime(), 'HH:mm')
-                : timeOptions['market-close']}
-            </S.TimePickerButton>
-          </S.TimeContainer>
+          <S.BusinessTimeInput>
+            <Label label={'영업 시간'} required />
+            {openHours.map((item, idx) => (
+              <S.TimeContainer key={item.dayOfWeek}>
+                <S.DayText>{dayMap[item.dayOfWeek]}: </S.DayText>
+                <S.TimePickerButton
+                  onPress={() => setOpenModal({type: 'open', index: idx})}
+                  disabled={!isEditPermission}>
+                  {item.openTime
+                    ? format((item.openTime as Date).getTime(), 'HH:mm')
+                    : '시작 시간'}
+                </S.TimePickerButton>
+                <Text>{'~'}</Text>
+                <S.TimePickerButton
+                  onPress={() => setOpenModal({type: 'close', index: idx})}
+                  disabled={!isEditPermission}>
+                  {item.closeTime
+                    ? format((item.closeTime as Date).getTime(), 'HH:mm')
+                    : '종료 시간'}
+                </S.TimePickerButton>
+              </S.TimeContainer>
+            ))}
+          </S.BusinessTimeInput>
           {/* <Label label={'픽업 시간'} required />
           <S.TimeContainer>
             <S.TimePickerButton
               onPress={() => setOpenModal('pickup-start')}
-              disabled={!isEditPermssion}>
+              disabled={!isEditPermission}>
               {pickupStartTime
                 ? format(pickupStartTime.getTime(), 'HH:mm')
                 : timeOptions['pickup-start']}
@@ -131,7 +168,7 @@ const MarketInfoScreen = () => {
             <Text>{'~'}</Text>
             <S.TimePickerButton
               onPress={() => setOpenModal('pickup-end')}
-              disabled={!isEditPermssion}>
+              disabled={!isEditPermission}>
               {pickupEndTime
                 ? format(pickupEndTime.getTime(), 'HH:mm')
                 : timeOptions['pickup-end']}
@@ -143,7 +180,7 @@ const MarketInfoScreen = () => {
             <ManagerLists
               managers={managersInfo}
               marketId={profile?.marketId}
-              isEditPermssion={!isEditPermssion}
+              isEditPermission={!isEditPermission}
             />
           )}
           {/* TODO: 대표 사진 선택 */}
@@ -222,57 +259,64 @@ const MarketInfoScreen = () => {
         modal
         open={!!openModal}
         mode="time"
-        date={new Date('2024-01-01T08:00:00')}
+        date={new Date('2025-01-01T08:00:00')}
         onConfirm={date => {
-          switch (openModal) {
-            case 'market-open':
-              setMarketOpenTime(date);
-              break;
-            case 'market-close':
-              setMarketCloseTime(date);
-              break;
+          if (openModal) {
+            setOpenHours(prev => {
+              const updated = [...prev];
+              if (openModal.type === 'open') {
+                updated[openModal.index].openTime = date;
+              } else {
+                updated[openModal.index].closeTime = date;
+              }
+              return updated;
+            });
           }
-          setOpenModal(undefined);
+          setOpenModal(null);
         }}
         onCancel={() => {
-          setOpenModal(undefined);
+          setOpenModal(null);
         }}
         minuteInterval={30}
         cancelText="취소"
         confirmText="확인"
-        title={openModal ? timeOptions[openModal] : undefined}
+        title={
+          openModal
+            ? `${openHours[openModal.index].dayOfWeek} ${
+                openModal.type === 'open' ? '시작' : '종료'
+              } 시간`
+            : undefined
+        }
       />
       <BottomButton
         onPress={async () => {
-          if (
-            !marketOpenTime ||
-            !marketCloseTime ||
-            // !imageList.length ||
-            !summary
-          ) {
+          if (!summary || openHours.some(h => !h.openTime || !h.closeTime)) {
             Alert.alert('필수 입력사항을 모두 입력해주세요.');
             return;
           }
 
+          const openHoursPayload = openHours.map(h => ({
+            dayOfWeek: h.dayOfWeek,
+            openTime: format((h.openTime! as Date).getTime(), 'HH:mm'),
+            closeTime: format((h.closeTime! as Date).getTime(), 'HH:mm'),
+          }));
+
           const res = await updateMarketInfo(marketInfo.id, {
-            pickupStartAt: format(marketOpenTime.getTime(), 'HH:mm'),
-            pickupEndAt: format(marketCloseTime.getTime(), 'HH:mm'),
-            openAt: format(marketOpenTime.getTime(), 'HH:mm'),
-            closeAt: format(marketCloseTime.getTime(), 'HH:mm'),
-            // imageUrls: imageList,
+            marketName,
             summary,
+            openHours: openHoursPayload,
           });
 
           if (!res) {
             console.error('updateMarketInfo Error: no res');
-            Alert.alert('마켓 정보를 저장하지 못했습니다.');
+            Alert.alert('가게 정보를 저장하지 못했습니다.');
             return;
           }
 
-          Alert.alert('마켓 정보가 저장되었습니다.');
+          Alert.alert('가게 정보가 저장되었습니다.');
           navigation.goBack();
         }}
-        disabled={!isEditPermssion}>
+        disabled={!isEditPermission}>
         저장
       </BottomButton>
     </S.Container>

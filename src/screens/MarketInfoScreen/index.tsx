@@ -134,13 +134,14 @@ const MarketInfoScreen = () => {
                     <S.TimePickerButton
                       onPress={() => setOpenModal({type: 'open', index: idx})}
                       disabled={!isEditPermission || isClosed}>
-                      {item.openTime}
+                      {/* FIXME: openHours.openTime 타입 string으로 고정 */}
+                      {item.openTime as string}
                     </S.TimePickerButton>
                     <Text>~</Text>
                     <S.TimePickerButton
                       onPress={() => setOpenModal({type: 'close', index: idx})}
                       disabled={!isEditPermission || isClosed}>
-                      {item.closeTime}
+                      {item.closeTime as string}
                     </S.TimePickerButton>
                   </S.TimeRange>
                   <S.ClosedCheckboxWrapper>

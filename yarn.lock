@@ -4131,7 +4131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ummgoban/shared@npm:0.0.5":
+"@ummgoban/shared@npm:^0.0.5-250804.0":
   version: 0.0.5
   resolution: "@ummgoban/shared@npm:0.0.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40ummgoban%2Fshared%2F0.0.5%2F28e2234e7108de316436755076c6c528d5b7ad44"
   peerDependencies:
@@ -4178,7 +4178,7 @@ __metadata:
     "@types/react": ^18.2.6
     "@types/react-native-vector-icons": ^6.4.18
     "@types/react-test-renderer": ^18.0.0
-    "@ummgoban/shared": 0.0.5
+    "@ummgoban/shared": ^0.0.5-250804.0
     axios: ^1.7.4
     babel-jest: ^29.6.3
     babel-plugin-module-resolver: ^5.0.2

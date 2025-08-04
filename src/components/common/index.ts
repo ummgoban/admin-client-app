@@ -4,3 +4,5 @@ export {default as BottomButton} from './BottomButton';
 export {default as Label} from './Label';
 
 export {ToggleButton, ToggleButtonGroup} from './ToggleButton';
+
+export {CustomCheckbox} from './Checkbox';

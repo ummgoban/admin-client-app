@@ -2,6 +2,6 @@
 
 sh ./.script/pre-install.sh
 
-yarn install --immutable
+yarn install
 
 sh ./.script/post-install.sh

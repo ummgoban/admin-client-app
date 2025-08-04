@@ -4132,13 +4132,13 @@ __metadata:
   linkType: hard
 
 "@ummgoban/shared@npm:^0.0.5-250804.0":
-  version: 0.0.5
-  resolution: "@ummgoban/shared@npm:0.0.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40ummgoban%2Fshared%2F0.0.5%2F28e2234e7108de316436755076c6c528d5b7ad44"
+  version: 0.0.5-250804.0
+  resolution: "@ummgoban/shared@npm:0.0.5-250804.0"
   peerDependencies:
     axios: ">=1.7.4"
     react: ">=18.0.0"
     react-native: ">=0.79.0"
-  checksum: 0099e47294cf58c71c1175d4d945d3aa3afe771d24b1c9e28f1caeccc515e2e7dee983c6573a668839abd21fb26383671240e063d5c5fc6c765e36751abb47c0
+  checksum: b0892d9460ca71a841acd8a420c374a41e7c3c7c8c6cdfed1f41fb93a2b8cffdab8de054a4b7c5718517bcde0cf8efd30d7abcc4f476b419305b7276bd02a7eb
   languageName: node
   linkType: hard
 

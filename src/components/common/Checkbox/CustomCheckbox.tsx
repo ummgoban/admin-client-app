@@ -18,19 +18,11 @@ const CustomCheckbox = ({
 }: CustomCheckboxProps) => {
   return (
     <S.Container>
-      <TouchableOpacity onPress={onPress} style={styles.container}>
+      <S.TouchWrapper onPress={onPress}>
         {checked && <Icon name="check" size={size} color={color} />}
-      </TouchableOpacity>
+      </S.TouchWrapper>
     </S.Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default CustomCheckbox;

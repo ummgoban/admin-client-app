@@ -29,29 +29,28 @@ const S = {
   TimeHeader: styled.View`
     flex-direction: row;
     align-items: center;
-    margin-bottom: 8px;
-    padding: 0 16px;
+    margin-bottom: 4px;
+    padding: 0 12px;
   `,
 
-  DayHeaderText: styled(Text)`
+  DayHeaderText: styled.Text`
     flex: 1;
     text-align: left;
-    font-weight: bold;
-    font-size: 14px;
+    padding-left: 4px;
+    ${({theme}) => theme.fonts.body2}
   `,
 
-  TimeHeaderText: styled(Text)`
+  TimeHeaderText: styled.Text`
+    ${({theme}) => theme.fonts.body2}
     flex: 1;
     text-align: center;
-    font-weight: bold;
-    font-size: 14px;
   `,
 
-  ClosedHeaderText: styled(Text)`
+  ClosedHeaderText: styled.Text`
     flex: 1;
+    ${({theme}) => theme.fonts.body2}
     text-align: right;
-    font-weight: bold;
-    font-size: 14px;
+    margin-left: 0px;
   `,
 
   TimeContainer: styled.View`
@@ -61,8 +60,9 @@ const S = {
     padding: 0 8px;
   `,
 
-  DayText: styled(Text)`
+  DayText: styled.Text`
     flex: 1;
+    ${({theme}) => theme.fonts.body2};
     text-align: left;
   `,
 

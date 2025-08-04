@@ -7,7 +7,7 @@ import {RefreshControl} from 'react-native-gesture-handler';
 import {Text, Checkbox} from 'react-native-paper';
 
 import {updateMarketInfo} from '@/apis/Market';
-import {BottomButton, Label} from '@/components/common';
+import {BottomButton, CustomCheckbox, Label} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
 import TextInput from '@/components/common/TextInput/TextInput';
@@ -145,25 +145,21 @@ const MarketInfoScreen = () => {
                     </S.TimePickerButton>
                   </S.TimeRange>
                   <S.ClosedCheckboxWrapper>
-                    <S.ClosedCheckboxContainer>
-                      <Checkbox
-                        status={isClosed ? 'checked' : 'unchecked'}
-                        color="black"
-                        onPress={() => {
-                          setOpenHours(prev => {
-                            const updated = [...prev];
-                            const target = updated[idx];
-                            updated[idx] = {
-                              ...target,
-                              openTime: !isClosed ? '00:00' : '12:00',
-                              closeTime: !isClosed ? '00:00' : '18:00',
-                            };
-                            return updated;
-                          });
-                        }}
-                        disabled={!isEditPermission}
-                      />
-                    </S.ClosedCheckboxContainer>
+                    <CustomCheckbox
+                      checked={isClosed}
+                      onPress={() => {
+                        setOpenHours(prev => {
+                          const updated = [...prev];
+                          const target = updated[idx];
+                          updated[idx] = {
+                            ...target,
+                            openTime: !isClosed ? '00:00' : '12:00',
+                            closeTime: !isClosed ? '00:00' : '18:00',
+                          };
+                          return updated;
+                        });
+                      }}
+                    />
                   </S.ClosedCheckboxWrapper>
                 </S.TimeContainer>
               );

@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {RefreshControl} from 'react-native-gesture-handler';
-import {Text, Checkbox} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 
 import {updateMarketInfo} from '@/apis/Market';
 import {BottomButton, CustomCheckbox, Label} from '@/components/common';

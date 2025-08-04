@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import {Button, Text} from 'react-native-paper';
+import {Button} from 'react-native-paper';
 
 export const HORIZONTAL_MARGIN = 16;
 export const IMAGE_CARD_GAP = 8;

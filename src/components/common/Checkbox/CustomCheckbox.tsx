@@ -1,5 +1,4 @@
 import React from 'react';
-import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import S from './CustomCheckbox.style';
 

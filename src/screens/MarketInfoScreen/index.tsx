@@ -16,7 +16,8 @@ import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {format} from '@/utils/date';
 
-import {OpenHour, Weekday} from '@/types/Market';
+import {OpenHour, Weekday} from '@ummgoban/shared';
+
 import {useQueryClient} from '@tanstack/react-query';
 import S from './MarketInfoScreen.style';
 import {useReadManagers} from '@/apis/managers';

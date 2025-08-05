@@ -34,7 +34,6 @@ const S = {
 
   ErrorText: styled(Text)`
     color: ${({theme}) => theme.colors.error};
-
     font-family: Pretendard;
     font-size: 14px;
     font-style: normal;

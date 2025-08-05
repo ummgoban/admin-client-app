@@ -7,7 +7,7 @@ import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';
 
 import {updateMarketInfo} from '@/apis/Market';
-import {BottomButton, Label} from '@/components/common';
+import {BottomButton, SquareCheckbox, Label} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
 import TextInput from '@/components/common/TextInput/TextInput';
@@ -16,32 +16,13 @@ import usePullDownRefresh from '@/hooks/usePullDownRefresh';
 import {RootStackParamList} from '@/types/StackNavigationType';
 import {format} from '@/utils/date';
 
-import {OpenHour, Weekday} from '@/types/Market';
+import {WEEKDAYS, OpenHour, dayMap} from '@ummgoban/shared';
+
 import {useQueryClient} from '@tanstack/react-query';
 import S from './MarketInfoScreen.style';
 import {useReadManagers} from '@/apis/managers';
 import ManagerLists from '@/components/manager/ManagerLists';
 import useMarket from '@/hooks/useMarket';
-
-const WEEKDAYS: Weekday[] = [
-  'MONDAY',
-  'TUESDAY',
-  'WEDNESDAY',
-  'THURSDAY',
-  'FRIDAY',
-  'SATURDAY',
-  'SUNDAY',
-];
-
-const dayMap: Record<Weekday, string> = {
-  MONDAY: '월요일',
-  TUESDAY: '화요일',
-  WEDNESDAY: '수요일',
-  THURSDAY: '목요일',
-  FRIDAY: '금요일',
-  SATURDAY: '토요일',
-  SUNDAY: '일요일',
-};
 
 const MarketInfoScreen = () => {
   const {profile} = useProfile();
@@ -79,27 +60,26 @@ const MarketInfoScreen = () => {
   const [openHours, setOpenHours] = useState<OpenHour[]>(
     WEEKDAYS.map(day => ({
       dayOfWeek: day,
-      openTime: null,
-      closeTime: null,
+      openTime: '',
+      closeTime: '',
     })),
   );
 
   useEffect(() => {
     if (marketInfo) {
-      setSummary(marketInfo.summary);
       setMarketName(marketInfo.name);
+      setSummary(marketInfo.summary);
 
-      if (marketInfo.openHours?.length) {
-        const newOpenHours = WEEKDAYS.map(day => {
-          const found = marketInfo.openHours.find(h => h.dayOfWeek === day);
-          return {
-            dayOfWeek: day,
-            openTime: found ? new Date(`2024-01-01T${found.openTime}`) : null,
-            closeTime: found ? new Date(`2024-01-01T${found.closeTime}`) : null,
-          };
-        });
-        setOpenHours(newOpenHours);
-      }
+      const newOpenHours = WEEKDAYS.map(day => {
+        const found = marketInfo.openHours.find(h => h.dayOfWeek === day);
+
+        return {
+          dayOfWeek: day,
+          openTime: found?.openTime ?? '',
+          closeTime: found?.closeTime ?? '',
+        };
+      });
+      setOpenHours(newOpenHours);
     }
   }, [marketInfo]);
 
@@ -133,29 +113,59 @@ const MarketInfoScreen = () => {
           />
           {/* <Label label={'임시 휴무'} /> */}
           {/* TODO: 스위치 버튼으로 임시 휴무 */}
+          <Label label={'영업시간'} required />
+
           <S.BusinessTimeInput>
-            <Label label={'영업 시간'} required />
-            {openHours.map((item, idx) => (
-              <S.TimeContainer key={item.dayOfWeek}>
-                <S.DayText>{dayMap[item.dayOfWeek]}: </S.DayText>
-                <S.TimePickerButton
-                  onPress={() => setOpenModal({type: 'open', index: idx})}
-                  disabled={!isEditPermission}>
-                  {item.openTime
-                    ? format((item.openTime as Date).getTime(), 'HH:mm')
-                    : '시작 시간'}
-                </S.TimePickerButton>
-                <Text>{'~'}</Text>
-                <S.TimePickerButton
-                  onPress={() => setOpenModal({type: 'close', index: idx})}
-                  disabled={!isEditPermission}>
-                  {item.closeTime
-                    ? format((item.closeTime as Date).getTime(), 'HH:mm')
-                    : '종료 시간'}
-                </S.TimePickerButton>
-              </S.TimeContainer>
-            ))}
+            <S.TimeHeader>
+              <S.DayHeaderText>요일</S.DayHeaderText>
+              <S.TimeHeaderText>영업시간</S.TimeHeaderText>
+              <S.ClosedHeaderText>휴업</S.ClosedHeaderText>
+            </S.TimeHeader>
+
+            {openHours.map((item, idx) => {
+              const isClosed =
+                item.openTime === '00:00' && item.closeTime === '00:00';
+
+              return (
+                <S.TimeContainer key={item.dayOfWeek}>
+                  <S.DayText>{dayMap[item.dayOfWeek]}</S.DayText>
+
+                  <S.TimeRange>
+                    <S.TimePickerButton
+                      onPress={() => setOpenModal({type: 'open', index: idx})}
+                      disabled={!isEditPermission || isClosed}>
+                      {/* TODO: openHours.openTime 타입 string으로 고정 */}
+                      {item.openTime as string}
+                    </S.TimePickerButton>
+                    <Text>~</Text>
+                    <S.TimePickerButton
+                      onPress={() => setOpenModal({type: 'close', index: idx})}
+                      disabled={!isEditPermission || isClosed}>
+                      {item.closeTime as string}
+                    </S.TimePickerButton>
+                  </S.TimeRange>
+                  <S.ClosedCheckboxWrapper>
+                    <SquareCheckbox
+                      checked={isClosed}
+                      onPress={() => {
+                        setOpenHours(prev => {
+                          const updated = [...prev];
+                          const target = updated[idx];
+                          updated[idx] = {
+                            ...target,
+                            openTime: !isClosed ? '00:00' : '12:00',
+                            closeTime: !isClosed ? '00:00' : '18:00',
+                          };
+                          return updated;
+                        });
+                      }}
+                    />
+                  </S.ClosedCheckboxWrapper>
+                </S.TimeContainer>
+              );
+            })}
           </S.BusinessTimeInput>
+
           {/* <Label label={'픽업 시간'} required />
           <S.TimeContainer>
             <S.TimePickerButton
@@ -262,34 +272,35 @@ const MarketInfoScreen = () => {
         date={new Date('2025-01-01T08:00:00')}
         onConfirm={date => {
           if (openModal) {
+            const formatted = format(date.getTime(), 'HH:mm');
             setOpenHours(prev => {
               const updated = [...prev];
               if (openModal.type === 'open') {
-                updated[openModal.index].openTime = date;
+                updated[openModal.index].openTime = formatted;
               } else {
-                updated[openModal.index].closeTime = date;
+                updated[openModal.index].closeTime = formatted;
               }
               return updated;
             });
           }
           setOpenModal(null);
         }}
-        onCancel={() => {
-          setOpenModal(null);
-        }}
+        onCancel={() => setOpenModal(null)}
         minuteInterval={30}
         cancelText="취소"
         confirmText="확인"
         title={
           openModal
-            ? `${openHours[openModal.index].dayOfWeek} ${
+            ? `${dayMap[openHours[openModal.index].dayOfWeek]} ${
                 openModal.type === 'open' ? '시작' : '종료'
               } 시간`
             : undefined
         }
       />
+
       <BottomButton
         onPress={async () => {
+          console.log(openHours);
           if (!summary || openHours.some(h => !h.openTime || !h.closeTime)) {
             Alert.alert('필수 입력사항을 모두 입력해주세요.');
             return;
@@ -297,8 +308,8 @@ const MarketInfoScreen = () => {
 
           const openHoursPayload = openHours.map(h => ({
             dayOfWeek: h.dayOfWeek,
-            openTime: format((h.openTime! as Date).getTime(), 'HH:mm'),
-            closeTime: format((h.closeTime! as Date).getTime(), 'HH:mm'),
+            openTime: h.openTime,
+            closeTime: h.closeTime,
           }));
 
           const res = await updateMarketInfo(marketInfo.id, {

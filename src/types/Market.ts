@@ -1,19 +1,4 @@
-import {ProductType} from '@ummgoban/shared';
-
-export type Weekday =
-  | 'MONDAY'
-  | 'TUESDAY'
-  | 'WEDNESDAY'
-  | 'THURSDAY'
-  | 'FRIDAY'
-  | 'SATURDAY'
-  | 'SUNDAY';
-
-export type OpenHour = {
-  dayOfWeek: Weekday;
-  openTime: Date | string | null;
-  closeTime: Date | string | null;
-};
+import {ProductType, OpenHour} from '@ummgoban/shared';
 
 export type MarketType = {
   id: number;

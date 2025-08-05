@@ -134,7 +134,7 @@ const MarketInfoScreen = () => {
                     <S.TimePickerButton
                       onPress={() => setOpenModal({type: 'open', index: idx})}
                       disabled={!isEditPermission || isClosed}>
-                      {/* FIXME: openHours.openTime 타입 string으로 고정 */}
+                      {/* TODO: openHours.openTime 타입 string으로 고정 */}
                       {item.openTime as string}
                     </S.TimePickerButton>
                     <Text>~</Text>

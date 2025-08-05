@@ -5,4 +5,4 @@ export {default as Label} from './Label';
 
 export {ToggleButton, ToggleButtonGroup} from './ToggleButton';
 
-export {CustomCheckbox} from './Checkbox';
+export {SquareCheckbox} from './Checkbox';

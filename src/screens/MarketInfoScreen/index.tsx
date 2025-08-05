@@ -7,7 +7,7 @@ import {RefreshControl} from 'react-native-gesture-handler';
 import {Text} from 'react-native-paper';
 
 import {updateMarketInfo} from '@/apis/Market';
-import {BottomButton, CustomCheckbox, Label} from '@/components/common';
+import {BottomButton, SquareCheckbox, Label} from '@/components/common';
 import EmptyMarket from '@/components/common/EmptyMarket';
 import NonRegister from '@/components/common/NonRegister';
 import TextInput from '@/components/common/TextInput/TextInput';
@@ -145,7 +145,7 @@ const MarketInfoScreen = () => {
                     </S.TimePickerButton>
                   </S.TimeRange>
                   <S.ClosedCheckboxWrapper>
-                    <CustomCheckbox
+                    <SquareCheckbox
                       checked={isClosed}
                       onPress={() => {
                         setOpenHours(prev => {

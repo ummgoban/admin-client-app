@@ -1,20 +1,20 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
-import S from './CustomCheckbox.style';
+import S from './SquareCheckbox.style';
 
-type CustomCheckboxProps = {
+type SquareCheckboxProps = {
   checked: boolean;
   onPress: () => void;
   size?: number;
   color?: string;
 };
 
-const CustomCheckbox = ({
+const SquareCheckbox = ({
   checked,
   onPress,
   size = 18,
   color = 'black',
-}: CustomCheckboxProps) => {
+}: SquareCheckboxProps) => {
   return (
     <S.Container>
       <S.TouchWrapper onPress={onPress}>
@@ -24,4 +24,4 @@ const CustomCheckbox = ({
   );
 };
 
-export default CustomCheckbox;
+export default SquareCheckbox;

@@ -59,6 +59,7 @@ const MenuModal = ({
     discountPrice: 0,
     stock: 0,
     productStatus: 'HIDDEN',
+    reservationStatus: 'PENDING',
     tags: [],
   });
 
@@ -81,6 +82,7 @@ const MenuModal = ({
           discountPrice: 0,
           stock: 0,
           productStatus: 'HIDDEN',
+          reservationStatus: 'PENDING',
           tags: [],
         });
       }
@@ -262,6 +264,7 @@ const MenuModal = ({
                         onChangeText={text =>
                           handleInputChange('originPrice', text)
                         }
+                        disabled={menuData.reservationStatus === 'ACTIVE'}
                       />
                     </S.InputRow>
                     <S.InputRow>
@@ -271,6 +274,7 @@ const MenuModal = ({
                         onChangeText={text =>
                           handleInputChange('discountPrice', text)
                         }
+                        disabled={menuData.reservationStatus === 'ACTIVE'}
                       />
                     </S.InputRow>
 

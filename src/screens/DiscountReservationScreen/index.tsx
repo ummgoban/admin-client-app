@@ -37,7 +37,16 @@ const DiscountReservationScreen = () => {
             <S.ItemText>
               할인율: {item.discountRate}% ({item.startAt} - {item.endAt})
             </S.ItemText>
-            <S.ItemText>적용 상품: {item.products.length}개</S.ItemText>
+
+            <S.ProductList>
+              <S.ItemText>적용 상품:</S.ItemText>
+              {item.products.map(product => (
+                <S.ProductListItem key={product.id}>
+                  - {product.name}
+                </S.ProductListItem>
+              ))}
+            </S.ProductList>
+
             <S.EditButton onPress={() => handleOpenModal(item)}>
               <S.ButtonText>수정</S.ButtonText>
             </S.EditButton>

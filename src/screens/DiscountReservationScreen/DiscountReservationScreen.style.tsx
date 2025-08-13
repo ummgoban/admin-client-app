@@ -16,6 +16,10 @@ const S = {
   `,
 
   ItemContainer: styled.View`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
     background-color: white;
     padding: 16px;
     border-radius: 8px;
@@ -25,7 +29,18 @@ const S = {
 
   ItemText: styled.Text`
     font-size: 16px;
-    margin-bottom: 8px;
+  `,
+
+  ProductList: styled.View`
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  `,
+
+  ProductListItem: styled.Text`
+    ${({theme}) => theme.fonts.body2}
+    color: ${({theme}) => theme.colors.tertiaryDisabled};
+    padding-left: 8px;
   `,
 
   EditButton: styled.TouchableOpacity`
@@ -47,6 +62,7 @@ const S = {
   `,
 
   ErrorText: styled.Text`
+    ${({theme}) => theme.fonts.subtitle1}
     text-align: center;
     margin-top: 20px;
     color: ${({theme}) => theme.colors.error};

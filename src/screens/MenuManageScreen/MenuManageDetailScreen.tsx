@@ -2,6 +2,8 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
+import {RootStackParamList} from '@/types/StackNavigationType';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -29,7 +31,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<MenuType | null>(null);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {marketInfo} = useMarket();
   const {profile} = useProfile();
   const {refresh} = useProduct();

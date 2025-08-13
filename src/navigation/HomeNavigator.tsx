@@ -8,7 +8,6 @@ import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
 import {TabBar} from '@components/common';
 
 import MarketInfoScreen from '@/screens/MarketInfoScreen';
-import MenuManageScreen from '@/screens/MenuManageScreen';
 import MyPageScreen from '@/screens/MyPageScreen';
 
 import {HomeStackParamList} from '@/types/StackNavigationType';

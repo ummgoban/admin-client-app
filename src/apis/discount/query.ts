@@ -23,7 +23,9 @@ export const useDiscountReservations = () => {
   });
 
   const invalidateQueries = () => {
-    queryClient.invalidateQueries({queryKey: [...QUERY_KEY, profile?.marketId]});
+    queryClient.invalidateQueries({
+      queryKey: [...QUERY_KEY, profile?.marketId],
+    });
   };
 
   const createMutation = useMutation({

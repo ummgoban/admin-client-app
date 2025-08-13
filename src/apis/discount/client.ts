@@ -1,4 +1,5 @@
 import apiClient from '../ApiClient';
+import CustomError from '../CustomError';
 import {
   CreateDiscountReservation,
   DiscountReservation,
@@ -11,11 +12,16 @@ import {
  */
 export const getDiscountReservations = async (
   marketId: number,
-): Promise<DiscountReservation[]> => {
-  const response = await apiClient.get<DiscountReservation[]>(
-    `/owner/products/discount/reservations/${marketId}`,
-  );
-  return response;
+): Promise<DiscountReservation[] | null> => {
+  try {
+    const res = await apiClient.get<DiscountReservation[] | null>(
+      `/owner/products/discount/reservations/${marketId}`,
+    );
+    return res;
+  } catch (error) {
+    console.error('할인 예약 조회 에러', error);
+    throw new CustomError(error);
+  }
 };
 
 /**
@@ -24,12 +30,17 @@ export const getDiscountReservations = async (
  */
 export const createDiscountReservation = async (
   data: CreateDiscountReservation,
-): Promise<string> => {
-  const response = await apiClient.post<string>(
-    '/owner/products/discount/reservations',
-    data,
-  );
-  return response;
+): Promise<boolean> => {
+  try {
+    const res = await apiClient.post<{code: number; message: string}>(
+      '/owner/products/discount/reservations',
+      data,
+    );
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error('할인 예약 생성 에러', error);
+    throw new CustomError(error);
+  }
 };
 
 /**
@@ -38,12 +49,17 @@ export const createDiscountReservation = async (
  */
 export const updateDiscountReservation = async (
   data: UpdateDiscountReservation,
-): Promise<string> => {
-  const response = await apiClient.patch<string>(
-    '/owner/products/discount/reservations',
-    data,
-  );
-  return response;
+): Promise<boolean> => {
+  try {
+    const res = await apiClient.patch<{code: number; message: string}>(
+      '/owner/products/discount/reservations',
+      data,
+    );
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error('할인 예약 수정 에러', error);
+    throw new CustomError(error);
+  }
 };
 
 /**
@@ -52,9 +68,14 @@ export const updateDiscountReservation = async (
  */
 export const deleteDiscountReservation = async (
   discountReservationId: number,
-): Promise<string> => {
-  const response = await apiClient.del<string>(
-    `/owner/products/discount/reservations/${discountReservationId}`,
-  );
-  return response;
+): Promise<boolean> => {
+  try {
+    const res = await apiClient.del<{code: number; message: string}>(
+      `/owner/products/discount/reservations/${discountReservationId}`,
+    );
+    return !!res && res.code === 200;
+  } catch (error) {
+    console.error('할인 예약 삭제 에러', error);
+    throw new CustomError(error);
+  }
 };

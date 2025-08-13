@@ -28,7 +28,7 @@ type TabBarComponentType = {
   };
 };
 const tabBarData: TabBarComponentType = {
-  MenuManage: {
+  Menu: {
     label: '메뉴 관리',
     icon: {
       family: 'Feather',

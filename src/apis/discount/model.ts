@@ -1,6 +1,8 @@
+import {MenuType} from '@/types/ProductType';
+
 export type DiscountReservation = {
   discountReservationId: number;
-  productIds: number[];
+  products: MenuType[];
   discountRate: number;
   startAt: string;
   endAt: string;

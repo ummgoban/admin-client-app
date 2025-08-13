@@ -10,7 +10,9 @@ const S = {
   `,
 
   AddProductView: styled.View`
-    align-items: center;
+    flex-direction: row;
+    padding: 0px 24px;
+    justify-content: space-between;
   `,
 
   AddButton: styled(Button)`
@@ -22,15 +24,13 @@ const S = {
 
     background-color: ${({theme}) => theme.colors.primary};
 
-    padding: 4px 24px;
-    margin: 12px;
+    padding: 4px 20px;
+    margin: 8px;
   `,
 
   AddButtonText: styled(Text)`
     color: rgba(255, 255, 255, 1);
     padding: 4px 12px;
-
-    margin-left: 8px;
 
     ${({theme}) => theme.fonts.default}
   `,

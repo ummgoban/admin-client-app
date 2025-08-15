@@ -2,6 +2,15 @@ import styled from '@emotion/native';
 import {Button, Text} from 'react-native-paper';
 
 const S = {
+  Container: styled.ScrollView`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+  `,
+
   MainText: styled.Text`
     font-size: 20px;
     font-style: normal;
@@ -24,15 +33,15 @@ const S = {
 
     background-color: ${({theme}) => theme.colors.primary};
 
-    padding: 4px 20px;
+    padding: 4px 12px;
     margin: 8px;
   `,
 
-  AddButtonText: styled(Text)`
+  AddButtonText: styled.Text`
     color: rgba(255, 255, 255, 1);
     padding: 4px 12px;
-
-    ${({theme}) => theme.fonts.default}
+    ${props => props.theme.fonts.subtitle2};
+    font-size: 16px;
   `,
 };
 

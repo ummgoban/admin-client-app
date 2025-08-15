@@ -264,7 +264,7 @@ const MenuModal = ({
                         onChangeText={text =>
                           handleInputChange('originPrice', text)
                         }
-                        disabled={menuData.reservationStatus === 'ACTIVE'}
+                        disabled={menuData.reservationStatus != null}
                       />
                     </S.InputRow>
                     <S.InputRow>
@@ -274,7 +274,7 @@ const MenuModal = ({
                         onChangeText={text =>
                           handleInputChange('discountPrice', text)
                         }
-                        disabled={menuData.reservationStatus === 'ACTIVE'}
+                        disabled={menuData.reservationStatus != null}
                       />
                     </S.InputRow>
 

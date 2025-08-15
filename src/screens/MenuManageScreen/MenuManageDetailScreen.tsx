@@ -209,38 +209,40 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   };
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
-      }>
-      {menus.map(menu => (
-        <Menu
-          key={menu.id}
-          menu={menu}
-          onEdit={() => handleEditProduct(menu)}
-          onIncreaseStock={() => handleIncreaseStock(menu)}
-          onDecreaseStock={() => handleDecreaseStock(menu)}
-        />
-      ))}
-      <S.AddProductView>
-        <S.AddButton onPress={handleAddProduct}>
-          <Icon name="plus" size={16} color="rgba(255, 255, 255, 1)" />
-          <S.AddButtonText> 상품 추가하기</S.AddButtonText>
-        </S.AddButton>
-        <S.AddButton onPress={handleGoToDiscountReservation}>
-          <Icon name="percent" size={16} color="rgba(255, 255, 255, 1)" />
-          <S.AddButtonText> 예약 할인 관리</S.AddButtonText>
-        </S.AddButton>
-      </S.AddProductView>
+    <S.Container>
+      <ScrollView
+        refreshControl={
+          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+        }>
+        {menus.map(menu => (
+          <Menu
+            key={menu.id}
+            menu={menu}
+            onEdit={() => handleEditProduct(menu)}
+            onIncreaseStock={() => handleIncreaseStock(menu)}
+            onDecreaseStock={() => handleDecreaseStock(menu)}
+          />
+        ))}
+        <S.AddProductView>
+          <S.AddButton onPress={handleAddProduct}>
+            <Icon name="plus" size={16} color="rgba(255, 255, 255, 1)" />
+            <S.AddButtonText> 상품 추가하기</S.AddButtonText>
+          </S.AddButton>
+          <S.AddButton onPress={handleGoToDiscountReservation}>
+            <Icon name="percent" size={16} color="rgba(255, 255, 255, 1)" />
+            <S.AddButtonText> 예약 할인 관리</S.AddButtonText>
+          </S.AddButton>
+        </S.AddProductView>
 
-      <MenuModal
-        isVisible={modalVisible}
-        onClose={handleModalClose}
-        onSave={handleSaveMenu}
-        initialData={currentMenu}
-        presetTags={getPresetTags(menus)}
-      />
-    </ScrollView>
+        <MenuModal
+          isVisible={modalVisible}
+          onClose={handleModalClose}
+          onSave={handleSaveMenu}
+          initialData={currentMenu}
+          presetTags={getPresetTags(menus)}
+        />
+      </ScrollView>
+    </S.Container>
   );
 };
 

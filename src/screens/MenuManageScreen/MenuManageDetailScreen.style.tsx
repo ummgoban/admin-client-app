@@ -1,5 +1,5 @@
 import styled from '@emotion/native';
-import {Button, Text} from 'react-native-paper';
+import {Button} from 'react-native-paper';
 
 const S = {
   Container: styled.ScrollView`

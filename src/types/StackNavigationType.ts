@@ -11,7 +11,7 @@ type StackParamType<T> = {
 export interface HomeStackParamList extends ParamListBase {
   MarketInfo: undefined;
   MyPage: undefined;
-  MenuManage: undefined;
+  Menu: undefined;
   Order: undefined;
   Review: undefined;
 }
@@ -44,6 +44,11 @@ export interface ReviewStackParamList extends ParamListBase {
   };
 }
 
+export interface MenuStackParamList extends ParamListBase {
+  MenuManage: undefined;
+  DiscountReservation: undefined;
+}
+
 export interface MyPageStackParamList extends ParamListBase {
   MyPageRoot: undefined;
   Notice: undefined;
@@ -58,4 +63,5 @@ export interface RootStackParamList extends ParamListBase {
   Order: StackParamType<OrderStackParamList>;
   Review: StackParamType<ReviewStackParamList>;
   MyPageRoot: StackParamType<MyPageStackParamList>;
+  Menu: StackParamType<MenuStackParamList>;
 }

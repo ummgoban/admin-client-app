@@ -14,13 +14,35 @@ const statusMap: Record<MenuType['productStatus'], string> = {
   OUT_OF_STOCK: '품절',
   HIDDEN: '숨김',
 };
+
+const discountStatusMap: Record<
+  NonNullable<MenuType['reservationStatus']>,
+  string
+> = {
+  ACTIVE: '일괄 할인 중',
+  PENDING: '할인 예약',
+};
+
 const Menu = ({menu, onEdit, onIncreaseStock, onDecreaseStock}: Props) => {
   const isOutOfStock = menu.stock === 0;
+  const discountStatus = menu.reservationStatus
+    ? discountStatusMap[menu.reservationStatus]
+    : '';
   return (
     <S.MenuWrapper>
       <S.MenuImage source={{uri: menu.image}} />
+      {menu.reservationStatus && (
+        <S.StatusBorder status={menu.reservationStatus}>
+          <S.CurrentDiscountStatusText status={menu.reservationStatus}>
+            {discountStatus}
+          </S.CurrentDiscountStatusText>
+        </S.StatusBorder>
+      )}
       <S.MenuInfoWrapper>
-        <S.MenuNameText>{menu.name}</S.MenuNameText>
+        <S.MenuNameText numberOfLines={1} ellipsizeMode="tail">
+          {menu.name.length > 8 ? menu.name.slice(0, 8) + '...' : menu.name}
+        </S.MenuNameText>
+
         <S.DicountInfoWrapper>
           <S.DiscountRateText>{menu.discountRate} %</S.DiscountRateText>
           <S.OriginPriceText>

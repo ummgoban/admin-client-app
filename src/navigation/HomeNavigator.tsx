@@ -8,11 +8,11 @@ import HeaderTitle from '@/components/common/Appbar/HeaderTitle';
 import {TabBar} from '@components/common';
 
 import MarketInfoScreen from '@/screens/MarketInfoScreen';
-import MenuManageScreen from '@/screens/MenuManageScreen';
 import MyPageScreen from '@/screens/MyPageScreen';
 
 import {HomeStackParamList} from '@/types/StackNavigationType';
 
+import MenuNavigator from './MenuNavigator';
 import OrderNavigator from './OrderNavigator';
 import ReviewNavigator from './ReviewNavigator';
 import theme from '@/context/theme';
@@ -35,8 +35,7 @@ const marketInfoScreenOptions: BottomTabNavigationOptions = {
 };
 
 const menuManageScreenOptions: BottomTabNavigationOptions = {
-  ...defaultScreenOptions,
-  headerTitle: () => <HeaderTitle title="메뉴 관리" />,
+  headerShown: false,
 };
 
 const reviewScreenOptions: BottomTabNavigationOptions = {
@@ -62,8 +61,8 @@ const HomeNavigator = () => {
         options={marketInfoScreenOptions}
       />
       <Tab.Screen
-        name="MenuManage"
-        component={MenuManageScreen}
+        name="Menu"
+        component={MenuNavigator}
         options={menuManageScreenOptions}
       />
       <Tab.Screen

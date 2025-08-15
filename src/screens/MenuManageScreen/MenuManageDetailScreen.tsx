@@ -1,6 +1,9 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import {RefreshControl, ScrollView} from 'react-native-gesture-handler';
+import {MenuStackParamList} from '@/types/StackNavigationType';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -28,6 +31,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<MenuType | null>(null);
 
+  const navigation = useNavigation<StackNavigationProp<MenuStackParamList>>();
   const {marketInfo} = useMarket();
   const {profile} = useProfile();
   const {refresh} = useProduct();
@@ -37,6 +41,12 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   const handleAddProduct = () => {
     setCurrentMenu(null);
     setModalVisible(true);
+  };
+
+  const handleGoToDiscountReservation = () => {
+    navigation.navigate('Menu', {
+      screen: 'DiscountReservation',
+    });
   };
 
   const handleEditProduct = (menu: MenuType) => {
@@ -65,6 +75,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
       id: menuData.id,
       image: menuData.image,
       name: menuData.name,
+      reservationStatus: menuData.reservationStatus,
       originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
       discountPrice: Number(
         menuData.discountPrice.toString().replace(/,/g, ''),
@@ -99,6 +110,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
     if (targetMenu.stock === 0) {
       const body: MenuType = {
         id: menuData.id,
+        reservationStatus: null,
         image: menuData.image,
         name: menuData.name,
         originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
@@ -148,6 +160,7 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
         id: menuData.id,
         image: menuData.image,
         name: menuData.name,
+        reservationStatus: null,
         originPrice: Number(menuData.originPrice.toString().replace(/,/g, '')),
         discountPrice: Number(
           menuData.discountPrice.toString().replace(/,/g, ''),
@@ -196,34 +209,40 @@ const MenuManageDetailScreen = ({menus, updateMenus}: Props) => {
   };
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
-      }>
-      {menus.map(menu => (
-        <Menu
-          key={menu.id}
-          menu={menu}
-          onEdit={() => handleEditProduct(menu)}
-          onIncreaseStock={() => handleIncreaseStock(menu)}
-          onDecreaseStock={() => handleDecreaseStock(menu)}
-        />
-      ))}
-      <S.AddProductView>
-        <S.AddButton onPress={handleAddProduct}>
-          <Icon name="plus" size={16} color="rgba(255, 255, 255, 1)" />
-          <S.AddButtonText>상품 추가하기</S.AddButtonText>
-        </S.AddButton>
-      </S.AddProductView>
+    <S.Container>
+      <ScrollView
+        refreshControl={
+          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+        }>
+        {menus.map(menu => (
+          <Menu
+            key={menu.id}
+            menu={menu}
+            onEdit={() => handleEditProduct(menu)}
+            onIncreaseStock={() => handleIncreaseStock(menu)}
+            onDecreaseStock={() => handleDecreaseStock(menu)}
+          />
+        ))}
+        <S.AddProductView>
+          <S.AddButton onPress={handleAddProduct}>
+            <Icon name="plus" size={16} color="rgba(255, 255, 255, 1)" />
+            <S.AddButtonText> 상품 추가하기</S.AddButtonText>
+          </S.AddButton>
+          <S.AddButton onPress={handleGoToDiscountReservation}>
+            <Icon name="percent" size={16} color="rgba(255, 255, 255, 1)" />
+            <S.AddButtonText> 예약 할인 관리</S.AddButtonText>
+          </S.AddButton>
+        </S.AddProductView>
 
-      <MenuModal
-        isVisible={modalVisible}
-        onClose={handleModalClose}
-        onSave={handleSaveMenu}
-        initialData={currentMenu}
-        presetTags={getPresetTags(menus)}
-      />
-    </ScrollView>
+        <MenuModal
+          isVisible={modalVisible}
+          onClose={handleModalClose}
+          onSave={handleSaveMenu}
+          initialData={currentMenu}
+          presetTags={getPresetTags(menus)}
+        />
+      </ScrollView>
+    </S.Container>
   );
 };
 

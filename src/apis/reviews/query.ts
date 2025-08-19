@@ -1,5 +1,5 @@
 import {useInfiniteQuery, useMutation} from '@tanstack/react-query';
-import {getReveiewLists, postReviewReply} from './client';
+import {getReviewLists, postReviewReply} from './client';
 import {ReviewReplyCreateRequest} from './model';
 
 export const useReviewList = (marketId: number, enabled: boolean) => {
@@ -7,7 +7,7 @@ export const useReviewList = (marketId: number, enabled: boolean) => {
     queryKey: ['marketList', marketId],
     queryFn: ({pageParam = 0}) =>
       // FIXME: 페이징 단위 size
-      getReveiewLists({cursorId: pageParam, size: 5, marketId}),
+      getReviewLists({cursorId: pageParam, size: 5, marketId}),
     initialPageParam: 0,
     getNextPageParam: lastPage => {
       return lastPage?.hasNext

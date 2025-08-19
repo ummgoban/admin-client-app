@@ -5,7 +5,7 @@ import {
   ReviewReplyCreateRequest,
 } from './model';
 
-export const getReveiewLists = async ({
+export const getReviewLists = async ({
   marketId,
   cursorId,
   size,

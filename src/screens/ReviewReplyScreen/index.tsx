@@ -7,6 +7,7 @@ import {ActivityIndicator} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import {Keyboard, TouchableWithoutFeedback, Platform} from 'react-native';
 import TextInput from '@/components/common/TextInput/TextInput';
+import {useQueryClient} from '@tanstack/react-query';
 
 type ReviewReplyScreenProps = StackScreenProps<
   ReviewStackParamList,
@@ -19,6 +20,7 @@ const ReviewReplyScreen = ({route}: ReviewReplyScreenProps) => {
 
   const {mutate: createReviewReply, isPending} = useCreateReviewReply();
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
 
   const handleReplySubmit = () => {
     if (!replyContent.trim()) return;
@@ -28,6 +30,9 @@ const ReviewReplyScreen = ({route}: ReviewReplyScreenProps) => {
         onSuccess: () => {
           setReplyContent('');
           navigation.goBack();
+          queryClient.invalidateQueries({
+            queryKey: ['marketList', 'review'],
+          });
         },
       },
     );

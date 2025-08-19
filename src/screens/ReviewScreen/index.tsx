@@ -1,5 +1,4 @@
-// ReviewScreen.tsx
-import React from 'react';
+import React, {useState} from 'react';
 import {ActivityIndicator, Text} from 'react-native';
 import S from './ReviewScreen.style';
 import {useReviewList} from '@/apis/reviews';
@@ -12,6 +11,7 @@ import useMarket from '@/hooks/useMarket';
 const ReviewScreen = () => {
   const {profile} = useProfile();
   const {marketInfo} = useMarket();
+  const [selected, setSelected] = useState<'every' | 'no-reply'>('no-reply');
   const marketId = profile?.marketId;
 
   const {
@@ -60,6 +60,16 @@ const ReviewScreen = () => {
   }
   return (
     <S.Container>
+      <S.NavbarGroup selected={selected}>
+        <S.ToggleButton
+          value="no-reply"
+          onPress={() => setSelected('no-reply')}>
+          <S.ToggleText>댓글을 달지 않은 리뷰</S.ToggleText>
+        </S.ToggleButton>
+        <S.ToggleButton value="every" onPress={() => setSelected('every')}>
+          <S.ToggleText>전체 리뷰</S.ToggleText>
+        </S.ToggleButton>
+      </S.NavbarGroup>
       <ReviewContainerLists
         reviews={reviews}
         hasNextPage={hasNextPage}

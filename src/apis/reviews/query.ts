@@ -8,9 +8,9 @@ import {ReviewReplyCreateRequest} from './model';
 
 export const useReviewList = (marketId: number, enabled: boolean) => {
   return useInfiniteQuery({
-    queryKey: ['marketList', marketId],
+    queryKey: ['marketList', 'review', 'every', marketId],
     queryFn: ({pageParam = 0}) =>
-      // FIXME: 페이징 단위 size
+      // TODO: 페이징 단위 size
       getReviewLists({cursorId: pageParam, size: 5, marketId}),
     initialPageParam: 0,
     getNextPageParam: lastPage => {
@@ -24,9 +24,9 @@ export const useReviewList = (marketId: number, enabled: boolean) => {
 
 export const useUnRepliedReviewList = (marketId: number, enabled: boolean) => {
   return useInfiniteQuery({
-    queryKey: ['marketList', marketId],
+    queryKey: ['marketList', 'review', 'no-reply', marketId],
     queryFn: ({pageParam = 0}) =>
-      // FIXME: 페이징 단위 size
+      // TODO: 페이징 단위 size
       getUnRepliedReviewLists({cursorId: pageParam, size: 5, marketId}),
     initialPageParam: 0,
     getNextPageParam: lastPage => {

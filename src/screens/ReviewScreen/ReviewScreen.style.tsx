@@ -7,6 +7,11 @@ const S = {
     background-color: white;
   `,
 
+  EmptyWrapper: styled.View`
+    flex: 1;
+    align-items: center;
+  `,
+
   ToggleText: styled.Text`
     color: ${props => props.theme.colors.tertiary};
   `,

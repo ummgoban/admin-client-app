@@ -5,7 +5,7 @@ import {
   ReviewReplyCreateRequest,
 } from './model';
 
-export const getReveiewLists = async ({
+export const getReviewLists = async ({
   marketId,
   cursorId,
   size,
@@ -13,6 +13,27 @@ export const getReveiewLists = async ({
   try {
     const res = await apiClient.get<ReviewListsResponse | null>(
       `/owner/review/market/${marketId}`,
+      {
+        params: {
+          cursorId,
+          size,
+        },
+      },
+    );
+    return res;
+  } catch (error) {
+    console.error('리뷰 페치 에러', error);
+    return null;
+  }
+};
+export const getUnRepliedReviewLists = async ({
+  marketId,
+  cursorId,
+  size,
+}: ReviewListsRequest): Promise<ReviewListsResponse | null> => {
+  try {
+    const res = await apiClient.get<ReviewListsResponse | null>(
+      `/owner/review/market/${marketId}/no-reply`,
       {
         params: {
           cursorId,

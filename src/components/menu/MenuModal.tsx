@@ -58,8 +58,8 @@ const MenuModal = ({
     originPrice: 0,
     discountPrice: 0,
     stock: 0,
-    productStatus: 'HIDDEN',
-    reservationStatus: 'PENDING',
+    productStatus: 'IN_STOCK',
+    reservationStatus: null,
     tags: [],
   });
 
@@ -81,8 +81,8 @@ const MenuModal = ({
           originPrice: 0,
           discountPrice: 0,
           stock: 0,
-          productStatus: 'HIDDEN',
-          reservationStatus: 'PENDING',
+          productStatus: 'IN_STOCK',
+          reservationStatus: null,
           tags: [],
         });
       }
